@@ -81,6 +81,7 @@ rm -rf $RPM_BUILD_ROOT
 #
 %{_datadir}/emoticons/kde4
 %{_datadir}/kde4/services
+%{_datadir}/sounds/*
 
 
 %files devel
