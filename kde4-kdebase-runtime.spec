@@ -69,6 +69,19 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_libdir}/kde4/*.so
+%attr(755,root,root) %{_libdir}/*.so
+%attr(755,root,root) %{_libdir}/kde4/libexec/*
+%attr(755,root,root) %{_libdir}/kde4/plugins/styles/*.so
+%{_iconsdir}/oxygen
+%{_datadir}/applications/kde4/*
+# this should be probably a separate package
+%{_datadir}/apps/khelpcenter
+#
+%{_datadir}/emoticons/kde4
+%{_datadir}/kde4/services
+
 
 %files devel
 %defattr(644,root,root,755)
