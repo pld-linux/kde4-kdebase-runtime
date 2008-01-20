@@ -186,6 +186,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/librenimageplugin.so
 %attr(755,root,root) %{_libdir}/kde4/svgthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/textthumbnail.so
+%attr(755,root,root) %{_libdir}/kde4/kcm_nepomuk.so
+%attr(755,root,root) %{_libdir}/kde4/kded_nepomukserver.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_kcmshell4.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_khelpcenter.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_kuiserver.so
@@ -246,6 +248,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kcmcgi.desktop
 %{_datadir}/kde4/services/kcmkded.desktop
 %{_datadir}/kde4/services/kcmnotify.desktop
+%{_datadir}/kde4/services/kcm_nepomuk.desktop
+%{_datadir}/kde4/services/kded/nepomukserver.desktop
 %{_datadir}/kde4/services/kded/kpasswdserver.desktop
 %{_datadir}/kde4/services/kded/ktimezoned.desktop
 %{_datadir}/kde4/services/kded/remotedirnotify.desktop
