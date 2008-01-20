@@ -41,6 +41,13 @@ Requires:	kdelibs4-devel >= %{_minlibsevr}
 
 %description devel
 
+%package -n kde4-phonon-xine
+Summary:        Xine backend to Phonon
+Group:          X11/Applications
+
+%description -n kde4-phonon-xine
+Xine backend to Phonon.
+
 %package -n kde-icons-oxygen
 Summary:	KDE icons - oxygen
 Summary(pl.UTF-8):	Motyw ikon do KDE - oxygen
@@ -136,7 +143,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdnssd.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_knotify.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_locale.so
-%attr(755,root,root) %{_libdir}/kde4/kcm_phononxine.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_samba.so
 %attr(755,root,root) %{_libdir}/kde4/kded_kpasswdserver.so
 %attr(755,root,root) %{_libdir}/kde4/kded_ktimezoned.so
@@ -178,7 +184,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/liblocaldomainurifilter.so
 %attr(755,root,root) %{_libdir}/kde4/librenaudioplugin.so
 %attr(755,root,root) %{_libdir}/kde4/librenimageplugin.so
-%attr(755,root,root) %{_libdir}/kde4/phonon_xine.so
 %attr(755,root,root) %{_libdir}/kde4/svgthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/textthumbnail.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_kcmshell4.so
@@ -238,7 +243,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/info.protocol
 %{_datadir}/kde4/services/ioslaveinfo.desktop
 %{_datadir}/kde4/services/kcm_kdnssd.desktop
-%{_datadir}/kde4/services/kcm_phononxine.desktop
 %{_datadir}/kde4/services/kcmcgi.desktop
 %{_datadir}/kde4/services/kcmkded.desktop
 %{_datadir}/kde4/services/kcmnotify.desktop
@@ -257,8 +261,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/localdomainurifilter.desktop
 %{_datadir}/kde4/services/man.protocol
 %{_datadir}/kde4/services/nfs.protocol
-%dir %{_datadir}/kde4/services/phononbackends
-%{_datadir}/kde4/services/phononbackends/xine.desktop
 %{_datadir}/kde4/services/programs.protocol
 %{_datadir}/kde4/services/remote.protocol
 %{_datadir}/kde4/services/renaudiodlg.desktop
@@ -303,6 +305,14 @@ rm -rf $RPM_BUILD_ROOT
 # conflicts with hicolor-icon-theme
 #%{_iconsdir}/hicolor/index.theme
 %{_iconsdir}/hicolor/scalable/apps/*.svgz
+
+%files -n kde4-phonon-xine
+%defattr(644,root,root,755)
+%{_libdir}/kde4/phonon_xine.so
+%{_libdir}/kde4/kcm_phononxine.so
+%dir %{_datadir}/kde4/services/phononbackends
+%{_datadir}/kde4/services/phononbackends/xine.desktop
+%{_datadir}/kde4/services/kcm_phononxine.desktop
 
 %files -n kde-icons-oxygen
 %defattr(644,root,root,755)
