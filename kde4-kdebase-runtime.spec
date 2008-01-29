@@ -13,6 +13,7 @@ Summary:	KDE4 runtime
 Name:		kdebase4-runtime
 Version:	4.0.0
 Release:	0.1
+Epoch:		0
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/latest/src/%{orgname}-%{version}.tar.bz2
