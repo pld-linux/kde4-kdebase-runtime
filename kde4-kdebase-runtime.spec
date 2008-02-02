@@ -10,7 +10,7 @@
 
 Summary:	KDE4 runtime
 %define	orgname	kdebase-runtime
-Name:		kdebase4-runtime
+Name:		kde4-kdebase-runtime
 Version:	4.0.0
 Release:	0.1
 Epoch:		0
@@ -25,6 +25,8 @@ BuildRequires:	kdelibs4-devel >= %{_minlibsevr}
 %{?with_apidocs:BuildRequires:	qt4-doc}
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	xine-lib-devel
+Obsoletes:	kdebase4-runtime
+Conflicts:	kdebase4-runtime
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define         _noautoreq      libtool(.*)
