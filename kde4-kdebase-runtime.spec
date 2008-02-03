@@ -5,8 +5,6 @@
 					# to g++
 
 %define		_state		stable
-%define		_minlibsevr	9:%{version}
-%define		_minbaseevr	9:%{version}
 
 Summary:	KDE4 runtime
 %define	orgname	kdebase-runtime
@@ -21,7 +19,7 @@ Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/latest/src/%{orgname}-%{version}.ta
 %{?with_apidocs:BuildRequires:	doxygen}
 %{?with_hidden_visibility:BuildRequires:	gcc-c++ >= 5:4.1.0-0.20051206r108118.1}
 %{?with_apidocs:BuildRequires:	graphviz}
-BuildRequires:	kde4-kdelibs-devel >= %{_minlibsevr}
+BuildRequires:	kde4-kdelibs-devel
 %{?with_apidocs:BuildRequires:	qt4-doc}
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	xine-lib-devel
@@ -40,7 +38,7 @@ Summary(ru.UTF-8):	Файлы разработки для kdepim
 Summary(uk.UTF-8):	Файли розробки для kdepim
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
-Requires:	kde4-kdelibs-devel >= %{_minlibsevr}
+Requires:	kde4-kdelibs-devel
 
 %description devel
 
