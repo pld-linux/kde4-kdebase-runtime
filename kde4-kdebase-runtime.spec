@@ -4,21 +4,21 @@
 					# & '--fvisibility-inlines-hidden'
 					# to g++
 
-%define		_state		stable
+%define		_state		unstable
 
 Summary:	KDE4 runtime
 %define	orgname	kdebase-runtime
 Name:		kde4-kdebase-runtime
-Version:	4.0.0
+Version:	4.0.60
 Release:	0.1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/latest/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	da93f59497ff90ad01bd4ab9b458f6cb
+# Source0-md5:	8b72bba22415f53e796aeae262d83703
 %{?with_apidocs:BuildRequires:	doxygen}
 %{?with_hidden_visibility:BuildRequires:	gcc-c++ >= 5:4.1.0-0.20051206r108118.1}
 %{?with_apidocs:BuildRequires:	graphviz}
-BuildRequires:	kde4-kdelibs-devel
+BuildRequires:	kde4-kdelibs-devel >= %{version}
 %{?with_apidocs:BuildRequires:	qt4-doc}
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	xine-lib-devel
@@ -354,4 +354,4 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_datadir}/apps/cmake/modules/FindCLucene.cmake
 %{_datadir}/apps/cmake/modules/FindXCB.cmake
-%{_datadir}/apps/cmake/modules/FindXine.cmake
+#%{_datadir}/apps/cmake/modules/FindXine.cmake
