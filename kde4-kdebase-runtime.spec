@@ -11,7 +11,6 @@ Summary:	KDE4 runtime
 Name:		kde4-kdebase-runtime
 Version:	4.0.0
 Release:	0.1
-Epoch:		0
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/latest/src/%{orgname}-%{version}.tar.bz2
@@ -37,7 +36,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe do KDE pim
 Summary(ru.UTF-8):	Файлы разработки для kdepim
 Summary(uk.UTF-8):	Файли розробки для kdepim
 Group:		X11/Development/Libraries
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 Requires:	kde4-kdelibs-devel
 
 %description devel
