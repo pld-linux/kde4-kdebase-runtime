@@ -10,7 +10,7 @@ Summary:	KDE4 runtime
 %define	orgname	kdebase-runtime
 Name:		kde4-kdebase-runtime
 Version:	4.0.60
-Release:	0.1
+Release:	0.2
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/latest/src/%{orgname}-%{version}.tar.bz2
@@ -59,15 +59,15 @@ KDE icons - oxygen
 %description -n kde-icons-oxygen -l pl.UTF-8
 Motyw ikon do KDE - oxygen
 
-%package -n kde-style-oxygen
+%package -n kde4-style-oxygen
 Summary:	KDE Oxygen Style
 Summary(pl.UTF-8): Styl Oxygen dla KDE
 Group:		Themes
 
-%description -n kde-style-oxygen
+%description -n kde4-style-oxygen
 KDE Oxygen Style.
 
-%description -n kde-style-oxygen -l pl.UTF-8
+%description -n kde4-style-oxygen -l pl.UTF-8
 Styl Oxygen dla KDE.
 
 %prep
@@ -344,7 +344,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/oxygen/scalable/places
 %{_iconsdir}/oxygen/scalable/status
 
-%files -n kde-style-oxygen
+%files -n kde4-style-oxygen
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/kde4/kstyle_oxygen_config.so
 %attr(755,root,root) %{_libdir}/kde4/plugins/styles/oxygen.so
