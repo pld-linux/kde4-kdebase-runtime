@@ -37,7 +37,7 @@ Summary(ru.UTF-8):	Файлы разработки для kdepim
 Summary(uk.UTF-8):	Файли розробки для kdepim
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	kde4-kdelibs-devel
+Requires:	kde4-kdelibs-devel >= %{version}
 
 %description devel
 
@@ -63,6 +63,7 @@ Motyw ikon do KDE - oxygen
 Summary:	KDE Oxygen Style
 Summary(pl.UTF-8): Styl Oxygen dla KDE
 Group:		Themes
+Obsoletes:	kde-style-oxygen
 
 %description -n kde4-style-oxygen
 KDE Oxygen Style.
