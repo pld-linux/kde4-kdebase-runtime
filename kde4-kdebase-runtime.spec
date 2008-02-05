@@ -218,12 +218,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/interfaces/org.kde.khelpcenter.kcmhelpcenter.xml
 %{_datadir}/dbus-1/services/org.kde.knotify.service
 %{_datadir}/desktop-directories/kde-information.directory
-%{_datadir}/doc/kde/HTML/en/kcontrol
-%{_datadir}/doc/kde/HTML/en/kdebugdialog
-%{_datadir}/doc/kde/HTML/en/kdesu
-%{_datadir}/doc/kde/HTML/en/khelpcenter
-%{_datadir}/doc/kde/HTML/en/kioslave
-%{_datadir}/doc/kde/HTML/en/knetattach
+%{_kdedocdir}/en/kcontrol
+%{_kdedocdir}/en/kdebugdialog
+%{_kdedocdir}/en/kdesu
+%{_kdedocdir}/en/khelpcenter
+%{_kdedocdir}/en/kioslave
+%{_kdedocdir}/en/knetattach
 %{_datadir}/emoticons/kde4
 %{_datadir}/kde4/services/about.protocol
 %{_datadir}/kde4/services/applications.protocol
@@ -322,6 +322,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n kde-icons-oxygen
 %defattr(644,root,root,755)
 %dir %{_iconsdir}/oxygen
+%dir %{_iconsdir}/oxygen/8x8
 %{_iconsdir}/oxygen/*x*/actions
 %{_iconsdir}/oxygen/*x*/apps
 %{_iconsdir}/oxygen/*x*/categories
