@@ -6,8 +6,8 @@
 
 %define		_state		unstable
 
-Summary:	KDE4 runtime
 %define	orgname	kdebase-runtime
+Summary:	KDE4 runtime
 Name:		kde4-kdebase-runtime
 Version:	4.0.60
 Release:	0.2
@@ -42,8 +42,8 @@ Requires:	kde4-kdelibs-devel >= %{version}
 %description devel
 
 %package -n kde4-phonon-xine
-Summary:        Xine backend to Phonon
-Group:          X11/Applications
+Summary:	Xine backend to Phonon
+Group:		X11/Applications
 
 %description -n kde4-phonon-xine
 Xine backend to Phonon.
@@ -61,7 +61,7 @@ Motyw ikon do KDE - oxygen
 
 %package -n kde4-style-oxygen
 Summary:	KDE Oxygen Style
-Summary(pl.UTF-8): Styl Oxygen dla KDE
+Summary(pl.UTF-8):	Styl Oxygen dla KDE
 Group:		Themes
 Obsoletes:	kde-style-oxygen
 
@@ -109,7 +109,8 @@ rm -rf $RPM_BUILD_ROOT
 %postun		-p /sbin/ldconfig
 
 %files -f %{name}-files
-/etc/xdg/menus/kde-information.menu
+%defattr(644,root,root,755)
+%{_sysconfdir}/xdg/menus/kde-information.menu
 %dir %{_libdir}/kde4/plugins/styles
 %attr(755,root,root) %{_bindir}/kcmshell4
 %attr(755,root,root) %{_bindir}/kde-cp
