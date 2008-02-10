@@ -15,6 +15,7 @@ License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
 # Source0-md5:	7411cdb6e163c425dcbc675c26125bac
+BuildRequires:  QtAssistant-devel
 %{?with_apidocs:BuildRequires:	doxygen}
 %{?with_hidden_visibility:BuildRequires:	gcc-c++ >= 5:4.1.0-0.20051206r108118.1}
 %{?with_apidocs:BuildRequires:	graphviz}
