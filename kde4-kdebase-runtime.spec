@@ -9,12 +9,12 @@
 %define	orgname	kdebase-runtime
 Summary:	KDE4 runtime
 Name:		kde4-kdebase-runtime
-Version:	4.0.60
-Release:	0.2
+Version:	4.0.61
+Release:	0.1
 License:	GPL
 Group:		X11/Applications
-Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/latest/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	8b72bba22415f53e796aeae262d83703
+Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
+# Source0-md5:	7411cdb6e163c425dcbc675c26125bac
 %{?with_apidocs:BuildRequires:	doxygen}
 %{?with_hidden_visibility:BuildRequires:	gcc-c++ >= 5:4.1.0-0.20051206r108118.1}
 %{?with_apidocs:BuildRequires:	graphviz}
@@ -193,6 +193,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libkdeinit4_kcmshell4.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_khelpcenter.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_kuiserver.so
+%attr(755,root,root) %{_libdir}/strigi/strigiindex_sopranobackend.so
 %{_desktopdir}/kde4/Help.desktop
 %{_desktopdir}/kde4/knetattach.desktop
 %{_datadir}/apps/drkonqi
