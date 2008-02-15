@@ -9,12 +9,12 @@
 %define	orgname	kdebase-runtime
 Summary:	KDE4 runtime
 Name:		kde4-kdebase-runtime
-Version:	4.0.61
+Version:	4.0.62
 Release:	0.1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	7411cdb6e163c425dcbc675c26125bac
+# Source0-md5:	86c9c2caba5a18eb347d0ebc6ae89c67
 BuildRequires:  QtAssistant-devel
 %{?with_apidocs:BuildRequires:	doxygen}
 %{?with_hidden_visibility:BuildRequires:	gcc-c++ >= 5:4.1.0-0.20051206r108118.1}
