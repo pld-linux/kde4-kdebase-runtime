@@ -1,13 +1,11 @@
+#
 # Conditional build:
 %bcond_without	apidocs		# do not prepare API documentation
-%bcond_without	hidden_visibility	# pass '--fvisibility=hidden'
-					# & '--fvisibility-inlines-hidden'
-					# to g++
-
+#
 %define		_state		unstable
-
-%define	orgname	kdebase-runtime
-Summary:	KDE4 runtime
+%define		orgname		kdebase-runtime
+Summary:	KDE 4 base runtime components
+Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.0.62
 Release:	0.1
@@ -15,9 +13,9 @@ License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
 # Source0-md5:	86c9c2caba5a18eb347d0ebc6ae89c67
+URL:		http://www.kde.org/
 BuildRequires:  QtAssistant-devel
 %{?with_apidocs:BuildRequires:	doxygen}
-%{?with_hidden_visibility:BuildRequires:	gcc-c++ >= 5:4.1.0-0.20051206r108118.1}
 %{?with_apidocs:BuildRequires:	graphviz}
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 %{?with_apidocs:BuildRequires:	qt4-doc}
@@ -27,27 +25,35 @@ Obsoletes:	kdebase4-runtime
 Conflicts:	kdebase4-runtime
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define         _noautoreq      libtool(.*)
-
 %description
+KDE 4 runtime components.
+
+%description -l pl.UTF-8
+Komponenty uruchomieniowe podstawowej części KDE 4.
 
 %package devel
-Summary:	Development files for KDE4 runtime
-Summary(pl.UTF-8):	Pliki nagłówkowe do KDE pim
-Summary(ru.UTF-8):	Файлы разработки для kdepim
-Summary(uk.UTF-8):	Файли розробки для kdepim
+Summary:	Development files for KDE 4 runtime components
+Summary(pl.UTF-8):	Pliki programistyczne komponentów uruchomieniowych KDE 4
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	kde4-kdelibs-devel >= %{version}
 
 %description devel
+Development files for KDE 4 runtime components.
+
+%description devel -l pl.UTF-8
+Pliki programistyczne komponentów uruchomieniowych KDE 4.
 
 %package -n kde4-phonon-xine
 Summary:	Xine backend to Phonon
+Summary(pl.UTF-8):	Backend Xine dla Phonona
 Group:		X11/Applications
 
 %description -n kde4-phonon-xine
 Xine backend to Phonon.
+
+%description -n kde4-phonon-xine -l pl.UTF-8
+Backend Xine dla Phonona.
 
 %package -n kde-icons-oxygen
 Summary:	KDE icons - oxygen
@@ -55,10 +61,10 @@ Summary(pl.UTF-8):	Motyw ikon do KDE - oxygen
 Group:		Themes
 
 %description -n kde-icons-oxygen
-KDE icons - oxygen
+KDE icons - oxygen.
 
 %description -n kde-icons-oxygen -l pl.UTF-8
-Motyw ikon do KDE - oxygen
+Motyw ikon do KDE - oxygen.
 
 %package -n kde4-style-oxygen
 Summary:	KDE Oxygen Style
@@ -88,7 +94,7 @@ cd build
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} -C build/ install \
+%{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	kde_htmldir=%{_kdedocdir}
 
@@ -106,13 +112,12 @@ cd -
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post		-p /sbin/ldconfig
-%postun		-p /sbin/ldconfig
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
 %files -f %{name}-files
 %defattr(644,root,root,755)
 %{_sysconfdir}/xdg/menus/kde-information.menu
-%dir %{_libdir}/kde4/plugins/styles
 %attr(755,root,root) %{_bindir}/kcmshell4
 %attr(755,root,root) %{_bindir}/kde-cp
 %attr(755,root,root) %{_bindir}/kde-mv
@@ -133,6 +138,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ktrash
 %attr(755,root,root) %{_bindir}/kuiserver
 %attr(755,root,root) %{_bindir}/kwriteconfig
+%attr(755,root,root) %{_libdir}/libkdeinit4_kcmshell4.so
+%attr(755,root,root) %{_libdir}/libkdeinit4_khelpcenter.so
+%attr(755,root,root) %{_libdir}/libkdeinit4_kuiserver.so
 %attr(755,root,root) %{_libdir}/kde4/cursorthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/djvuthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/exrthumbnail.so
@@ -167,18 +175,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kio_smb.so
 %attr(755,root,root) %{_libdir}/kde4/kio_thumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/kio_trash.so
-%attr(755,root,root) %{_libdir}/kde4/libexec/drkonqi
-%attr(755,root,root) %{_libdir}/kde4/libexec/kdeeject
-%attr(755,root,root) %{_libdir}/kde4/libexec/kdesu
-%attr(755,root,root) %{_libdir}/kde4/libexec/kdesud
-%attr(755,root,root) %{_libdir}/kde4/libexec/khc_docbookdig.pl
-%attr(755,root,root) %{_libdir}/kde4/libexec/khc_htdig.pl
-%attr(755,root,root) %{_libdir}/kde4/libexec/khc_htsearch.pl
-%attr(755,root,root) %{_libdir}/kde4/libexec/khc_indexbuilder
-%attr(755,root,root) %{_libdir}/kde4/libexec/khc_mansearch.pl
-%attr(755,root,root) %{_libdir}/kde4/libexec/kioexec
-%attr(755,root,root) %{_libdir}/kde4/libexec/klocaldomainurifilterhelper
-%attr(755,root,root) %{_libdir}/kde4/libexec/knetattach
 %attr(755,root,root) %{_libdir}/kde4/libfixhosturifilter.so
 %attr(755,root,root) %{_libdir}/kde4/libkmanpart.so
 %attr(755,root,root) %{_libdir}/kde4/libkshorturifilter.so
@@ -191,12 +187,20 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/textthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_nepomuk.so
 %attr(755,root,root) %{_libdir}/kde4/kded_nepomukserver.so
-%attr(755,root,root) %{_libdir}/libkdeinit4_kcmshell4.so
-%attr(755,root,root) %{_libdir}/libkdeinit4_khelpcenter.so
-%attr(755,root,root) %{_libdir}/libkdeinit4_kuiserver.so
+%attr(755,root,root) %{_libdir}/kde4/libexec/drkonqi
+%attr(755,root,root) %{_libdir}/kde4/libexec/kdeeject
+%attr(755,root,root) %{_libdir}/kde4/libexec/kdesu
+%attr(755,root,root) %{_libdir}/kde4/libexec/kdesud
+%attr(755,root,root) %{_libdir}/kde4/libexec/khc_docbookdig.pl
+%attr(755,root,root) %{_libdir}/kde4/libexec/khc_htdig.pl
+%attr(755,root,root) %{_libdir}/kde4/libexec/khc_htsearch.pl
+%attr(755,root,root) %{_libdir}/kde4/libexec/khc_indexbuilder
+%attr(755,root,root) %{_libdir}/kde4/libexec/khc_mansearch.pl
+%attr(755,root,root) %{_libdir}/kde4/libexec/kioexec
+%attr(755,root,root) %{_libdir}/kde4/libexec/klocaldomainurifilterhelper
+%attr(755,root,root) %{_libdir}/kde4/libexec/knetattach
+%dir %{_libdir}/kde4/plugins/styles
 %attr(755,root,root) %{_libdir}/strigi/strigiindex_sopranobackend.so
-%{_desktopdir}/kde4/Help.desktop
-%{_desktopdir}/kde4/knetattach.desktop
 %{_datadir}/apps/drkonqi
 %{_datadir}/apps/kcm_componentchooser/kcm_browser.desktop
 %{_datadir}/apps/kcm_componentchooser/kcm_kemail.desktop
@@ -221,12 +225,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/interfaces/org.kde.khelpcenter.kcmhelpcenter.xml
 %{_datadir}/dbus-1/services/org.kde.knotify.service
 %{_datadir}/desktop-directories/kde-information.directory
-%{_kdedocdir}/en/kcontrol
-%{_kdedocdir}/en/kdebugdialog
-%{_kdedocdir}/en/kdesu
-%{_kdedocdir}/en/khelpcenter
-%{_kdedocdir}/en/kioslave
-%{_kdedocdir}/en/knetattach
 %{_datadir}/emoticons/kde4
 %{_datadir}/kde4/services/about.protocol
 %{_datadir}/kde4/services/applications.protocol
@@ -286,7 +284,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/zip.protocol
 %{_datadir}/kde4/servicetypes/searchprovider.desktop
 %{_datadir}/kde4/servicetypes/thumbcreator.desktop
-%{_datadir}/locale/en_US
+%{_datadir}/locale/en_US/*
 %dir %{_datadir}/locale/l10n
 %{_datadir}/locale/l10n/caribbean.desktop
 %{_datadir}/locale/l10n/centralafrica.desktop
@@ -307,20 +305,34 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/locale/l10n/southeurope.desktop
 %{_datadir}/locale/l10n/westafrica.desktop
 %{_datadir}/locale/l10n/westeurope.desktop
-%lang(en) %{_mandir}/man1/kdesu.1.gz
-%{_datadir}/sounds
+%{_desktopdir}/kde4/Help.desktop
+%{_desktopdir}/kde4/knetattach.desktop
+%{_kdedocdir}/en/kcontrol
+%{_kdedocdir}/en/kdebugdialog
+%{_kdedocdir}/en/kdesu
+%{_kdedocdir}/en/khelpcenter
+%{_kdedocdir}/en/kioslave
+%{_kdedocdir}/en/knetattach
+%lang(en) %{_mandir}/man1/kdesu.1*
+%{_datadir}/sounds/*
 %{_iconsdir}/hicolor/*/*/*.png
+%{_iconsdir}/hicolor/scalable/apps/*.svgz
 # conflicts with hicolor-icon-theme
 #%{_iconsdir}/hicolor/index.theme
-%{_iconsdir}/hicolor/scalable/apps/*.svgz
+
+%files devel
+%defattr(644,root,root,755)
+%{_datadir}/apps/cmake/modules/FindCLucene.cmake
+%{_datadir}/apps/cmake/modules/FindXCB.cmake
+#%{_datadir}/apps/cmake/modules/FindXine.cmake
 
 %files -n kde4-phonon-xine
 %defattr(644,root,root,755)
-%{_libdir}/kde4/phonon_xine.so
-%{_libdir}/kde4/kcm_phononxine.so
+%attr(755,root,root) %{_libdir}/kde4/phonon_xine.so
+%attr(755,root,root) %{_libdir}/kde4/kcm_phononxine.so
+%{_datadir}/kde4/services/kcm_phononxine.desktop
 %dir %{_datadir}/kde4/services/phononbackends
 %{_datadir}/kde4/services/phononbackends/xine.desktop
-%{_datadir}/kde4/services/kcm_phononxine.desktop
 
 %files -n kde-icons-oxygen
 %defattr(644,root,root,755)
@@ -354,9 +366,3 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kstyle_oxygen_config.so
 %attr(755,root,root) %{_libdir}/kde4/plugins/styles/oxygen.so
 %{_datadir}/apps/kstyle/themes/oxygen.themerc
-
-%files devel
-%defattr(644,root,root,755)
-%{_datadir}/apps/cmake/modules/FindCLucene.cmake
-%{_datadir}/apps/cmake/modules/FindXCB.cmake
-#%{_datadir}/apps/cmake/modules/FindXine.cmake
