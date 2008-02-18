@@ -15,6 +15,7 @@ Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version
 # Source0-md5:	86c9c2caba5a18eb347d0ebc6ae89c67
 URL:		http://www.kde.org/
 BuildRequires:  QtAssistant-devel
+BuildRequires:	cmake
 %{?with_apidocs:BuildRequires:	doxygen}
 %{?with_apidocs:BuildRequires:	graphviz}
 BuildRequires:	kde4-kdelibs-devel >= %{version}
