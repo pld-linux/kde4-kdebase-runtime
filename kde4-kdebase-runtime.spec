@@ -7,19 +7,19 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.0.62
+Version:	4.0.64
 Release:	0.1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	86c9c2caba5a18eb347d0ebc6ae89c67
+# Source0-md5:	4de47780a664b21d48555130dc9522b7
 URL:		http://www.kde.org/
-BuildRequires:  QtAssistant-devel
+BuildRequires:  QtAssistant-devel >= 4.4.0
 BuildRequires:	cmake
 %{?with_apidocs:BuildRequires:	doxygen}
 %{?with_apidocs:BuildRequires:	graphviz}
 BuildRequires:	kde4-kdelibs-devel >= %{version}
-%{?with_apidocs:BuildRequires:	qt4-doc}
+%{?with_apidocs:BuildRequires:	qt4-doc >= 4.4.0}
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	xine-lib-devel
 Obsoletes:	kdebase4-runtime
