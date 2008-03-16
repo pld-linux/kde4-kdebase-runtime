@@ -7,19 +7,18 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.0.65
+Version:	4.0.66
 Release:	0.1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	bbab90f440ba08cf94d87405855ede0a
+# Source0-md5:	bbc7ba68ce96e8ad2201f01c7d336da1
 URL:		http://www.kde.org/
-BuildRequires:  QtAssistant-devel >= 4.4.0
 BuildRequires:	cmake
 %{?with_apidocs:BuildRequires:	doxygen}
 %{?with_apidocs:BuildRequires:	graphviz}
 BuildRequires:	kde4-kdelibs-devel >= %{version}
-%{?with_apidocs:BuildRequires:	qt4-doc >= 4.4.0}
+%{?with_apidocs:BuildRequires:	qt4-doc >= 4.3.0}
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	xine-lib-devel
 Obsoletes:	kdebase4-runtime
@@ -56,12 +55,12 @@ Xine backend to Phonon.
 %description -n kde4-phonon-xine -l pl.UTF-8
 Backend Xine dla Phonona.
 
-%package -n kde-icons-oxygen
+%package -n kde4-icons-oxygen
 Summary:	KDE icons - oxygen
 Summary(pl.UTF-8):	Motyw ikon do KDE - oxygen
 Group:		Themes
 
-%description -n kde-icons-oxygen
+%description -n kde4-icons-oxygen
 KDE icons - oxygen.
 
 %description -n kde-icons-oxygen -l pl.UTF-8
@@ -134,7 +133,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/kquitapp
 %attr(755,root,root) %{_bindir}/kreadconfig
 %attr(755,root,root) %{_bindir}/kstart
-%attr(755,root,root) %{_bindir}/ksvgtopng
+# conflict with kde3
+#%attr(755,root,root) %{_bindir}/ksvgtopng
 %attr(755,root,root) %{_bindir}/ktraderclient
 %attr(755,root,root) %{_bindir}/ktrash
 %attr(755,root,root) %{_bindir}/kuiserver
@@ -201,7 +201,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/libexec/klocaldomainurifilterhelper
 %attr(755,root,root) %{_libdir}/kde4/libexec/knetattach
 %dir %{_libdir}/kde4/plugins/styles
-%attr(755,root,root) %{_libdir}/strigi/strigiindex_sopranobackend.so
+#%attr(755,root,root) %{_libdir}/strigi/strigiindex_sopranobackend.so
 %{_datadir}/apps/drkonqi
 %{_datadir}/apps/kcm_componentchooser/kcm_browser.desktop
 %{_datadir}/apps/kcm_componentchooser/kcm_kemail.desktop
@@ -335,7 +335,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/kde4/services/phononbackends
 %{_datadir}/kde4/services/phononbackends/xine.desktop
 
-%files -n kde-icons-oxygen
+%files -n kde4-icons-oxygen
 %defattr(644,root,root,755)
 %dir %{_iconsdir}/oxygen
 %dir %{_iconsdir}/oxygen/8x8
