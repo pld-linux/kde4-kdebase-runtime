@@ -59,11 +59,12 @@ Backend Xine dla Phonona.
 Summary:	KDE icons - oxygen
 Summary(pl.UTF-8):	Motyw ikon do KDE - oxygen
 Group:		Themes
+Obsoletes:	kde-icons-oxygen
 
 %description -n kde4-icons-oxygen
 KDE icons - oxygen.
 
-%description -n kde-icons-oxygen -l pl.UTF-8
+%description -n kde4-icons-oxygen -l pl.UTF-8
 Motyw ikon do KDE - oxygen.
 
 %package -n kde4-style-oxygen
