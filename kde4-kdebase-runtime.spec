@@ -7,12 +7,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.0.66
+Version:	4.0.67
 Release:	0.1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	bbc7ba68ce96e8ad2201f01c7d336da1
+# Source0-md5:	efe615263dc8782d7c66cb7c80e76b80
 URL:		http://www.kde.org/
 BuildRequires:	cmake
 %{?with_apidocs:BuildRequires:	doxygen}
@@ -130,6 +130,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/kde4-menu
 %attr(755,root,root) %{_bindir}/kdebugdialog
 %attr(755,root,root) %{_bindir}/kfile4
+%attr(755,root,root) %{_bindir}/kiconfinder
 %attr(755,root,root) %{_bindir}/khelpcenter
 %attr(755,root,root) %{_bindir}/khotnewstuff4
 %attr(755,root,root) %{_bindir}/kioclient
@@ -144,6 +145,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ktrash
 %attr(755,root,root) %{_bindir}/kuiserver
 %attr(755,root,root) %{_bindir}/kwriteconfig
+%attr(755,root,root) %{_bindir}/solid-hardware
 %attr(755,root,root) %{_libdir}/libkdeinit4_kcmshell4.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_khelpcenter.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_kuiserver.so
@@ -154,6 +156,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/imagethumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_cgi.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_componentchooser.so
+%attr(755,root,root) %{_libdir}/kde4/kcm_emoticons.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_icons.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_ioslaveinfo.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kded.so
@@ -206,7 +209,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/libexec/klocaldomainurifilterhelper
 %attr(755,root,root) %{_libdir}/kde4/libexec/knetattach
 %dir %{_libdir}/kde4/plugins/styles
-#%attr(755,root,root) %{_libdir}/strigi/strigiindex_sopranobackend.so
+%attr(755,root,root) %{_libdir}/strigi/strigiindex_sopranobackend.so
 %{_datadir}/apps/drkonqi
 %{_datadir}/apps/kcm_componentchooser/kcm_browser.desktop
 %{_datadir}/apps/kcm_componentchooser/kcm_kemail.desktop
@@ -226,6 +229,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/remoteview/smb-network.desktop
 %{_datadir}/config.kcfg/khelpcenter.kcfg
 %{_datadir}/config/khotnewstuff.knsrc
+%{_datadir}/config/emoticons.knsrc
 %{_datadir}/config/kshorturifilterrc
 %{_datadir}/dbus-1/interfaces/org.kde.KTimeZoned.xml
 %{_datadir}/dbus-1/interfaces/org.kde.khelpcenter.kcmhelpcenter.xml
@@ -241,6 +245,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/componentchooser.desktop
 %{_datadir}/kde4/services/cursorthumbnail.desktop
 %{_datadir}/kde4/services/djvuthumbnail.desktop
+%{_datadir}/kde4/services/emoticons.desktop
 %{_datadir}/kde4/services/exrthumbnail.desktop
 %{_datadir}/kde4/services/finger.protocol
 %{_datadir}/kde4/services/fish.protocol
