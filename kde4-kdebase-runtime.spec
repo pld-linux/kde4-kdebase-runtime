@@ -139,6 +139,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/kquitapp
 %attr(755,root,root) %{_bindir}/kreadconfig
 %attr(755,root,root) %{_bindir}/kstart
+%attr(755,root,root) %{_bindir}/kde4
+%attr(755,root,root) %{_bindir}/nepomukserver
+%attr(755,root,root) %{_bindir}/nepomukservicestub
 # conflict with kde3
 #%attr(755,root,root) %{_bindir}/ksvgtopng
 %attr(755,root,root) %{_bindir}/ktraderclient
@@ -149,6 +152,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libkdeinit4_kcmshell4.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_khelpcenter.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_kuiserver.so
+%attr(755,root,root) %{_libdir}/libkdeinit4_nepomukserver.so
 %attr(755,root,root) %{_libdir}/kde4/cursorthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/djvuthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/exrthumbnail.so
@@ -195,7 +199,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/svgthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/textthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_nepomuk.so
-%attr(755,root,root) %{_libdir}/kde4/kded_nepomukserver.so
 %attr(755,root,root) %{_libdir}/kde4/libexec/drkonqi
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdeeject
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdesu
@@ -208,6 +211,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/libexec/kioexec
 %attr(755,root,root) %{_libdir}/kde4/libexec/klocaldomainurifilterhelper
 %attr(755,root,root) %{_libdir}/kde4/libexec/knetattach
+%attr(755,root,root) %{_libdir}/kde4/nepomukmigration1.so
+%attr(755,root,root) %{_libdir}/kde4/nepomukontologyloader.so
+%attr(755,root,root) %{_libdir}/kde4/nepomukstorage.so
+%attr(755,root,root) %{_libdir}/kde4/nepomukstrigiservice.so
 %dir %{_libdir}/kde4/plugins/styles
 %attr(755,root,root) %{_libdir}/strigi/strigiindex_sopranobackend.so
 %{_datadir}/apps/drkonqi
@@ -227,6 +234,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/konqueror/dirtree/remote/smb-network.desktop
 %dir %{_datadir}/apps/remoteview
 %{_datadir}/apps/remoteview/smb-network.desktop
+%{_datadir}/autostart/nepomukserver.desktop
 %{_datadir}/config.kcfg/khelpcenter.kcfg
 %{_datadir}/config/khotnewstuff.knsrc
 %{_datadir}/config/emoticons.knsrc
@@ -234,6 +242,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/interfaces/org.kde.KTimeZoned.xml
 %{_datadir}/dbus-1/interfaces/org.kde.khelpcenter.kcmhelpcenter.xml
 %{_datadir}/dbus-1/services/org.kde.knotify.service
+%{_datadir}/dbus-1/interfaces/org.kde.NepomukServer.xml
+%{_datadir}/dbus-1/interfaces/org.kde.nepomuk.ServiceControl.xml
+%{_datadir}/dbus-1/interfaces/org.kde.nepomuk.ServiceManager.xml
 %{_datadir}/desktop-directories/kde-information.directory
 %{_datadir}/emoticons/kde4
 %{_datadir}/kde4/services/about.protocol
@@ -262,7 +273,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kcmkded.desktop
 %{_datadir}/kde4/services/kcmnotify.desktop
 %{_datadir}/kde4/services/kcm_nepomuk.desktop
-%{_datadir}/kde4/services/kded/nepomukserver.desktop
 %{_datadir}/kde4/services/kded/kpasswdserver.desktop
 %{_datadir}/kde4/services/kded/ktimezoned.desktop
 %{_datadir}/kde4/services/kded/remotedirnotify.desktop
@@ -293,6 +303,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/thumbnail.protocol
 %{_datadir}/kde4/services/trash.protocol
 %{_datadir}/kde4/services/zip.protocol
+%{_datadir}/kde4/services/nepomukmigration1.desktop
+%{_datadir}/kde4/services/nepomukontologyloader.desktop
+%{_datadir}/kde4/services/nepomukstorage.desktop
+%{_datadir}/kde4/services/nepomukstrigiservice.desktop
+%{_datadir}/kde4/servicetypes/nepomukservice.desktop
 %{_datadir}/kde4/servicetypes/searchprovider.desktop
 %{_datadir}/kde4/servicetypes/thumbcreator.desktop
 %{_datadir}/locale/en_US/*
