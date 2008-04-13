@@ -7,12 +7,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.0.68
+Version:	4.0.69
 Release:	0.1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	cefcf779503bb49550cb364de7fae891
+# Source0-md5:	a6615e43dcef7ba516bd0deaba06b90c
 URL:		http://www.kde.org/
 BuildRequires:	cmake
 %{?with_apidocs:BuildRequires:	doxygen}
@@ -142,6 +142,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/kde4
 %attr(755,root,root) %{_bindir}/nepomukserver
 %attr(755,root,root) %{_bindir}/nepomukservicestub
+%attr(755,root,root) %{_bindir}/ksvgtopng
 # conflict with kde3
 #%attr(755,root,root) %{_bindir}/ksvgtopng
 %attr(755,root,root) %{_bindir}/ktraderclient
@@ -237,6 +238,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/autostart/nepomukserver.desktop
 %{_datadir}/config.kcfg/khelpcenter.kcfg
 %{_datadir}/config/khotnewstuff.knsrc
+%{_datadir}/config/icons.knsrc
 %{_datadir}/config/emoticons.knsrc
 %{_datadir}/config/kshorturifilterrc
 %{_datadir}/dbus-1/interfaces/org.kde.KTimeZoned.xml
@@ -310,6 +312,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/servicetypes/nepomukservice.desktop
 %{_datadir}/kde4/servicetypes/searchprovider.desktop
 %{_datadir}/kde4/servicetypes/thumbcreator.desktop
+%{_datadir}/desktop-directories
 %{_datadir}/locale/en_US/*
 %dir %{_datadir}/locale/l10n
 %{_datadir}/locale/l10n/caribbean.desktop
