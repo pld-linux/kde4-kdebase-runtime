@@ -7,12 +7,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.0.69
+Version:	4.0.70
 Release:	0.1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	a6615e43dcef7ba516bd0deaba06b90c
+# Source0-md5:	ac4612d5c3ed1cf46560a4b1f05e2b34
 URL:		http://www.kde.org/
 BuildRequires:	cmake
 %{?with_apidocs:BuildRequires:	doxygen}
@@ -22,7 +22,7 @@ BuildRequires:	kde4-kdepimlibs-devel >= %{version}
 BuildRequires:	libsmbclient-devel
 %{?with_apidocs:BuildRequires:	qt4-doc >= 4.3.0}
 BuildRequires:	rpmbuild(macros) >= 1.129
-BuildRequires:	soprano-devel
+BuildRequires:	soprano-devel >= 2.0.98
 BuildRequires:	strigi-devel >= 0.5.5
 BuildRequires:	xine-lib-devel
 Obsoletes:	kdebase4-runtime
@@ -163,16 +163,16 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_componentchooser.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_emoticons.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_icons.so
-%attr(755,root,root) %{_libdir}/kde4/kcm_ioslaveinfo.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kded.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdnssd.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_knotify.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_locale.so
-%attr(755,root,root) %{_libdir}/kde4/kcm_samba.so
 %attr(755,root,root) %{_libdir}/kde4/kded_kpasswdserver.so
 %attr(755,root,root) %{_libdir}/kde4/kded_ktimezoned.so
 %attr(755,root,root) %{_libdir}/kde4/kded_remotedirnotify.so
 %attr(755,root,root) %{_libdir}/kde4/kded_soliduiserver.so
+%attr(755,root,root) %{_libdir}/kde4/kded_desktopnotifier.so
+%attr(755,root,root) %{_libdir}/kde4/kio_desktop.so
 %attr(755,root,root) %{_libdir}/kde4/kio_about.so
 %attr(755,root,root) %{_libdir}/kde4/kio_archive.so
 %attr(755,root,root) %{_libdir}/kde4/kio_cgi.so
@@ -269,7 +269,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/icons.desktop
 %{_datadir}/kde4/services/imagethumbnail.desktop
 %{_datadir}/kde4/services/info.protocol
-%{_datadir}/kde4/services/ioslaveinfo.desktop
 %{_datadir}/kde4/services/kcm_kdnssd.desktop
 %{_datadir}/kde4/services/kcmcgi.desktop
 %{_datadir}/kde4/services/kcmkded.desktop
@@ -298,7 +297,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/settings.protocol
 %{_datadir}/kde4/services/sftp.protocol
 %{_datadir}/kde4/services/smb.protocol
-%{_datadir}/kde4/services/smbstatus.desktop
 %{_datadir}/kde4/services/svgthumbnail.desktop
 %{_datadir}/kde4/services/tar.protocol
 %{_datadir}/kde4/services/textthumbnail.desktop
@@ -309,6 +307,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/nepomukontologyloader.desktop
 %{_datadir}/kde4/services/nepomukstorage.desktop
 %{_datadir}/kde4/services/nepomukstrigiservice.desktop
+%{_datadir}/kde4/services/desktop.protocol
+%{_datadir}/kde4/services/kded/desktopnotifier.desktop
 %{_datadir}/kde4/servicetypes/nepomukservice.desktop
 %{_datadir}/kde4/servicetypes/searchprovider.desktop
 %{_datadir}/kde4/servicetypes/thumbcreator.desktop
