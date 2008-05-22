@@ -7,12 +7,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.0.73
+Version:	4.0.74
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	e98acfd52c522f865140c98586f35c8b
+# Source0-md5:	0bb1aa609a58f7ebaaebd45187f85d0a
 URL:		http://www.kde.org/
 BuildRequires:	cmake
 %{?with_apidocs:BuildRequires:	doxygen}
@@ -23,7 +23,7 @@ BuildRequires:	libsmbclient-devel
 %{?with_apidocs:BuildRequires:	qt4-doc >= 4.3.0}
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	soprano-devel >= 2.0.98
-BuildRequires:	strigi-devel >= 0.5.5
+BuildRequires:	strigi-devel >= 0.5.9
 BuildRequires:	xine-lib-devel
 Obsoletes:	kdebase4-runtime
 Conflicts:	kdebase4-runtime
