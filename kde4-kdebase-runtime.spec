@@ -7,12 +7,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.0.74
+Version:	4.0.80
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	0bb1aa609a58f7ebaaebd45187f85d0a
+# Source0-md5:	53d6e7be3787c755895fd9ad73283e04
 URL:		http://www.kde.org/
 BuildRequires:	cmake
 %{?with_apidocs:BuildRequires:	doxygen}
