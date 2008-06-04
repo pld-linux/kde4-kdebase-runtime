@@ -370,6 +370,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/spellchecking.desktop
 %{_datadir}/kde4/servicetypes/phononbackend.desktop
 %{_libdir}/kconf_update_bin/phonon_devicepreference_update
+%dir %{_libdir}/kde4/plugins/phonon_platform
 %{_libdir}/kde4/plugins/phonon_platform/kde.so
 %attr(755,root,root) %{_libdir}/libkaudiodevicelist.so.4
 %attr(755,root,root) %{_libdir}/libkaudiodevicelist.so.4.1.0
