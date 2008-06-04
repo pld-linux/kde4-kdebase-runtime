@@ -7,12 +7,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.0.80
+Version:	4.0.81
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	53d6e7be3787c755895fd9ad73283e04
+# Source0-md5:	ea34c857c6ecf71c8c39d7ad7cb18ef5
 URL:		http://www.kde.org/
 BuildRequires:	cmake
 %{?with_apidocs:BuildRequires:	doxygen}
@@ -189,12 +189,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kio_smb.so
 %attr(755,root,root) %{_libdir}/kde4/kio_thumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/kio_trash.so
-%attr(755,root,root) %{_libdir}/kde4/libfixhosturifilter.so
 %attr(755,root,root) %{_libdir}/kde4/libkmanpart.so
-%attr(755,root,root) %{_libdir}/kde4/libkshorturifilter.so
-%attr(755,root,root) %{_libdir}/kde4/libkuriikwsfilter.so
-%attr(755,root,root) %{_libdir}/kde4/libkurisearchfilter.so
-%attr(755,root,root) %{_libdir}/kde4/liblocaldomainurifilter.so
+%attr(755,root,root) %{_libdir}/kde4/fixhosturifilter.so
+%attr(755,root,root) %{_libdir}/kde4/kcm_phonon.so
+%attr(755,root,root) %{_libdir}/kde4/kcmspellchecking.so
+%attr(755,root,root) %{_libdir}/kde4/kshorturifilter.so
+%attr(755,root,root) %{_libdir}/kde4/kuriikwsfilter.so
+%attr(755,root,root) %{_libdir}/kde4/kurisearchfilter.so
+%attr(755,root,root) %{_libdir}/kde4/localdomainurifilter.so
 %attr(755,root,root) %{_libdir}/kde4/librenaudioplugin.so
 %attr(755,root,root) %{_libdir}/kde4/librenimageplugin.so
 %attr(755,root,root) %{_libdir}/kde4/svgthumbnail.so
@@ -351,6 +353,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
+%{_libdir}/libkaudiodevicelist.so
+%{_includedir}/phonon
 %{_datadir}/apps/cmake/modules/FindCLucene.cmake
 %{_datadir}/apps/cmake/modules/FindXCB.cmake
 #%{_datadir}/apps/cmake/modules/FindXine.cmake
@@ -362,6 +366,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kcm_phononxine.desktop
 %dir %{_datadir}/kde4/services/phononbackends
 %{_datadir}/kde4/services/phononbackends/xine.desktop
+%{_datadir}/kde4/services/kcm_phonon.desktop
+%{_datadir}/kde4/services/spellchecking.desktop
+%{_datadir}/kde4/servicetypes/phononbackend.desktop
+%{_libdir}/kconf_update_bin/phonon_devicepreference_update
+%{_libdir}/kde4/plugins/phonon_platform/kde.so
+%attr(755,root,root) %{_libdir}/libkaudiodevicelist.so.4
+%attr(755,root,root) %{_libdir}/libkaudiodevicelist.so.4.1.0
+%{_datadir}/apps/kcm_phonon/listview-background.png
+%{_datadir}/apps/kconf_update/devicepreference.upd
+%{_datadir}/apps/libphonon/hardwaredatabase
+%{_datadir}/apps/phonon/phonon.notifyrc
 
 %files -n kde4-icons-oxygen
 %defattr(644,root,root,755)
