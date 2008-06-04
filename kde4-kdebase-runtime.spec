@@ -374,9 +374,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/kde4/plugins/phonon_platform/kde.so
 %attr(755,root,root) %{_libdir}/libkaudiodevicelist.so.4
 %attr(755,root,root) %{_libdir}/libkaudiodevicelist.so.4.1.0
+%dir %{_datadir}/apps/kcm_phonon
 %{_datadir}/apps/kcm_phonon/listview-background.png
 %{_datadir}/apps/kconf_update/devicepreference.upd
+%dir %{_datadir}/apps/libphonon
 %{_datadir}/apps/libphonon/hardwaredatabase
+%dir %{_datadir}/apps/phonon
 %{_datadir}/apps/phonon/phonon.notifyrc
 
 %files -n kde4-icons-oxygen
