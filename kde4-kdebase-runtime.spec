@@ -19,6 +19,7 @@ BuildRequires:	cmake
 %{?with_apidocs:BuildRequires:	graphviz}
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
+BuildRequires:	kde4-kdesupport-phonon-devel >= %{version}
 BuildRequires:	libsmbclient-devel
 %{?with_apidocs:BuildRequires:	qt4-doc >= 4.3.0}
 BuildRequires:	rpmbuild(macros) >= 1.129
