@@ -250,7 +250,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/interfaces/org.kde.NepomukServer.xml
 %{_datadir}/dbus-1/interfaces/org.kde.nepomuk.ServiceControl.xml
 %{_datadir}/dbus-1/interfaces/org.kde.nepomuk.ServiceManager.xml
-%{_datadir}/desktop-directories/kde-information.directory
 %{_datadir}/emoticons/kde4
 %{_datadir}/kde4/services/about.protocol
 %{_datadir}/kde4/services/applications.protocol
