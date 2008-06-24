@@ -14,12 +14,13 @@ Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
 # Source0-md5:	68972abac79763675533aaf3ab5f14bd
 URL:		http://www.kde.org/
+BuildRequires:	automoc4
 BuildRequires:	cmake
 %{?with_apidocs:BuildRequires:	doxygen}
 %{?with_apidocs:BuildRequires:	graphviz}
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
-BuildRequires:	kde4-kdesupport-phonon-devel >= 4.0.81
+BuildRequires:	phonon-devel >= 4.1.83
 BuildRequires:	libsmbclient-devel
 %{?with_apidocs:BuildRequires:	qt4-doc >= 4.3.0}
 BuildRequires:	rpmbuild(macros) >= 1.129
