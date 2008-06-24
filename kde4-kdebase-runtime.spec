@@ -357,10 +357,8 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %{_libdir}/libkaudiodevicelist.so
-%{_includedir}/phonon
 %{_datadir}/apps/cmake/modules/FindCLucene.cmake
 %{_datadir}/apps/cmake/modules/FindXCB.cmake
-#%{_datadir}/apps/cmake/modules/FindXine.cmake
 
 %files -n kde4-phonon-xine
 %defattr(644,root,root,755)
