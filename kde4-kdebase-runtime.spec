@@ -15,6 +15,7 @@ Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version
 # Source0-md5:	68972abac79763675533aaf3ab5f14bd
 URL:		http://www.kde.org/
 BuildRequires:	automoc4
+BuildRequires:	clucene-core-devel
 BuildRequires:	cmake
 %{?with_apidocs:BuildRequires:	doxygen}
 %{?with_apidocs:BuildRequires:	graphviz}
