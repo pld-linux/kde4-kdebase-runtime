@@ -220,6 +220,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/libexec/kioexec
 %attr(755,root,root) %{_libdir}/kde4/libexec/klocaldomainurifilterhelper
 %attr(755,root,root) %{_libdir}/kde4/libexec/knetattach
+%attr(755,root,root) %{_libdir}/kde4/nepomukfilewatch.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukmigration1.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukontologyloader.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukstorage.so
@@ -310,6 +311,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/thumbnail.protocol
 %{_datadir}/kde4/services/trash.protocol
 %{_datadir}/kde4/services/zip.protocol
+%{_datadir}/kde4/services/nepomukfilewatch.desktop
 %{_datadir}/kde4/services/nepomukmigration1.desktop
 %{_datadir}/kde4/services/nepomukontologyloader.desktop
 %{_datadir}/kde4/services/nepomukstorage.desktop
