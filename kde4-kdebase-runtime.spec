@@ -2,31 +2,33 @@
 # Conditional build:
 %bcond_without	apidocs		# do not prepare API documentation
 #
-%define		_state		stable
+%define		_state		unstable
 %define		orgname		kdebase-runtime
+%define		qtver		4.4.1
+
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.1.0
+Version:	4.1.61
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	a19999207ad37131a2888b6e32160008
+# Source0-md5:	6228f910046ae4230a2491c07b9c8ac1
 URL:		http://www.kde.org/
 BuildRequires:	automoc4
 BuildRequires:	clucene-core-devel
-BuildRequires:	cmake
+BuildRequires:	cmake >= 2.6.0
 %{?with_apidocs:BuildRequires:	doxygen}
 %{?with_apidocs:BuildRequires:	graphviz}
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
 BuildRequires:	phonon-devel >= 4.1.83
 BuildRequires:	libsmbclient-devel
-%{?with_apidocs:BuildRequires:	qt4-doc >= 4.3.0}
+%{?with_apidocs:BuildRequires:	qt4-doc >= %{qtver}}
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	soprano-devel >= 2.0.98
-BuildRequires:	strigi-devel >= 0.5.9
+BuildRequires:	strigi-devel >= 0.5.12
 BuildRequires:	xine-lib-devel
 Obsoletes:	kdebase4-runtime
 Conflicts:	kdebase4-runtime
@@ -90,11 +92,11 @@ Styl Oxygen dla KDE.
 %setup -q -n %{orgname}-%{version}
 
 %build
-export QTDIR=%{_prefix}
 install -d build
 cd build
 %cmake \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
+	-DCMAKE_AR=/usr/bin/ar \
 %if "%{_lib}" == "lib64"
 	-DLIB_SUFFIX=64 \
 %endif
@@ -244,6 +246,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/konqueror/dirtree/remote/smb-network.desktop
 %dir %{_datadir}/apps/remoteview
 %{_datadir}/apps/remoteview/smb-network.desktop
+%dir %{_datadir}/apps/nepomukstrigiservice
+%{_datadir}/apps/nepomukstrigiservice/nepomukstrigiservice.notifyrc
 %{_datadir}/autostart/nepomukserver.desktop
 %{_datadir}/config.kcfg/khelpcenter.kcfg
 %{_datadir}/config/khotnewstuff.knsrc
@@ -256,6 +260,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/interfaces/org.kde.NepomukServer.xml
 %{_datadir}/dbus-1/interfaces/org.kde.nepomuk.ServiceControl.xml
 %{_datadir}/dbus-1/interfaces/org.kde.nepomuk.ServiceManager.xml
+%{_datadir}/dbus-1/interfaces/org.kde.nepomuk.OntologyManager.xml
+%{_datadir}/dbus-1/interfaces/org.kde.nepomuk.Strigi.xml
 %{_datadir}/emoticons/kde4
 %{_datadir}/kde4/services/about.protocol
 %{_datadir}/kde4/services/applications.protocol
@@ -377,8 +383,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/kconf_update_bin/phonon_devicepreference_update
 %dir %{_libdir}/kde4/plugins/phonon_platform
 %{_libdir}/kde4/plugins/phonon_platform/kde.so
-%attr(755,root,root) %{_libdir}/libkaudiodevicelist.so.4
-%attr(755,root,root) %{_libdir}/libkaudiodevicelist.so.4.1.0
+%attr(755,root,root) %{_libdir}/libkaudiodevicelist.so.?
+%attr(755,root,root) %{_libdir}/libkaudiodevicelist.so.*.*.*
 %dir %{_datadir}/apps/kcm_phonon
 %{_datadir}/apps/kcm_phonon/listview-background.png
 %{_datadir}/apps/kconf_update/devicepreference.upd
