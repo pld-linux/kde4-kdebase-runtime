@@ -23,11 +23,11 @@ BuildRequires:	cmake >= 2.6.0
 %{?with_apidocs:BuildRequires:	graphviz}
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
-BuildRequires:	phonon-devel >= 4.1.83
+BuildRequires:	phonon-devel >= 4.2.0
 BuildRequires:	libsmbclient-devel
 %{?with_apidocs:BuildRequires:	qt4-doc >= %{qtver}}
 BuildRequires:	rpmbuild(macros) >= 1.129
-BuildRequires:	soprano-devel >= 2.0.98
+BuildRequires:	soprano-devel >= 2.1
 BuildRequires:	strigi-devel >= 0.5.12
 BuildRequires:	xine-lib-devel
 Obsoletes:	kdebase4-runtime
