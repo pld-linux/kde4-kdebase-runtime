@@ -4,6 +4,8 @@
 #
 %define		_state		stable
 %define		orgname		kdebase-runtime
+%define		qtver		4.4.0
+
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
@@ -23,7 +25,7 @@ BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
 BuildRequires:	phonon-devel >= 4.1.83
 BuildRequires:	libsmbclient-devel
-%{?with_apidocs:BuildRequires:	qt4-doc >= 4.3.0}
+%{?with_apidocs:BuildRequires:	qt4-doc >= %{qtver}}
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	soprano-devel >= 2.0.98
 BuildRequires:	strigi-devel >= 0.5.9
