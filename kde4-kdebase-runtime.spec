@@ -23,7 +23,7 @@ BuildRequires:	cmake >= 2.6.1-2
 %{?with_apidocs:BuildRequires:	graphviz}
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
-BuildRequires:	phonon-devel >= 4.2.0
+BuildRequires:	phonon-devel >= 4.2.1
 BuildRequires:	libsmbclient-devel
 %{?with_apidocs:BuildRequires:	qt4-doc >= %{qtver}}
 BuildRequires:	rpmbuild(macros) >= 1.129
