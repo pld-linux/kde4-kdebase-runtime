@@ -9,12 +9,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.1.62
-Release:	1
+Version:	4.1.63
+Release:	0.1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	52d0678ef32dab6c0286e94198dba699
+# Source0-md5:	9a06f0c0ecb6affb2c1b6d021edff803
 URL:		http://www.kde.org/
 BuildRequires:	automoc4
 BuildRequires:	clucene-core-devel
@@ -232,6 +232,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kcm_componentchooser/kcm_browser.desktop
 %{_datadir}/apps/kcm_componentchooser/kcm_kemail.desktop
 %{_datadir}/apps/kcm_componentchooser/kcm_terminal.desktop
+%{_datadir}/apps/kcm_componentchooser/kcm_wm.desktop
 %{_datadir}/apps/kcmlocale
 %{_datadir}/apps/kconf_update/kuriikwsfilter.upd
 %{_datadir}/apps/kde/kde.notifyrc
@@ -362,20 +363,27 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/hicolor/scalable/apps/*.svgz
 # conflicts with hicolor-icon-theme
 #%{_iconsdir}/hicolor/index.theme
+%dir %{_datadir}/apps/ksmserver
+%dir %{_datadir}/apps/ksmserver/windowmanagers
+%{_datadir}/apps/ksmserver/windowmanagers/compiz-custom.desktop
+%{_datadir}/apps/ksmserver/windowmanagers/compiz.desktop
+%{_datadir}/apps/ksmserver/windowmanagers/metacity.desktop
+%{_datadir}/apps/ksmserver/windowmanagers/openbox.desktop
+
 
 %files devel
 %defattr(644,root,root,755)
 %{_libdir}/libkaudiodevicelist.so
 %{_datadir}/apps/cmake/modules/FindCLucene.cmake
-%{_datadir}/apps/cmake/modules/FindXCB.cmake
+#%{_datadir}/apps/cmake/modules/FindXCB.cmake
 
 %files -n kde4-phonon-xine
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/kde4/phonon_xine.so
-%attr(755,root,root) %{_libdir}/kde4/kcm_phononxine.so
-%{_datadir}/kde4/services/kcm_phononxine.desktop
-%dir %{_datadir}/kde4/services/phononbackends
-%{_datadir}/kde4/services/phononbackends/xine.desktop
+#%attr(755,root,root) %{_libdir}/kde4/phonon_xine.so
+#%attr(755,root,root) %{_libdir}/kde4/kcm_phononxine.so
+#%{_datadir}/kde4/services/kcm_phononxine.desktop
+#%dir %{_datadir}/kde4/services/phononbackends
+#%{_datadir}/kde4/services/phononbackends/xine.desktop
 %{_datadir}/kde4/services/kcm_phonon.desktop
 %{_datadir}/kde4/services/spellchecking.desktop
 %{_datadir}/kde4/servicetypes/phononbackend.desktop
