@@ -57,7 +57,6 @@ Pliki programistyczne komponentów uruchomieniowych KDE 4.
 Summary:	Kde4 Phonon plugins
 Summary(pl.UTF-8):	Wtyczki Kde4 dla Phonona
 Group:		X11/Applications
-Obsoletes:	kde4-phonon-xine
 
 %description -n kde4-phonon
 Kde4 Phonon plugins.
