@@ -10,7 +10,7 @@ Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.1.63
-Release:	0.1
+Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
@@ -53,16 +53,16 @@ Development files for KDE 4 runtime components.
 %description devel -l pl.UTF-8
 Pliki programistyczne komponentów uruchomieniowych KDE 4.
 
-%package -n kde4-phonon-xine
-Summary:	Xine backend to Phonon
-Summary(pl.UTF-8):	Backend Xine dla Phonona
+%package -n kde4-phonon
+Summary:	Kde4 Phonon plugins
+Summary(pl.UTF-8):	Wtyczki Kde4 dla Phonona
 Group:		X11/Applications
 
-%description -n kde4-phonon-xine
-Xine backend to Phonon.
+%description -n kde4-phonon
+Kde4 Phonon plugins.
 
-%description -n kde4-phonon-xine -l pl.UTF-8
-Backend Xine dla Phonona.
+%description -n kde4-phonon -l pl.UTF-8
+Wtyczki Kde4 dla Phonona.
 
 %package -n kde4-icons-oxygen
 Summary:	KDE icons - oxygen
@@ -377,13 +377,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/cmake/modules/FindCLucene.cmake
 #%{_datadir}/apps/cmake/modules/FindXCB.cmake
 
-%files -n kde4-phonon-xine
+%files -n kde4-phonon
 %defattr(644,root,root,755)
-#%attr(755,root,root) %{_libdir}/kde4/phonon_xine.so
-#%attr(755,root,root) %{_libdir}/kde4/kcm_phononxine.so
-#%{_datadir}/kde4/services/kcm_phononxine.desktop
-#%dir %{_datadir}/kde4/services/phononbackends
-#%{_datadir}/kde4/services/phononbackends/xine.desktop
 %{_datadir}/kde4/services/kcm_phonon.desktop
 %{_datadir}/kde4/services/spellchecking.desktop
 %{_datadir}/kde4/servicetypes/phononbackend.desktop
