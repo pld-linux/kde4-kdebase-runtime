@@ -9,12 +9,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.1.63
+Version:	4.1.64
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	9a06f0c0ecb6affb2c1b6d021edff803
+# Source0-md5:	2ee6c7e56c833ad1e6bc397c633c3629
 URL:		http://www.kde.org/
 BuildRequires:	automoc4
 BuildRequires:	clucene-core-devel
@@ -174,6 +174,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdnssd.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_knotify.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_locale.so
+%attr(755,root,root) %{_libdir}/kde4/kcm_trash.so
 %attr(755,root,root) %{_libdir}/kde4/kded_kpasswdserver.so
 %attr(755,root,root) %{_libdir}/kde4/kded_ktimezoned.so
 %attr(755,root,root) %{_libdir}/kde4/kded_remotedirnotify.so
@@ -262,6 +263,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/interfaces/org.kde.nepomuk.ServiceManager.xml
 %{_datadir}/dbus-1/interfaces/org.kde.nepomuk.OntologyManager.xml
 %{_datadir}/dbus-1/interfaces/org.kde.nepomuk.Strigi.xml
+%{_datadir}/dbus-1/interfaces/org.kde.nepomuk.Storage.xml
 %{_datadir}/emoticons/kde4
 %{_datadir}/kde4/services/about.protocol
 %{_datadir}/kde4/services/applications.protocol
@@ -288,6 +290,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kcmkded.desktop
 %{_datadir}/kde4/services/kcmnotify.desktop
 %{_datadir}/kde4/services/kcm_nepomuk.desktop
+%{_datadir}/kde4/services/kcmtrash.desktop
 %{_datadir}/kde4/services/kded/kpasswdserver.desktop
 %{_datadir}/kde4/services/kded/ktimezoned.desktop
 %{_datadir}/kde4/services/kded/remotedirnotify.desktop
