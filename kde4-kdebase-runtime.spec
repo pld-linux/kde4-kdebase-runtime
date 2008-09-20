@@ -9,12 +9,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.1.65
+Version:	4.1.67
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	093e0a97be7036cb8fd475c8e0efe1d6
+# Source0-md5:	a0988539a327f7cb7a3edd1151533eeb
 URL:		http://www.kde.org/
 BuildRequires:	automoc4
 BuildRequires:	clucene-core-devel
@@ -147,6 +147,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/kreadconfig
 %attr(755,root,root) %{_bindir}/kstart
 %attr(755,root,root) %{_bindir}/kde4
+%attr(755,root,root) %{_bindir}/kwalletd
 %attr(755,root,root) %{_bindir}/nepomukserver
 %attr(755,root,root) %{_bindir}/nepomukservicestub
 %attr(755,root,root) %{_bindir}/ksvgtopng
@@ -160,6 +161,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libkdeinit4_kcmshell4.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_khelpcenter.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_kuiserver.so
+%attr(755,root,root) %{_libdir}/libkdeinit4_kwalletd.so
+# Is it ok to add those files to main package?
+%attr(755,root,root) %{_libdir}/libkwalletbackend.so.?
+%attr(755,root,root) %{_libdir}/libkwalletbackend.so.*.*.*
+#
 %attr(755,root,root) %{_libdir}/libkdeinit4_nepomukserver.so
 %attr(755,root,root) %{_libdir}/kde4/cursorthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/djvuthumbnail.so
@@ -227,10 +233,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/nepomukontologyloader.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukstorage.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukstrigiservice.so
+%attr(755,root,root) %{_libdir}/kde4/nepomukqueryservice.so
 %dir %{_libdir}/kde4/plugins/styles
 %attr(755,root,root) %{_libdir}/strigi/strigiindex_sopranobackend.so
 %{_datadir}/apps/drkonqi
 %{_datadir}/apps/kcm_componentchooser/kcm_browser.desktop
+%{_datadir}/apps/kcm_componentchooser/kcm_filemanager.desktop
 %{_datadir}/apps/kcm_componentchooser/kcm_kemail.desktop
 %{_datadir}/apps/kcm_componentchooser/kcm_terminal.desktop
 %{_datadir}/apps/kcm_componentchooser/kcm_wm.desktop
@@ -249,6 +257,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/remoteview/smb-network.desktop
 %dir %{_datadir}/apps/nepomukstrigiservice
 %{_datadir}/apps/nepomukstrigiservice/nepomukstrigiservice.notifyrc
+%dir %{_datadir}/apps/nepomuk
+%dir %{_datadir}/apps/nepomuk/ontologies
+%{_datadir}/apps/nepomuk/ontologies/*.desktop
+%{_datadir}/apps/nepomuk/ontologies/*.rdf*
+%{_datadir}/apps/nepomuk/ontologies/*.trig
 %{_datadir}/autostart/nepomukserver.desktop
 %{_datadir}/config.kcfg/khelpcenter.kcfg
 %{_datadir}/config/khotnewstuff.knsrc
@@ -264,6 +277,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/interfaces/org.kde.nepomuk.OntologyManager.xml
 %{_datadir}/dbus-1/interfaces/org.kde.nepomuk.Strigi.xml
 %{_datadir}/dbus-1/interfaces/org.kde.nepomuk.Storage.xml
+%{_datadir}/dbus-1/interfaces/org.kde.nepomuk.Query.xml
+%{_datadir}/dbus-1/interfaces/org.kde.nepomuk.QueryService.xml
 %{_datadir}/emoticons/kde4
 %{_datadir}/kde4/services/about.protocol
 %{_datadir}/kde4/services/applications.protocol
@@ -302,6 +317,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kuiserver.desktop
 %{_datadir}/kde4/services/kuriikwsfilter.desktop
 %{_datadir}/kde4/services/kurisearchfilter.desktop
+%{_datadir}/kde4/services/kwalletd.desktop
 %{_datadir}/kde4/services/language.desktop
 %{_datadir}/kde4/services/localdomainurifilter.desktop
 %{_datadir}/kde4/services/man.protocol
@@ -325,6 +341,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/nepomukontologyloader.desktop
 %{_datadir}/kde4/services/nepomukstorage.desktop
 %{_datadir}/kde4/services/nepomukstrigiservice.desktop
+%{_datadir}/kde4/services/nepomukqueryservice.desktop
 %{_datadir}/kde4/services/desktop.protocol
 %{_datadir}/kde4/services/kded/desktopnotifier.desktop
 %{_datadir}/kde4/servicetypes/nepomukservice.desktop
@@ -376,9 +393,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
+%{_libdir}/libkwalletbackend.so
 %{_libdir}/libkaudiodevicelist.so
 %{_datadir}/apps/cmake/modules/FindCLucene.cmake
-#%{_datadir}/apps/cmake/modules/FindXCB.cmake
+%{_datadir}/apps/cmake/modules/FindPulseAudio.cmake
 
 %files -n kde4-phonon
 %defattr(644,root,root,755)
