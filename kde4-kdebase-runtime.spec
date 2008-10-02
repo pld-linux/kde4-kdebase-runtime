@@ -9,12 +9,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.1.67
+Version:	4.1.68
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	a0988539a327f7cb7a3edd1151533eeb
+# Source0-md5:	ac63429e3b0895386cb56efdac756548
 URL:		http://www.kde.org/
 BuildRequires:	automoc4
 BuildRequires:	clucene-core-devel
@@ -186,6 +186,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kded_remotedirnotify.so
 %attr(755,root,root) %{_libdir}/kde4/kded_soliduiserver.so
 %attr(755,root,root) %{_libdir}/kde4/kded_desktopnotifier.so
+%attr(755,root,root) %{_libdir}/kde4/kio_bookmarks.so
 %attr(755,root,root) %{_libdir}/kde4/kio_desktop.so
 %attr(755,root,root) %{_libdir}/kde4/kio_about.so
 %attr(755,root,root) %{_libdir}/kde4/kio_archive.so
@@ -196,6 +197,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kio_floppy.so
 %attr(755,root,root) %{_libdir}/kde4/kio_info.so
 %attr(755,root,root) %{_libdir}/kde4/kio_man.so
+%attr(755,root,root) %{_libdir}/kde4/kio_nepomuksearch.so
 %attr(755,root,root) %{_libdir}/kde4/kio_nfs.so
 %attr(755,root,root) %{_libdir}/kde4/kio_remote.so
 %attr(755,root,root) %{_libdir}/kde4/kio_settings.so
@@ -246,6 +248,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kconf_update/kuriikwsfilter.upd
 %{_datadir}/apps/kde/kde.notifyrc
 %{_datadir}/apps/khelpcenter
+%{_datadir}/apps/kio_bookmarks
 %{_datadir}/apps/kio_finger
 %{_datadir}/apps/kio_info
 %{_datadir}/apps/kio_man
@@ -283,6 +286,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/about.protocol
 %{_datadir}/kde4/services/applications.protocol
 %{_datadir}/kde4/services/ar.protocol
+%{_datadir}/kde4/services/bookmarks.protocol
 %{_datadir}/kde4/services/bzip.protocol
 %{_datadir}/kde4/services/bzip2.protocol
 %{_datadir}/kde4/services/cgi.protocol
@@ -321,6 +325,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/language.desktop
 %{_datadir}/kde4/services/localdomainurifilter.desktop
 %{_datadir}/kde4/services/man.protocol
+%{_datadir}/kde4/services/nepomuksearch.protocol
 %{_datadir}/kde4/services/nfs.protocol
 %{_datadir}/kde4/services/programs.protocol
 %{_datadir}/kde4/services/remote.protocol
