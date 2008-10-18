@@ -23,8 +23,8 @@ BuildRequires:	cmake >= 2.6.1-2
 %{?with_apidocs:BuildRequires:	graphviz}
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
-BuildRequires:	phonon-devel >= 4.2.1
 BuildRequires:	libsmbclient-devel
+BuildRequires:	phonon-devel >= 4.2.1
 %{?with_apidocs:BuildRequires:	qt4-doc >= %{qtver}}
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	soprano-devel >= 2.1
@@ -428,12 +428,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kio_desktop/directory.desktop
 %{_datadir}/apps/kio_desktop/directory.trash
 %{_datadir}/kde4/services/kded/phononserver.desktop
-                        
+
 %files -n kde4-icons-oxygen
 %defattr(644,root,root,755)
 %dir %{_iconsdir}/oxygen
 %{_iconsdir}/oxygen/*x*/*.png
 %dir %{_iconsdir}/oxygen/8x8
+%dir %{_iconsdir}/oxygen/16x16
+%dir %{_iconsdir}/oxygen/22x22
+%dir %{_iconsdir}/oxygen/32x32
+%dir %{_iconsdir}/oxygen/48x48
+%dir %{_iconsdir}/oxygen/64x64
+%dir %{_iconsdir}/oxygen/128x128
 %{_iconsdir}/oxygen/*x*/actions
 %{_iconsdir}/oxygen/*x*/apps
 %{_iconsdir}/oxygen/*x*/categories
