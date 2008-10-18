@@ -423,6 +423,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/libphonon/hardwaredatabase
 %dir %{_datadir}/apps/phonon
 %{_datadir}/apps/phonon/phonon.notifyrc
+%dir %{_datadir}/apps/kio_desktop
 %{_datadir}/apps/kio_desktop/DesktopLinks/Home.desktop
 %{_datadir}/apps/kio_desktop/directory.desktop
 %{_datadir}/apps/kio_desktop/directory.trash
