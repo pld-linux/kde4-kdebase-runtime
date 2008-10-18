@@ -9,12 +9,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.1.69
+Version:	4.1.70
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	c9cb92c7eea47367ac0dd216eba749aa
+# Source0-md5:	66714fce190f899152959f081e76100a
 URL:		http://www.kde.org/
 BuildRequires:	automoc4
 BuildRequires:	clucene-core-devel
@@ -399,20 +399,23 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %{_libdir}/libkwalletbackend.so
-%{_libdir}/libkaudiodevicelist.so
+#%{_libdir}/libkaudiodevicelist.so
 %{_datadir}/apps/cmake/modules/FindCLucene.cmake
 %{_datadir}/apps/cmake/modules/FindPulseAudio.cmake
 
 %files -n kde4-phonon
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/kconf_update_bin/phonon_devicepreference_update
+%attr(755,root,root) %{_libdir}/kconf_update_bin/phonon_deviceuids_update
+%attr(755,root,root) %{_libdir}/kde4/kded_phononserver.so
 %{_datadir}/kde4/services/kcm_phonon.desktop
 %{_datadir}/kde4/services/spellchecking.desktop
 %{_datadir}/kde4/servicetypes/phononbackend.desktop
-%{_libdir}/kconf_update_bin/phonon_devicepreference_update
+
 %dir %{_libdir}/kde4/plugins/phonon_platform
 %{_libdir}/kde4/plugins/phonon_platform/kde.so
-%attr(755,root,root) %{_libdir}/libkaudiodevicelist.so.?
-%attr(755,root,root) %{_libdir}/libkaudiodevicelist.so.*.*.*
+#%attr(755,root,root) %{_libdir}/libkaudiodevicelist.so.?
+#%attr(755,root,root) %{_libdir}/libkaudiodevicelist.so.*.*.*
 %dir %{_datadir}/apps/kcm_phonon
 %{_datadir}/apps/kcm_phonon/listview-background.png
 %{_datadir}/apps/kconf_update/devicepreference.upd
@@ -420,7 +423,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/libphonon/hardwaredatabase
 %dir %{_datadir}/apps/phonon
 %{_datadir}/apps/phonon/phonon.notifyrc
-
+%{_datadir}/apps/kio_desktop/DesktopLinks/Home.desktop
+%{_datadir}/apps/kio_desktop/directory.desktop
+%{_datadir}/apps/kio_desktop/directory.trash
+%{_datadir}/kde4/services/kded/phononserver.desktop
+                        
 %files -n kde4-icons-oxygen
 %defattr(644,root,root,755)
 %dir %{_iconsdir}/oxygen
