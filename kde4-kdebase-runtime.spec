@@ -218,7 +218,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/svgthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/textthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_nepomuk.so
-%dir %attr(755,root,root) %{_libdir}/kde4/libexec
 %attr(755,root,root) %{_libdir}/kde4/libexec/drkonqi
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdeeject
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdesu
