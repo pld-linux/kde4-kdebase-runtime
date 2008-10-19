@@ -311,7 +311,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kcmnotify.desktop
 %{_datadir}/kde4/services/kcm_nepomuk.desktop
 %{_datadir}/kde4/services/kcmtrash.desktop
-%dir %{_datadir}/kde4/services/kded
 %{_datadir}/kde4/services/kded/kpasswdserver.desktop
 %{_datadir}/kde4/services/kded/ktimezoned.desktop
 %{_datadir}/kde4/services/kded/remotedirnotify.desktop
@@ -350,7 +349,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/nepomukstrigiservice.desktop
 %{_datadir}/kde4/services/nepomukqueryservice.desktop
 %{_datadir}/kde4/services/desktop.protocol
-%dir %{_datadir}/kde4/services/kded
 %{_datadir}/kde4/services/kded/desktopnotifier.desktop
 %{_datadir}/kde4/servicetypes/nepomukservice.desktop
 %{_datadir}/kde4/servicetypes/searchprovider.desktop
@@ -431,7 +429,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kio_desktop/DesktopLinks/Home.desktop
 %{_datadir}/apps/kio_desktop/directory.desktop
 %{_datadir}/apps/kio_desktop/directory.trash
-%dir %{_datadir}/kde4/services/kded
 %{_datadir}/kde4/services/kded/phononserver.desktop
 
 %files -n kde4-icons-oxygen
