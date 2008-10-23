@@ -9,12 +9,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.1.70
-Release:	3
+Version:	4.1.71
+Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	66714fce190f899152959f081e76100a
+# Source0-md5:	173a7d6ae7531aa9422fdd53cbe99fed
 URL:		http://www.kde.org/
 BuildRequires:	automoc4
 BuildRequires:	clucene-core-devel
@@ -186,6 +186,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kded_remotedirnotify.so
 %attr(755,root,root) %{_libdir}/kde4/kded_soliduiserver.so
 %attr(755,root,root) %{_libdir}/kde4/kded_desktopnotifier.so
+%attr(755,root,root) %{_libdir}/kde4/kded_globalaccel.so
 %attr(755,root,root) %{_libdir}/kde4/kio_bookmarks.so
 %attr(755,root,root) %{_libdir}/kde4/kio_desktop.so
 %attr(755,root,root) %{_libdir}/kde4/kio_about.so
@@ -315,6 +316,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kded/ktimezoned.desktop
 %{_datadir}/kde4/services/kded/remotedirnotify.desktop
 %{_datadir}/kde4/services/kded/soliduiserver.desktop
+%{_datadir}/kde4/services/kded/kdedglobalaccel.desktop
 %{_datadir}/kde4/services/khelpcenter.desktop
 %{_datadir}/kde4/services/kmanpart.desktop
 %{_datadir}/kde4/services/knotify4.desktop
