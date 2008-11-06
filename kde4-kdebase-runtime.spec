@@ -4,17 +4,17 @@
 #
 %define		_state		unstable
 %define		orgname		kdebase-runtime
-%define		qtver		4.4.1
+%define		qtver		4.4.3
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.1.71
+Version:	4.1.72
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	173a7d6ae7531aa9422fdd53cbe99fed
+# Source0-md5:	e6c323355235c0bb072d6ec96f5b0c2a
 URL:		http://www.kde.org/
 BuildRequires:	automoc4
 BuildRequires:	clucene-core-devel
@@ -172,6 +172,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/exrthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/htmlthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/imagethumbnail.so
+%attr(755,root,root) %{_libdir}/kde4/jpegthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_cgi.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_componentchooser.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_emoticons.so
@@ -187,6 +188,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kded_soliduiserver.so
 %attr(755,root,root) %{_libdir}/kde4/kded_desktopnotifier.so
 %attr(755,root,root) %{_libdir}/kde4/kded_globalaccel.so
+%attr(755,root,root) %{_libdir}/kde4/kio_applications.so
 %attr(755,root,root) %{_libdir}/kde4/kio_bookmarks.so
 %attr(755,root,root) %{_libdir}/kde4/kio_desktop.so
 %attr(755,root,root) %{_libdir}/kde4/kio_about.so
@@ -262,6 +264,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/remoteview/smb-network.desktop
 %dir %{_datadir}/apps/nepomukstrigiservice
 %{_datadir}/apps/nepomukstrigiservice/nepomukstrigiservice.notifyrc
+%dir %{_datadir}/apps/nepomukstorage
+%{_datadir}/apps/nepomukstorage/nepomukstorage.notifyrc
 %dir %{_datadir}/apps/nepomuk
 %dir %{_datadir}/apps/nepomuk/ontologies
 %{_datadir}/apps/nepomuk/ontologies/*.desktop
@@ -306,6 +310,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/icons.desktop
 %{_datadir}/kde4/services/imagethumbnail.desktop
 %{_datadir}/kde4/services/info.protocol
+%{_datadir}/kde4/services/jpegthumbnail.desktop
 %{_datadir}/kde4/services/kcm_kdnssd.desktop
 %{_datadir}/kde4/services/kcmcgi.desktop
 %{_datadir}/kde4/services/kcmkded.desktop
