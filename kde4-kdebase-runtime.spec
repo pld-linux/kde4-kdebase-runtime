@@ -384,7 +384,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/locale/l10n/westeurope.desktop
 %{_desktopdir}/kde4/Help.desktop
 %{_desktopdir}/kde4/knetattach.desktop
-%{_kdedocdir}/en/kcontrol
+%{_kdedocdir}/en/kcontrol/*
 %{_kdedocdir}/en/kdebugdialog
 %{_kdedocdir}/en/kdesu
 %{_kdedocdir}/en/khelpcenter
