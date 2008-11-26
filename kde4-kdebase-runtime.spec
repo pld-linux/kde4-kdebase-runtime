@@ -9,12 +9,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.1.73
+Version:	4.1.80
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	b200b99083cd33f08b2855af1c57e683
+# Source0-md5:	f32b010ddd2840c192413a170927d1d3
 URL:		http://www.kde.org/
 BuildRequires:	automoc4
 BuildRequires:	clucene-core-devel
@@ -24,7 +24,7 @@ BuildRequires:	cmake >= 2.6.2
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
 BuildRequires:	libsmbclient-devel
-BuildRequires:	phonon-devel >= 4.2.1
+BuildRequires:	phonon-devel >= 4.2.80
 %{?with_apidocs:BuildRequires:	qt4-doc >= %{qtver}}
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	soprano-devel >= 2.1
@@ -384,12 +384,25 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/locale/l10n/westeurope.desktop
 %{_desktopdir}/kde4/Help.desktop
 %{_desktopdir}/kde4/knetattach.desktop
-%{_kdedocdir}/en/kcontrol/*
-%{_kdedocdir}/en/kdebugdialog
-%{_kdedocdir}/en/kdesu
-%{_kdedocdir}/en/khelpcenter
-%{_kdedocdir}/en/kioslave
-%{_kdedocdir}/en/knetattach
+%lang(en) %{_kdedocdir}/en/kcontrol/*
+%lang(en) %{_kdedocdir}/en/kdebugdialog
+%lang(en) %{_kdedocdir}/en/kdesu
+%lang(en) %{_kdedocdir}/en/khelpcenter
+%lang(en) %{_kdedocdir}/en/kioslave/bzip2
+%lang(en) %{_kdedocdir}/en/kioslave/bookmarks
+%lang(en) %{_kdedocdir}/en/kioslave/cgi
+%lang(en) %{_kdedocdir}/en/kioslave/finger
+%lang(en) %{_kdedocdir}/en/kioslave/fish
+%lang(en) %{_kdedocdir}/en/kioslave/floppy
+%lang(en) %{_kdedocdir}/en/kioslave/gzip
+%lang(en) %{_kdedocdir}/en/kioslave/info
+%lang(en) %{_kdedocdir}/en/kioslave/man
+%lang(en) %{_kdedocdir}/en/kioslave/nfs
+%lang(en) %{_kdedocdir}/en/kioslave/sftp
+%lang(en) %{_kdedocdir}/en/kioslave/smb
+%lang(en) %{_kdedocdir}/en/kioslave/tar
+%lang(en) %{_kdedocdir}/en/kioslave/thumbnail
+%lang(en) %{_kdedocdir}/en/knetattach
 %lang(en) %{_mandir}/man1/kdesu.1*
 %{_datadir}/sounds/*
 %{_iconsdir}/hicolor/*/*/*.png
