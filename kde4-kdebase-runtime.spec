@@ -474,6 +474,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/oxygen/*x*/emotes
 %{_iconsdir}/oxygen/index.theme
 %dir %{_iconsdir}/oxygen/scalable
+%{_iconsdir}/oxygen/scalable/text-formatting.svg
 %{_iconsdir}/oxygen/scalable/actions
 %{_iconsdir}/oxygen/scalable/apps
 %{_iconsdir}/oxygen/scalable/categories
