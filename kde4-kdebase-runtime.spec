@@ -9,12 +9,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.1.80
+Version:	4.1.81
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	f32b010ddd2840c192413a170927d1d3
+# Source0-md5:	4e1bd6b7526ae273d1702dca266acdc2
 URL:		http://www.kde.org/
 BuildRequires:	automoc4
 BuildRequires:	clucene-core-devel
@@ -25,9 +25,10 @@ BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
 BuildRequires:	libsmbclient-devel
 BuildRequires:	phonon-devel >= 4.2.80
+BuildRequires:	pulseaudio-devel
 %{?with_apidocs:BuildRequires:	qt4-doc >= %{qtver}}
 BuildRequires:	rpmbuild(macros) >= 1.129
-BuildRequires:	soprano-devel >= 2.1
+BuildRequires:	soprano-devel >= 2.1.64
 BuildRequires:	strigi-devel >= 0.5.12
 BuildRequires:	xine-lib-devel
 Obsoletes:	kdebase4-runtime
@@ -249,6 +250,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kcm_componentchooser/kcm_terminal.desktop
 %{_datadir}/apps/kcm_componentchooser/kcm_wm.desktop
 %{_datadir}/apps/kcmlocale
+%{_datadir}/apps/kconf_update/kdedglobalaccel_kde42.upd
 %{_datadir}/apps/kconf_update/kuriikwsfilter.upd
 %{_datadir}/apps/kde/kde.notifyrc
 %{_datadir}/apps/khelpcenter
