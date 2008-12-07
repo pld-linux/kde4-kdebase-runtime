@@ -10,11 +10,13 @@ Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.1.81
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
 # Source0-md5:	4e1bd6b7526ae273d1702dca266acdc2
+Source1:	kdebase-searchproviders.tar.bz2
+# Source1-md5:  126c3524b5367f5096a628acbf9dc86f
 URL:		http://www.kde.org/
 BuildRequires:	automoc4
 BuildRequires:	clucene-core-devel
@@ -90,7 +92,7 @@ KDE Oxygen Style.
 Styl Oxygen dla KDE.
 
 %prep
-%setup -q -n %{orgname}-%{version}
+%setup -q -n %{orgname}-%{version} -a1
 
 %build
 install -d build
@@ -110,6 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	kde_htmldir=%{_kdedocdir}
+
+install -d $RPM_BUILD_ROOT%{_datadir}/kde4/services/searchproviders/pld
+cp -a kdebase-searchproviders/*.desktop $RPM_BUILD_ROOT%{_datadir}/kde4/services/searchproviders/pld
 
 rm -f %{name}-files
 WORKDIR=`pwd`
