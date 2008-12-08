@@ -11,15 +11,15 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.1.81
-Release:	3
+Version:	4.1.82
+Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	4e1bd6b7526ae273d1702dca266acdc2
+# Source0-md5:	d96376d3be5b5a6b6ea52df1af6e36bb
 Source1:	kdebase-searchproviders.tar.bz2
+# Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
-# Source1-md5:  126c3524b5367f5096a628acbf9dc86f
 URL:		http://www.kde.org/
 BuildRequires:	automoc4
 BuildRequires:	clucene-core-devel
@@ -473,7 +473,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n kde4-icons-oxygen
 %defattr(644,root,root,755)
 %dir %{_iconsdir}/oxygen
-%{_iconsdir}/oxygen/*x*/*.png
+#%{_iconsdir}/oxygen/*x*/*.png
 %dir %{_iconsdir}/oxygen/8x8
 %dir %{_iconsdir}/oxygen/16x16
 %dir %{_iconsdir}/oxygen/22x22
