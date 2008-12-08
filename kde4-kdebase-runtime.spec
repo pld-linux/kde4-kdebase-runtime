@@ -1,3 +1,5 @@
+# TODO
+# - l10n != %lang glibc locales (et = etiopia not estonia!)
 #
 # Conditional build:
 %bcond_without	apidocs		# do not prepare API documentation
@@ -10,7 +12,7 @@ Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.1.81
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
@@ -119,10 +121,12 @@ cp -a kdebase-searchproviders/*.desktop $RPM_BUILD_ROOT%{_datadir}/kde4/services
 rm -f %{name}-files
 WORKDIR=`pwd`
 cd $RPM_BUILD_ROOT%{_datadir}/locale/l10n
-for DIR in *
-do
+# ARGH, l10n != %lang glibc locales (et = etiopia not estonia!)
+for DIR in *; do
 	if [ -d $DIR ] ; then
-		echo "%lang($DIR) %{_datadir}/locale/l10n/$DIR" >> $WORKDIR/%{name}-files
+	# ARGH, these l10n != %lang glibc locales (et = Etiopia not Estonia!)
+#		echo "%lang($DIR) "
+		echo "%{_datadir}/locale/l10n/$DIR" >> $WORKDIR/%{name}-files
 	fi
 done
 cd -
