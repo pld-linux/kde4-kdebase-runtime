@@ -18,6 +18,7 @@ Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
 # Source0-md5:	4e1bd6b7526ae273d1702dca266acdc2
 Source1:	kdebase-searchproviders.tar.bz2
+Source2:	l10n-iso639-1
 # Source1-md5:  126c3524b5367f5096a628acbf9dc86f
 URL:		http://www.kde.org/
 BuildRequires:	automoc4
@@ -118,18 +119,23 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_datadir}/kde4/services/searchproviders/pld
 cp -a kdebase-searchproviders/*.desktop $RPM_BUILD_ROOT%{_datadir}/kde4/services/searchproviders/pld
 
-rm -f %{name}-files
-WORKDIR=`pwd`
-cd $RPM_BUILD_ROOT%{_datadir}/locale/l10n
-# ARGH, l10n != %lang glibc locales (et = etiopia not estonia!)
-for DIR in *; do
-	if [ -d $DIR ] ; then
-	# ARGH, these l10n != %lang glibc locales (et = Etiopia not Estonia!)
-#		echo "%lang($DIR) "
-		echo "%{_datadir}/locale/l10n/$DIR" >> $WORKDIR/%{name}-files
-	fi
-done
-cd -
+collect_l10n_files() {
+	while read country language comment; do
+		[ "$country" != "#" ] || continue
+		if [ "$language" = "-" ]; then
+			# no mapping. just add for now
+			echo >&2 "No mapping for $country $comment, adding without %%lang tag"
+			echo "%{_datadir}/locale/l10n/$country"
+		else
+			echo "%lang($language) %{_datadir}/locale/l10n/$country"
+		fi
+	done
+} < %{SOURCE2}
+collect_l10n_files > %{name}.files
+
+rm -f $RPM_BUILD_ROOT%{_datadir}/icons/default.kde4
+# provided (conflicts) by hicolor-icon-theme
+rm -f $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/index.theme
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -137,7 +143,7 @@ rm -rf $RPM_BUILD_ROOT
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
 
-%files -f %{name}-files
+%files -f %{name}.files
 %defattr(644,root,root,755)
 %{_sysconfdir}/xdg/menus/kde-information.menu
 %attr(755,root,root) %{_bindir}/kcmshell4
@@ -372,13 +378,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/servicetypes/searchprovider.desktop
 %{_datadir}/kde4/servicetypes/thumbcreator.desktop
 %{_datadir}/desktop-directories
+
 %{_datadir}/locale/en_US/*
 %dir %{_datadir}/locale/l10n
+%{_datadir}/locale/l10n/C
 %{_datadir}/locale/l10n/caribbean.desktop
 %{_datadir}/locale/l10n/centralafrica.desktop
 %{_datadir}/locale/l10n/centralamerica.desktop
 %{_datadir}/locale/l10n/centralasia.desktop
 %{_datadir}/locale/l10n/centraleurope.desktop
+%{_datadir}/locale/l10n/eastafrica.desktop
 %{_datadir}/locale/l10n/eastasia.desktop
 %{_datadir}/locale/l10n/easteurope.desktop
 %{_datadir}/locale/l10n/middleeast.desktop
@@ -393,6 +402,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/locale/l10n/southeurope.desktop
 %{_datadir}/locale/l10n/westafrica.desktop
 %{_datadir}/locale/l10n/westeurope.desktop
+
 %{_desktopdir}/kde4/Help.desktop
 %{_desktopdir}/kde4/knetattach.desktop
 %lang(en) %{_kdedocdir}/en/kcontrol/*
@@ -415,18 +425,16 @@ rm -rf $RPM_BUILD_ROOT
 %lang(en) %{_kdedocdir}/en/kioslave/thumbnail
 %lang(en) %{_kdedocdir}/en/knetattach
 %lang(en) %{_mandir}/man1/kdesu.1*
+
 %{_datadir}/sounds/*
 %{_iconsdir}/hicolor/*/*/*.png
 %{_iconsdir}/hicolor/scalable/apps/*.svgz
-# conflicts with hicolor-icon-theme
-#%{_iconsdir}/hicolor/index.theme
 %dir %{_datadir}/apps/ksmserver
 %dir %{_datadir}/apps/ksmserver/windowmanagers
 %{_datadir}/apps/ksmserver/windowmanagers/compiz-custom.desktop
 %{_datadir}/apps/ksmserver/windowmanagers/compiz.desktop
 %{_datadir}/apps/ksmserver/windowmanagers/metacity.desktop
 %{_datadir}/apps/ksmserver/windowmanagers/openbox.desktop
-
 
 %files devel
 %defattr(644,root,root,755)
