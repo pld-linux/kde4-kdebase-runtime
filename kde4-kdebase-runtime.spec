@@ -1,5 +1,6 @@
 # TODO
 # - l10n != %lang glibc locales (et = etiopia not estonia!)
+# - separate pkg for scalable: th-test::kde4-icons-oxygen-4.1.85-1.x86_64.rpm... 49.8M
 #
 # Conditional build:
 %bcond_without	apidocs		# do not prepare API documentation
