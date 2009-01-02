@@ -12,12 +12,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.1.85
+Version:	4.1.87
 Release:	1
 License:	GPL
 Group:		X11/Applications
-Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	100cdcc07031bf04d12f7e23f9bc5945
+Source0:	ftp://ftp.pbone.net/mirror/ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
+# Source0-md5:	fb24edc78845ca7701292ca97eddc5e2
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
@@ -437,6 +437,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/ksmserver/windowmanagers/metacity.desktop
 %{_datadir}/apps/ksmserver/windowmanagers/openbox.desktop
 
+%dir %{_datadir}/apps/desktoptheme
+%{_datadir}/apps/desktoptheme/default
+
 %files devel
 %defattr(644,root,root,755)
 %{_libdir}/libkwalletbackend.so
@@ -449,14 +452,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kconf_update_bin/phonon_devicepreference_update
 %attr(755,root,root) %{_libdir}/kconf_update_bin/phonon_deviceuids_update
 %attr(755,root,root) %{_libdir}/kde4/kded_phononserver.so
+%attr(755,root,root) %{_libdir}/kde4/kcm_phononxine.so
 %{_datadir}/kde4/services/kcm_phonon.desktop
 %{_datadir}/kde4/services/spellchecking.desktop
 %{_datadir}/kde4/servicetypes/phononbackend.desktop
+%{_datadir}/kde4/services/kcm_phononxine.desktop
 
 %dir %{_libdir}/kde4/plugins/phonon_platform
 %{_libdir}/kde4/plugins/phonon_platform/kde.so
-#%attr(755,root,root) %{_libdir}/libkaudiodevicelist.so.?
-#%attr(755,root,root) %{_libdir}/libkaudiodevicelist.so.*.*.*
 %dir %{_datadir}/apps/kcm_phonon
 %{_datadir}/apps/kcm_phonon/listview-background.png
 %{_datadir}/apps/kconf_update/devicepreference.upd
