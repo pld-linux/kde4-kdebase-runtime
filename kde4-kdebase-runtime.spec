@@ -507,6 +507,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/oxygen/index.theme
 
 %files -n kde4-icons-oxygen-svg
+%defattr(644,root,root,755)
 %dir %{_iconsdir}/oxygen/scalable
 %{_iconsdir}/oxygen/scalable/text-formatting.svg
 %{_iconsdir}/oxygen/scalable/actions
