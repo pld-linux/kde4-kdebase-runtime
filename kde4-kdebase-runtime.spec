@@ -13,7 +13,7 @@ Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.1.87
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
@@ -437,8 +437,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/ksmserver/windowmanagers/metacity.desktop
 %{_datadir}/apps/ksmserver/windowmanagers/openbox.desktop
 
-%dir %{_datadir}/apps/desktoptheme
-%{_datadir}/apps/desktoptheme/default
+# dir owned by kdelibs
+%{_datadir}/apps/desktoptheme/default/*
 
 %files devel
 %defattr(644,root,root,755)
