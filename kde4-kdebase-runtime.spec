@@ -1,6 +1,5 @@
 # TODO
 # - l10n != %lang glibc locales (et = etiopia not estonia!)
-# - separate pkg for scalable: th-test::kde4-icons-oxygen-4.1.85-1.x86_64.rpm... 49.8M
 #
 # Conditional build:
 %bcond_without	apidocs		# do not prepare API documentation
@@ -13,7 +12,7 @@ Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.1.87
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
@@ -82,6 +81,17 @@ KDE icons - oxygen.
 
 %description -n kde4-icons-oxygen -l pl.UTF-8
 Motyw ikon do KDE - oxygen.
+
+%package -n kde4-icons-oxygen-svg
+Summary:	KDE SVG icons - oxygen
+Summary(pl.UTF-8):	Motyw ikon SVG do KDE - oxygen
+Group:		Themes
+
+%description -n kde4-icons-oxygen-svg
+KDE icons - oxygen. This package contains SVG icons.
+
+%description -n kde4-icons-oxygen-svg -l pl.UTF-8
+Motyw ikon do KDE - oxygen. Ten pakiet zawiera ikony SVG.
 
 %package -n kde4-style-oxygen
 Summary:	KDE Oxygen Style
@@ -429,7 +439,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_datadir}/sounds/*
 %{_iconsdir}/hicolor/*/*/*.png
-%{_iconsdir}/hicolor/scalable/apps/*.svgz
 %dir %{_datadir}/apps/ksmserver
 %dir %{_datadir}/apps/ksmserver/windowmanagers
 %{_datadir}/apps/ksmserver/windowmanagers/compiz-custom.desktop
@@ -496,6 +505,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/oxygen/*x*/emblems
 %{_iconsdir}/oxygen/*x*/emotes
 %{_iconsdir}/oxygen/index.theme
+
+%files -n kde4-icons-oxygen-svg
 %dir %{_iconsdir}/oxygen/scalable
 %{_iconsdir}/oxygen/scalable/text-formatting.svg
 %{_iconsdir}/oxygen/scalable/actions
@@ -507,6 +518,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/oxygen/scalable/mimetypes
 %{_iconsdir}/oxygen/scalable/places
 %{_iconsdir}/oxygen/scalable/status
+%{_iconsdir}/hicolor/scalable/apps/*.svgz
 
 %files -n kde4-style-oxygen
 %defattr(644,root,root,755)
