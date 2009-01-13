@@ -34,7 +34,7 @@ BuildRequires:	pulseaudio-devel
 %{?with_apidocs:BuildRequires:	qt4-doc >= %{qtver}}
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	soprano-devel >= 2.1.64
-BuildRequires:	strigi-devel >= 0.5.12
+BuildRequires:	strigi-devel >= 0.6.3
 BuildRequires:	xine-lib-devel
 Obsoletes:	kdebase4-runtime
 Conflicts:	kdebase4-runtime
