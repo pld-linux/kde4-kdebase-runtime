@@ -12,11 +12,11 @@ Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.1.96
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	a3fbdae9774545991aac839d9971f62c
+# Source0-md5:	2c34b66f9d1e7dfc1e0fa78087ddd773
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
@@ -29,7 +29,7 @@ BuildRequires:	cmake >= 2.6.2
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
 BuildRequires:	libsmbclient-devel
-BuildRequires:	phonon-devel >= 4.2.80
+BuildRequires:	phonon-devel >= 4.2.96
 BuildRequires:	pulseaudio-devel
 %{?with_apidocs:BuildRequires:	qt4-doc >= %{qtver}}
 BuildRequires:	rpmbuild(macros) >= 1.129
