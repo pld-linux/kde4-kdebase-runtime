@@ -12,7 +12,7 @@ Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.2.0
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
@@ -485,27 +485,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n kde4-icons-oxygen
 %defattr(644,root,root,755)
-%dir %{_iconsdir}/oxygen
-#%{_iconsdir}/oxygen/*x*/*.png
-%dir %{_iconsdir}/oxygen/8x8
-%dir %{_iconsdir}/oxygen/16x16
-%dir %{_iconsdir}/oxygen/22x22
-%dir %{_iconsdir}/oxygen/32x32
-%dir %{_iconsdir}/oxygen/48x48
-%dir %{_iconsdir}/oxygen/64x64
-%dir %{_iconsdir}/oxygen/128x128
 # digikam has it's own icon in digikam.spec
 %exclude %{_iconsdir}/oxygen/*x*/apps/digikam.*
-%{_iconsdir}/oxygen/*x*/actions
-%{_iconsdir}/oxygen/*x*/apps
-%{_iconsdir}/oxygen/*x*/categories
-%{_iconsdir}/oxygen/*x*/devices
-%{_iconsdir}/oxygen/*x*/mimetypes
-%{_iconsdir}/oxygen/*x*/places
-%{_iconsdir}/oxygen/*x*/status
-%{_iconsdir}/oxygen/*x*/animations
-%{_iconsdir}/oxygen/*x*/emblems
-%{_iconsdir}/oxygen/*x*/emotes
+%{_iconsdir}/oxygen/*x*/actions/*
+%{_iconsdir}/oxygen/*x*/apps/*
+%{_iconsdir}/oxygen/*x*/categories/*
+%{_iconsdir}/oxygen/*x*/devices/*
+%{_iconsdir}/oxygen/*x*/mimetypes/*
+%{_iconsdir}/oxygen/*x*/places/*
+%{_iconsdir}/oxygen/*x*/status/*
+%{_iconsdir}/oxygen/*x*/animations/*
+%{_iconsdir}/oxygen/*x*/emblems/*
+%{_iconsdir}/oxygen/*x*/emotes/*
 %{_iconsdir}/oxygen/index.theme
 
 %files -n kde4-icons-oxygen-svg
