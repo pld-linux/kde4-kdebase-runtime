@@ -60,15 +60,15 @@ Development files for KDE 4 runtime components.
 Pliki programistyczne komponentów uruchomieniowych KDE 4.
 
 %package -n kde4-phonon
-Summary:	Kde4 Phonon plugins
-Summary(pl.UTF-8):	Wtyczki Kde4 dla Phonona
+Summary:	KDE 4 Phonon plugins
+Summary(pl.UTF-8):	Wtyczki KDE 4 dla Phonona
 Group:		X11/Applications
 
 %description -n kde4-phonon
-Kde4 Phonon plugins.
+KDE 4 Phonon plugins.
 
 %description -n kde4-phonon -l pl.UTF-8
-Wtyczki Kde4 dla Phonona.
+Wtyczki KDE 4 dla Phonona.
 
 %package -n kde4-icons-oxygen
 Summary:	KDE icons - oxygen
