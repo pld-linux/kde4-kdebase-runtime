@@ -4,7 +4,7 @@
 # Conditional build:
 %bcond_without	apidocs		# do not prepare API documentation
 #
-%define		_state		unstable
+%define		_state		stable
 %define		orgname		kdebase-runtime
 %define		qtver		4.4.3
 
@@ -12,7 +12,7 @@ Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.2.0
-Release:	4
+Release:	5
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
@@ -20,6 +20,7 @@ Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
+Patch100:	%{name}-branch.diff
 URL:		http://www.kde.org/
 BuildRequires:	automoc4 >= 0.9.88
 BuildRequires:	clucene-core-devel
@@ -107,6 +108,7 @@ Styl Oxygen dla KDE.
 
 %prep
 %setup -q -n %{orgname}-%{version} -a1
+%patch100 -p1
 
 %build
 install -d build
