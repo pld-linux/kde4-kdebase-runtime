@@ -1,0 +1,855 @@
+--- runtime/cmake/modules/FindPulseAudio.cmake	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/cmake/modules/FindPulseAudio.cmake	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -5,36 +5,47 @@
+ #  PULSEAUDIO_FOUND - system has the PulseAudio library
+ #  PULSEAUDIO_INCLUDE_DIR - the PulseAudio include directory
+ #  PULSEAUDIO_LIBRARY - the libraries needed to use PulseAudio
++#  PULSEAUDIO_MAINLOOP_LIBRARY - the libraries needed to use PulsAudio Mailoop
+ #
+ # Copyright (c) 2008, Matthias Kretz, <kretz@kde.org>
++# Copyright (c) 2009, Marcus Hufgard, <Marcus.Hufgard@hufgard.de>
+ #
+ # Redistribution and use is allowed according to the terms of the BSD license.
+ # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
+ 
+-if (PULSEAUDIO_INCLUDE_DIR AND PULSEAUDIO_LIBRARY)
++if (NOT PULSEAUDIO_MINIMUM_VERSION)
++  set(PULSEAUDIO_MINIMUM_VERSION "0.9.9")
++endif (NOT PULSEAUDIO_MINIMUM_VERSION)
++
++if (PULSEAUDIO_INCLUDE_DIR AND PULSEAUDIO_LIBRARY AND PULSEAUDIO_MAINLOOP_LIBRARY)
+    # Already in cache, be silent
+    set(PULSEAUDIO_FIND_QUIETLY TRUE)
+-endif (PULSEAUDIO_INCLUDE_DIR AND PULSEAUDIO_LIBRARY)
++endif (PULSEAUDIO_INCLUDE_DIR AND PULSEAUDIO_LIBRARY AND PULSEAUDIO_MAINLOOP_LIBRARY)
+ 
+ if (NOT WIN32)
+    include(FindPkgConfig)
+-   pkg_check_modules(PULSEAUDIO libpulse)
+-   if(PULSEAUDIO_FOUND)
+-      set(PULSEAUDIO_LIBRARY ${PULSEAUDIO_LIBRARIES} CACHE FILEPATH "Path to the PulseAudio library")
+-      set(PULSEAUDIO_INCLUDE_DIR ${PULSEAUDIO_INCLUDEDIR} CACHE PATH "Path to the PulseAudio includes")
+-      #  PULSEAUDIO_DEFINITIONS - Compiler switches required for using PulseAudio
+-      #  set(PULSEAUDIO_DEFINITIONS ${PULSEAUDIO_CFLAGS})
+-   endif(PULSEAUDIO_FOUND)
++   pkg_check_modules(PC_PULSEAUDIO libpulse>=${PULSEAUDIO_MINIMUM_VERSION})
++   pkg_check_modules(PC_PULSEAUDIO_MAINLOOP libpulse-mainloop-glib)
+ endif (NOT WIN32)
+ 
+-if (NOT PULSEAUDIO_INCLUDE_DIR)
+-   FIND_PATH(PULSEAUDIO_INCLUDE_DIR pulse/pulseaudio.h)
+-endif (NOT PULSEAUDIO_INCLUDE_DIR)
++FIND_PATH(PULSEAUDIO_INCLUDE_DIR pulse/pulseaudio.h
++   HINTS
++   ${PC_PULSEADUIO_INCLUDEDIR}
++   ${PC_PULSEADUIO_INCLUDE_DIRS}
++   )
+ 
+-if (NOT PULSEAUDIO_LIBRARY)
+-   FIND_LIBRARY(PULSEAUDIO_LIBRARY NAMES pulse)
+-endif (NOT PULSEAUDIO_LIBRARY)
++FIND_LIBRARY(PULSEAUDIO_LIBRARY NAMES pulse libpulse 
++   HINTS
++   ${PC_PULSEAUDIO_LIBDIR}
++   ${PC_PULSEAUDIO_LIBRARY_DIRS}
++   )
+ 
++FIND_LIBRARY(PULSEAUDIO_MAINLOOP_LIBRARY NAMES pulse-mainloop pulse-mainloop-glib libpulse-mainloop-glib
++   HINTS
++   ${PC_PULSEAUDIO_LIBDIR}
++   ${PC_PULSEAUDIO_LIBRARY_DIRS}
++   )
++
+ if (PULSEAUDIO_INCLUDE_DIR AND PULSEAUDIO_LIBRARY)
+    set(PULSEAUDIO_FOUND TRUE)
+ else (PULSEAUDIO_INCLUDE_DIR AND PULSEAUDIO_LIBRARY)
+@@ -44,9 +55,14 @@
+ if (PULSEAUDIO_FOUND)
+    if (NOT PULSEAUDIO_FIND_QUIETLY)
+       message(STATUS "Found PulseAudio: ${PULSEAUDIO_LIBRARY}")
++      if (PULSEAUDIO_MAINLOOP_LIBRARY)
++          message(STATUS "Found PulseAudio Mainloop: ${PULSEAUDIO_MAINLOOP_LIBRARY}")
++      else (PULSAUDIO_MAINLOOP_LIBRARY)
++          message(STATUS "Could NOT find PulseAudio Mainloop Library")
++      endif (PULSEAUDIO_MAINLOOP_LIBRARY)
+    endif (NOT PULSEAUDIO_FIND_QUIETLY)
+ else (PULSEAUDIO_FOUND)
+    message(STATUS "Could NOT find PulseAudio")
+ endif (PULSEAUDIO_FOUND)
+ 
+-#mark_as_advanced(PULSEAUDIO_INCLUDE_DIR PULSEAUDIO_LIBRARY)
++mark_as_advanced(PULSEAUDIO_INCLUDE_DIR PULSEAUDIO_LIBRARY PULSEAUDIO_MAINLOOP_LIBRARY)
+--- runtime/kdedglobalaccel/kdedglobalaccel.desktop	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/kdedglobalaccel/kdedglobalaccel.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -21,6 +21,7 @@
+ Name[eu]=KDED laster-tekla globalen zerbitzaria
+ Name[fr]=Serveur général de raccourcis KDED
+ Name[fy]=KDED globale fluchtoets tsjinnner
++Name[ga]=Freastalaí KDED d'Aicearraí Comhchoiteanna
+ Name[gl]=Servidor de atallos de teclado globais de KDED
+ Name[gu]=KDED વૈશ્વીક ટૂંકાણો સર્વર
+ Name[he]=שרת הקיצורי מקשים גלובליים KDED
+--- runtime/knotify/kde.notifyrc	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/knotify/kde.notifyrc	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -694,7 +694,7 @@
+ Comment[be@latin]=Surjoznaja pamyłka prymusiła prahramu vyjści.
+ Comment[bg]=Възникна сериозна грешка и програмата беше спряна
+ Comment[bn_IN]=একটি মারাত্মক ত্রুটির ফলে প্রোগ্রামটি বন্ধ করতে বাধ্য হয়েছে
+-Comment[ca]=Ha hagut un error seriós que ha provocat la finalització del programa
++Comment[ca]=Ha hagut un error seriós que ha provocat la sortida del programa
+ Comment[cs]=Nastala závažná chyba, v důsledku které byl program ukončen
+ Comment[csb]=Pòkôza sã cãżkô fela, przez jaką programa òsta zakùńczonô.
+ Comment[da]=Der var en alvorlig fejl som forårsagede at programmet afsluttede
+@@ -1117,7 +1117,7 @@
+ Comment[ar]=خطأ كبير أدى إلى خروج البرنامج
+ Comment[be@latin]=Uźnikła vielmi važnaja pamyłka, jakaja prynamsi vymusiła prahramu vyjści.
+ Comment[bg]=Възникна много сериозна грешка и програмата беше спряна
+-Comment[ca]=Ha hagut un error molt seriós, com a mínim ha provocat la finalització del programa
++Comment[ca]=Ha hagut un error molt seriós, com a mínim ha provocat la sortida del programa
+ Comment[cs]=Nastala velmi závažná chyba, která má za následek minimálně ukončení programu
+ Comment[csb]=Pòkôza sã cãżkô fela, jakô przënômni nã programã zakùńcza
+ Comment[da]=En meget alvorlig fejl opstod, som mindst forårsagede at programmet afsluttede
+--- runtime/phonon/platform_kde/phonon.notifyrc	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/phonon/platform_kde/phonon.notifyrc	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -14,6 +14,7 @@
+ Comment[el]=Phonon: Η βιβλιοθήκη πολυμέσων του KDE
+ Comment[es]=Phonon: La biblioteca multimedia de KDE
+ Comment[et]=Phonon: KDE multimeediateek
++Comment[eu]=Phonon: KDEren multimedia liburutegia
+ Comment[fr]=Phonon : le sous-système multimédia de KDE
+ Comment[fy]=Phonon: KDE's multymediabiblioteek
+ Comment[ga]=Phonon: Leabharlann Ilmheán KDE
+--- runtime/phonon/kcm/backendselection.cpp	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/phonon/kcm/backendselection.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -28,6 +28,7 @@
+ #include <QtGui/QListWidget>
+ #include <kapplication.h>
+ #include <kicon.h>
++#include <kiconloader.h>
+ #include <QtCore/QList>
+ #include <QtDBus/QtDBus>
+ #include <kcmoduleproxy.h>
+@@ -172,7 +173,15 @@
+         m_down->setEnabled(m_select->row(item) < m_select->count() - 1);
+         service = m_services[item->text()];
+         Q_ASSERT(service);
+-        m_icon->setPixmap(KIcon(service->icon()).pixmap(128));
++
++        // Have some icon other than "unknown" for backends which don't install an icon.
++        QPixmap iconPixmap = KIconLoader::global()->loadIcon(service->icon(), KIconLoader::NoGroup, 128,
++                                                             KIconLoader::DefaultState, QStringList(), 0L,
++                                                             true /* return null */);
++        if(iconPixmap.isNull())
++            iconPixmap = KIconLoader::global()->loadIcon("preferences-desktop-sound", KIconLoader::NoGroup, 128);
++
++        m_icon->setPixmap(iconPixmap);
+         m_name->setText(QString());//service->name());
+         m_comment->setText(service->comment());
+         const QString website = service->property("X-KDE-PhononBackendInfo-Website").toString();
+--- runtime/menu/desktop/kde-games-logic.directory	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/menu/desktop/kde-games-logic.directory	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -20,6 +20,7 @@
+ Name[fi]=Logiikkapelit
+ Name[fr]=Jeux de logique
+ Name[fy]=Logyske spultsjes
++Name[ga]=Cluichí Loighce
+ Name[gl]=Xogos de lóxica
+ Name[gu]=તાર્કિક રમતો
+ Name[he]=משחקי לוגיקה
+@@ -46,6 +47,7 @@
+ Name[pt]=Jogos de Lógica
+ Name[pt_BR]=Jogos de lógica
+ Name[ro]=Jocuri de logică
++Name[ru]=Логические игры
+ Name[sk]=Logické hry
+ Name[sl]=Logične igre
+ Name[sr]=Логичке игре
+--- runtime/doc/kcontrol/emoticons/index.docbook	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/doc/kcontrol/emoticons/index.docbook	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -4,7 +4,7 @@
+   <!ENTITY % addindex "IGNORE">
+   <!ENTITY % English "INCLUDE">
+ ]>
+-<article>
++<article lang="&language;">
+ <articleinfo>
+ <authorgroup>
+ <author>&Anne-Marie.Mahfouf;</author>
+@@ -164,4 +164,4 @@
+ 
+ vim:tabstop=2:shiftwidth=2:expandtab
+ kate: space-indent on; indent-width 2; tab-width 2; indent-mode none;
+--->
+\ No newline at end of file
++-->
+--- runtime/doc/kcontrol/kcmcss/index.docbook	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/doc/kcontrol/kcmcss/index.docbook	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -5,7 +5,7 @@
+ <!ENTITY % English "INCLUDE" > <!-- change language only here -->
+ ]>
+ 
+-<article>
++<article lang="&language;">
+ <articleinfo>
+ 
+ <authorgroup>
+--- runtime/kwalletd/kbetterthankdialog.cpp	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/kwalletd/kbetterthankdialog.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -26,10 +26,17 @@
+   connect(_allowAlways, SIGNAL(clicked()), this, SLOT(allowAlwaysClicked()));
+   connect(_deny, SIGNAL(clicked()), this, SLOT(denyClicked()));
+   connect(_denyForever, SIGNAL(clicked()), this, SLOT(denyForeverClicked()));
++
++  init();
+ }
+ 
+ void KBetterThanKDialog::init()
+ {
++    _allowOnce->setIcon(KIcon("dialog-ok"));
++    _allowAlways->setIcon(KIcon("dialog-ok"));
++    _deny->setIcon(KIcon("dialog-cancel"));
++    _denyForever->setIcon(KIcon("dialog-cancel"));
++
+     _allowOnce->setFocus();
+ }
+ 
+--- runtime/kwalletd/kwalletd.cpp	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/kwalletd/kwalletd.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -265,7 +265,7 @@
+ 		return -1;
+ 	}
+ 	
+-	if (!QRegExp("^[\\w\\^\\&\\'\\@\\{\\}\\[\\]\\,\\$\\=\\!\\-\\#\\(\\)\\%\\.\\+\\_]+$").exactMatch(wallet)) {
++	if (!QRegExp("^[\\w\\^\\&\\'\\@\\{\\}\\[\\]\\,\\$\\=\\!\\-\\#\\(\\)\\%\\.\\+\\_\\s]+$").exactMatch(wallet)) {
+ 		return -1;
+ 	}
+ 
+@@ -324,12 +324,10 @@
+ 		// with keeping the dialog on top or on all desktops
+ 		kapp->updateUserTimestamp();
+ 	}
+-#ifdef Q_WS_X11
+ 	if( modal )
+ 		KWindowSystem::setState( dialog->winId(), NET::Modal );
+ 	else
+ 		KWindowSystem::clearState( dialog->winId(), NET::Modal );
+-#endif
+ 	activeDialog = dialog;
+ }
+ 
+@@ -343,11 +341,9 @@
+ 	if( !activeDialog || activeDialog->isHidden())
+ 		return;
+ 	kapp->updateUserTimestamp();
+-#ifdef Q_WS_X11
+ 	KWindowSystem::setState( activeDialog->winId(), NET::KeepAbove );
+ 	KWindowSystem::setOnAllDesktops( activeDialog->winId(), true );
+ 	KWindowSystem::forceActiveWindow( activeDialog->winId());
+-#endif
+ }
+ 
+ 
+@@ -556,15 +552,16 @@
+ 	if (!implicitAllow(wallet, thisApp)) {
+ 		KConfigGroup cfg = KSharedConfig::openConfig("kwalletrc")->group("Auto Allow");
+ 		if (!cfg.isEntryImmutable(wallet)) {
+-		    KBetterThanKDialog *dialog = new KBetterThanKDialog;
+-		    if (appid.isEmpty()) {
+-			dialog->setLabel(i18n("<qt>KDE has requested access to the open wallet '<b>%1</b>'.</qt>", Qt::escape(wallet)));
+-		    } else {
+-			dialog->setLabel(i18n("<qt>The application '<b>%1</b>' has requested access to the open wallet '<b>%2</b>'.</qt>", Qt::escape(QString(appid)), Qt::escape(wallet)));
+-		    }
+-		    setupDialog( dialog, w, appid, false );
+-		    response = dialog->exec();
+-		    delete dialog;
++			KBetterThanKDialog *dialog = new KBetterThanKDialog;
++			dialog->setWindowTitle(i18n("KDE Wallet Service"));
++			if (appid.isEmpty()) {
++				dialog->setLabel(i18n("<qt>KDE has requested access to the open wallet '<b>%1</b>'.</qt>", Qt::escape(wallet)));
++			} else {
++				dialog->setLabel(i18n("<qt>The application '<b>%1</b>' has requested access to the open wallet '<b>%2</b>'.</qt>", Qt::escape(QString(appid)), Qt::escape(wallet)));
++			}
++			setupDialog( dialog, w, appid, false );
++			response = dialog->exec();
++			delete dialog;
+ 		}
+ 	}
+ 
+--- runtime/kwalletd/main.cpp	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/kwalletd/main.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -42,6 +42,8 @@
+     aboutdata.addAuthor(ki18n("George Staikos"),ki18n("Former maintainer"),"staikos@kde.org");
+     aboutdata.addAuthor(ki18n("Thiago Maceira"),ki18n("DBus Interface"),"thiago@kde.org");
+ 
++    aboutdata.setProgramIconName("kwalletmanager");
++
+     KCmdLineArgs::init( argc, argv, &aboutdata );
+     KUniqueApplication::addCmdLineOptions();
+     KUniqueApplication app;
+--- runtime/kwalletd/kbetterthankdialogbase.ui	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/kwalletd/kbetterthankdialogbase.ui	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -1,10 +1,8 @@
+-<ui version="4.0" >
+- <author></author>
+- <comment></comment>
+- <exportmacro></exportmacro>
++<?xml version="1.0" encoding="UTF-8"?>
++<ui version="4.0">
+  <class>KBetterThanKDialogBase</class>
+- <widget class="QDialog" name="KBetterThanKDialogBase" >
+-  <property name="geometry" >
++ <widget class="QDialog" name="KBetterThanKDialogBase">
++  <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+@@ -12,25 +10,25 @@
+     <height>109</height>
+    </rect>
+   </property>
+-  <layout class="QGridLayout" >
+-   <property name="margin" >
++  <layout class="QGridLayout">
++   <property name="margin">
+     <number>11</number>
+    </property>
+-   <property name="spacing" >
++   <property name="spacing">
+     <number>6</number>
+    </property>
+-   <item row="0" column="0" colspan="3" >
+-    <widget class="QLabel" name="_label" />
++   <item row="0" column="0" colspan="3">
++    <widget class="QLabel" name="_label"/>
+    </item>
+-   <item row="1" column="2" >
++   <item row="1" column="2">
+     <spacer>
+-     <property name="orientation" >
++     <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+-     <property name="sizeType" >
++     <property name="sizeType">
+       <enum>QSizePolicy::Expanding</enum>
+      </property>
+-     <property name="sizeHint" >
++     <property name="sizeHint" stdset="0">
+       <size>
+        <width>41</width>
+        <height>21</height>
+@@ -38,56 +36,56 @@
+      </property>
+     </spacer>
+    </item>
+-   <item row="1" column="1" >
+-    <layout class="QHBoxLayout" >
+-     <property name="margin" >
++   <item row="1" column="1">
++    <layout class="QHBoxLayout">
++     <property name="spacing">
++      <number>6</number>
++     </property>
++     <property name="margin">
+       <number>0</number>
+      </property>
+-     <property name="spacing" >
+-      <number>6</number>
+-     </property>
+      <item>
+-      <widget class="QPushButton" name="_allowOnce" >
+-       <property name="text" >
++      <widget class="KPushButton" name="_allowOnce">
++       <property name="text">
+         <string>Allow &amp;Once</string>
+        </property>
+-       <property name="default" >
++       <property name="default">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+-      <widget class="QPushButton" name="_allowAlways" >
+-       <property name="text" >
++      <widget class="KPushButton" name="_allowAlways">
++       <property name="text">
+         <string>Allow &amp;Always</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+-      <widget class="QPushButton" name="_deny" >
+-       <property name="text" >
++      <widget class="KPushButton" name="_deny">
++       <property name="text">
+         <string>&amp;Deny</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+-      <widget class="QPushButton" name="_denyForever" >
+-       <property name="text" >
++      <widget class="KPushButton" name="_denyForever">
++       <property name="text">
+         <string>Deny &amp;Forever</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+-   <item row="1" column="0" >
++   <item row="1" column="0">
+     <spacer>
+-     <property name="orientation" >
++     <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+-     <property name="sizeType" >
++     <property name="sizeType">
+       <enum>QSizePolicy::Expanding</enum>
+      </property>
+-     <property name="sizeHint" >
++     <property name="sizeHint" stdset="0">
+       <size>
+        <width>61</width>
+        <height>21</height>
+@@ -97,7 +95,14 @@
+    </item>
+   </layout>
+  </widget>
+- <layoutdefault spacing="6" margin="11" />
++ <layoutdefault spacing="6" margin="11"/>
++ <customwidgets>
++  <customwidget>
++   <class>KPushButton</class>
++   <extends>QPushButton</extends>
++   <header>kpushbutton.h</header>
++  </customwidget>
++ </customwidgets>
+  <resources/>
+  <connections/>
+ </ui>
+--- runtime/kioslave/trash/kcmtrash.desktop	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/kioslave/trash/kcmtrash.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -1,12 +1,15 @@
+ Name=Trash
+ Name[ar]=سلة المهملات
++Name[be]=Сметнік
+ Name[be@latin]=Śmietnica
+ Name[bg]=Кошче
+ Name[bn]=আবর্জনা
+ Name[bn_IN]=আবর্জনা
++Name[br]=Pod-lastez
+ Name[ca]=Paperera
+ Name[cs]=Koš
+ Name[csb]=Kòsz
++Name[cy]=Sbwriel
+ Name[da]=Affald
+ Name[de]=Mülleimer
+ Name[el]=Κάδος απορριμάτων
+@@ -26,6 +29,7 @@
+ Name[is]=Rusl
+ Name[it]=Cestino
+ Name[ja]=ごみ箱
++Name[ka]=ურნა
+ Name[kk]=Өшірілгендер
+ Name[km]=ធុង​សំរាម
+ Name[kn]=ಕಸಬುಟ್ಟಿ
+@@ -37,6 +41,7 @@
+ Name[mk]=Корпа
+ Name[ml]=ചവറു്‌
+ Name[mr]=कचरापेटी
++Name[ms]=Sampah
+ Name[nb]=Søppelbøtte
+ Name[nds]=Affalltünn
+ Name[nl]=Prullenbak
+@@ -57,8 +62,10 @@
+ Name[th]=ถังขยะ
+ Name[tr]=Çöp
+ Name[uk]=Смітник
++Name[vi]=Thùng rác
+ Name[wa]=Batch
+ Name[x-test]=xxTrashxx
++Name[xh]=Inkukumo
+ Name[zh_CN]=回收站
+ Name[zh_TW]=資源回收筒
+ Comment=This service allows configuration of the trash.
+@@ -132,13 +139,16 @@
+ 
+ Name=Trash
+ Name[ar]=سلة المهملات
++Name[be]=Сметнік
+ Name[be@latin]=Śmietnica
+ Name[bg]=Кошче
+ Name[bn]=আবর্জনা
+ Name[bn_IN]=আবর্জনা
++Name[br]=Pod-lastez
+ Name[ca]=Paperera
+ Name[cs]=Koš
+ Name[csb]=Kòsz
++Name[cy]=Sbwriel
+ Name[da]=Affald
+ Name[de]=Mülleimer
+ Name[el]=Κάδος απορριμάτων
+@@ -158,6 +168,7 @@
+ Name[is]=Rusl
+ Name[it]=Cestino
+ Name[ja]=ごみ箱
++Name[ka]=ურნა
+ Name[kk]=Өшірілгендер
+ Name[km]=ធុង​សំរាម
+ Name[kn]=ಕಸಬುಟ್ಟಿ
+@@ -169,6 +180,7 @@
+ Name[mk]=Корпа
+ Name[ml]=ചവറു്‌
+ Name[mr]=कचरापेटी
++Name[ms]=Sampah
+ Name[nb]=Søppelbøtte
+ Name[nds]=Affalltünn
+ Name[nl]=Prullenbak
+@@ -189,8 +201,10 @@
+ Name[th]=ถังขยะ
+ Name[tr]=Çöp
+ Name[uk]=Смітник
++Name[vi]=Thùng rác
+ Name[wa]=Batch
+ Name[x-test]=xxTrashxx
++Name[xh]=Inkukumo
+ Name[zh_CN]=回收站
+ Name[zh_TW]=資源回收筒
+ Comment=Configure trash settings
+--- runtime/kioslave/trash/trashimpl.cpp	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/kioslave/trash/trashimpl.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -766,8 +766,10 @@
+         return 0;
+ 
+     KMountPoint::Ptr mp = KMountPoint::currentMountPoints().findByPath( origPath );
+-    if (!mp)
++    if (!mp) {
++        kDebug() << "KMountPoint found no mount point for" << origPath;
+         return 0;
++    }
+     QString mountPoint = mp->mountPoint();
+     const QString trashDir = trashForMountPoint( mountPoint, true );
+     kDebug() << "mountPoint=" << mountPoint << " trashDir=" << trashDir;
+@@ -861,7 +863,7 @@
+         if ( (S_ISDIR(buff.st_mode)) // must be a dir
+              && (!S_ISLNK(buff.st_mode)) // not a symlink
+              && ((buff.st_mode & requiredBits) == requiredBits)
+-             && (::access(rootTrashDir_c, W_OK))
++             && (::access(rootTrashDir_c, W_OK) == 0) // must be user-writable
+             ) {
+             const QString trashDir = rootTrashDir + '/' + QString::number( uid );
+             const QByteArray trashDir_c = QFile::encodeName( trashDir );
+--- runtime/kioslave/trash/discspaceutil.cpp	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/kioslave/trash/discspaceutil.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -24,8 +24,6 @@
+ 
+ #include <kdiskfreespaceinfo.h>
+ #include <kdebug.h>
+-#include <kio/netaccess.h>
+-#include <kio/directorysizejob.h>
+ 
+ #include "discspaceutil.h"
+ 
+@@ -38,10 +36,28 @@
+ 
+ qulonglong DiscSpaceUtil::sizeOfPath( const QString &path )
+ {
+-    KIO::DirectorySizeJob* job = KIO::directorySize( KUrl(path) );
+-    job->setUiDelegate( 0 );
+-    bool ok = KIO::NetAccess::synchronousRun( job, 0 );
+-    return ok?job->totalSize():0;
++    QFileInfo info( path );
++    if ( !info.exists() ) {
++        return 0;
++    }
++
++    if ( info.isFile() ) {
++        return info.size();
++    } else if ( info.isDir() && !info.isSymLink() ) {
++        QDirIterator it( path, QDirIterator::Subdirectories );
++
++        qulonglong sum = 0;
++        while ( it.hasNext() ) {
++            const QFileInfo info = it.next();
++
++            if ( info.fileName() != "." && info.fileName() != ".." )
++                sum += sizeOfPath( info.absoluteFilePath() );
++        }
++
++        return sum;
++    } else {
++        return 0;
++    }
+ }
+ 
+ double DiscSpaceUtil::usage( qulonglong additional ) const
+--- runtime/kioslave/desktop/directory.trash	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/kioslave/desktop/directory.trash	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -2,13 +2,16 @@
+ Encoding=UTF-8
+ Name=Trash
+ Name[ar]=سلة المهملات
++Name[be]=Сметнік
+ Name[be@latin]=Śmietnica
+ Name[bg]=Кошче
+ Name[bn]=আবর্জনা
+ Name[bn_IN]=আবর্জনা
++Name[br]=Pod-lastez
+ Name[ca]=Paperera
+ Name[cs]=Koš
+ Name[csb]=Kòsz
++Name[cy]=Sbwriel
+ Name[da]=Affald
+ Name[de]=Mülleimer
+ Name[el]=Κάδος απορριμάτων
+@@ -28,6 +31,7 @@
+ Name[is]=Rusl
+ Name[it]=Cestino
+ Name[ja]=ごみ箱
++Name[ka]=ურნა
+ Name[kk]=Өшірілгендер
+ Name[km]=ធុង​សំរាម
+ Name[kn]=ಕಸಬುಟ್ಟಿ
+@@ -39,6 +43,7 @@
+ Name[mk]=Корпа
+ Name[ml]=ചവറു്‌
+ Name[mr]=कचरापेटी
++Name[ms]=Sampah
+ Name[nb]=Søppelbøtte
+ Name[nds]=Affalltünn
+ Name[nl]=Prullenbak
+@@ -59,8 +64,10 @@
+ Name[th]=ถังขยะ
+ Name[tr]=Çöp
+ Name[uk]=Смітник
++Name[vi]=Thùng rác
+ Name[wa]=Batch
+ Name[x-test]=xxTrashxx
++Name[xh]=Inkukumo
+ Name[zh_CN]=回收站
+ Name[zh_TW]=資源回收筒
+ Comment=Contains removed files
+--- runtime/nepomuk/services/strigi/nepomukstrigiservice.desktop	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/nepomuk/services/strigi/nepomukstrigiservice.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -81,6 +81,7 @@
+ Comment[eo]=Nepomuk-servo kiu gvidas la strigi-demonon, la demono kiu indeksas viajn dosierojn
+ Comment[es]=Servicio Nepomuk que controla el strigidaemon, ej. Indexa archivos del escritorio
+ Comment[et]=Nepomuki teenus, mis kontrollib Strigi deemonit, s.t indekseerib töölaua faile.
++Comment[eu]=Nepomuk zerbitzua strigidaemon kontrolatzen duena, adib idaztegiko fitxategiak indexatzen ditu
+ Comment[fi]=Nepomuk-palvelu, joka hallitsee strigidaemon-prosessia tiedostojen indeksoimiseksi
+ Comment[fr]=Service Nepomuk qui contrôle Strigi, permettant l'indexation des fichiers du bureau
+ Comment[fy]=Nepomuk tsjinst hokker de strigidaemon oanstjoerd. Dizze yndeksearret triemmen op jo kompjûter
+--- runtime/nepomuk/services/strigi/systray.cpp	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/nepomuk/services/strigi/systray.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -22,8 +22,8 @@
+ #include <KMenu>
+ #include <KToggleAction>
+ #include <KLocale>
+-#include <KCMultiDialog>
+ #include <KIcon>
++#include <KToolInvocation>
+ 
+ 
+ 
+@@ -84,9 +84,9 @@
+ 
+ void Nepomuk::SystemTray::slotConfigure()
+ {
+-    KCMultiDialog dlg;
+-    dlg.addModule( "kcm_nepomuk" );
+-    dlg.exec();
++    QStringList args;
++    args << "kcm_nepomuk";
++    KToolInvocation::kdeinitExec("kcmshell4", args);
+ }
+ 
+ #include "systray.moc"
+--- runtime/nepomuk/services/strigi/statuswidget.cpp	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/nepomuk/services/strigi/statuswidget.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -19,7 +19,7 @@
+ #include "statuswidget.h"
+ #include "indexscheduler.h"
+ 
+-#include <KCMultiDialog>
++#include <KToolInvocation>
+ #include <KIcon>
+ #include <KLocale>
+ #include <KTitleWidget>
+@@ -179,9 +179,9 @@
+ 
+ void Nepomuk::StatusWidget::slotConfigure()
+ {
+-    KCMultiDialog dlg;
+-    dlg.addModule( "kcm_nepomuk" );
+-    dlg.exec();
++    QStringList args;
++    args << "kcm_nepomuk";
++    KToolInvocation::kdeinitExec("kcmshell4", args);
+ }
+ 
+ #include <QApplication>
+--- runtime/nepomuk/services/strigi/nepomukstrigiservice.notifyrc	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/nepomuk/services/strigi/nepomukstrigiservice.notifyrc	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -64,6 +64,7 @@
+ Name[el]=Έναρξη αρχικού ευρετηρίου
+ Name[es]=Iniciada la indexación inicial
+ Name[et]=Esmaindekseerimine on käivitatud
++Name[eu]=Hasierako indexaketa abiatuta
+ Name[fr]=L'indexation initiale a démarré
+ Name[fy]=Earste yndeksering begûn
+ Name[gl]=Iniciouse a indexación inicial
+@@ -114,6 +115,7 @@
+ Comment[el]=Το Strigi ξεκίνησε το αρχικό ευρετήριο τοπικών αρχείων για γρήγορες αναζητήσεις επιφάνειας εργασίας
+ Comment[es]=Strigi ha comenzado la indexación inicial de archivos locales para búsquedas rápidas en el escritorio
+ Comment[et]=Strigi alustas kohalike failide esimest indekseerimist kiire töölauaotsingu võimaldamiseks
++Comment[eu]=Strigi-k idaztegiko bilaketa azkarrak egiteko bertako fitxategien hasierako indexaketa abiatu du
+ Comment[fr]=Strigi a démarré l'indexation initiale des fichiers locaux afin d'améliorer la rapidité de recherche
+ Comment[fy]=Strigi startte de earste yndeksearring fan lokale triemmen foar flugge buroblêd-sykopdrachten
+ Comment[gl]=Strigi comezou a indexación inicial dos ficheiros locais para facer procuras rápidas no escritorio
+@@ -165,6 +167,7 @@
+ Name[el]=Τέλος αρχικού ευρετηρίου
+ Name[es]=Ha finalizado la indexación inicial
+ Name[et]=Esmaindekseerimine on lõpetatud
++Name[eu]=Hasierako indexaketa amaituta
+ Name[fr]=Indexation initiale terminée
+ Name[fy]=Earste yndeksering foltôge
+ Name[gl]=Rematou a indexación inicial
+@@ -215,6 +218,7 @@
+ Comment[el]=Το Strigi ολοκλήρωσε το αρχικό ευρετήριο για γρήγορες αναζητήσεις επιφάνειας εργασίας
+ Comment[es]=Strigi ha finalizado la indexación inicial de archivos locales para búsquedas rápidas en el escritorio
+ Comment[et]=Strigi lõpetas kohalike failide esimese indekseerimise kiire töölauaotsingu võimaldamiseks
++Comment[eu]=Strigi-k idaztegiko bilaketa azkarrerak egiteko bertako fitxategien hasierako indexaketa amaitu du
+ Comment[fr]=Strigi a terminé l'indexation initiale des fichiers locaux afin d'améliorer la rapidité de recherche
+ Comment[fy]=Strigi eine de earste yndeksearring fan lokale triemmen foar flugge buroblêd-sykopdrachten
+ Comment[gl]=Strigi rematou a indexación inicial dos ficheiros locais para facer procuras rápidas no escritorio
+@@ -266,6 +270,7 @@
+ Name[el]=Αναστολή ευρετηρίου
+ Name[es]=Indexación suspedida
+ Name[et]=Indekseerimine on peatatud
++Name[eu]=Indexaketa eseki egin da
+ Name[fr]=Indexation suspendue
+ Name[fy]=Yndesksearring ûnderbrútsen
+ Name[gl]=Suspendeuse a indexación
+@@ -317,6 +322,7 @@
+ Comment[el]=Το ευρετήριο αρχείων Strigi είναι σε αναστολή
+ Comment[es]=Se ha suspendido la indexación de archivos Strigi
+ Comment[et]=Strigi failide indekseerimine on peatatud
++Comment[eu]=Strigiren fitxategi indexaketa eseki egin da
+ Comment[fr]=L'indexation des fichiers de Strigi a été suspendue
+ Comment[fy]=Strigi triem yndeksearring is ûnderbrútsen
+ Comment[gl]=A indexación de ficheiros con Strigi suspendeuse
+@@ -422,6 +428,7 @@
+ Comment[el]=Το ευρετήριο αρχείων Strigi συνέχισε τη λειτουργία του
+ Comment[es]=Se ha reanudado la indexación de archivos de Strigi
+ Comment[et]=Strigi failide indekseerimine jätkub
++Comment[eu]=Strigiren fitxategi indexaketa berrekin da
+ Comment[fr]=L'indexation de fichier de Strigi a repris
+ Comment[fy]=Strigi triem yndeksearring is ferfette
+ Comment[gl]=Continúase a indexación de ficheiros con Strigi
+--- runtime/nepomuk/services/storage/nepomukstorage.notifyrc	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/nepomuk/services/storage/nepomukstorage.notifyrc	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -74,6 +74,7 @@
+ Comment[eu]=Nepomuk biltegiratze zerbitzua
+ Comment[fr]=Service de stockage de Nepomuk
+ Comment[fy]=De Nepomuk opslachtsjinst
++Comment[ga]=Seirbhís Stórála Nepomuk
+ Comment[gl]=O servizo almacenaxe de Nepomuk
+ Comment[gu]=નેપોમુક સંગ્રહ સેવા
+ Comment[he]=שירותי האחסון המידע של Nepomuk
+@@ -559,6 +560,7 @@
+ Comment[el]=Επιτυχία μετατροπής δεδομένων Nepomuk στο νέο σύστημα υποστήριξης
+ Comment[es]=Se ha convertido correctamente los datos Nepomuk al nuevo motor
+ Comment[et]=Nepomuki andmed on teisendatud uuele taustaprogrammile
++Comment[eu]=Nepomuk datuak egokiro bihurtu dira backend berrira
+ Comment[fr]=Succès de conversion des données de Nepomuk vers un nouveau système
+ Comment[fy]=De Nepomuk gegevens binne mei sukses omsetten nei in nij type
+ Comment[gl]=Completouse con éxito a conversión dos datos de Nepomuk á nova infraestrutura
+--- runtime/kstyles/oxygen/oxygen.cpp	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/kstyles/oxygen/oxygen.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -2254,6 +2254,7 @@
+         case Qt::Window:
+         case Qt::Dialog:
+             widget->removeEventFilter(this);
++            widget->setAttribute(Qt::WA_StyledBackground, false);
+             break;
+         default:
+             break;
+--- runtime/drkonqi/presets/developerrc	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/drkonqi/presets/developerrc	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -396,9 +396,11 @@
+ Comment[bg]=Прекъснато.
+ Comment[bn]=বাতিল করা হয়েছে।
+ Comment[bn_IN]=পরিত্যক্ত।
++Comment[br]=Dilezet.
+ Comment[ca]=S'ha interromput.
+ Comment[cs]=Přerušeno.
+ Comment[csb]=Òprzestanié.
++Comment[cy]=Terfynwyd.
+ Comment[da]=Afbrudt.
+ Comment[de]=Abgebrochen
+ Comment[el]=Εγκατάλειψη.
+@@ -420,6 +422,7 @@
+ Comment[is]=Hætt við.
+ Comment[it]=Interrotto.
+ Comment[ja]=プロセスが中断されました。
++Comment[ka]=შეწყვეტილია.
+ Comment[kk]=Доғарылды.
+ Comment[km]=បាន​បោះបង់ ។
+ Comment[kn]=ಕಾರ್ಯಭಂಗಮಾಡಲಾಯಿತು (ಅಬಾರ್ಟ್)
+@@ -431,6 +434,7 @@
+ Comment[mk]=Прекинато.
+ Comment[ml]=പിന്തിരിഞ്ഞിരിയ്ക്കുന്നു.
+ Comment[mr]=अक्षम केले.
++Comment[ms]=Ditamatkan.
+ Comment[nb]=Avbrutt.
+ Comment[nds]=Afbraken
+ Comment[nl]=Afgebroken.
+@@ -455,6 +459,7 @@
+ Comment[uk]=Перервано.
+ Comment[wa]=Abandné.
+ Comment[x-test]=xxAborted.xx
++Comment[xh]=Ayamkelekanga.
+ Comment[zh_CN]=已中止。
+ Comment[zh_TW]=被中止。
+ 
+--- runtime/drkonqi/presets/enduserrc	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/drkonqi/presets/enduserrc	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -241,6 +241,7 @@
+ Name[eo]=Bonvolu helpi plibonigi la programon kiun vi uzas per raporti la cimon ĉe <a href="http://bugs.kde.org">http://bugs.kde.org</a>. Utilaj detaloj inkluzivas kiel oni reproduktas la eraron, kiuj dokumentoj estis traktataj, ktp.
+ Name[es]=Ayudenos a mejorar los programas generando reportes en <a href="http://bugs.kde.org">http://bugs.kde.org</a>. Detalles útiles incluyen cómo reproducir el error, documentos cargados, etc.
+ Name[et]=Palun aita meil tarkvara paremaks muuta, andes teada veast aadressil <a href="http://bugs.kde.org">http://bugs.kde.org</a>. Kasuliku teabe hulka kuuluvad andmed, kuidas viga korrata, millised dokumendid olid laaditud jne.
++Name[eu]=Mesedez lagundu iezaguzu erabiltzen duzun softwarea hobetzen <a href="http://bugs.kde.org">http://bugs.kde.org</a>-en txosten bat betez. Xehetasun erabilgarriak dira akatsa nola birsortu, zamatu ziren dokumentuak, etab.
+ Name[fi]=Auta meitä parantamaan ohjelmistoa lähettämällä vikailmoitus osoitteessa <a href="http://bugs.kde.org">http://bugs.kde.org</a>. Muista sisällyttää ilmoitukseen tietoja kuten kuinka toistaa ongelma, mitä dokumentteja ohjelmassa oli ladattuna ja niin edelleen, joista saattaa olla hyötyä kehittäjille.
+ Name[fr]=Aidez-nous à améliorer les logiciels que vous utilisez en remplissant un rapport à l'adresse <a href="http://bugs.kde.org">http://bugs.kde.org</a>. Les renseignements utiles sont par exemple une marche à suivre pour reproduire l'erreur, les documents ouverts au moment de l'erreur, etc.
+ Name[fy]=Help ús om de sêftguod te ferbetterjen troch it ynfoljen fan in raport op <a href="http://bugs.kde.org">http://bugs.kde.org</a>. Brûkbere details binne, it reprodusearjen fan de flater, en hokfoar dokuminten binne laden, ensfh. 
+@@ -387,6 +388,7 @@
+ Comment[eo]=Aplikaĵo fermas pro SIGABRT-signalo kiam estas interna nekohero kaŭzita de cimo en la programo.
+ Comment[es]=Una aplicación termina con la señal SIGABRT cuando detecta una inconsistencia causada por un error en el programa.
+ Comment[et]=Rakendus katkestab töö signaaliga SIGABRT siis, kui avastab sisemise ebakõla, mis on põhjustatud veast rakenduses.
++Comment[eu]=Aplikazio bat SIGABRT seinalearekin amaitzen da programaren akats batek sortutako barneko kontraesan bat aurkitzen duenean.
+ Comment[fi]=SIGABRT-signaali tapahtuu, kun ohjelman sisäisessä toiminnassa löytyy epäjohdonmukaisuus, joka on yleensä ohjelmointivirheen aiheuttama.
+ Comment[fr]=Une application se termine avec un signal SIGABRT lorsqu'elle détecte une incohérence interne causée par un bogue dans le programme.
+ Comment[fy]=In applikaasje wurdt ôfsluten mei in SIGABRT-sinjaal as it in ynterne ynkonsekwintens tsjinkomt dy troch in brek yn it programma feroarsake wurdt.
+--- runtime/l10n/eastafrica.desktop	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/l10n/eastafrica.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -17,6 +17,7 @@
+ Name[eu]=Ekialdeko Afrika
+ Name[fr]=Afrique de l'Est
+ Name[fy]=Afrika, East
++Name[ga]=An Afraic Thoir
+ Name[gl]=África, Leste
+ Name[gu]=આફિક્રા, પૂર્વીય
+ Name[he]=אפריקה, מזרח
+--- runtime/l10n/ec/entry.desktop	(.../tags/KDE/4.2.0/kdebase)	(wersja 920563)
++++ runtime/l10n/ec/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 920563)
+@@ -13,6 +13,7 @@
+ Name[eu]=Ekuador
+ Name[fr]=Équateur
+ Name[fy]=Equador
++Name[ga]=Eacuadór
+ Name[gu]=ઇક્વાડોર
+ Name[he]=אקוודור
+ Name[hi]=इक्वाडॉर
