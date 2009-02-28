@@ -12,7 +12,7 @@ Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.2.1
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
@@ -490,6 +490,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 # digikam has it's own icon in digikam.spec
 %exclude %{_iconsdir}/oxygen/*x*/apps/digikam.*
+%exclude %{_iconsdir}/oxygen/*x*/apps/showfoto.*
 %{_iconsdir}/oxygen/*x*/actions/*
 %{_iconsdir}/oxygen/*x*/apps/*
 %{_iconsdir}/oxygen/*x*/categories/*
