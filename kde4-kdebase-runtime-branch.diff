@@ -1,5 +1,5 @@
---- runtime/cmake/modules/FindPulseAudio.cmake	(.../tags/KDE/4.2.1/kdebase)	(wersja 935993)
-+++ runtime/cmake/modules/FindPulseAudio.cmake	(.../branches/KDE/4.2/kdebase)	(wersja 935993)
+--- runtime/cmake/modules/FindPulseAudio.cmake	(.../tags/KDE/4.2.1/kdebase)	(wersja 936422)
++++ runtime/cmake/modules/FindPulseAudio.cmake	(.../branches/KDE/4.2/kdebase)	(wersja 936422)
 @@ -30,8 +30,8 @@
  
  FIND_PATH(PULSEAUDIO_INCLUDE_DIR pulse/pulseaudio.h
@@ -11,8 +11,8 @@
     )
  
  FIND_LIBRARY(PULSEAUDIO_LIBRARY NAMES pulse libpulse 
---- runtime/knotify/kde.notifyrc	(.../tags/KDE/4.2.1/kdebase)	(wersja 935993)
-+++ runtime/knotify/kde.notifyrc	(.../branches/KDE/4.2/kdebase)	(wersja 935993)
+--- runtime/knotify/kde.notifyrc	(.../tags/KDE/4.2.1/kdebase)	(wersja 936422)
++++ runtime/knotify/kde.notifyrc	(.../branches/KDE/4.2/kdebase)	(wersja 936422)
 @@ -752,7 +752,7 @@
  Comment[pt]=Ocorreu um erro sério que fez com que o programa saísse
  Comment[pt_BR]=Houve um erro sério, que fez com que o programa fosse fechado
@@ -31,8 +31,8 @@
  Comment[sk]=Stala sa veľmi vážna chyba, ktorá zapríčinila minimálne ukončenie programu
  Comment[sl]=Prišlo je do zelo resne napake, zaradi katere se je program končal
  Comment[sr]=Дошло је до врло озбиљне грешке, због које је бар програм обустављен
---- runtime/desktoptheme/metadata.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 935993)
-+++ runtime/desktoptheme/metadata.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 935993)
+--- runtime/desktoptheme/metadata.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 936422)
++++ runtime/desktoptheme/metadata.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 936422)
 @@ -50,7 +50,7 @@
  Comment[gu]=થીમ ઓક્સિજન શૈલીમાં બનાવાઇ છે
  Comment[he]=ערכת נושא שמשתמשת בסגנון Oxygen
@@ -42,8 +42,8 @@
  Comment[hu]=Oxygen-stílusú téma
  Comment[is]=Þema sem gert er í 'Oxygen' stíl
  Comment[it]=Tema in stile Oxygen
---- runtime/khelpcenter/kcmhelpcenter.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 935993)
-+++ runtime/khelpcenter/kcmhelpcenter.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 935993)
+--- runtime/khelpcenter/kcmhelpcenter.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 936422)
++++ runtime/khelpcenter/kcmhelpcenter.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 936422)
 @@ -120,7 +120,7 @@
  Comment[gu]=મદદ કેન્દ્ર શોધ અનુક્રમણિકા રૂપરેખાંકન અને બનાવટ
  Comment[he]=שינוי הגדרות ויצירת אינדקס החיפוש של מרכז העזרה
@@ -53,8 +53,8 @@
  Comment[hr]=Konfiguriranje i generiranje indeksa za pretraživanje pomoći
  Comment[hsb]=Připrawjenje a stworjenje pytanskeho indeksa za pomhanišćo
  Comment[hu]=A dokumentáció keresési indexének beállításai
---- runtime/kioslave/trash/trash.protocol	(.../tags/KDE/4.2.1/kdebase)	(wersja 935993)
-+++ runtime/kioslave/trash/trash.protocol	(.../branches/KDE/4.2/kdebase)	(wersja 935993)
+--- runtime/kioslave/trash/trash.protocol	(.../tags/KDE/4.2.1/kdebase)	(wersja 936422)
++++ runtime/kioslave/trash/trash.protocol	(.../branches/KDE/4.2/kdebase)	(wersja 936422)
 @@ -49,7 +49,7 @@
  ExtraNames[gu]=મૂળભૂત પાથ,દૂર કરવાની તારીખ
  ExtraNames[he]=נתיב מקורי,תאריך מחיקה
@@ -64,8 +64,8 @@
  ExtraNames[hr]=Izvorna putanja,Datum brisanja
  ExtraNames[hsb]=Originalny puć, datum zničenja
  ExtraNames[hu]=Eredeti elérési út,Törlési dátum
---- runtime/l10n/ae/entry.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 935993)
-+++ runtime/l10n/ae/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 935993)
+--- runtime/l10n/ae/entry.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 936422)
++++ runtime/l10n/ae/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 936422)
 @@ -60,7 +60,7 @@
  Name[pt]=Emiratos Árabes Unidos
  Name[pt_BR]=Emirados Árabes Unidos
@@ -75,8 +75,8 @@
  Name[se]=Ovttastuvvon arábalaš emiráhtat
  Name[si]=එක්සත් අරාඹි එමීර් රාජ්‍ය
  Name[sk]=Spojené arabské emiráty
---- runtime/l10n/au/entry.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 935993)
-+++ runtime/l10n/au/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 935993)
+--- runtime/l10n/au/entry.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 936422)
++++ runtime/l10n/au/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 936422)
 @@ -25,7 +25,7 @@
  Name[gu]=ઓસ્ટ્રેલિઆ
  Name[he]=אוסטרליה
