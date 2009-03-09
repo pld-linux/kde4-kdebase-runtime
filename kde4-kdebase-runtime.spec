@@ -76,6 +76,7 @@ Summary:	KDE icons - oxygen
 Summary(pl.UTF-8):	Motyw ikon do KDE - oxygen
 Group:		Themes
 Obsoletes:	kde-icons-oxygen
+Provides:	kde4-icons
 
 %description -n kde4-icons-oxygen
 KDE icons - oxygen.
@@ -87,6 +88,7 @@ Motyw ikon do KDE - oxygen.
 Summary:	KDE SVG icons - oxygen
 Summary(pl.UTF-8):	Motyw ikon SVG do KDE - oxygen
 Group:		Themes
+Provides:	kde4-icons
 
 %description -n kde4-icons-oxygen-svg
 KDE icons - oxygen. This package contains SVG icons.
