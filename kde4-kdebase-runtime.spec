@@ -110,7 +110,7 @@ Styl Oxygen dla KDE.
 
 %prep
 %setup -q -n %{orgname}-%{version} -a1
-#%patch100 -p1
+%patch100 -p1
 
 %build
 install -d build
