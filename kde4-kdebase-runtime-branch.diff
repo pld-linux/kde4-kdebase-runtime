@@ -1,5 +1,5 @@
---- runtime/cmake/modules/FindPulseAudio.cmake	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/cmake/modules/FindPulseAudio.cmake	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+--- runtime/cmake/modules/FindPulseAudio.cmake	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/cmake/modules/FindPulseAudio.cmake	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -30,8 +30,8 @@
  
  FIND_PATH(PULSEAUDIO_INCLUDE_DIR pulse/pulseaudio.h
@@ -11,8 +11,8 @@
     )
  
  FIND_LIBRARY(PULSEAUDIO_LIBRARY NAMES pulse libpulse 
---- runtime/knotify/kde.notifyrc	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/knotify/kde.notifyrc	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+--- runtime/knotify/kde.notifyrc	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/knotify/kde.notifyrc	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -752,7 +752,7 @@
  Comment[pt]=Ocorreu um erro sério que fez com que o programa saísse
  Comment[pt_BR]=Houve um erro sério, que fez com que o programa fosse fechado
@@ -31,8 +31,38 @@
  Comment[sk]=Stala sa veľmi vážna chyba, ktorá zapríčinila minimálne ukončenie programu
  Comment[sl]=Prišlo je do zelo resne napake, zaradi katere se je program končal
  Comment[sr]=Дошло је до врло озбиљне грешке, због које је бар програм обустављен
---- runtime/desktoptheme/metadata.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/desktoptheme/metadata.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+@@ -1389,7 +1389,7 @@
+ Name[kn]=ನಿರ್ಗಮಿಸು (ಲಾಗೌಟ್)
+ Name[ko]=로그아웃
+ Name[ku]=Derketin
+-Name[lt]=Atsijungti
++Name[lt]=Atsijungimas
+ Name[lv]=Atteikties
+ Name[mai]=लाग आउट
+ Name[mk]=Одјавување
+--- runtime/kcontrol/componentchooser/componentservices/kcm_filemanager.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/kcontrol/componentchooser/componentservices/kcm_filemanager.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
+@@ -111,6 +111,7 @@
+ Comment[kn]=ಇಲ್ಲಿ ನೀನು ನಿನ್ನ ಪೂರ್ವನಿಯೋಜಿತ ಕಡತ ವ್ಯವಸ್ಥಾಪಕವನ್ನು ಸಂರಚಿಸಬಹುದು. ಕೆಮೆನು ನಮೂದುಗಳು ಹಾಗೂ ಕಡತಕೋಶಗಳನ್ನು ತೆರೆಯಬಹುದಾದ ಎಲ್ಲಾ ಕೆಡಿಇ ಅನ್ವಯಗಳೂ ಈ ಕಡತ ವ್ಯವಸ್ಥಾಪಕವನ್ನು ಬಳಸುತ್ತವೆ.
+ Comment[ko]=여기에서 기본 파일 관리자를 설정할 수 있습니다. K 메뉴 항목과 폴더를 열 수 있는 모든 KDE 프로그램에서는 이 설정을 따라야 합니다.
+ Comment[ku]=Li vir tu dikarî rêveberê xwe yê pelê a standard mîheng bikî. Hemû sepanên di pêşeka K de û yên di KDE de tu dikarî dê bi vê rêveberê ve vebin.
++Comment[lt]=Čia galite nustatyti, kuri failų tvarkytuvė bus numatytoji. Visi įrašai K meniu bei visos KDE programos, kuriomis atveriami aplankai, naudos šią failų tvarkytuvę.
+ Comment[lv]=Šeit varat konfigurēt noklusēto failu pārvaldnieku. K izvēlnes ieraksti un visas KDE programmas izmantos šo parametru mapju  atvēršanai.
+ Comment[mk]=Тука може да го конфигурирате Вашиот стандарден менаџер на датотеки. Елементите од менито на KDE и сите KDE-апликации во кои може да отворате папки ќе го користат овој менаџер.
+ Comment[ml]=നിങ്ങളുടെ സ്വാഭാവിക ഫയല്‍ കാര്യസ്ഥന്‍ നിങ്ങള്‍ക്കിവിടെ ക്രമീകരിയ്ക്കാം. കെ വിഭവസൂചികയിലുള്ള എണ്ട്രികളും എല്ലാ കെഡിഇ പ്രയോഗങ്ങളും ഈ ഫയല്‍ കാര്യസ്ഥന്‍ ഉപയോഗിക്കും.
+--- runtime/kcontrol/componentchooser/componentservices/kcm_terminal.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/kcontrol/componentchooser/componentservices/kcm_terminal.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
+@@ -121,7 +121,7 @@
+ Comment[kn]=ಈ ಸೇವೆಯು ನಿನ್ನ ಪೂರ್ವನಿಯೋಜಿತ  ಆದೇಶತೆರೆ ಅನುವರ್ತಕವನ್ನು (ಎಮುಲೇಟರ್) ಸಂರಚಿಸಲು ಅನುವುಮಾಡಿಕೊಡುತ್ತದೆ. ಆದೇಶತೆರೆ ಅನುವರ್ತಕವನ್ನು  ಕೋರುವ ಎಲ್ಲಾ ಕೆಡಿಇ ಅನ್ವಯಗಳೂ ಈ ಸಂಯೋಜನೆಗಳನ್ನು ಗೌರವಿಸಬೇಕಾಗುತ್ತದೆ.
+ Comment[ko]=이 서비스에서는 기본 터미널 에뮬레이터를 설정할 수 있습니다. 터미널 에뮬레이터에 접근하려고 하는 모든 KDE 프로그램에서는 이 설정을 따라야 합니다.
+ Comment[ku]=Ev xizmet destûrê dide te ku amulatora termînalê ya standard mîheng bikî. Hemû sepanên KDE'yê yên ku tu dikarî hyperlînkê hilbijêrî dê vê mîhengê erê bikin.
+-Comment[lt]=Ši tarnyba leidžia jumos nustatyti Jūsų numatytą pašto klientą. Visos KDE programos, kurios iškviečia terminalo emuliatoriaus programa, turėtų atsižvelgti į šį nustatymą.
++Comment[lt]=Ši tarnyba leidžia jumos nustatyti Jūsų numatytą pašto klientą. Visos KDE programos, kurios iškviečia terminalo emuliatoriaus programą, turėtų atsižvelgti į šį nustatymą.
+ Comment[lv]=Šis serviss jums ļauj iestatīt noklusēto termināla emulatoru. Visas KDE programmas, kurām vajag termināla emulatoru, izmantos šo parametru.
+ Comment[mai]=ई सेवा अहाँक अहाँक मूलभूत टर्मिनल एमुलेटर केँ बिन्यस्त करबाक स्वीकृति देत अछि. सबहि केडीई अनुप्रयोग जे टर्मिनल एमुलेटर अनुप्रयोग चालू करैत अछि, ओ एहि सेटिंग इस्तेमाल करताह.
+ Comment[mk]=Овој сервис ви овозможува да го конфигурирате вашиот стандарден терминалски емулатор. Сите KDE-апликации кои стартуваат апликација во терминалски емулатор ќе ги почитуваат овие поставувања.
+--- runtime/desktoptheme/metadata.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/desktoptheme/metadata.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -50,7 +50,7 @@
  Comment[gu]=થીમ ઓક્સિજન શૈલીમાં બનાવાઇ છે
  Comment[he]=ערכת נושא שמשתמשת בסגנון Oxygen
@@ -42,8 +72,81 @@
  Comment[hu]=Oxygen-stílusú téma
  Comment[is]=Þema sem gert er í 'Oxygen' stíl
  Comment[it]=Tema in stile Oxygen
---- runtime/khelpcenter/kcmhelpcenter.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/khelpcenter/kcmhelpcenter.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+--- runtime/renamedlgplugins/audio/renaudiodlg.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/renamedlgplugins/audio/renaudiodlg.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
+@@ -38,7 +38,7 @@
+ Name[kn]=ಶ್ರವ್ಯಾಂಶ (ಧ್ವನಿ) ಮುನ್ನೋಟ
+ Name[ko]=오디오 미리 듣기
+ Name[ku]=Pêşdîtina Deng
+-Name[lt]=aUDIO PERKLAUSA
++Name[lt]=Audio perklausa
+ Name[lv]=Audio priekšapskate
+ Name[mk]=Аудиопреглед
+ Name[ml]=ഓഡിയോ കേട്ട് നോക്കുക
+--- runtime/phonon/kcm/xine/kcm_phononxine.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/phonon/kcm/xine/kcm_phononxine.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
+@@ -61,7 +61,7 @@
+ Comment[kn]=ಕ್ಸೈನ್ ಹಿಂಬದಿ (ಬ್ಯಾಕ್ ಎಂಡ್) ಸಂರಚನೆ
+ Comment[ko]=Xine 백엔드 설정
+ Comment[ku]=Veavakirina Binesazî ya Xine
+-Comment[lt]=Xine programinės sąsajos konfigūravimas
++Comment[lt]=Xine sąsajos konfigūravimas
+ Comment[lv]=Xine aizmugures konfigurācija
+ Comment[mk]=Конфигурација на задниот крај на Xine
+ Comment[mr]=Xine बॅकएन्ड संयोजना
+--- runtime/phonon/kcm/kcm_phonon.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/phonon/kcm/kcm_phonon.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
+@@ -105,6 +105,7 @@
+ Comment[kn]=ಶ್ರವ್ಯಾಂಶ ಮತ್ತು ದೃಶ್ಯಾಂಶ (ಧ್ವನಿ ಮತ್ತು ವಿಡಿಯೋ) ಸಂರಚನೆ
+ Comment[ko]=소리와 동영상 설정
+ Comment[ku]=Veavakirina Deng û Vîdeoyê
++Comment[lt]=Garso ir video konfigūravimas
+ Comment[lv]=Skaņas un Video konfigurācija
+ Comment[mk]=Конфигурација на звук и видео
+ Comment[ml]=ശബ്ദ-ചലചിത്ര ക്രമീകരണം
+--- runtime/phonon/kded-module/phononserver.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/phonon/kded-module/phononserver.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
+@@ -34,6 +34,7 @@
+ Name[kn]=ಧ್ವನಿ ಕಾರ್ಯನೀತಿ (ಪಾಲಿಸಿ) ಪರಿಚಾರಕ
+ Name[ko]=소리 정책 서버
+ Name[ku]=Pêşkêşkerê Qayde yê Dengê
++Name[lt]=Garsų nuostatų serveris
+ Name[lv]=Skaņu politikas serveris
+ Name[ml]=ശബ്ദ പോളിസി സര്‍വര്‍
+ Name[mr]=साऊन्ड करार सर्वर
+--- runtime/menu/desktop/kde-utilities-accessibility.directory	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/menu/desktop/kde-utilities-accessibility.directory	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
+@@ -44,7 +44,7 @@
+ Name[kn]=ನಿಲುಕಣೆ (ಆಕ್ಸೆಸಿಬಿಲಿಟಿ)
+ Name[ko]=내게 필요한 설정
+ Name[ku]=Gihîştin
+-Name[lt]=Prieinamumas
++Name[lt]=Pritaikymas neįgaliesiems
+ Name[lv]=Pieejamība
+ Name[mai]=अभिगम्यता
+ Name[mk]=Пристапливост
+@@ -128,7 +128,7 @@
+ Comment[kn]=ನಿಲುಕಣೆ (ಆಕ್ಸೆಸಿಬಿಲಿಟಿ)
+ Comment[ko]=내게 필요한 설정
+ Comment[ku]=Gihîştin
+-Comment[lt]=Prieinamumas
++Comment[lt]=Pritaikymas neįgaliesiems
+ Comment[lv]=Pieejamība
+ Comment[mai]=अभिगम्यता
+ Comment[mk]=Пристапливост
+--- runtime/menu/desktop/kde-graphics.directory	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/menu/desktop/kde-graphics.directory	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
+@@ -16,7 +16,7 @@
+ Name[csb]=Grafika
+ Name[cy]=Graffeg
+ Name[da]=Grafik
+-Name[de]=Graphik
++Name[de]=Grafik
+ Name[el]=Γραφικά
+ Name[eo]=Grafiko
+ Name[es]=Gráficos
+--- runtime/khelpcenter/kcmhelpcenter.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/khelpcenter/kcmhelpcenter.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -120,7 +120,7 @@
  Comment[gu]=મદદ કેન્દ્ર શોધ અનુક્રમણિકા રૂપરેખાંકન અને બનાવટ
  Comment[he]=שינוי הגדרות ויצירת אינדקס החיפוש של מרכז העזרה
@@ -53,8 +156,8 @@
  Comment[hr]=Konfiguriranje i generiranje indeksa za pretraživanje pomoći
  Comment[hsb]=Připrawjenje a stworjenje pytanskeho indeksa za pomhanišćo
  Comment[hu]=A dokumentáció keresési indexének beállításai
---- runtime/doc/kcontrol/bookmarks/index.docbook	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/doc/kcontrol/bookmarks/index.docbook	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+--- runtime/doc/kcontrol/bookmarks/index.docbook	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/doc/kcontrol/bookmarks/index.docbook	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -61,7 +61,7 @@
  <varlistentry>
  <term><guilabel>Flatten bookmarks tree</guilabel></term>
@@ -64,8 +167,8 @@
  </listitem>
  </varlistentry>
  
---- runtime/doc/kcontrol/kcmlaunch/index.docbook	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/doc/kcontrol/kcmlaunch/index.docbook	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+--- runtime/doc/kcontrol/kcmlaunch/index.docbook	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/doc/kcontrol/kcmlaunch/index.docbook	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -13,8 +13,8 @@
  <!-- TRANS:ROLES_OF_TRANSLATORS -->
  </authorgroup>
@@ -103,8 +206,8 @@
 -</article>
 \ No newline at end of file
 +</article>
---- runtime/doc/userguide/kde-for-admins.docbook	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/doc/userguide/kde-for-admins.docbook	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+--- runtime/doc/userguide/kde-for-admins.docbook	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/doc/userguide/kde-for-admins.docbook	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -828,7 +828,7 @@
  
  <para>The &kde; startup sequence starts with the
@@ -123,8 +226,8 @@
  <guimenu>Settings</guimenu> menu</para></listitem>
  </varlistentry>
  <varlistentry>
---- runtime/doc/userguide/standard-menu-entries.docbook	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/doc/userguide/standard-menu-entries.docbook	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+--- runtime/doc/userguide/standard-menu-entries.docbook	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/doc/userguide/standard-menu-entries.docbook	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -117,8 +117,8 @@
  </shortcut><guimenuitem>Print...</guimenuitem>
  </menuchoice></term>
@@ -136,8 +239,8 @@
  this dialog in <xref linkend="printing-from-apps"/>.</para>
  </listitem>
  </varlistentry>
---- runtime/doc/userguide/under-the-hood.docbook	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/doc/userguide/under-the-hood.docbook	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+--- runtime/doc/userguide/under-the-hood.docbook	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/doc/userguide/under-the-hood.docbook	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -67,7 +67,7 @@
  (or the corresponding $<envar>KDEHOME</envar> directory). Backups are anyway
  a good idea in case of a major failure of &kde; that would
@@ -147,8 +250,8 @@
  (Such a major failure should not happen but it still can happen.)</para>
  </sect2>
  
---- runtime/doc/userguide/groupware-kontact.docbook	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/doc/userguide/groupware-kontact.docbook	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+--- runtime/doc/userguide/groupware-kontact.docbook	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/doc/userguide/groupware-kontact.docbook	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -497,11 +497,6 @@
  <para>Now enable &kmail; groupware functionality, and in <guilabel>Resource
  folders are subfolders of</guilabel> put the
@@ -161,8 +264,19 @@
  <guisubmenu>office_gwdata</guisubmenu>.</para>
    
  <para>Now you have two branches of folder under
---- runtime/kioslave/trash/trash.protocol	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/kioslave/trash/trash.protocol	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+--- runtime/platforms/win/kwinstartmenu/winstartmenu.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/platforms/win/kwinstartmenu/winstartmenu.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
+@@ -34,7 +34,7 @@
+ Name[lv]=KDED Windows sākšanas izvēlnes modulis
+ Name[ml]=KDE ജാലകത്തിനു് തുടക്കത്തിലെ മെനുവിനുള്ള ഘടകം
+ Name[mr]=KDED Windows प्रारंभ मेन्यू विभाग
+-Name[nb]=KDEDs start-meny modul
++Name[nb]=KDED-modul for Windows-Start-meny
+ Name[nds]=KDED-Moduul för't Windows-Startmenü
+ Name[nl]=KDED Windows-startmenumodule
+ Name[nn]=KDED-modul for Windows-Start-meny
+--- runtime/kioslave/trash/trash.protocol	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/kioslave/trash/trash.protocol	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -49,7 +49,7 @@
  ExtraNames[gu]=મૂળભૂત પાથ,દૂર કરવાની તારીખ
  ExtraNames[he]=נתיב מקורי,תאריך מחיקה
@@ -172,8 +286,26 @@
  ExtraNames[hr]=Izvorna putanja,Datum brisanja
  ExtraNames[hsb]=Originalny puć, datum zničenja
  ExtraNames[hu]=Eredeti elérési út,Törlési dátum
---- runtime/kioslave/desktop/desktop.protocol	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/kioslave/desktop/desktop.protocol	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+--- runtime/kioslave/trash/kcmtrash.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/kioslave/trash/kcmtrash.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
+@@ -101,6 +101,7 @@
+ Comment[kn]=ಈ ಸೇವೆಯು ಕಸಬುಟ್ಟಿಯ ಸಂರಚನೆಗೆ ಅನುವುಮಾಡಿಕೊಡುತ್ತದೆ.
+ Comment[ko]=이 서비스는 휴지통을 설정합니다.
+ Comment[ku]=Ev servîs destûrê dide veavakirina xuyakirina Çopê.
++Comment[lt]=Ši tarnyba leidžia konfigūruoti šiukšliadėžę.
+ Comment[lv]=Šis serviss ļauj konfigurēt Miskasti.
+ Comment[mk]=Овој сервис овозможува конфигурација на корпата.
+ Comment[ml]=ട്രാഷ് ക്രമീകരിയ്ക്കാന്‍ ഈ സേവനം അനുവദിയ്ക്കുന്നു.
+@@ -243,6 +244,7 @@
+ Comment[kn]=ಕಸಬುಟ್ಟಿ ಸಂಯೋಜನೆಗಳನ್ನು ಸಂರಚಿಸು
+ Comment[ko]=휴지통 설정
+ Comment[ku]=Mîhengên çopê ava bike
++Comment[lt]=Konfigūruoti šiukšliadėžės nustatymus
+ Comment[lv]=Konfigurēt miskastes iestatījumus
+ Comment[mk]=Конфигурирајте ги поставувањата за корпата
+ Comment[ml]=ട്രാഷ് സജ്ജീകരണങ്ങള്‍ ക്രമീകരിക്കുക
+--- runtime/kioslave/desktop/desktop.protocol	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/kioslave/desktop/desktop.protocol	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -1,6 +1,7 @@
  [Protocol]
  exec=kio_desktop
@@ -182,8 +314,8 @@
  input=none
  output=filesystem
  listing=Name,Type,Size,Date,AccessDate,Access,Owner,Group,Link
---- runtime/kioslave/sftp/sftpfileattr.cpp	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/kioslave/sftp/sftpfileattr.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+--- runtime/kioslave/sftp/sftpfileattr.cpp	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/kioslave/sftp/sftpfileattr.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -230,7 +230,7 @@
  }
  
@@ -205,8 +337,8 @@
  /** Clear all attributes and flags. */
  void sftpFileAttr::clear(){
      clearAtime();
---- runtime/kioslave/sftp/ksshprocess.cpp	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/kioslave/sftp/ksshprocess.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+--- runtime/kioslave/sftp/ksshprocess.cpp	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/kioslave/sftp/ksshprocess.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -232,13 +232,12 @@
  #else
      mSshPath = KStandardDirs::findExe(QString::fromLatin1("plink"));
@@ -606,8 +738,8 @@
      mError = ERR_INTERNAL;
      return false;
  }
---- runtime/kioslave/sftp/sftpfileattr.h	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/kioslave/sftp/sftpfileattr.h	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+--- runtime/kioslave/sftp/sftpfileattr.h	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/kioslave/sftp/sftpfileattr.h	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -251,16 +251,15 @@
      void setDirAttrsFlag(bool flag){ mDirAttrs = flag; }
  
@@ -629,8 +761,8 @@
  };
  
  #endif
---- runtime/kioslave/sftp/ksshprocess.h	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/kioslave/sftp/ksshprocess.h	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+--- runtime/kioslave/sftp/ksshprocess.h	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/kioslave/sftp/ksshprocess.h	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -321,7 +321,7 @@
       * @param pathToSsh The fully qualified path name of the ssh binary
       *                  KSshProcess should use to setup a SSH connection.
@@ -658,8 +790,8 @@
       
      /**
       * Access to standard in and out of the ssh process.
---- runtime/kioslave/sftp/kio_sftp.cpp	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/kioslave/sftp/kio_sftp.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+--- runtime/kioslave/sftp/kio_sftp.cpp	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/kioslave/sftp/kio_sftp.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -133,14 +133,14 @@
               : SlaveBase("kio_sftp", pool_socket, app_socket),
                    mConnected(false), mPort(-1), mMsgId(0) {
@@ -1767,8 +1899,8 @@
  }
 -
 -
---- runtime/kioslave/sftp/process.cpp	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/kioslave/sftp/process.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+--- runtime/kioslave/sftp/process.cpp	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/kioslave/sftp/process.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -69,7 +69,7 @@
      m_pPTY = new KPty();
      if (!m_pPTY->open())
@@ -1893,9 +2025,51 @@
          return -1;
      }
  #endif
---- runtime/nepomuk/services/strigi/nepomukstrigiservice.notifyrc	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/nepomuk/services/strigi/nepomukstrigiservice.notifyrc	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
-@@ -239,7 +239,7 @@
+--- runtime/nepomuk/services/strigi/nepomukstrigiservice.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/nepomuk/services/strigi/nepomukstrigiservice.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
+@@ -99,6 +99,7 @@
+ Comment[kn]=ಸ್ಟ್ರಿಗಿ ನೇಪಥಿಕನನ್ನು (ಡೀಮನ್) ನಿಯಂತ್ರಣದಲ್ಲಿಡುವ ನೆಪೋಮುಕ್ ಸೇವೆ, ಅರ್ಥಾತ್, ಗಣಕತೆರೆಯಲ್ಲಿರುವ ಕಡತಗಳ  ಅನುಕ್ರಮಣಿಯನ್ನು  (ಇಂಡೆಕ್ಸ್)ಮಾಡುತ್ತದೆ
+ Comment[ko]=데스크톱의 파일을 정리하는 strigidaemon을 제어하는 Nepomuk 서비스입니다.
+ Comment[ku]=Servîsa Nepomuk yê ku strigidaemon kontrol dike, mînak, pelên sermasê pêrist dike
++Comment[lt]=Nepomuk tarnyba, valdanti strigidaemon, t.y., valdanti failų darbastalyje indeksavimo procesą
+ Comment[lv]=Nepomuk serviss, kas kontrolē Strigi dēmoni - indeksē darbvirsmas failus
+ Comment[mk]=Сервис Nepomuk што го контролира strigidaemon, т.е. ги индексира датотеките на работната површина
+ Comment[ml]=strigidaemon നിയന്ത്രിക്കുന്ന Nepomuk സേവനം, i.e. പണിയിടത്തില്‍ ഫയലുകള്‍ ലഭ്യമാക്കുന്നു
+--- runtime/nepomuk/services/strigi/nepomukstrigiservice.notifyrc	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/nepomuk/services/strigi/nepomukstrigiservice.notifyrc	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
+@@ -28,6 +28,7 @@
+ Comment[kn]=ನೆಪೋಮುಕ್ ಸ್ಟ್ರಿಗಿ ಕಡತ  ಅನುಕ್ರಮಣಕಾರ (ಇಂಡೆಕ್ಸರ್)
+ Comment[ko]=Nepomuk Strigi 파일 인덱서
+ Comment[ku]=Nepomuk Strigi pêrist kirina pelê
++Comment[lt]=Nepomuk Strigi failų indeksavimo priemonė
+ Comment[lv]=Nepomuk Strigi failu indeksētājs
+ Comment[ml]=Nepomuk Strigi ഫയല്‍ ഇന്‍ഡെക്സര്‍
+ Comment[mr]=Nepomuk Strigi फाइल इन्डेक्सर
+@@ -85,6 +86,7 @@
+ Name[kn]=ಮೊದಲ ಅನುಕ್ರಮಣಿಕೆ ಪ್ರಾರಂಭವಾಗಿದೆ
+ Name[ko]=초기 인덱싱 시작됨
+ Name[ku]=Pêrist kirina Seretayî Destpê kirin
++Name[lt]=Pirminis indeksavimas pradėtas
+ Name[lv]=Sākta sākotnējā indeksēšana
+ Name[mk]=Стартувано е иницијалното индексирање
+ Name[ml]=തുടക്കത്തിലുള്ള ഇന്‍ഡെക്സിങ്ങ് തുടങ്ങി
+@@ -137,6 +139,7 @@
+ Comment[kn]=ಶೀಘ್ರ ಗಣಕತೆರೆ ಶೋಧಕ್ಕೆ ಸ್ಟ್ರಿಗಿ ಸ್ಥಳೀಯ ಕಡತಗಳ  ಮೊದಲ ಅನುಕ್ರಮಣಿಕೆಯ (ಇಂಡೆಕ್ಸ್) ತಯಾರಿಕೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿದೆ
+ Comment[ko]=Strigi에서 빠른 데스크톱 검색을 위한 로컬 파일의 초기 인덱싱을 시작함
+ Comment[ku]=Strigi pêrist kirina seretayî yê pelên herêmî ji bo lêgerîna lez yê sermasê destpê kir
++Comment[lt]=Strigi pradėjo pirminį vietinių failų indeksavimą, kurį baigus bus galima atlikti greitas vietinių failų paieškas
+ Comment[lv]=Strigi sāka sākotnējo lokālo failu indeksēšanu, lai varētu veikt ātru meklēšanu
+ Comment[ml]=സ്റ്റ്രിജി വേഗത്തിലുള്ള ഡെസ്ക്ടോപ് തിരയലുകള്‍ക്കായ് പ്രാദേശിക ഫയലുകളുടെ തുടക്കത്തിലുള്ള ഇന്‍ഡെക്സിങ്ങ് തുടങ്ങി
+ Comment[nb]=Strigi startet den første indekseringen av lokale filer som vil gjøre søk raskere
+@@ -194,6 +197,7 @@
+ Name[kn]=ಮೊದಲ ಅನುಕ್ರಮಣೆಕೆಯ ತಯಾರಿಕೆ ಮುಗಿದಿದೆ
+ Name[ko]=초기 인덱싱 완료됨
+ Name[ku]=Pêrist kirina Seretayî qedand
++Name[lt]=Pirminis indeksavimas baigtas
+ Name[lv]=Sākotnējā indeksēšana pabeigta
+ Name[mk]=Иницијалното индексирање заврши
+ Name[ml]=തുടക്കത്തിലുള്ള ഇന്‍ഡെക്സിങ്ങ് കഴിഞ്ഞു
+@@ -239,13 +243,14 @@
  Comment[hne]=तेज डेस्कटाप खोज बर स्ट्रिगि सुरु के इंडेक्सिंग लोकल फाइल बर पूरा कर लिस
  Comment[hsb]=Strigi je prěnje tworjenje indeksa za lokalne dataje zakónčił, za spěšne pytanje na dźěłowym powjerchu
  Comment[is]=Strigi hefur lokið gerð upphafsyfirlits um skrár á tölvunni til að styðja við hraðar skjáborðsleitir
@@ -1904,9 +2078,185 @@
  Comment[ja]=Strigi が、デスクトップ検索を高速化するためのローカルファイルの最初のインデックス作成を完了しました
  Comment[kk]=Іздеуді тездету үшін Strigi жергілікті файлдарды индекстеуін аяқтады
  Comment[km]=បានបញ្ចប់​ក​ការ​បង្កើត​លិបិក្រម​របស់ Strigi នៃ​ឯកសារ​មូលដ្ឋាន​សម្រាប់​ការ​ស្វែងរក​ផ្ទៃតុ​រហ័ស
---- runtime/kstyles/oxygen/oxygen.cpp	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/kstyles/oxygen/oxygen.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
-@@ -3034,6 +3034,16 @@
+ Comment[kn]=ಶೀಘ್ರ ಗಣಕತೆರೆ ಶೋಧಕ್ಕೆ  ಸ್ಥಳೀಯ ಕಡತಗಳ  ಮೊದಲ ಅನುಕ್ರಮಣಿಕೆಯ (ಇಂಡೆಕ್ಸ್) ತಯಾರಿಕೆಯನ್ನು  ಸ್ಟ್ರಿಗಿ ಮುಗಿಸಿದೆ
+ Comment[ko]=Strigi에서 빠른 데스크톱 검색을 위한 로컬 파일의 초기 인덱싱을 완료함
+ Comment[ku]=Strigi pêrist kirina seretayî yê pelên herêmî ji bo lêgerîna lez yê sermasê qedand
++Comment[lt]=Strigi baigė pirminį vietinių failų indeksavimą ir gali atlikti greitas paieškas
+ Comment[lv]=Strigi pabeidza sākotnējo lokālo failu indeksēšanu ātrai meklēšanai
+ Comment[ml]=സ്റ്റ്രിജി വേഗത്തിലുള്ള ഡെസ്ക്ടോപ് തിരയലുകള്‍ക്കായ് പ്രാദേശിക ഫയലുകളുടെ തുടക്കത്തിലുള്ള ഇന്‍ഡെക്സിങ്ങ് കഴിഞ്ഞു
+ Comment[nb]=Strigi gjorde ferdig første indeksering av lokale filer som vil gjøre søk raskere
+@@ -357,6 +362,7 @@
+ Comment[kn]=ಸ್ಟ್ರಿಗಿಯ ಕಡತಗಳ ಅನುಕ್ರಮ ತಯಾರಿಕೆಯನ್ನು ಅಮಾನತ್ತುಗೊಳಿಸಲಾಗಿದೆ
+ Comment[ko]=Strigi 파일 인덱싱 중지됨
+ Comment[ku]=Strigi pêrist kirina pelan hate sekinandin
++Comment[lt]=Strigi failo indeksuoklio veikla sustabdyta
+ Comment[lv]=Strigi failu indeksēšana tika apturēta
+ Comment[ml]=സ്റ്റ്രിജി ഫയല്‍ ഇന്‍ഡെക്സിങ്ങ് താല്‍കാലികമായ് നിര്‍ത്തിയിരിക്കുന്നു
+ Comment[mr]=Strigi फाइल इन्डेक्सींग वगळले गेले आहे
+@@ -469,6 +475,7 @@
+ Comment[kn]=ಸ್ಟ್ರಿಗಿಯ ಕಡತಗಳ ಅನುಕ್ರಮ ತಯಾರಿಕೆಯನ್ನು  ಪುನರಾರಂಭಿಸಲಾಗಿದೆ
+ Comment[ko]=Strigi 파일 인덱싱 다시 시작됨
+ Comment[ku]=Strigi pêrist kirina pelan hate dom kirin
++Comment[lt]=Strigi failų indeksuoklio veikla atnaujinta
+ Comment[lv]=Strigi failu indeksēšana tika atsākta
+ Comment[ml]=സ്റ്റ്രിജി ഫയല്‍ ഇന്‍ഡെക്സിങ്ങ് തുടരുന്നു
+ Comment[mr]=Strigi फाइल इन्डेक्सींग पुन्हा सुरू झाले
+--- runtime/nepomuk/services/storage/nepomukstorage.notifyrc	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/nepomuk/services/storage/nepomukstorage.notifyrc	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
+@@ -90,6 +90,7 @@
+ Comment[km]=សេវា​ផ្ទុក​របស់ Nepomuk
+ Comment[ko]=Nepomuk 저장소 서비스
+ Comment[ku]=Nepomuk Servîsa Hîser Kirinê 
++Comment[lt]=Nepomuk saugojimo tarnyba
+ Comment[lv]=Nepomuk glabāšanas serviss
+ Comment[ml]=നെപോമുക് സൂക്ഷിപ്പു് സേവനം
+ Comment[mr]=Nepomuk संचयन सेवा
+@@ -145,6 +146,7 @@
+ Name[km]=ស្ថាបនា​លិបិក្រម Nepomuk ឡើង​វិញ
+ Name[ko]=Nepomuk 인덱스 다시 생성하는 중
+ Name[ku]=Nû ve Çêkirina Pêrista Nepomuk
++Name[lt]=Atstatomas Nepomuk indeksas
+ Name[lv]=Pārbūvē Nepomuk indeksu
+ Name[ml]=നെപോമുക് സൂചിക വിണ്ടും ഉണ്ടാക്കിക്കൊണ്ടിരിയ്ക്കുന്നു
+ Name[nb]=Bygger om Nepomuk-registeret
+@@ -194,6 +196,7 @@
+ Comment[km]=លិបិក្រម​​អត្ថបទ​ពេញលេញរបស់ Nepomuk ត្រូ​វបាន​ស្ថាបនា​សម្រាប់​លក្ខណៈ​ពិសេស​ថ្មីៗ
+ Comment[ko]=새로운 기능을 지원하도록 Nepomuk 전문 검색 인덱스를 다시 생성하였습니다
+ Comment[ku]=Pêrista lêgerîna hemû nivîsê yê Nepomuk nû ve hat çêkirin ji bo taybetiyên nû
++Comment[lt]=Nepomuk viso teksto paieškos indeksas yra atstatytas dėl naujų savybių
+ Comment[lv]=Nepomuk meklēšanas indekss tiek pārbūvēts, lai iekļautu jaunas iespējas
+ Comment[ml]=പുതിയ കഴിവുകള്‍ക്കായി നെപോമുക്കിന്റം മുഴുവന്‍ പദാവലിയുടേയും സൂചിക വീണ്ടും ഉണ്ടാക്കിക്കൊണ്ടിരിയ്ക്കുന്നു
+ Comment[nb]=Nepomuks register for fulltekst-søk blir bygget på nytt for nye muligheter
+@@ -249,6 +252,7 @@
+ Name[km]=ការ​ស្ថាបនា​លិបិក្រម Nepomuk បាន​ធ្វើ​រួច
+ Name[ko]=Nepomuk 인덱스를 다시 생성하였습니다
+ Name[ku]=Nû ve Çêkirina Pêrista Nepomuk hat qedandin
++Name[lt]=Nepomuk indekso atstatymas atliktas
+ Name[lv]=Nepomuk indeksa pārbūvēšana pabeigta
+ Name[ml]=നെപോമുക് സൂചിക വിണ്ടും ഉണ്ടാക്കുന്നതു് തീര്‍ന്നു
+ Name[nb]=Nepomuk-registeret er ferdig ombygget
+@@ -301,6 +305,7 @@
+ Comment[km]=ការ​ស្ថាបនាលិបិក្រម​ស្វែងរក​អត្ថបទ​ពេញលេញរបស់ Nepomuk ត្រូវ​បាន​ធ្វើ​រួច ។
+ Comment[ko]=Nepomuk 전문 검색 인덱스를 다시 생성하였습니다
+ Comment[ku]=Nû ve çêkirina pêrista lêgerîna hemû nivîsê yê Nepomuk hat qedandin.
++Comment[lt]=Nepomuk viso teksto paieškos indekso atstatymas atliktas.
+ Comment[lv]=Pabeigta Nepomuk pilnas teksta meklēšanas indeksa pārbūve.
+ Comment[ml]=പുതിയ കഴിവുകള്‍ക്കായി നെപോമുക്കിന്റം മുഴുവന്‍ പദാവലിയുടേയും സൂചിക വീണ്ടും ഉണ്ടാക്കുന്നതു് തീര്‍ന്നു.
+ Comment[nb]=Nepomuks register for fulltekst-søk er ferdig bygget på nytt.
+@@ -403,6 +408,7 @@
+ Comment[km]=ទិន្នន័យ Nepomuk ទាំង​អស់​ត្រូ​វបាន​បម្លែង​ទៅ​កម្មវិធី​ផ្នែក​ខាង​ក្រោយ​ផ្នុក​ថ្មី
+ Comment[ko]=새 저장소 백엔드를 사용하도록 Nepomuk 데이터를 변환하였습니다
+ Comment[ku]=Hemû dane yên Nepomuk ji paş-dawî ya hîser kirina nû re hatin veguherandin
++Comment[lt]=Visi Nepomuk duomenys buvo konvertuoti į naujos saugojimo programinės sąsajos formatą
+ Comment[lv]=Visi Nepomuk dati ir konvertēti uz jaunu glabāšanas aizmuguri
+ Comment[ml]=പുതിയ സൂക്ഷിപ്പു് സംവിധാനത്തിലേയ്ക്കു് എല്ലാ നെപോമുക് ഡാറ്റയും മാറ്റിക്കഴിഞ്ഞു
+ Comment[nb]=Alle Nepomuk-data er konvertert til et nytt lagringsbakstykke
+@@ -505,6 +511,7 @@
+ Comment[km]=បាន​បរាជ័យ​ក្នុងការ​បម្លែង​ទិន្នន័យ Nepomuk ទៅ​ជា​កម្មវិធី​ផ្នែក​ខាង​ក្រោយ​ថ្មី
+ Comment[ko]=Nepomuk 데이터를 새로운 백엔드로 변환하는 데 실패하였습니다
+ Comment[ku]=Veguherandina dane yên Nepomuk ji paş-dawî ya nû re têk çû
++Comment[lt]=Nepomuk duomenų konvertavimas į naudojimui su nauja programine sąsaja nepavyko
+ Comment[lv]=Neizdevās konvertēt Nepomuk datus uz jaunu aizmuguri
+ Comment[ml]=പുതിയ സൂക്ഷിപ്പു് സംവിധാനത്തിലേയ്ക്കു് നെപോമുക് ഡാറ്റ മാറ്റുന്നതു് പരാജയപ്പെട്ടു
+ Comment[nb]=Konvertering av Nepomuk-data til et nytt bakstykke lyktes ikke
+@@ -607,6 +614,7 @@
+ Comment[km]=បាន​បម្លែង​ទិន្នន័យ Nepomuk ដោយ​ជោគជ័យ​ទៅ​កម្មវិធី​ផ្នែក​ខាង​ក្រោយ​ថ្មី
+ Comment[ko]=새 저장소 백엔드를 사용하도록 Nepomuk 데이터를 변환하였습니다
+ Comment[ku]=Bi serfiraz dane yên Nepomuk ji paş-dawî ya nû re veguherand
++Comment[lt]=Sėkmingai konvertuoti Nepomuk duomenys naudojimui su nauja programine sąsaja
+ Comment[lv]=Nepomuk dati veiksmīgi konvertēti uz jaunu aizmuguri
+ Comment[ml]=പുതിയ സൂക്ഷിപ്പു് സംവിധാനത്തിലേയ്ക്കു് എല്ലാ നെപോമുക് ഡാറ്റയും വിജയകരമായി മാറ്റിക്കഴിഞ്ഞു
+ Comment[nb]=Fullført konvertering av Nepomuk-data til et nytt bakstykke
+--- runtime/nepomuk/services/storage/nepomukstorage.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/nepomuk/services/storage/nepomukstorage.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
+@@ -97,6 +97,7 @@
+ Comment[kn]=ಮೂಲ (ಕೋರ್) ನೆಪೋಮುಕ್ ದತ್ತ ಸಂಗ್ರಹ ಸೇವೆ
+ Comment[ko]=코어 Nepomuk 데이터 저장소 서비스
+ Comment[ku]=Nepomuk servîsa hîser kirina dane yên Bingeh
++Comment[lt]=Esminė Nepomuk duomenų saugojimo tarnyba
+ Comment[lv]=Pamata Nepomuk datu glabāšanas serviss
+ Comment[ml]=Core Nepomuk ഡേറ്റാ സംഭരണ സേവനം
+ Comment[mr]=कोर Nepomuk माहीती संचयन सेवा
+--- runtime/nepomuk/services/queryservice/nepomukqueryservice.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/nepomuk/services/queryservice/nepomukqueryservice.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
+@@ -20,6 +20,7 @@
+ Name[kn]=ನೆಪೋಮುಕ್ ವಿಚಾರಣಾ ಸೇವೆ
+ Name[ko]=Nepomuk 쿼리 서비스
+ Name[ku]=NepomukRêzaPêşkêşkerê
++Name[lt]=NepomukUžklausųTarnyba
+ Name[ml]=Nepomuk ക്വെറി സേവനം
+ Name[nb]=Nepomuk spørretjeneste
+ Name[nds]=Nepomuk-Affraagdeenst
+@@ -58,6 +59,7 @@
+ Comment[kn]=ಅವಿಚ್ಛಿನ್ನ ವಿಚಾರಣಾ (ಪರ್ಸಿಸ್ಟೆಂಟ್ ಕ್ವೆರಿ) ಕಡತಕೋಶಗಳಿಗೆ ನೆಪೋಮುಕ್ ವಿಚಾರಣಾ ಸೇವೆ ಒಂದು ಸಂಪರ್ಕತಟವನ್ನು (ಇಂಟರ್ಫೇಸ್) ನೀಡುತ್ತದೆ
+ Comment[ko]=Nepomuk 쿼리 서비스는 쿼리 폴더의 인터페이스를 제공합니다
+ Comment[ku]=Nepomuk Servîsa Lêpirsînê navrû yekê ji bo peldankên lêpirsîna payîdar peyde dike
++Comment[lt]=Nepomuk užklausų tarnyba suteikia nuolatinių užklausų aplankų sąsają
+ Comment[lv]=Nepomuk vaicājumu serviss nodrošina saskarni pastāvīgu vaicājumu mapēm
+ Comment[ml]=Nepomuk ക്വെറി സേവനം ഇടയ്ക്കിടെ വരുന്ന ക്വെറി അറകള്‍ക്കായി ഒരു വിനിമയതലം നല്‍കുന്നു
+ Comment[nb]=Nepomuk spørretjeneste tilbyr en brukerflate for varige spørremapper
+--- runtime/nepomuk/kcm/nepomukserverkcm.cpp	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/nepomuk/kcm/nepomukserverkcm.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
+@@ -90,7 +90,6 @@
+              SLOT( slotUpdateStrigiStatus() ) );
+ 
+     recreateStrigiInterface();
+-    load();
+ }
+ 
+ 
+--- runtime/kstyles/oxygen/oxygen.cpp	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/kstyles/oxygen/oxygen.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
+@@ -2409,22 +2409,18 @@
+ void OxygenStyle::renderScrollBarHole(QPainter *p, const QRect &r, const QColor &color,
+                                    Qt::Orientation orientation, TileSet::Tiles tiles) const
+ {
+-    _helper.scrollHole(
+-            color,
+-            orientation)->render(r, p, tiles);
++    if (r.isValid()) { // TODO and check that it's big enough?
++        _helper.scrollHole(
++                color,
++                orientation)->render(r, p, tiles);
++    }
+ }
+ 
+-void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &_r, const QPalette &pal,
++void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPalette &pal,
+                                Qt::Orientation orientation, bool hover) const
+ {
+-    QRect r(_r);
+-    if (r.height() == 0) {
+-        // Temporary fix for an infinite loop in kmail. The call to drawRoundedRect()
+-        // at the end of this function produces an infinite loop in Qt's drawing code
+-        // if the rect's height is zero.
+-        qDebug("OxygenStyle::renderScrollBarHandle: trying to paint scrollbar handle with zero height!");
+-        r.setHeight(1);
+-    }
++    if (!r.isValid())
++        return;
+     p->setRenderHints(QPainter::Antialiasing);
+     QColor color = pal.color(QPalette::Button);
+     QColor light = _helper.calcLightColor(color);
+@@ -2434,13 +2430,16 @@
+     bool horizontal = orientation == Qt::Horizontal;
+ 
+     // draw the hole as background
+-    renderScrollBarHole(p, (orientation == Qt::Horizontal) ? r.adjusted(-4,0,4,0) : r.adjusted(0,-3,0,4),
++    const QRect holeRect = horizontal ? r.adjusted(-4,0,4,0) : r.adjusted(0,-3,0,4);
++    renderScrollBarHole(p, holeRect,
+             pal.color(QPalette::Window), orientation, 
+             horizontal ? TileSet::Top | TileSet::Bottom | TileSet::Center
+                        : TileSet::Left | TileSet::Right | TileSet::Center);
+ 
+     // draw the slider itself
+     QRectF rect = r.adjusted(3, horizontal ? 2 : 4, -3, -3);
++    if (!rect.isValid()) // e.g. not enough height
++        return;
+ 
+     // gradients
+     QLinearGradient sliderGradient( rect.topLeft(), horizontal ? rect.bottomLeft() : rect.topRight());
+@@ -3034,6 +3033,16 @@
  {
      switch(type)
      {
@@ -1923,7 +2273,7 @@
          case CT_ToolButton:
          {
              QSize size = contentsSize;
-@@ -3154,12 +3164,12 @@
+@@ -3154,12 +3163,12 @@
                          cr = subElementRect(SE_CheckBoxIndicator, option, widget);
                          QRect gcr((gbOpt->rect.width() - tw -cr.width())/2 , (h-cr.height())/2+r.y(), cr.width(), cr.height());
                          if(subControl == SC_GroupBoxCheckBox)
@@ -1942,8 +2292,20 @@
                      }
  
                      // left align labels in flat group boxes, center align labels in framed group boxes
---- runtime/l10n/ae/entry.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/l10n/ae/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+--- runtime/kurifilter-plugins/ikws/searchproviders/bugft.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/kurifilter-plugins/ikws/searchproviders/bugft.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
+@@ -76,8 +76,6 @@
+ Name[xh]=Uphendlo lwesiseko sedata ye KDE Bug Olubhaliweyo ngokupheleleyo
+ Name[zh_CN]=KDE Bug 数据库全文检索
+ Name[zh_TW]=KDE 臭蟲資料庫全文檢索
+-Query=http://bugs.kde.org/simple_search.cgi?id=\\{1}+\\{2}+\\{3}+\\{4}+\\{5}+\\{6}+\\{7}+\\{8}+\\{9}
+-Query[bg]=Query=http://bugs.kde.org/simple_search.cgi?id=\\{1}+\\{2}+\\{3}+\\{4}+\\{5}+\\{6}+\\{7}+\\{8}+\\{9}
+-Query[x-test]=xxhttp://bugs.kde.org/simple_search.cgi?id=\\{1}+\\{2}+\\{3}+\\{4}+\\{5}+\\{6}+\\{7}+\\{8}+\\{9}xx
++Query=http://bugs.kde.org/buglist.cgi?quicksearch=\\{1}+\\{2}+\\{3}+\\{4}+\\{5}+\\{6}+\\{7}+\\{8}+\\{9}
+ X-KDE-ServiceTypes=SearchProvider
+ Type=Service
+--- runtime/l10n/ae/entry.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/l10n/ae/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -60,7 +60,7 @@
  Name[pt]=Emiratos Árabes Unidos
  Name[pt_BR]=Emirados Árabes Unidos
@@ -1953,8 +2315,8 @@
  Name[se]=Ovttastuvvon arábalaš emiráhtat
  Name[si]=එක්සත් අරාඹි එමීර් රාජ්‍ය
  Name[sk]=Spojené arabské emiráty
---- runtime/l10n/au/entry.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 938088)
-+++ runtime/l10n/au/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 938088)
+--- runtime/l10n/au/entry.desktop	(.../tags/KDE/4.2.1/kdebase)	(wersja 942072)
++++ runtime/l10n/au/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 942072)
 @@ -25,7 +25,7 @@
  Name[gu]=ઓસ્ટ્રેલિઆ
  Name[he]=אוסטרליה
