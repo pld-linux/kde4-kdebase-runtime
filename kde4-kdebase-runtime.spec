@@ -6,17 +6,17 @@
 #
 %define		_state		stable
 %define		orgname		kdebase-runtime
-%define		qtver		4.4.3
+%define		qtver		4.5.0
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.2.1
-Release:	6
+Version:	4.2.2
+Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	93ef480ed5376ce02324d1b85b8bae0f
+# Source0-md5:	cff3fbdb98faeec0ae65d8caea7a5b0f
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
@@ -113,7 +113,7 @@ Styl Oxygen dla KDE.
 
 %prep
 %setup -q -n %{orgname}-%{version} -a1
-%patch100 -p1
+#%patch100 -p1
 
 %build
 install -d build
