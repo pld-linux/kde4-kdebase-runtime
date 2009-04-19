@@ -1,5 +1,5 @@
---- runtime/knotify/notifybyktts.cpp	(.../tags/KDE/4.2.2/kdebase)	(wersja 952918)
-+++ runtime/knotify/notifybyktts.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 952918)
+--- runtime/knotify/notifybyktts.cpp	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
++++ runtime/knotify/notifybyktts.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
 @@ -17,16 +17,18 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  
@@ -65,8 +65,8 @@
  	kspeech.call(QDBus::NoBlock, "say", say, 0);
  
  	finished(id);
---- runtime/knotify/notifybyktts.h	(.../tags/KDE/4.2.2/kdebase)	(wersja 952918)
-+++ runtime/knotify/notifybyktts.h	(.../branches/KDE/4.2/kdebase)	(wersja 952918)
+--- runtime/knotify/notifybyktts.h	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
++++ runtime/knotify/notifybyktts.h	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
 @@ -29,15 +29,17 @@
  #include <QDBusInterface>
  
@@ -94,8 +94,8 @@
  };
  
  #endif
---- runtime/knotify/notifybyexecute.cpp	(.../tags/KDE/4.2.2/kdebase)	(wersja 952918)
-+++ runtime/knotify/notifybyexecute.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 952918)
+--- runtime/knotify/notifybyexecute.cpp	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
++++ runtime/knotify/notifybyexecute.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
 @@ -21,7 +21,7 @@
  #include "notifybyexecute.h"
  
@@ -118,8 +118,8 @@
  	}
  	
  	finish( id );
---- runtime/knotify/notifybypopup.cpp	(.../tags/KDE/4.2.2/kdebase)	(wersja 952918)
-+++ runtime/knotify/notifybypopup.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 952918)
+--- runtime/knotify/notifybypopup.cpp	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
++++ runtime/knotify/notifybypopup.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
 @@ -51,7 +51,7 @@
  	m_dbusServiceExists = interface && interface->isServiceRegistered(dbusServiceName);
  
@@ -129,8 +129,8 @@
  
  	// to catch register/unregister events from service in runtime
  	connect(interface, SIGNAL(serviceOwnerChanged(const QString&, const QString&, const QString&)),
---- runtime/kcontrol/locale/localetime.cpp	(.../tags/KDE/4.2.2/kdebase)	(wersja 952918)
-+++ runtime/kcontrol/locale/localetime.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 952918)
+--- runtime/kcontrol/locale/localetime.cpp	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
++++ runtime/kcontrol/locale/localetime.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
 @@ -285,7 +285,11 @@
      connect (m_comboWeekDayOfPray, SIGNAL(activated(int)),
               this, SLOT(slotWeekDayOfPrayChanged(int)));
@@ -144,8 +144,18 @@
  
      updateWeekDayNames();
  }
---- runtime/platforms/win/kwinstartmenu/winstartmenu.desktop	(.../tags/KDE/4.2.2/kdebase)	(wersja 952918)
-+++ runtime/platforms/win/kwinstartmenu/winstartmenu.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 952918)
+--- runtime/phonon/kcm/xine/kcm_phononxine.desktop	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
++++ runtime/phonon/kcm/xine/kcm_phononxine.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
+@@ -32,6 +32,7 @@
+ Comment[af]=Xine Backend konfigurasie
+ Comment[be]=Настаўленне унутранага карыстання Xine
+ Comment[be@latin]=Настаўленне унутранага карыстання Xine
++Comment[bg]=Настройване Xine
+ Comment[bn]=জাইন ব্যাক-এন্ড কনফিগারেশন
+ Comment[bn_IN]=Xine ব্যাক-এন্ডের কনফিগারেশন
+ Comment[ca]=Configuració del dorsal del Xine
+--- runtime/platforms/win/kwinstartmenu/winstartmenu.desktop	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
++++ runtime/platforms/win/kwinstartmenu/winstartmenu.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
 @@ -3,6 +3,7 @@
  Name=KDED Windows Start Menu Module
  Name[ar]=قائمة K نمط وندوز
@@ -154,8 +164,8 @@
  Name[bn_IN]=KDED Windows Start Menu মডিউল
  Name[ca]=Mòdul del menú d'inici del Windows del KDED
  Name[cs]=Modul KDED pro startovní nabídku
---- runtime/kioslave/info/info.cc	(.../tags/KDE/4.2.2/kdebase)	(wersja 952918)
-+++ runtime/kioslave/info/info.cc	(.../branches/KDE/4.2/kdebase)	(wersja 952918)
+--- runtime/kioslave/info/info.cc	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
++++ runtime/kioslave/info/info.cc	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
 @@ -38,7 +38,7 @@
  	} else {
  		QString missing =m_infoScript.isNull() ?  "kio_info/kde-info2html" : "kio_info/kde-info2html.conf";
@@ -165,14 +175,14 @@
  	}
  	error( KIO::ERR_CANNOT_LAUNCH_PROCESS, errorStr );
  	exit();
---- runtime/kioslave/info/Messages.sh	(.../tags/KDE/4.2.2/kdebase)	(wersja 952918)
-+++ runtime/kioslave/info/Messages.sh	(.../branches/KDE/4.2/kdebase)	(wersja 952918)
+--- runtime/kioslave/info/Messages.sh	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
++++ runtime/kioslave/info/Messages.sh	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
 @@ -1,2 +1,2 @@
  #! /usr/bin/env bash
 -$XGETTEXT *.cpp -o $podir/kio_info.pot
 +$XGETTEXT *.cc -o $podir/kio_info.pot
---- runtime/kstyles/themes/qtwindows.themerc	(.../tags/KDE/4.2.2/kdebase)	(wersja 952918)
-+++ runtime/kstyles/themes/qtwindows.themerc	(.../branches/KDE/4.2/kdebase)	(wersja 952918)
+--- runtime/kstyles/themes/qtwindows.themerc	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
++++ runtime/kstyles/themes/qtwindows.themerc	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
 @@ -18,7 +18,7 @@
  Comment[ar]=أسلوب مدمجة نمط مايكروسوفت وندوز 9x
  Comment[be]=Убудаваны стыль Windows 9x
@@ -182,8 +192,8 @@
  Comment[ca]=Estil integrat Windows 9x sense temes
  Comment[cs]=Zabudovaný styl Windows 9x bez motivu
  Comment[csb]=Wbùdowóny sztél szlachùjący za Windows 9x
---- runtime/kstyles/oxygen/oxygen.cpp	(.../tags/KDE/4.2.2/kdebase)	(wersja 952918)
-+++ runtime/kstyles/oxygen/oxygen.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 952918)
+--- runtime/kstyles/oxygen/oxygen.cpp	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
++++ runtime/kstyles/oxygen/oxygen.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
 @@ -3021,6 +3021,9 @@
          case PM_DefaultLayoutSpacing:
              return 4; // qcommon is 6
@@ -194,8 +204,8 @@
          case PM_DefaultFrameWidth:
              if (qobject_cast<const QLineEdit*>(widget))
                  return 4;
---- runtime/kstyles/oxygen/CMakeLists.txt	(.../tags/KDE/4.2.2/kdebase)	(wersja 952918)
-+++ runtime/kstyles/oxygen/CMakeLists.txt	(.../branches/KDE/4.2/kdebase)	(wersja 952918)
+--- runtime/kstyles/oxygen/CMakeLists.txt	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
++++ runtime/kstyles/oxygen/CMakeLists.txt	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
 @@ -15,7 +15,7 @@
  
  kde4_add_plugin(oxygen ${oxygen_PART_SRCS})
@@ -205,8 +215,8 @@
  
  install(TARGETS oxygen  DESTINATION ${PLUGIN_INSTALL_DIR}/plugins/styles/ )
  
---- runtime/kurifilter-plugins/ikws/searchproviders/technoratitags.desktop	(.../tags/KDE/4.2.2/kdebase)	(wersja 952918)
-+++ runtime/kurifilter-plugins/ikws/searchproviders/technoratitags.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 952918)
+--- runtime/kurifilter-plugins/ikws/searchproviders/technoratitags.desktop	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
++++ runtime/kurifilter-plugins/ikws/searchproviders/technoratitags.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
 @@ -34,6 +34,7 @@
  Name[kn]=ಟೆಕ್ನೋರೆಟಿ ತಲೆಚೀಟಿಗಳು (ಟಾಗ್ಸ್)
  Name[ko]=Technorati 태그
