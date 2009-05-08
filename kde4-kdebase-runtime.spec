@@ -27,7 +27,7 @@ BuildRequires:	QtSvg-devel >= %{qtver}
 BuildRequires:	QtTest-devel >= %{qtver}
 BuildRequires:	automoc4 >= 0.9.88
 BuildRequires:	clucene-core-devel
-BuildRequires:	cmake >= 2.6.2
+BuildRequires:	cmake >= 2.6.3
 %{?with_apidocs:BuildRequires:	doxygen}
 %{?with_apidocs:BuildRequires:	graphviz}
 BuildRequires:	kde4-kdelibs-devel >= %{version}
