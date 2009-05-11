@@ -4,19 +4,19 @@
 # Conditional build:
 %bcond_without	apidocs		# do not prepare API documentation
 #
-%define		_state		stable
+%define		_state		unstable
 %define		orgname		kdebase-runtime
 %define		qtver		4.5.0
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.2.3
-Release:	2
+Version:	4.2.85
+Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	7ca748e533e3d19f933f9b45f1b1a547
+# Source0-md5:	ba53362b7bbaab6870c2c1579cdb9b8a
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
@@ -73,31 +73,6 @@ KDE 4 Phonon plugins.
 
 %description -n kde4-phonon -l pl.UTF-8
 Wtyczki KDE 4 dla Phonona.
-
-%package -n kde4-icons-oxygen
-Summary:	KDE icons - oxygen
-Summary(pl.UTF-8):	Motyw ikon do KDE - oxygen
-Group:		Themes
-Obsoletes:	kde-icons-oxygen
-Provides:	kde4-icons
-
-%description -n kde4-icons-oxygen
-KDE icons - oxygen.
-
-%description -n kde4-icons-oxygen -l pl.UTF-8
-Motyw ikon do KDE - oxygen.
-
-%package -n kde4-icons-oxygen-svg
-Summary:	KDE SVG icons - oxygen
-Summary(pl.UTF-8):	Motyw ikon SVG do KDE - oxygen
-Group:		Themes
-Provides:	kde4-icons
-
-%description -n kde4-icons-oxygen-svg
-KDE icons - oxygen. This package contains SVG icons.
-
-%description -n kde4-icons-oxygen-svg -l pl.UTF-8
-Motyw ikon do KDE - oxygen. Ten pakiet zawiera ikony SVG.
 
 %package -n kde4-style-oxygen
 Summary:	KDE Oxygen Style
@@ -183,11 +158,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/kstart
 %attr(755,root,root) %{_bindir}/kde4
 %attr(755,root,root) %{_bindir}/kwalletd
-%attr(755,root,root) %{_bindir}/nepomukserver
-%attr(755,root,root) %{_bindir}/nepomukservicestub
 %attr(755,root,root) %{_bindir}/ksvgtopng
-# conflict with kde3
-#%attr(755,root,root) %{_bindir}/ksvgtopng
+%attr(755,root,root) %{_bindir}/keditfiletype
+%attr(755,root,root) %{_bindir}/kglobalaccel
 %attr(755,root,root) %{_bindir}/ktraderclient
 %attr(755,root,root) %{_bindir}/ktrash
 %attr(755,root,root) %{_bindir}/kuiserver
@@ -197,11 +170,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libkdeinit4_khelpcenter.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_kuiserver.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_kwalletd.so
+%attr(755,root,root) %{_libdir}/libkdeinit4_kglobalaccel.so
 # Is it ok to add those files to main package?
-%attr(755,root,root) %{_libdir}/libkwalletbackend.so.?
+%attr(755,root,root) %ghost %{_libdir}/libkwalletbackend.so.?
 %attr(755,root,root) %{_libdir}/libkwalletbackend.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libmolletnetwork.so.?
+%attr(755,root,root) %{_libdir}/libmolletnetwork.so.4.*.*
 #
-%attr(755,root,root) %{_libdir}/libkdeinit4_nepomukserver.so
 %attr(755,root,root) %{_libdir}/kde4/cursorthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/djvuthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/exrthumbnail.so
@@ -211,6 +186,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_cgi.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_componentchooser.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_emoticons.so
+%attr(755,root,root) %{_libdir}/kde4/kcm_filetypes.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_icons.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kded.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdnssd.so
@@ -222,7 +198,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kded_remotedirnotify.so
 %attr(755,root,root) %{_libdir}/kde4/kded_soliduiserver.so
 %attr(755,root,root) %{_libdir}/kde4/kded_desktopnotifier.so
-%attr(755,root,root) %{_libdir}/kde4/kded_globalaccel.so
+%attr(755,root,root) %{_libdir}/kde4/kded_networkwatcher.so
+%attr(755,root,root) %{_libdir}/kde4/kded_solidautoeject.so
 %attr(755,root,root) %{_libdir}/kde4/kio_applications.so
 %attr(755,root,root) %{_libdir}/kde4/kio_bookmarks.so
 %attr(755,root,root) %{_libdir}/kde4/kio_desktop.so
@@ -235,7 +212,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kio_floppy.so
 %attr(755,root,root) %{_libdir}/kde4/kio_info.so
 %attr(755,root,root) %{_libdir}/kde4/kio_man.so
-%attr(755,root,root) %{_libdir}/kde4/kio_nepomuksearch.so
+%attr(755,root,root) %{_libdir}/kde4/kio_network.so
 %attr(755,root,root) %{_libdir}/kde4/kio_nfs.so
 %attr(755,root,root) %{_libdir}/kde4/kio_remote.so
 %attr(755,root,root) %{_libdir}/kde4/kio_settings.so
@@ -255,7 +232,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/librenimageplugin.so
 %attr(755,root,root) %{_libdir}/kde4/svgthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/textthumbnail.so
-%attr(755,root,root) %{_libdir}/kde4/kcm_nepomuk.so
 %attr(755,root,root) %{_libdir}/kde4/libexec/drkonqi
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdeeject
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdesu
@@ -268,14 +244,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/libexec/kioexec
 %attr(755,root,root) %{_libdir}/kde4/libexec/klocaldomainurifilterhelper
 %attr(755,root,root) %{_libdir}/kde4/libexec/knetattach
-%attr(755,root,root) %{_libdir}/kde4/nepomukfilewatch.so
-%attr(755,root,root) %{_libdir}/kde4/nepomukmigration1.so
-%attr(755,root,root) %{_libdir}/kde4/nepomukontologyloader.so
-%attr(755,root,root) %{_libdir}/kde4/nepomukstorage.so
-%attr(755,root,root) %{_libdir}/kde4/nepomukstrigiservice.so
-%attr(755,root,root) %{_libdir}/kde4/nepomukqueryservice.so
 %dir %{_libdir}/kde4/plugins/styles
-%attr(755,root,root) %{_libdir}/strigi/strigiindex_sopranobackend.so
 %{_datadir}/apps/drkonqi
 %dir %{_datadir}/apps/kcm_componentchooser
 %{_datadir}/apps/kcm_componentchooser/kcm_browser.desktop
@@ -284,30 +253,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kcm_componentchooser/kcm_terminal.desktop
 %{_datadir}/apps/kcm_componentchooser/kcm_wm.desktop
 %{_datadir}/apps/kcmlocale
-%{_datadir}/apps/kconf_update/kdedglobalaccel_kde42.upd
 %{_datadir}/apps/kconf_update/kuriikwsfilter.upd
 %{_datadir}/apps/kde/kde.notifyrc
 %{_datadir}/apps/khelpcenter
 %{_datadir}/apps/kio_bookmarks
 %{_datadir}/apps/kio_finger
 %{_datadir}/apps/kio_info
-%{_datadir}/apps/kio_man
 %{_datadir}/apps/kio_thumbnail
 %dir %{_datadir}/apps/konqueror/dirtree
 %dir %{_datadir}/apps/konqueror/dirtree/remote
 %{_datadir}/apps/konqueror/dirtree/remote/smb-network.desktop
 %dir %{_datadir}/apps/remoteview
 %{_datadir}/apps/remoteview/smb-network.desktop
-%dir %{_datadir}/apps/nepomukstrigiservice
-%{_datadir}/apps/nepomukstrigiservice/nepomukstrigiservice.notifyrc
-%dir %{_datadir}/apps/nepomukstorage
-%{_datadir}/apps/nepomukstorage/nepomukstorage.notifyrc
-%dir %{_datadir}/apps/nepomuk
-%dir %{_datadir}/apps/nepomuk/ontologies
-%{_datadir}/apps/nepomuk/ontologies/*.desktop
-%{_datadir}/apps/nepomuk/ontologies/*.rdf*
-%{_datadir}/apps/nepomuk/ontologies/*.trig
-%{_datadir}/autostart/nepomukserver.desktop
 %{_datadir}/config.kcfg/khelpcenter.kcfg
 %{_datadir}/config/khotnewstuff.knsrc
 %{_datadir}/config/icons.knsrc
@@ -316,14 +273,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/interfaces/org.kde.KTimeZoned.xml
 %{_datadir}/dbus-1/interfaces/org.kde.khelpcenter.kcmhelpcenter.xml
 %{_datadir}/dbus-1/services/org.kde.knotify.service
-%{_datadir}/dbus-1/interfaces/org.kde.NepomukServer.xml
-%{_datadir}/dbus-1/interfaces/org.kde.nepomuk.ServiceControl.xml
-%{_datadir}/dbus-1/interfaces/org.kde.nepomuk.ServiceManager.xml
-%{_datadir}/dbus-1/interfaces/org.kde.nepomuk.OntologyManager.xml
-%{_datadir}/dbus-1/interfaces/org.kde.nepomuk.Strigi.xml
-%{_datadir}/dbus-1/interfaces/org.kde.nepomuk.Storage.xml
-%{_datadir}/dbus-1/interfaces/org.kde.nepomuk.Query.xml
-%{_datadir}/dbus-1/interfaces/org.kde.nepomuk.QueryService.xml
+%{_datadir}/dbus-1/interfaces/org.kde.network.kioslavenotifier.xml
 %{_datadir}/emoticons/kde4
 %{_datadir}/kde4/services/about.protocol
 %{_datadir}/kde4/services/applications.protocol
@@ -351,13 +301,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kcmcgi.desktop
 %{_datadir}/kde4/services/kcmkded.desktop
 %{_datadir}/kde4/services/kcmnotify.desktop
-%{_datadir}/kde4/services/kcm_nepomuk.desktop
 %{_datadir}/kde4/services/kcmtrash.desktop
 %{_datadir}/kde4/services/kded/kpasswdserver.desktop
 %{_datadir}/kde4/services/kded/ktimezoned.desktop
 %{_datadir}/kde4/services/kded/remotedirnotify.desktop
 %{_datadir}/kde4/services/kded/soliduiserver.desktop
-%{_datadir}/kde4/services/kded/kdedglobalaccel.desktop
 %{_datadir}/kde4/services/khelpcenter.desktop
 %{_datadir}/kde4/services/kmanpart.desktop
 %{_datadir}/kde4/services/knotify4.desktop
@@ -369,7 +317,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/language.desktop
 %{_datadir}/kde4/services/localdomainurifilter.desktop
 %{_datadir}/kde4/services/man.protocol
-%{_datadir}/kde4/services/nepomuksearch.protocol
 %{_datadir}/kde4/services/nfs.protocol
 %{_datadir}/kde4/services/programs.protocol
 %{_datadir}/kde4/services/remote.protocol
@@ -385,18 +332,19 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/thumbnail.protocol
 %{_datadir}/kde4/services/trash.protocol
 %{_datadir}/kde4/services/zip.protocol
-%{_datadir}/kde4/services/nepomukfilewatch.desktop
-%{_datadir}/kde4/services/nepomukmigration1.desktop
-%{_datadir}/kde4/services/nepomukontologyloader.desktop
-%{_datadir}/kde4/services/nepomukstorage.desktop
-%{_datadir}/kde4/services/nepomukstrigiservice.desktop
-%{_datadir}/kde4/services/nepomukqueryservice.desktop
 %{_datadir}/kde4/services/desktop.protocol
 %{_datadir}/kde4/services/kded/desktopnotifier.desktop
-%{_datadir}/kde4/servicetypes/nepomukservice.desktop
+%{_datadir}/kde4/services/desktopthumbnail.desktop
+%{_datadir}/kde4/services/directorythumbnail.desktop
+%{_datadir}/kde4/services/filetypes.desktop
+%{_datadir}/kde4/services/kded/networkwatcher.desktop
+%{_datadir}/kde4/services/kded/solidautoeject.desktop
+%{_datadir}/kde4/services/kglobalaccel.desktop
+%{_datadir}/kde4/services/network.protocol
 %{_datadir}/kde4/servicetypes/searchprovider.desktop
 %{_datadir}/kde4/servicetypes/thumbcreator.desktop
 %{_datadir}/desktop-directories
+%{_datadir}/mime/packages/network.xml
 
 %{_datadir}/locale/en_US/*
 %dir %{_datadir}/locale/l10n
@@ -443,6 +391,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(en) %{_kdedocdir}/en/kioslave/tar
 %lang(en) %{_kdedocdir}/en/kioslave/thumbnail
 %lang(en) %{_kdedocdir}/en/knetattach
+%lang(en) %{_kdedocdir}/en/network
 %lang(en) %{_mandir}/man1/kdesu.1*
 
 %{_datadir}/sounds/*
@@ -453,6 +402,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/ksmserver/windowmanagers/compiz.desktop
 %{_datadir}/apps/ksmserver/windowmanagers/metacity.desktop
 %{_datadir}/apps/ksmserver/windowmanagers/openbox.desktop
+%{_datadir}/apps/kio_docfilter
+%dir %{_datadir}/apps/konqsidebartng
+%dir %{_datadir}/apps/konqsidebartng/virtual_folders
+%dir %{_datadir}/apps/konqsidebartng/virtual_folders/remote
+%{_datadir}/apps/konqsidebartng/virtual_folders/remote/virtualfolder_network.desktop
+%{_datadir}/apps/kwalletd
+%{_datadir}/apps/remoteview/network.desktop
 
 # dir owned by kdelibs
 %{_datadir}/apps/desktoptheme/default/*
@@ -460,9 +416,9 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %{_libdir}/libkwalletbackend.so
-#%{_libdir}/libkaudiodevicelist.so
+%{_libdir}/libmolletnetwork.so
 %{_datadir}/apps/cmake/modules/FindCLucene.cmake
-%{_datadir}/apps/cmake/modules/FindPulseAudio.cmake
+%{_datadir}/apps/cmake/modules/FindSLP.cmake
 
 %files -n kde4-phonon
 %defattr(644,root,root,755)
@@ -490,40 +446,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kio_desktop/directory.desktop
 %{_datadir}/apps/kio_desktop/directory.trash
 %{_datadir}/kde4/services/kded/phononserver.desktop
-
-%files -n kde4-icons-oxygen
-%defattr(644,root,root,755)
-# digikam has it's own icon in digikam.spec
-%exclude %{_iconsdir}/oxygen/*x*/apps/digikam.*
-%exclude %{_iconsdir}/oxygen/*x*/apps/showfoto.*
-%{_iconsdir}/oxygen/*x*/actions/*
-%{_iconsdir}/oxygen/*x*/apps/*
-%{_iconsdir}/oxygen/*x*/categories/*
-%{_iconsdir}/oxygen/*x*/devices/*
-%{_iconsdir}/oxygen/*x*/mimetypes/*
-%{_iconsdir}/oxygen/*x*/places/*
-%{_iconsdir}/oxygen/*x*/status/*
-%{_iconsdir}/oxygen/*x*/animations/*
-%{_iconsdir}/oxygen/*x*/emblems/*
-%{_iconsdir}/oxygen/*x*/emotes/*
-%{_iconsdir}/oxygen/index.theme
-
-%files -n kde4-icons-oxygen-svg
-%defattr(644,root,root,755)
-%dir %{_iconsdir}/oxygen/scalable
-# digikam has it's own icon in digikam.spec
-%exclude %{_iconsdir}/oxygen/scalable/apps/digikam.*
-%{_iconsdir}/oxygen/scalable/text-formatting.svg
-%{_iconsdir}/oxygen/scalable/actions
-%{_iconsdir}/oxygen/scalable/apps
-%{_iconsdir}/oxygen/scalable/categories
-%{_iconsdir}/oxygen/scalable/devices
-%{_iconsdir}/oxygen/scalable/emblems
-%{_iconsdir}/oxygen/scalable/emotes
-%{_iconsdir}/oxygen/scalable/mimetypes
-%{_iconsdir}/oxygen/scalable/places
-%{_iconsdir}/oxygen/scalable/status
-%{_iconsdir}/hicolor/scalable/apps/*.svgz
 
 %files -n kde4-style-oxygen
 %defattr(644,root,root,755)
