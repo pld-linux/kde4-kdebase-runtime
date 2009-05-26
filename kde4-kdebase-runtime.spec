@@ -282,6 +282,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/konqueror/dirtree/remote/smb-network.desktop
 %dir %{_datadir}/apps/remoteview
 %{_datadir}/apps/remoteview/smb-network.desktop
+%dir %{_datadir}/apps/nepomuk
 %dir %{_datadir}/apps/nepomuk/ontologies
 %{_datadir}/apps/nepomuk/ontologies/*
 %dir %{_datadir}/apps/nepomukstorage
