@@ -7,16 +7,18 @@
 %define		_state		unstable
 %define		orgname		kdebase-runtime
 %define		qtver		4.5.0
+%define		svn		969966
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.2.85
+Version:	4.2.87
 Release:	1
 License:	GPL
 Group:		X11/Applications
-Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	ba53362b7bbaab6870c2c1579cdb9b8a
+Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}svn%{svn}.tar.bz2
+# Source0-md5:	5e0644babf94ce6a3605d8c3ebd1be1d
+#Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
@@ -37,7 +39,7 @@ BuildRequires:	phonon-devel >= 4.3.1
 BuildRequires:	pulseaudio-devel
 %{?with_apidocs:BuildRequires:	qt4-doc >= %{qtver}}
 BuildRequires:	rpmbuild(macros) >= 1.129
-BuildRequires:	soprano-devel >= 2.1.64
+BuildRequires:	soprano-devel >= 2.1.68
 BuildRequires:	strigi-devel >= 0.6.3
 BuildRequires:	xine-lib-devel
 Obsoletes:	kdebase4-runtime
@@ -87,7 +89,7 @@ KDE Oxygen Style.
 Styl Oxygen dla KDE.
 
 %prep
-%setup -q -n %{orgname}-%{version} -a1
+%setup -q -n %{orgname}-%{version}svn%{svn} -a1
 #%patch100 -p1
 
 %build
