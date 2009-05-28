@@ -1,227 +1,1733 @@
---- runtime/knotify/notifybyktts.cpp	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
-+++ runtime/knotify/notifybyktts.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
-@@ -17,16 +17,18 @@
-    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+--- runtime/kcontrol/locale/language.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kcontrol/locale/language.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -88,8 +88,8 @@
+ Name[uz@cyrillic]=Давлат/регион ва тил
+ Name[vi]=Quốc gia và Ngôn ngữ
+ Name[wa]=Payis & lingaedje
++Name[xh]=Ilizwe/Ummandla & Ulwimi
+ Name[x-test]=xxCountry/Region & Languagexx
+-Name[xh]=Ilizwe/Ummandla & Ulwimi
+ Name[zh_CN]=国家/地区和语言
+ Name[zh_TW]=國家/地區與語言
  
-  */
--#include "notifybyktts.h" 
-+#include "notifybyktts.h"
- #include <QtDBus/QtDBus>
- #include <QHash>
--
-+#include <ktoolinvocation.h>
-+#include <kmessagebox.h>
- #include <kmacroexpander.h>
--
-+#include <klocale.h>
- #include "knotifyconfig.h"
+@@ -168,8 +168,8 @@
+ Comment[uz@cyrillic]=Давлатингиз учун тил, сон ва вақт мосламалари
+ Comment[vi]=Ngôn ngữ, số và các thiết lập về thời gian cho vùng cụ thể
+ Comment[wa]=Apontiaedje do lingaedje et des preferinces (prezintaedje des limeros, des dates, evnd.) po vosse payis
++Comment[xh]=Ulwimi, amanani, kunye nezicwangciso zexesha zommandla wakho
+ Comment[x-test]=xxLanguage, numeric, and time settings for your particular regionxx
+-Comment[xh]=Ulwimi, amanani, kunye nezicwangciso zexesha zommandla wakho
+ Comment[zh_CN]=您所在地区的语言、数字和时间设置
+ Comment[zh_TW]=您所在地區的語言、數字和時間設定
  
--NotifyByKTTS::NotifyByKTTS(QObject *parent) : KNotifyPlugin(parent) , kspeech("org.kde.kttsd", "/KSpeech", "org.kde.KSpeech")
-+NotifyByKTTS::NotifyByKTTS(QObject *parent) : KNotifyPlugin(parent),kspeech("org.kde.kttsd", "/KSpeech", "org.kde.KSpeech"), tryToStartKttsd( false )
- {
-+    if( kspeech.isValid())
- 	kspeech.call("setApplicationName", "KNotify");
- }
+--- runtime/kcontrol/emoticons/emoticonslist.cpp	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kcontrol/emoticons/emoticonslist.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -317,7 +317,7 @@
  
-@@ -37,8 +39,26 @@
+     KEmoticonsTheme theme = emoMap.value(themeList->currentItem()->text());
+     QString path = theme.emoticonsMap().key(emoList->currentItem()->text().split(' '));
+-    QString f = QFileInfo(path).baseName();
++    QString f = QFileInfo(path).fileName();
+     EditDialog *dlg = new EditDialog(this, i18n("Edit Emoticon"), emoList->currentItem(), path);
  
- void NotifyByKTTS::notify( int id, KNotifyConfig * config )
- {
--	QString say = config->readEntry( "KTTS" );
--	
-+        if( !kspeech.isValid())
-+        {
-+            if (  tryToStartKttsd ) //don't try to restart it all the time.
-+                return;
-+            // If KTTSD not running, start it.
-+            if (!QDBusConnection::sessionBus().interface()->isServiceRegistered("org.kde.kttsd"))
-+            {
-+                QString error;
-+                if (KToolInvocation::startServiceByDesktopName("kttsd", QStringList(), &error))
-+                {
-+                    KMessageBox::error(0, i18n( "Starting KTTSD Failed"), error );
-+                    tryToStartKttsd = true;
-+                    return;
-+                }
-+                kspeech.call("setApplicationName", "KNotify");
-+            }
-+        }
-+
-+        QString say = config->readEntry( "KTTS" );
-+
- 	if (!say.isEmpty()) {
- 		QHash<QChar,QString> subst;
- 		subst.insert( 'e', config->eventid );
-@@ -49,10 +69,10 @@
- 		subst.insert( 'm', config->text );
- 		say = KMacroExpander::expandMacrosShellQuote( say, subst );
- 	}
--	
-+
- 	if ( say.isEmpty() )
- 		say = config->text; // fallback
--	
-+
- 	kspeech.call(QDBus::NoBlock, "say", say, 0);
+     if (dlg->exec() == QDialog::Rejected) {
+@@ -340,6 +340,10 @@
+             emo = dir->findResource("emoticons", themeList->currentItem()->text() + QDir::separator()  + f + ".png");
+         if (emo.isNull())
+             emo = dir->findResource("emoticons", themeList->currentItem()->text() + QDir::separator()  + f + ".gif");
++        if (emo.isNull())
++            emo = dir->findResource("emoticons", themeList->currentItem()->text() + QDir::separator()  + f + ".jpg");
++        if (emo.isNull())
++            emo = dir->findResource("emoticons", themeList->currentItem()->text() + QDir::separator()  + f + ".jpeg");
+         if (emo.isNull()) {
+             delete dlg;
+             return;
+--- runtime/kcontrol/knotify/kcmnotify.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kcontrol/knotify/kcmnotify.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -88,8 +88,8 @@
+ Name[uz@cyrillic]=Тизимнинг хабарномалари
+ Name[vi]=Thông báo Hệ thống
+ Name[wa]=Notifiaedjes do sistinme
++Name[xh]=Izaziso Zendlela esetyenziswayo
+ Name[x-test]=xxSystem Notificationsxx
+-Name[xh]=Izaziso Zendlela esetyenziswayo
+ Name[zh_CN]=系统通知
+ Name[zh_TW]=系統通知
  
- 	finished(id);
---- runtime/knotify/notifybyktts.h	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
-+++ runtime/knotify/notifybyktts.h	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
-@@ -29,15 +29,17 @@
- #include <QDBusInterface>
+@@ -170,8 +170,8 @@
+ Comment[uz@cyrillic]=Тизимнинг хабарномаларини мослаш
+ Comment[vi]=Cấu hình Thông báo Hệ thống
+ Comment[wa]=Apontiaedje po les notifiaedjes do sistinme
++Comment[xh]=Uqwalaselo Lwezaziso Zendlela yokusebenza
+ Comment[x-test]=xxSystem Notification Configurationxx
+-Comment[xh]=Uqwalaselo Lwezaziso Zendlela yokusebenza
+ Comment[zh_CN]=系统通知配置
+ Comment[zh_TW]=系統通知組態
  
- class NotifyByKTTS : public KNotifyPlugin
--{ Q_OBJECT
--	public:
--		NotifyByKTTS(QObject *parent=0l);
--		virtual ~NotifyByKTTS();
--		
--		virtual QString optionName() { return "KTTS"; }
--		virtual void notify(int id , KNotifyConfig *config);
--	private:
--		QDBusInterface kspeech;
-+{
-+    Q_OBJECT
-+public:
-+    NotifyByKTTS(QObject *parent=0l);
-+    virtual ~NotifyByKTTS();
-+
-+    virtual QString optionName() { return "KTTS"; }
-+    virtual void notify(int id , KNotifyConfig *config);
-+private:
-+    QDBusInterface kspeech;
-+    bool tryToStartKttsd;
- };
+--- runtime/kcontrol/componentchooser/componentchooser.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kcontrol/componentchooser/componentchooser.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -160,8 +160,8 @@
+ Comment[uz@cyrillic]=Турли хизматлар учун андоза компонентларни танлаш
+ Comment[vi]=Chọn các thành phần mặc định cho các dịch vụ khác nhau
+ Comment[wa]=Tchoezi les prémetous compôzants po sacwants siervices
++Comment[xh]=Khetha ingxenye zokungagqibekanga kweenkonzo eziliqela
+ Comment[x-test]=xxChoose the default components for various servicesxx
+-Comment[xh]=Khetha ingxenye zokungagqibekanga kweenkonzo eziliqela
+ Comment[zh_CN]=选择各种服务的默认组件
+ Comment[zh_TW]=選擇各種服務的預設元件
  
+--- runtime/kcontrol/componentchooser/EXAMPLE.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kcontrol/componentchooser/EXAMPLE.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -73,8 +73,8 @@
+ Name[uz@cyrillic]=Интерфейсингиз учун чиройли ном
+ Name[vi]=Một cái tên đẹp bạn đã chọn cho giao diện của mình
+ Name[wa]=On clapant no ki vos avoz tchoezi po voste eterface
++Name[xh]=Igama elihle olikhetileyo kujongano lwakho
+ Name[x-test]=xxA nice name you have chosen for your interfacexx
+-Name[xh]=Igama elihle olikhetileyo kujongano lwakho
+ Name[zh_CN]=选择您的界面的好名字
+ Name[zh_TW]=您為您的界面選擇的好名字
+ Comment=A helpful description of the interface for the top right info box
+@@ -149,8 +149,8 @@
+ Comment[uk]=Допоміжний опис інтерфейсу для віконця інформації вгорі праворуч
+ Comment[vi]=Một mô tả giao diện có ích cho hộp thông tin ở trên cùng bên phải
+ Comment[wa]=Èn ahessåve discrijhaedje di l' eterface, pol boesse d' infôrmåcion del coine å dzeu a droete
++Comment[xh]=Uchazo oluluncedo lojongano olungaphezulu ekunene kwebhokisi yolwazi
+ Comment[x-test]=xxA helpful description of the interface for the top right info boxxx
+-Comment[xh]=Uchazo oluluncedo lojongano olungaphezulu ekunene kwebhokisi yolwazi
+ Comment[zh_CN]=右上方信息框中界面的帮助描述
+ Comment[zh_TW]=用於右上方資訊方塊界面的有用敘述
+ 
+--- runtime/kcontrol/componentchooser/componentservices/kcm_kemail.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kcontrol/componentchooser/componentservices/kcm_kemail.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -75,8 +75,8 @@
+ Name[uz@cyrillic]=Хат-хабар клиенти
+ Name[vi]=Trình thư
+ Name[wa]=Cliyint d' emilaedje
++Name[xh]=Umxhasi we Email
+ Name[x-test]=xxEmail Clientxx
+-Name[xh]=Umxhasi we Email
+ Name[zh_CN]=电子邮件客户端程序
+ Name[zh_TW]=電子郵件客戶端程式
+ Comment=This service allows you to configure your default email client. All KDE applications which need access to an email client application should honor this setting.
+@@ -154,8 +154,8 @@
+ Comment[uz@cyrillic]=Бу хизмат андоза хат-хабар клиентингизни мослаш учун имконият яратади. Хат-хабар клиенти керак бўлган ҳамма KDE дастурлари шу мосламадан фойдаланиши керак.
+ Comment[vi]=Dịch vụ này cho phép bạn cấu hình trình thư mặc định. Tất cả các chương trình của KDE cần gửi thư điện tử đều dựa vào thiết lập này.
+ Comment[wa]=Ci siervice vos permete d' apontyî vosse prémetou cliyint d' emile. Tos les programes KDE k' åront dandjî d' aveur accès a on cliyint emile duvrént shure cisse tchuze.
++Comment[xh]=Lenkonzo ikuvumela ukuba uqwalasele umxhasi wakho we email. Zonke izicelo ezidinga unikezelo kumxhasi we email wesicelo kufuneka yamkele esisicelo.
+ Comment[x-test]=xxThis service allows you to configure your default email client. All KDE applications which need access to an email client application should honor this setting.xx
+-Comment[xh]=Lenkonzo ikuvumela ukuba uqwalasele umxhasi wakho we email. Zonke izicelo ezidinga unikezelo kumxhasi we email wesicelo kufuneka yamkele esisicelo.
+ Comment[zh_CN]=此服务允许您配置您的默认电子邮件客户端程序。所有需要访问电子邮件客户端程序的 KDE 应用程序都遵从此设置。
+ Comment[zh_TW]=這個服務允許您設定您的預設電子郵件客戶端程式。所有需要使用電子郵件客戶端應用程式的 KDE 應用程式都應該遵從這個設定。
+ configurationType=internal_email
+--- runtime/kcontrol/componentchooser/componentservices/kcm_browser.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kcontrol/componentchooser/componentservices/kcm_browser.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -75,8 +75,8 @@
+ Name[uz@cyrillic]=Веб-браузер
+ Name[vi]=Trình duyệt Mạng
+ Name[wa]=Betchteu waibe
++Name[xh]=Umkhangeli zincwadi we Web
+ Name[x-test]=xxWeb Browserxx
+-Name[xh]=Umkhangeli zincwadi we Web
+ Name[zh_CN]=Web 浏览器
+ Name[zh_TW]=網頁瀏覽器
+ Comment=Here you can configure your default web browser. All KDE applications in which you can select hyperlinks should honor this setting.
+--- runtime/kcontrol/componentchooser/componentservices/kcm_filemanager.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kcontrol/componentchooser/componentservices/kcm_filemanager.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -76,8 +76,8 @@
+ Name[uz@cyrillic]=Файл бошқарувчиси
+ Name[vi]=Bộ quản lý tập tin
+ Name[wa]=Manaedjeu di fitchîs
++Name[xh]=Umphathi Wefayile
+ Name[x-test]=xxFile Managerxx
+-Name[xh]=Umphathi Wefayile
+ Name[zh_CN]=文件管理器
+ Name[zh_TW]=檔案管理程式
+ Comment=Here you can configure your default file manager. The entries in the K menu and all KDE applications in which you can open folders will use this file manager.
+--- runtime/kcontrol/componentchooser/componentservices/kcm_terminal.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kcontrol/componentchooser/componentservices/kcm_terminal.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -75,8 +75,8 @@
+ Name[uz@cyrillic]=Терминал эмулятори
+ Name[vi]=Mô phỏng thiết bị cuối
+ Name[wa]=Programes terminås
++Name[xh]=Umzami kulinganisela ngokulinganayo Wendlela yesiphelo
+ Name[x-test]=xxTerminal Emulatorxx
+-Name[xh]=Umzami kulinganisela ngokulinganayo Wendlela yesiphelo
+ Name[zh_CN]=终端仿真器
+ Name[zh_TW]=終端機模擬程式
+ Comment=This service allows you to configure your default terminal emulator. All KDE applications which invoke a terminal emulator application should honor this setting.
+@@ -154,8 +154,8 @@
+ Comment[uz@cyrillic]=Бу хизмат андоза терминал эмуляторингизни мослаш учун имконият яратади. Терминал эмулятори керак бўлган ҳамма KDE дастурлари шу мосламадан фойдаланиши керак.
+ Comment[vi]=Dịch vụ này cho phép bạn cấu hình trình mô phỏng thiết bị cuối mặc định. Tất cả các chương trình của KDE cần mở thiết bị đầu cuối đều dựa vào thiết lập này.
+ Comment[wa]=Ci siervice vos permete d' apontyî vosse prémetou terminå. Tos les programes KDE ki dmandront on terminå duvrént shure cisse tchuze.
++Comment[xh]=Lenkonzo ikuvumela ukuba ukwazi ukuqwalasela isiphelo esingagqibekanga sendlela yokulinganisa.Zonke izicelo ze KDE eziqalisa isicelo sesiphelo sendlela yokulinganisa kumele zisamkele esisicwangciso.
+ Comment[x-test]=xxThis service allows you to configure your default terminal emulator. All KDE applications which invoke a terminal emulator application should honor this setting.xx
+-Comment[xh]=Lenkonzo ikuvumela ukuba ukwazi ukuqwalasela isiphelo esingagqibekanga sendlela yokulinganisa.Zonke izicelo ze KDE eziqalisa isicelo sesiphelo sendlela yokulinganisa kumele zisamkele esisicwangciso.
+ Comment[zh_CN]=此服务允许您配置您的默认终端仿真器。所有调用终端仿真程序的 KDE 应用程序都遵从此设置。
+ Comment[zh_TW]=這個服務允許您設定您的預設終端機模擬程式。所有呼叫終端機模擬程式的 KDE 應用程式都應該遵從這個設定。
+ configurationType=internal_terminal
+--- runtime/kcontrol/kded/kcmkded.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kcontrol/kded/kcmkded.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -85,8 +85,8 @@
+ Name[uz@cyrillic]=Хизмат бошқарувчиси
+ Name[vi]=Bộ quản lý dịch vụ
+ Name[wa]=Manaedjeu di siervices
++Name[xh]=Umphathi Wenkonzo
+ Name[x-test]=xxService Managerxx
+-Name[xh]=Umphathi Wenkonzo
+ Name[zh_CN]=服务管理器
+ Name[zh_TW]=服務管理程式
+ Comment=KDE Services Configuration
+--- runtime/kcontrol/menus/kde-information.directory	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kcontrol/menus/kde-information.directory	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,8 +77,8 @@
+ Name[uz@cyrillic]=Маълумот
+ Name[vi]=Thông tin
+ Name[wa]=Infôrmåcions
++Name[xh]=Ulwazi
+ Name[x-test]=xxInformationxx
+-Name[xh]=Ulwazi
+ Name[zh_CN]=信息
+ Name[zh_TW]=資訊
+ Icon=hwinfo
+--- runtime/kcontrol/icons/icons.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kcontrol/icons/icons.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -91,8 +91,8 @@
+ Name[uz@cyrillic]=Нишончалар
+ Name[vi]=Biểu tượng
+ Name[wa]=Imådjetes
++Name[xh]=Imphawu zemmifanekiso
+ Name[x-test]=xxIconsxx
+-Name[xh]=Imphawu zemmifanekiso
+ Name[zh_CN]=图标
+ Name[zh_TW]=圖示
+ 
+@@ -174,8 +174,8 @@
+ Comment[uz@cyrillic]=KDE нишончаларини мослаш
+ Comment[vi]=Tuỳ chỉnh các biểu tượng của KDE
+ Comment[wa]=Mete les imådjetes KDE a vosse môde
++Comment[xh]=Yenza Imphawu zomfanekiso ze KDE Ngokwemfuneko
+ Comment[x-test]=xxCustomize KDE Iconsxx
+-Comment[xh]=Yenza Imphawu zomfanekiso ze KDE Ngokwemfuneko
+ Comment[zh_CN]=自定义 KDE 图标
+ Comment[zh_TW]=自訂 KDE 圖示
+ 
+--- runtime/kcontrol/spellchecking/spellchecking.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kcontrol/spellchecking/spellchecking.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -82,8 +82,8 @@
+ Name[uz]=Imloni tekshiruvchi
+ Name[uz@cyrillic]=Имлони текширувчи
+ Name[wa]=Coridjrece ortografike
++Name[xh]=Umkhangeki Wopelo
+ Name[x-test]=xxSpell Checkerxx
+-Name[xh]=Umkhangeki Wopelo
+ Name[zh_CN]=拼写检查器
+ Name[zh_TW]=拼字檢查器
+ 
+@@ -156,8 +156,8 @@
+ Comment[uz]=Imlo tekshiruvchini moslash
+ Comment[uz@cyrillic]=Имло текширувчини мослаш
+ Comment[wa]=Apontyî l' coridjrece ortografike
++Comment[xh]=Qwalasela umkhangelo wopelo
+ Comment[x-test]=xxConfigure the spell checkerxx
+-Comment[xh]=Qwalasela umkhangelo wopelo
+ Comment[zh_CN]=配置拼写检查器
+ Comment[zh_TW]=設定拼字檢查器
+ 
+--- runtime/phonon/kcm/kcm_phonon.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/phonon/kcm/kcm_phonon.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -69,8 +69,8 @@
+ Name[uk]=Мультимедіа
+ Name[uz@cyrillic]=Мултимедиа
+ Name[vi]=Nhạc/Ảnh
++Name[xh]=Iindlela ezininzi zokwenza
+ Name[x-test]=xxMultimediaxx
+-Name[xh]=Iindlela ezininzi zokwenza
+ Name[zh_CN]=多媒体
+ Name[zh_TW]=多媒體
+ Comment=Sound and Video Configuration
+--- runtime/menu/desktop/kde-utilities.directory	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/menu/desktop/kde-utilities.directory	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -80,8 +80,8 @@
+ Name[uz@cyrillic]=Воситалар
+ Name[vi]=Tiện ích
+ Name[wa]=Usteyes
++Name[xh]=Izinto eziluncedo
+ Name[x-test]=xxUtilitiesxx
+-Name[xh]=Izinto eziluncedo
+ Name[zh_CN]=工具
+ Name[zh_TW]=實用工具
+ Icon=applications-utilities
+@@ -163,7 +163,7 @@
+ Comment[uz@cyrillic]=Воситалар
+ Comment[vi]=Các tiện ích
+ Comment[wa]=Usteyes
++Comment[xh]=Izinto eziluncedo
+ Comment[x-test]=xxUtilitiesxx
+-Comment[xh]=Izinto eziluncedo
+ Comment[zh_CN]=实用工具
+ Comment[zh_TW]=實用工具
+--- runtime/menu/desktop/kde-games-kids.directory	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/menu/desktop/kde-games-kids.directory	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -80,8 +80,8 @@
+ Name[uz@cyrillic]=Кичкинтойлар учун ўйинлар
+ Name[vi]=Trò chơi cho Trẻ
+ Name[wa]=Djeus po ls efants
++Name[xh]=Imidlalo Yabantwana
+ Name[x-test]=xxGames for Kidsxx
+-Name[xh]=Imidlalo Yabantwana
+ Name[zh_CN]=儿童游戏
+ Name[zh_TW]=小孩的遊戲
+ Icon=applications-games-children
+--- runtime/menu/desktop/kde-multimedia.directory	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/menu/desktop/kde-multimedia.directory	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -61,8 +61,8 @@
+ Name[uk]=Мультимедіа
+ Name[uz@cyrillic]=Мултимедиа
+ Name[vi]=Nhạc/Ảnh
++Name[xh]=Iindlela ezininzi zokwenza
+ Name[x-test]=xxMultimediaxx
+-Name[xh]=Iindlela ezininzi zokwenza
+ Name[zh_CN]=多媒体
+ Name[zh_TW]=多媒體
+ Icon=applications-multimedia
+--- runtime/menu/desktop/kde-office.directory	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/menu/desktop/kde-office.directory	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -80,8 +80,8 @@
+ Name[uz@cyrillic]=Идора учун дастурлар
+ Name[vi]=Văn phòng
+ Name[wa]=Buro
++Name[xh]=Ofisi
+ Name[x-test]=xxOfficexx
+-Name[xh]=Ofisi
+ Name[zh_CN]=办公
+ Name[zh_TW]=辦公軟體
+ Icon=applications-office
+--- runtime/menu/desktop/kde-games.directory	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/menu/desktop/kde-games.directory	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -81,8 +81,8 @@
+ Name[uz@cyrillic]=Ўйинлар
+ Name[vi]=Trò chơi
+ Name[wa]=Djeus
++Name[xh]=Imidlalo
+ Name[x-test]=xxGamesxx
+-Name[xh]=Imidlalo
+ Name[zh_CN]=游戏
+ Name[zh_TW]=遊戲
+ Icon=applications-games
+--- runtime/menu/desktop/kde-toys.directory	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/menu/desktop/kde-toys.directory	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -79,8 +79,8 @@
+ Name[uz@cyrillic]=Ўйинчоқлар
+ Name[vi]=Đồ chơi
+ Name[wa]=Amuzmints
++Name[xh]=Izinto zokudlala
+ Name[x-test]=xxToysxx
+-Name[xh]=Izinto zokudlala
+ Name[zh_CN]=玩具
+ Name[zh_TW]=玩具
+ Icon=applications-toys
+--- runtime/menu/desktop/kde-utilities-accessibility.directory	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/menu/desktop/kde-utilities-accessibility.directory	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -81,8 +81,8 @@
+ Name[uz@cyrillic]=Қулайликлар
+ Name[vi]=Khả năng truy cập
+ Name[wa]=Accessibilité
++Name[xh]=Unikezelo
+ Name[x-test]=xxAccessibilityxx
+-Name[xh]=Unikezelo
+ Name[zh_CN]=辅助
+ Name[zh_TW]=無障礙輔助
+ Icon=preferences-desktop-accessibility
+--- runtime/menu/desktop/kde-graphics.directory	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/menu/desktop/kde-graphics.directory	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -81,8 +81,8 @@
+ Name[uz@cyrillic]=Графика
+ Name[vi]=Đồ hoạ
+ Name[wa]=Grafikes
++Name[xh]=Imizobo
+ Name[x-test]=xxGraphicsxx
+-Name[xh]=Imizobo
+ Name[zh_CN]=图像
+ Name[zh_TW]=圖形
+ Icon=applications-graphics
+--- runtime/menu/desktop/kde-internet-terminal.directory	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/menu/desktop/kde-internet-terminal.directory	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -80,8 +80,8 @@
+ Name[uz@cyrillic]=Терминал учун дастурлар
+ Name[vi]=Trình đầu cuối
+ Name[wa]=Programes terminås
++Name[xh]=Izicelo Zesiphelo sendlela
+ Name[x-test]=xxTerminal Applicationsxx
+-Name[xh]=Izicelo Zesiphelo sendlela
+ Name[zh_CN]=终端应用程序
+ Name[zh_TW]=終端機程式
+ Icon=utilities-terminal
+--- runtime/menu/desktop/kde-games-arcade.directory	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/menu/desktop/kde-games-arcade.directory	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -69,8 +69,8 @@
+ Name[uz@cyrillic]=Аркада
+ Name[vi]=Mái vòm
+ Name[wa]=Årcåde
++Name[xh]=Umqolo wesakhiwo esiphatha ubunzima bento
+ Name[x-test]=xxArcadexx
+-Name[xh]=Umqolo wesakhiwo esiphatha ubunzima bento
+ Name[zh_CN]=街机
+ Name[zh_TW]=大型遊戲機遊戲
+ Icon=applications-games-arcade
+--- runtime/menu/desktop/kde-development.directory	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/menu/desktop/kde-development.directory	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -81,8 +81,8 @@
+ Name[uz@cyrillic]=Тузиш
+ Name[vi]=Phát triển
+ Name[wa]=Programaedje
++Name[xh]=Ubhekiso phambili
+ Name[x-test]=xxDevelopmentxx
+-Name[xh]=Ubhekiso phambili
+ Name[zh_CN]=开发
+ Name[zh_TW]=程式開發
+ Icon=applications-development
+--- runtime/menu/desktop/kde-system.directory	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/menu/desktop/kde-system.directory	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -74,8 +74,8 @@
+ Name[uz@cyrillic]=Тизим
+ Name[vi]=Hệ thống
+ Name[wa]=Sistinme
++Name[xh]=Indlela esestyenziswayo
+ Name[x-test]=xxSystemxx
+-Name[xh]=Indlela esestyenziswayo
+ Name[zh_CN]=系统
+ Name[zh_TW]=系統
+ Icon=applications-system
+--- runtime/menu/desktop/kde-utilities-peripherals.directory	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/menu/desktop/kde-utilities-peripherals.directory	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -79,8 +79,8 @@
+ Name[uz@cyrillic]=Уланган ускуналар
+ Name[vi]=Ngoại vi
+ Name[wa]=Periferikes
++Name[xh]=Iilayini zomda
+ Name[x-test]=xxPeripheralsxx
+-Name[xh]=Iilayini zomda
+ Name[zh_CN]=外设
+ Name[zh_TW]=週邊設備
+ Icon=preferences-desktop-peripherals
+--- runtime/menu/desktop/kde-games-strategy.directory	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/menu/desktop/kde-games-strategy.directory	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -78,8 +78,8 @@
+ Name[uz@cyrillic]=Тактика ва стратегия
+ Name[vi]=Chiến thuật và Chiến lược
+ Name[wa]=Tactike eyet stratedjeye
++Name[xh]=Amacebo okufumana iinjongo & Amacebo okuzoba
+ Name[x-test]=xxTactics & Strategyxx
+-Name[xh]=Amacebo okufumana iinjongo & Amacebo okuzoba
+ Name[zh_CN]=策略游戏
+ Name[zh_TW]=戰略及策略
+ Icon=applications-games-strategy
+--- runtime/menu/desktop/kde-system-terminal.directory	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/menu/desktop/kde-system-terminal.directory	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -80,8 +80,8 @@
+ Name[uz@cyrillic]=Терминал учун дастурлар
+ Name[vi]=Trình đầu cuối
+ Name[wa]=Programes terminås
++Name[xh]=Izicelo Zesiphelo sendlela
+ Name[x-test]=xxTerminal Applicationsxx
+-Name[xh]=Izicelo Zesiphelo sendlela
+ Name[zh_CN]=终端应用程序
+ Name[zh_TW]=終端機程式
+ Icon=utilities-terminal
+--- runtime/menu/desktop/kde-utilities-xutils.directory	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/menu/desktop/kde-utilities-xutils.directory	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,8 +77,8 @@
+ Name[uz@cyrillic]=X учун воситалар
+ Name[vi]=Tiện ích X
+ Name[wa]=Usteyes X
++Name[xh]=Izinto eziluncedo ze-X
+ Name[x-test]=xxX-Utilitiesxx
+-Name[xh]=Izinto eziluncedo ze-X
+ Name[zh_CN]=X 工具
+ Name[zh_TW]=X-實用工具
+ Comment=X Window Utilities
+@@ -158,7 +158,7 @@
+ Comment[uz@cyrillic]=X Windows воситалари
+ Comment[vi]=Các tiện ích của cửa sổ X
+ Comment[wa]=Usteyes pol sistinme grafike X11
++Comment[xh]=X Windows Izinto eziluncedo
+ Comment[x-test]=xxX Window Utilitiesxx
+-Comment[xh]=X Windows Izinto eziluncedo
+ Comment[zh_CN]=X Window 实用工具
+ Comment[zh_TW]=X 視窗實用工具
+--- runtime/menu/desktop/kde-games-roguelikes.directory	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/menu/desktop/kde-games-roguelikes.directory	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -78,7 +78,7 @@
+ Name[uz@cyrillic]=Rogue ўйинига ўхшаш ўйинлар
+ Name[vi]=Trò chơi giống Rogue
+ Name[wa]=Djeus ki rshonnèt-st a « rogue »
++Name[xh]=Imidlalo efana ne Rogue
+ Name[x-test]=xxRogue-like Gamesxx
+-Name[xh]=Imidlalo efana ne Rogue
+ Name[zh_CN]=恶作剧游戏
+ Name[zh_TW]=冒險類遊戲
+--- runtime/menu/desktop/kde-editors.directory	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/menu/desktop/kde-editors.directory	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -78,8 +78,8 @@
+ Name[uz@cyrillic]=Таҳрирчилар
+ Name[vi]=Trình biên tập
+ Name[wa]=Aspougneus d' tecse
++Name[xh]=Abahleli
+ Name[x-test]=xxEditorsxx
+-Name[xh]=Abahleli
+ Name[zh_CN]=编辑器
+ Name[zh_TW]=編輯器
+ Icon=accessories-text-editor
+--- runtime/khelpcenter/kcmhelpcenter.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/khelpcenter/kcmhelpcenter.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -86,8 +86,8 @@
+ Name[uz@cyrillic]=Ёрдам индекси
+ Name[vi]=Chỉ mục Trợ giúp
+ Name[wa]=Indecse di l' aidance
++Name[xh]=Uncedo Lwesalathisi
+ Name[x-test]=xxHelp Indexxx
+-Name[xh]=Uncedo Lwesalathisi
+ Name[zh_CN]=帮助索引
+ Name[zh_TW]=說明索引
+ 
+@@ -166,8 +166,8 @@
+ Comment[uz@cyrillic]=Ёрдам марказининг қидирув индексини яратиш ва мослаш
+ Comment[vi]=Cấu hình và tạo ra chỉ mục tìm kiếm của trung tâm trợ giúp
+ Comment[wa]=Fijhaedje eyet apontiaedje di l' indecse di cweraedje do cinte d' aidance
++Comment[xh]=Uqwalaselo lophendlo loncedo osembindi nolwenziwo
+ Comment[x-test]=xxHelp center search index configuration and generationxx
+-Comment[xh]=Uqwalaselo lophendlo loncedo osembindi nolwenziwo
+ Comment[zh_CN]=帮助中心搜索索引配置和生成
+ Comment[zh_TW]=求助中心搜尋索引的組態與產生
+ 
+--- runtime/khelpcenter/khelpcenter.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/khelpcenter/khelpcenter.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -121,8 +121,8 @@
+ Comment[uz@cyrillic]=KDE ёрдам маркази
+ Comment[vi]=Trung tâm Trợ giúp KDE
+ Comment[wa]=Li cinte d' aidance di KDE
++Comment[xh]=Umbindi woncedo lwe KDE
+ Comment[x-test]=xxThe KDE Help Centerxx
+-Comment[xh]=Umbindi woncedo lwe KDE
+ Comment[zh_CN]=KDE 帮助中心
+ Comment[zh_TW]=KDE 求助中心
+ Icon=help-browser
+--- runtime/khelpcenter/plugins/faq.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/khelpcenter/plugins/faq.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -76,8 +76,8 @@
+ Name[uz@cyrillic]=KDE ТСС
+ Name[vi]=Các câu hỏi hay gặp của KDE
+ Name[wa]=Li FÅK di KDE
++Name[xh]=KDE FAQ
+ Name[x-test]=xxThe KDE FAQxx
+-Name[xh]=KDE FAQ
+ Name[zh_CN]=KDE FAQ
+ Name[zh_TW]=KDE 常見問題
+ 
+--- runtime/khelpcenter/plugins/support.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/khelpcenter/plugins/support.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,8 +77,8 @@
+ Name[uz@cyrillic]=KDE'ни қўллаб-қувватлаш
+ Name[vi]=Hỗ trợ KDE
+ Name[wa]=Sopoirter KDE
++Name[xh]=Ixhasa i KDE
+ Name[x-test]=xxSupporting KDExx
+-Name[xh]=Ixhasa i KDE
+ Name[zh_CN]=支持 KDE
+ Name[zh_TW]=支援 KDE
+ 
+--- runtime/khelpcenter/plugins/Tutorials/visualdict.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/khelpcenter/plugins/Tutorials/visualdict.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -73,8 +73,8 @@
+ Name[uk]=Наочний підручник з KDE
+ Name[vi]=Hướng dẫn Sinh động cho KDE
+ Name[wa]=On guide di KDE po ls ouys
++Name[xh]=Isikhombisi esibonakalayo se KDE
+ Name[x-test]=xxA Visual Guide to KDExx
+-Name[xh]=Isikhombisi esibonakalayo se KDE
+ Name[zh_CN]=KDE 可视化指南
+ Name[zh_TW]=KDE 視覺指南
+ Comment=Guide to KDE widgets
+@@ -152,8 +152,8 @@
+ Comment[uz@cyrillic]=KDE виджетлари бўйича йўлкўрсатгич
+ Comment[vi]=Hướng dẫn cho ô điều khiển của KDE
+ Comment[wa]=Guide des ahesses di KDE
++Comment[xh]=Isikhombisi esiya kwi KDE widgets
+ Comment[x-test]=xxGuide to KDE widgetsxx
+-Comment[xh]=Isikhombisi esiya kwi KDE widgets
+ Comment[zh_CN]=KDE 窗口部件指南
+ Comment[zh_TW]=KDE 視窗元件 (widget) 指南
+ Icon=text-plain
+--- runtime/khelpcenter/plugins/Tutorials/quickstart.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/khelpcenter/plugins/Tutorials/quickstart.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -76,8 +76,8 @@
+ Name[uz@cyrillic]=KDE бўйича йўлкўрсатгич
+ Name[vi]=Hướng dẫn bắt đầu nhanh
+ Name[wa]=Guide d' enondaedje abeye
++Name[xh]=Isikhombisi Sesiqalo esikhawulezayo
+ Name[x-test]=xxQuickstart Guidexx
+-Name[xh]=Isikhombisi Sesiqalo esikhawulezayo
+ Name[zh_CN]=速成指南
+ Name[zh_TW]=快速入門指南
+ Comment=KDE quickstart guide.
+--- runtime/khelpcenter/plugins/Manpages/mann.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/khelpcenter/plugins/Manpages/mann.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -76,8 +76,8 @@
+ Name[uz@cyrillic]=(n) Янги
+ Name[vi]=(n) Mới
+ Name[wa]=(n) Noveas
++Name[xh]=(n) Entsha
+ Name[x-test]=xx(n) Newxx
+-Name[xh]=(n) Entsha
+ Name[zh_CN]=(n) 新建
+ Name[zh_TW]=(n) 新
+ 
+--- runtime/khelpcenter/plugins/Manpages/man3.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/khelpcenter/plugins/Manpages/man3.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -71,8 +71,8 @@
+ Name[uk]=(3) Підпрограми
+ Name[vi]=(3) Chương trình con
+ Name[wa]=(3) Fonccions di programaedje
++Name[xh]=(3) Ulwenzeko rhoqo olusezantsi
+ Name[x-test]=xx(3) Subroutinesxx
+-Name[xh]=(3) Ulwenzeko rhoqo olusezantsi
+ Name[zh_CN]=(3) 子例程
+ Name[zh_TW]=(3) 子程式
+ 
+--- runtime/khelpcenter/plugins/Manpages/man4.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/khelpcenter/plugins/Manpages/man4.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,8 +77,8 @@
+ Name[uz@cyrillic]=(4) Ускуналар
+ Name[vi]=(4) Thiết bị
+ Name[wa]=(4) Éndjins
++Name[xh]=(4) Amacebo
+ Name[x-test]=xx(4) Devicesxx
+-Name[xh]=(4) Amacebo
+ Name[zh_CN]=(4) 设备
+ Name[zh_TW]=(4) 裝置
+ 
+--- runtime/khelpcenter/plugins/Manpages/man5.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/khelpcenter/plugins/Manpages/man5.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,8 +77,8 @@
+ Name[uz@cyrillic]=(5) Файл форматлари
+ Name[vi]=(5) Định dạng Tập tin
+ Name[wa]=(5) Sôres di fitchîs
++Name[xh]=(5) Ifomati Yeefayile
+ Name[x-test]=xx(5) File Formatsxx
+-Name[xh]=(5) Ifomati Yeefayile
+ Name[zh_CN]=(5) 文件格式
+ Name[zh_TW]=(5) 檔案格式
+ 
+--- runtime/khelpcenter/plugins/Manpages/man6.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/khelpcenter/plugins/Manpages/man6.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,8 +77,8 @@
+ Name[uz@cyrillic]=(6) Ўйинлар
+ Name[vi]=(6) Trò chơi
+ Name[wa]=(6) Djeus
++Name[xh]=(6) Imidlalo
+ Name[x-test]=xx(6) Gamesxx
+-Name[xh]=(6) Imidlalo
+ Name[zh_CN]=(6) 游戏
+ Name[zh_TW]=(6) 遊戲
+ 
+--- runtime/khelpcenter/plugins/Manpages/man7.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/khelpcenter/plugins/Manpages/man7.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,8 +77,8 @@
+ Name[uz@cyrillic]=(7) Ҳар хил
+ Name[vi]=(7) Lặt vặt
+ Name[wa]=(7) Totès sôres
++Name[xh]=(7) Ezixubeneyo
+ Name[x-test]=xx(7) Miscellaneousxx
+-Name[xh]=(7) Ezixubeneyo
+ Name[zh_CN]=(7) 杂项
+ Name[zh_TW]=(7) 雜項
+ 
+--- runtime/khelpcenter/plugins/kcontrolmodules.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/khelpcenter/plugins/kcontrolmodules.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,8 +77,8 @@
+ Name[uz@cyrillic]=Бошқарув марказининг модуллари
+ Name[vi]=Mô-đun Trung tâm Điều khiển
+ Name[wa]=Modules do cinte di controle di KDE
++Name[xh]=Izicatshulwa Zolawulo Ezisembindini
+ Name[x-test]=xxControl Center Modulesxx
+-Name[xh]=Izicatshulwa Zolawulo Ezisembindini
+ Name[zh_CN]=控制中心模块
+ Name[zh_TW]=控制中心模組
+ 
+--- runtime/khelpcenter/plugins/contact.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/khelpcenter/plugins/contact.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -78,8 +78,8 @@
+ Name[uz@cyrillic]=Боғланиш учун маълумот
+ Name[vi]=Thông tin Liên lạc
+ Name[wa]=Infôrmåcion d' contak
++Name[xh]=Qhagamshelana Nolwazi
+ Name[x-test]=xxContact Informationxx
+-Name[xh]=Qhagamshelana Nolwazi
+ Name[zh_CN]=联系信息
+ Name[zh_TW]=聯絡資訊
+ 
+--- runtime/khelpcenter/plugins/welcome.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/khelpcenter/plugins/welcome.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,8 +77,8 @@
+ Name[uz@cyrillic]=KDE'га марҳамат
+ Name[vi]=Chào mừng bạn đến với KDE
+ Name[wa]=Bénvnowe dins KDE
++Name[xh]=Wamkelekile kwi KDE
+ Name[x-test]=xxWelcome to KDExx
+-Name[xh]=Wamkelekile kwi KDE
+ Name[zh_CN]=欢迎使用 KDE
+ Name[zh_TW]=歡迎使用 KDE
+ 
+--- runtime/khelpcenter/plugins/userguide.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/khelpcenter/plugins/userguide.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -64,8 +64,8 @@
+ Name[se]=KDE giehtagirji
+ Name[sk]=Používateľský manuál KDE
+ Name[sl]=Uporabniški priročnik KDE
+-Name[sr]=Упутство за кориснике КДЕ‑а
+-Name[sr@latin]=Uputstvo za korisnike KDE‑a
++Name[sr]=Кориснички приручник КДЕ‑а
++Name[sr@latin]=Korisnički priručnik KDE‑a
+ Name[sv]=KDE:s användarhandbok
+ Name[ta]=KDE பயனர்களின் கையேடு
+ Name[te]=కెడిఈ యూజర్ మెన్యువల్
+--- runtime/khelpcenter/plugins/kicmodules.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/khelpcenter/plugins/kicmodules.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,8 +77,8 @@
+ Name[uz@cyrillic]=KInfoCenter модуллари
+ Name[vi]=Mô-đun Trung tâm Thông tin của KDE
+ Name[wa]=Modules do cinte d' infôrmåcions di KDE
++Name[xh]=Izicatshulwa ze KInfoCenter
+ Name[x-test]=xxKInfoCenter Modulesxx
+-Name[xh]=Izicatshulwa ze KInfoCenter
+ Name[zh_CN]=KInfoCenter 模块
+ Name[zh_TW]=KInfoCenter 模組
+ 
+--- runtime/khelpcenter/htmlsearch/htmlsearch.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/khelpcenter/htmlsearch/htmlsearch.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -82,8 +82,8 @@
+ Name[uz@cyrillic]=Индекс
+ Name[vi]=chỉ mục
+ Name[wa]=Indecse
++Name[xh]=Isalathiso
+ Name[x-test]=xxIndexxx
+-Name[xh]=Isalathiso
+ Name[zh_CN]=索引
+ Name[zh_TW]=索引
+ 
+@@ -164,8 +164,8 @@
+ Comment[uz@cyrillic]=Индексни яратиш
+ Comment[vi]=Tạo ra chỉ mục
+ Comment[wa]=Fijhaedje d' indecse
++Comment[xh]=Ulwenziwo Lwesalathiso
+ Comment[x-test]=xxIndex generationxx
+-Comment[xh]=Ulwenziwo Lwesalathiso
+ Comment[zh_CN]=索引生成
+ Comment[zh_TW]=產生索引
+ 
+--- runtime/khelpcenter/Help.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/khelpcenter/Help.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -82,8 +82,8 @@
+ Name[uz@cyrillic]=Ёрдам
+ Name[vi]=Trợ giúp
+ Name[wa]=Aidance
++Name[xh]=Uncedo
+ Name[x-test]=xxHelpxx
+-Name[xh]=Uncedo
+ Name[zh_CN]=帮助
+ Name[zh_TW]=求助
+ Categories=Qt;KDE;Core;
+--- runtime/CMakeLists.txt	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/CMakeLists.txt	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -4,7 +4,7 @@
+ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules )
+ 
+ #search packages used by KDE
+-find_package(KDE4 REQUIRED)
++find_package(KDE4 4.2.4 REQUIRED)
+ find_package(Strigi REQUIRED)
+ # I don't see any package requiring it. please explain why this dependency
+ # is necessary (dirk)
+--- runtime/kioslave/trash/kcmtrash.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kioslave/trash/kcmtrash.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -67,8 +67,8 @@
+ Name[uk]=Смітник
+ Name[vi]=Thùng rác
+ Name[wa]=Batch
++Name[xh]=Inkukumo
+ Name[x-test]=xxTrashxx
+-Name[xh]=Inkukumo
+ Name[zh_CN]=回收站
+ Name[zh_TW]=資源回收筒
+ Comment=This service allows configuration of the trash.
+@@ -213,8 +213,8 @@
+ Name[uk]=Смітник
+ Name[vi]=Thùng rác
+ Name[wa]=Batch
++Name[xh]=Inkukumo
+ Name[x-test]=xxTrashxx
+-Name[xh]=Inkukumo
+ Name[zh_CN]=回收站
+ Name[zh_TW]=資源回收筒
+ Comment=Configure trash settings
+--- runtime/kioslave/smb/smb-network.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kioslave/smb/smb-network.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -75,8 +75,8 @@
+ Name[uk]=Спільні ресурси Samba
+ Name[vi]=Chia sẻ Samba
+ Name[wa]=Pårtaedjes Samba
++Name[xh]=Izahlulo ze Samba
+ Name[x-test]=xxSamba Sharesxx
+-Name[xh]=Izahlulo ze Samba
+ Name[zh_CN]=Samba 共享
+ Name[zh_TW]=Samba 資源分享
+ Open=false
+--- runtime/kioslave/thumbnail/htmlthumbnail.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kioslave/thumbnail/htmlthumbnail.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -78,8 +78,8 @@
+ Name[uz@cyrillic]=HTML-файллари
+ Name[vi]=Tập tin HTML
+ Name[wa]=Fitchîs HTML
++Name[xh]=Iifayile ze HTML
+ Name[x-test]=xxHTML Filesxx
+-Name[xh]=Iifayile ze HTML
+ Name[zh_CN]=HTML 文件
+ Name[zh_TW]=HTML 檔案
+ X-KDE-ServiceTypes=ThumbCreator
+--- runtime/kioslave/thumbnail/imagethumbnail.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kioslave/thumbnail/imagethumbnail.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,8 +77,8 @@
+ Name[uz@cyrillic]=Расмлар
+ Name[vi]=Ảnh
+ Name[wa]=Imådjes
++Name[xh]=Imifanekiso
+ Name[x-test]=xxImagesxx
+-Name[xh]=Imifanekiso
+ Name[zh_CN]=图像
+ Name[zh_TW]=影像
+ X-KDE-ServiceTypes=ThumbCreator
+--- runtime/kioslave/thumbnail/textthumbnail.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kioslave/thumbnail/textthumbnail.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -78,8 +78,8 @@
+ Name[uz@cyrillic]=Матн файллари
+ Name[vi]=Tập tin Văn bản
+ Name[wa]=Fitchîs tecse
++Name[xh]=Iifayile Zombhalo
+ Name[x-test]=xxText Filesxx
+-Name[xh]=Iifayile Zombhalo
+ Name[zh_CN]=文本文件
+ Name[zh_TW]=文字檔案
+ X-KDE-ServiceTypes=ThumbCreator
+--- runtime/kioslave/thumbnail/thumbcreator.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kioslave/thumbnail/thumbcreator.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -72,8 +72,8 @@
+ Comment[uk]=Маніпулятор мініатюр
+ Comment[vi]=Thao tác Hình nhỏ
+ Comment[wa]=Apougneu des prévoeyaedjes
++Comment[xh]=Umqheba Wozipho lobhontsi
+ Comment[x-test]=xxThumbnail Handlerxx
+-Comment[xh]=Umqheba Wozipho lobhontsi
+ Comment[zh_CN]=缩略图处理程序
+ Comment[zh_TW]=縮圖處理器
+ 
+--- runtime/kioslave/cgi/kcmcgi/kcmcgi.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kioslave/cgi/kcmcgi/kcmcgi.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -84,8 +84,8 @@
+ Name[uz@cyrillic]=CGI скриптлар
+ Name[vi]=Văn lệnh CGI
+ Name[wa]=Sicripes CGI
++Name[xh]=Amagama ashicilelwe phantsi CGI
+ Name[x-test]=xxCGI Scriptsxx
+-Name[xh]=Amagama ashicilelwe phantsi CGI
+ Name[zh_CN]=CGI 脚本
+ Name[zh_TW]=CGI 命令稿
+ Comment=Configure the CGI KIO slave
+@@ -164,8 +164,8 @@
+ Comment[uz@cyrillic]=CGI KIO слейвни мослаш
+ Comment[vi]=Cấu hình đày tớ KIO kiểu CGI
+ Comment[wa]=Apontyî l' vårlet d' I/R des CGI
++Comment[xh]=Qwlalsela i CGI KIO slave
+ Comment[x-test]=xxConfigure the CGI KIO slavexx
+-Comment[xh]=Qwlalsela i CGI KIO slave
+ Comment[zh_CN]=配置 CGI KIO slave
+ Comment[zh_TW]=設定 CGI KIO slave
+ 
+--- runtime/kioslave/desktop/Home.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kioslave/desktop/Home.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,8 +77,8 @@
+ Name[uz@cyrillic]=Уй
+ Name[vi]=Nhà
+ Name[wa]=Måjhon
++Name[xh]=Ikhaya
+ Name[x-test]=xxHomexx
+-Name[xh]=Ikhaya
+ Name[zh_CN]=主文件夹
+ Name[zh_TW]=家目錄
+ GenericName=Personal Files
+@@ -159,8 +159,8 @@
+ GenericName[uz@cyrillic]=Шахсий файллар
+ GenericName[vi]=Tập tin Cá nhân
+ GenericName[wa]=Fitchîs da vosse
++GenericName[xh]=Iifayile Zobuqu
+ GenericName[x-test]=xxPersonal Filesxx
+-GenericName[xh]=Iifayile Zobuqu
+ GenericName[zh_CN]=个人文件
+ GenericName[zh_TW]=個人檔案
+ URL[$e]=$HOME
+--- runtime/kioslave/desktop/directory.trash	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kioslave/desktop/directory.trash	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -69,8 +69,8 @@
+ Name[uk]=Смітник
+ Name[vi]=Thùng rác
+ Name[wa]=Batch
++Name[xh]=Inkukumo
+ Name[x-test]=xxTrashxx
+-Name[xh]=Inkukumo
+ Name[zh_CN]=回收站
+ Name[zh_TW]=資源回收筒
+ Comment=Contains removed files
+@@ -138,8 +138,8 @@
+ Comment[uz@cyrillic]=Олиб ташланган файллардан иборат
+ Comment[vi]=Chứa tập tin bị gỡ bỏ
+ Comment[wa]=I gn a dvins des fitchîs oistés
++Comment[xh]=Iqulathe iifayile ezisusiweyo
+ Comment[x-test]=xxContains removed filesxx
+-Comment[xh]=Iqulathe iifayile ezisusiweyo
+ Comment[zh_CN]=储存已删除的文件
+ Comment[zh_TW]=包含已移除的檔案
+ Icon=user-trash-full
+--- runtime/kioslave/man/kmanpart.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kioslave/man/kmanpart.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -76,8 +76,8 @@
+ Comment[uz@cyrillic]=Ичига ўрнатиб бўладиган Troff-файлини кўрувчи
+ Comment[vi]=Bộ xem Troff nhúng được
+ Comment[wa]=Ravalåve håyneu di fitchîs Troff
++Comment[xh]=Umboniseli we Troff Elungiselekayo
+ Comment[x-test]=xxEmbeddable Troff Viewerxx
+-Comment[xh]=Umboniseli we Troff Elungiselekayo
+ Comment[zh_CN]=嵌入的 Troff 查看器
+ Comment[zh_TW]=可嵌入的 Troff 檢視元件
+ MimeType=text/troff;application/x-troff-man;
+--- runtime/nepomuk/services/storage/repository.cpp	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/nepomuk/services/storage/repository.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -16,7 +16,7 @@
+ #include "nepomukstorage-config.h"
+ #include "modelcopyjob.h"
+ 
+-#ifdef HAVE_CLUCENE
++#if defined(HAVE_CLUCENE) && defined(HAVE_SOPRANO_INDEX)
+ #include "cluceneanalyzer.h"
  #endif
---- runtime/knotify/notifybyexecute.cpp	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
-+++ runtime/knotify/notifybyexecute.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
-@@ -21,7 +21,7 @@
- #include "notifybyexecute.h"
  
- #include <QHash>
--#include <QProcess>
-+#include <KProcess>
+--- runtime/kurifilter-plugins/ikws/kuriikwsfilter.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/kuriikwsfilter.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -54,8 +54,8 @@
+ Name[uz@cyrillic]=Интернет калит сўзлар филтери
+ Name[vi]=Bộ lọc từ khoá Mạng
+ Name[wa]=PasseteMotsclésDaegntoele
++Name[xh]=Amagama Angundoqo ecebo lokucoca ulwelo e Internet
+ Name[x-test]=xxInternetKeywordsFilterxx
+-Name[xh]=Amagama Angundoqo ecebo lokucoca ulwelo e Internet
+ Name[zh_CN]=互联网关键字过滤
+ Name[zh_TW]=網際網路關鍵字過濾
+ X-KDE-Library=kuriikwsfilter
+--- runtime/kurifilter-plugins/ikws/searchprovider.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchprovider.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,8 +77,8 @@
+ Comment[uz@cyrillic]=Қидириш воситаси
+ Comment[vi]=Cơ chế Tìm kiếm
+ Comment[wa]=Ricwerrece
++Comment[xh]=Phendla Injini
+ Comment[x-test]=xxSearch Enginexx
+-Comment[xh]=Phendla Injini
+ Comment[zh_CN]=搜索引擎
+ Comment[zh_TW]=搜索引擎
  
- #include "knotifyconfig.h"
+--- runtime/kurifilter-plugins/ikws/searchproviders/alltheweb.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/alltheweb.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -44,8 +44,8 @@
+ Name[uz@cyrillic]=Бутун вебни (тез)
+ Name[vi]=Tìm mọi trang mạng nhanh
+ Name[wa]=AllTheWeb roed
++Name[xh]=Yonke i Web ngokukhawuleza
+ Name[x-test]=xxAllTheWeb fastxx
+-Name[xh]=Yonke i Web ngokukhawuleza
+ X-KDE-ServiceTypes=SearchProvider
+ Keys=atw,alltheweb
+ Query=http://www.alltheweb.com/search?exec=FAST+Search&type=all&query=\\{@}&cat=web
+--- runtime/kurifilter-plugins/ikws/searchproviders/bugft.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/bugft.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -72,8 +72,8 @@
+ Name[uz@cyrillic]=KDE хато маълумот базаси (бутун матнни қидириш)
+ Name[vi]=Tìm kiếm cơ sở dữ liệu lỗi của KDE, dùng toàn bộ dòng từ khoá đã nhập
+ Name[wa]=Båze di dnêyes pol cweraedje di bugs di KDE dvins l' tecse
++Name[xh]=Uphendlo lwesiseko sedata ye KDE Bug Olubhaliweyo ngokupheleleyo
+ Name[x-test]=xxKDE Bug Database Fulltext Searchxx
+-Name[xh]=Uphendlo lwesiseko sedata ye KDE Bug Olubhaliweyo ngokupheleleyo
+ Name[zh_CN]=KDE Bug 数据库全文检索
+ Name[zh_TW]=KDE 臭蟲資料庫全文檢索
+ Query=http://bugs.kde.org/buglist.cgi?quicksearch=\\{1}+\\{2}+\\{3}+\\{4}+\\{5}+\\{6}+\\{7}+\\{8}+\\{9}
+--- runtime/kurifilter-plugins/ikws/searchproviders/rfc.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/rfc.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -52,8 +52,8 @@
+ Name[uk]=Запит коментарів (RFC) IETF
+ Name[vi]=Yêu cầu Bình luận IETF
+ Name[wa]=Dimande di rawetes IETF
++Name[xh]=Izicelo Zogqabazo ze IETF
+ Name[x-test]=xxIETF Requests for Commentsxx
+-Name[xh]=Izicelo Zogqabazo ze IETF
+ Name[zh_CN]=IETF 评论请求
+ Name[zh_TW]=IETF RFC 文件
+ Query=http://www.ietf.org/rfc/rfc\\{@}.txt
+--- runtime/kurifilter-plugins/ikws/searchproviders/bugno.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/bugno.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -74,8 +74,8 @@
+ Name[uz@cyrillic]=KDE хато маълумот базаси (хатонинг рақамини қидириш)
+ Name[vi]=Tìm kiếm số hiệu lỗi trong cơ sở dữ liệu lỗi của KDE
+ Name[wa]=Båze di dnêyes pol cweraedje di bugs di KDE pa les limeros
++Name[xh]=KDE Uphendlo Lwenani Legciwane Isiseko se data Segciwane
+ Name[x-test]=xxKDE Bug Database Bug Number Searchxx
+-Name[xh]=KDE Uphendlo Lwenani Legciwane Isiseko se data Segciwane
+ Name[zh_CN]=KDE Bug 数据库按 Bug 编号搜索
+ Name[zh_TW]=KDE 臭蟲資料庫按錯誤編號搜索
+ Query=http://bugs.kde.org/show_bug.cgi?id=\\{@}
+--- runtime/kurifilter-plugins/ikws/searchproviders/python.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/python.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -71,8 +71,8 @@
+ Name[uz@cyrillic]=Python учун кўлланма
+ Name[vi]=Sổ tay Tham khảo Python
+ Name[wa]=Manuel di referince di Python
++Name[xh]=Ubhekiso lwe Python yesandla
+ Name[x-test]=xxPython Reference Manualxx
+-Name[xh]=Ubhekiso lwe Python yesandla
+ Name[zh_CN]=Python 参考手册
+ Name[zh_TW]=Python 參考手冊
+ Query=http://www.google.com/search?sourceid=python-search&q=\\{@}&submit=Search&q=site%3Apython.org
+--- runtime/kurifilter-plugins/ikws/searchproviders/appsy.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/appsy.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -73,8 +73,8 @@
+ Name[uz@cyrillic]=KDE дастурларида қидириш
+ Name[vi]=Tìm Ứng dụng KDE
+ Name[wa]=Programe di cweraedje di KDE
++Name[xh]=Uphendlo lwe KDE App
+ Name[x-test]=xxKDE App Searchxx
+-Name[xh]=Uphendlo lwe KDE App
+ Name[zh_CN]=KDE 应用程序搜索
+ Name[zh_TW]=KDE 程式搜尋
+ X-KDE-ServiceTypes=SearchProvider
+--- runtime/kurifilter-plugins/ikws/searchproviders/google_images.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/google_images.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -78,8 +78,8 @@
+ Name[uz@cyrillic]=Google - Расм қидириш
+ Name[vi]=Tìm kiếm Hình ảnh Google
+ Name[wa]=Cweraedje d' imådjes avou Google
++Name[xh]=Uphendlo Lomfanekiso we Google
+ Name[x-test]=xxGoogle Image Searchxx
+-Name[xh]=Uphendlo Lomfanekiso we Google
+ Name[zh_CN]=Google 图像搜索
+ Name[zh_TW]=Google 圖片搜尋
+ X-KDE-ServiceTypes=SearchProvider
+--- runtime/kurifilter-plugins/ikws/searchproviders/google_groups.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/google_groups.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -70,8 +70,8 @@
+ Name[uz]=Google - Guruhlar
+ Name[uz@cyrillic]=Google - Гуруҳлар
+ Name[vi]=Nhóm Google
++Name[xh]=Amaqela e Google
+ Name[x-test]=xxGoogle Groupsxx
+-Name[xh]=Amaqela e Google
+ Name[zh_CN]=Google 兴趣小组
+ Name[zh_TW]=Google 群組
+ X-KDE-ServiceTypes=SearchProvider
+--- runtime/kurifilter-plugins/ikws/searchproviders/webster.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/webster.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -67,8 +67,8 @@
+ Name[uz@cyrillic]=Merriam-Webster луғати
+ Name[vi]=Từ điển Merriam-Webster
+ Name[wa]=Diccionaire inglès Merriam-Webster
++Name[xh]= Dikshinari ye Merriam-Webster
+ Name[x-test]=xxMerriam-Webster Dictionaryxx
+-Name[xh]= Dikshinari ye Merriam-Webster
+ Name[zh_CN]=韦氏词典
+ Name[zh_TW]=韋氏詞典
+ X-KDE-ServiceTypes=SearchProvider
+--- runtime/kurifilter-plugins/ikws/searchproviders/docbook.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/docbook.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -66,8 +66,8 @@
+ Name[uz@cyrillic]=DocBook - тўлиқ қўлланма
+ Name[vi]=DocBook - Hướng dẫn Đầy đủ
+ Name[wa]=DocBook - Li seu guide
++Name[xh]=DocBook - Incwadi Echazayo
+ Name[x-test]=xxDocBook - The Definitive Guidexx
+-Name[xh]=DocBook - Incwadi Echazayo
+ Name[zh_CN]=DocBook - 权威的指南
+ Name[zh_TW]=DocBook - 終極指南
+ Query=http://www.docbook.org/tdg/en/html/\\{1}.html
+--- runtime/kurifilter-plugins/ikws/searchproviders/rpmfind.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/rpmfind.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -41,8 +41,8 @@
+ Name[uz]=RPM qidirish
+ Name[uz@cyrillic]=RPM қидириш
+ Name[vi]=Tìm RPM
++Name[xh]=RPM-Fumana
+ Name[x-test]=xxRPM-Findxx
+-Name[xh]=RPM-Fumana
+ X-KDE-ServiceTypes=SearchProvider
+ Keys=rf,rpmfind
+ Query=http://www.rpmfind.net/linux/rpm2html/search.php?query=\\{@}
+--- runtime/kurifilter-plugins/ikws/searchproviders/google_advanced.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/google_advanced.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,8 +77,8 @@
+ Name[uz@cyrillic]=Google - Илғор қидириш
+ Name[vi]=Tra cứu Nâng cao Google
+ Name[wa]=Ricweraedje avancî di Google
++Name[xh]=Uphendlo Olubhekisa phambili lwe Google
+ Name[x-test]=xxGoogle Advanced Searchxx
+-Name[xh]=Uphendlo Olubhekisa phambili lwe Google
+ Name[zh_CN]=Google 高级搜索
+ Name[zh_TW]=Google 進階搜尋
+ Query=http://www.google.com/search?as_q=\\{all,@}&num=\\{num,"10"}&btnG=Google+Search&as_epq=\\{exact,""}&as_oq=\\{any,""}&as_eq=\\{without,""}&lr=\\{lang,""}&as_ft=\\{ft,"i"}&as_filetype=\\{filetype,""}&as_qdr=\\{date,"all"}&as_occt=\\{occ,"any"}&as_dt=\\{siteop,"i"}&as_sitesearch=\\{site}&safe=\\{safe,"active"}&ie=UTF-8&oe=UTF-8
+--- runtime/kurifilter-plugins/ikws/searchproviders/php.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/php.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -75,8 +75,8 @@
+ Name[uz@cyrillic]=PHP қидириш
+ Name[vi]=Tìm kiếm PHP
+ Name[wa]=Cweraedje PHP
++Name[xh]=Uphendlo lwe PHP
+ Name[x-test]=xxPHP Searchxx
+-Name[xh]=Uphendlo lwe PHP
+ Name[zh_CN]=PHP 搜索
+ Name[zh_TW]=PHP 搜尋
+ Query=http://www.php.net/search.php?show=\\{mode,"manual"}&pattern=\\{@}
+--- runtime/kurifilter-plugins/ikws/searchproviders/mamma.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/mamma.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -70,8 +70,8 @@
+ Name[uz@cyrillic]=Mamma - Ҳамма қидириш воситаларининг онаси
+ Name[vi]=Mamma - Người mẹ của tất cả các máy truy tìm dữ liệu
+ Name[wa]=Mamma - Li mame di tos les éndjins d' cweraedje
++Name[xh]=Mamma - Umama weenjini zonke zophendlo
+ Name[x-test]=xxMamma - Mother of all Search Enginesxx
+-Name[xh]=Mamma - Umama weenjini zonke zophendlo
+ Name[zh_CN]=Mamma - 所有搜索引擎之母
+ Name[zh_TW]=Mamma - 搜尋引擎之母
+ X-KDE-ServiceTypes=SearchProvider
+--- runtime/kurifilter-plugins/ikws/searchproviders/msdn.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/msdn.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -69,8 +69,8 @@
+ Name[uz@cyrillic]=Microsoft Developer Network'да қидириш
+ Name[vi]=Tìm kiếm qua Mạng Nhà phát triển Microsoft
+ Name[wa]=Cweraedje del rantoele des programeus Microsoft
++Name[xh]=Uphendlo Womsebenzi womnatha Wombhekisi phambili we Microsoft
+ Name[x-test]=xxMicrosoft Developer Network Searchxx
+-Name[xh]=Uphendlo Womsebenzi womnatha Wombhekisi phambili we Microsoft
+ Name[zh_CN]=MSDN 微软开发者网络搜索
+ Name[zh_TW]=微軟開發者網路搜尋
+ X-KDE-ServiceTypes=SearchProvider
+--- runtime/kurifilter-plugins/ikws/searchproviders/acronym.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/acronym.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -72,8 +72,8 @@
+ Name[uz@cyrillic]=Қисқартма маълумот базаси
+ Name[vi]=Cơ sở dữ liệu Viết tắt
+ Name[wa]=Båzes di dnêyes d' acourtixheures
++Name[xh]=Isiseko sedata Segama elenziwe ngonoobumba bamanye amagama
+ Name[x-test]=xxAcronym Databasexx
+-Name[xh]=Isiseko sedata Segama elenziwe ngonoobumba bamanye amagama
+ Name[zh_CN]=首字母缩写数据库
+ Name[zh_TW]=Acronym 資料庫
+ X-KDE-ServiceTypes=SearchProvider
+--- runtime/kurifilter-plugins/ikws/searchproviders/dmoz.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/dmoz.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -44,8 +44,8 @@
+ Name[tg]=Кушодани феҳрист
+ Name[uk]=Відкритий каталог
+ Name[vi]=Thư mục mở
++Name[xh]=Vula Ulawulo
+ Name[x-test]=xxOpen Directoryxx
+-Name[xh]=Vula Ulawulo
+ Name[zh_TW]=開啟目錄
+ X-KDE-ServiceTypes=SearchProvider
+ Keys=dmoz,odp
+--- runtime/kurifilter-plugins/ikws/searchproviders/leo.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/leo.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -49,8 +49,8 @@
+ Name[uz]=LEO tarjima
+ Name[uz@cyrillic]=LEO таржима
+ Name[vi]=Dịch bằng LEO
++Name[xh]=LEO-Guqulela
+ Name[x-test]=xxLEO-Translatexx
+-Name[xh]=LEO-Guqulela
+ X-KDE-ServiceTypes=SearchProvider
+ Keys=leo
+ Query=http://dict.leo.org/?search=\\{@}
+--- runtime/kurifilter-plugins/ikws/searchproviders/cpan.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/cpan.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -51,8 +51,8 @@
+ Name[uz@cyrillic]=CPAN - Perl бўйича мукаммал архив тармоғи
+ Name[vi]=CPAN - Mạng kho lưu Perl đầy đủ
+ Name[wa]=CPAN - Rantoele d' Årtchives Perl avou ttafwait
++Name[xh]=CPAN - Enomxholo Perl Indawo yokugcina Yomsebenzi womnatha
+ Name[x-test]=xxCPAN - Comprehensive Perl Archive Networkxx
+-Name[xh]=CPAN - Enomxholo Perl Indawo yokugcina Yomsebenzi womnatha
+ Name[zh_CN]=CPAN - 综合性 Perl 档案网络
+ Name[zh_TW]=CPAN - 全面的 Perl 收集網路
+ Query=http://search.cpan.org/search?mode=\\{mode,2,"dist"}&query=\\{query,q,1}
+--- runtime/kurifilter-plugins/ikws/searchproviders/pgpkeys.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/pgpkeys.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,8 +77,8 @@
+ Name[uz@cyrillic]=OpenPGP калитларни қидириш
+ Name[vi]=Tìm kiếm khoá OpenPGP
+ Name[wa]=Cweraedje d' ene clé OpenPGP
++Name[xh]=Uphendlo Lwesitshixo se OpenPGP
+ Name[x-test]=xxOpenPGP Key Searchxx
+-Name[xh]=Uphendlo Lwesitshixo se OpenPGP
+ Name[zh_CN]=OpenPGP 关键字搜索
+ Name[zh_TW]=OpenPGP 金鑰搜尋
+ Query=http://pgp.dtype.org:11371/pks/lookup?search=\\{@}&op=vindex
+--- runtime/kurifilter-plugins/ikws/searchproviders/ctan.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/ctan.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -52,8 +52,8 @@
+ Name[uz@cyrillic]=CTAN - TeX бўйича мукаммал архив тармоғи
+ Name[vi]=CTAN - Mạng kho lưu TeX đầy đủ
+ Name[wa]=CPAN - Rantoele d' Årtchives TeX avou ttafwait
++Name[xh]=CTAN - Enomxholo TeX Indawo yokugcina Yomsebenzi womnatha
+ Name[x-test]=xxCTAN - Comprehensive TeX Archive Networkxx
+-Name[xh]=CTAN - Enomxholo TeX Indawo yokugcina Yomsebenzi womnatha
+ Name[zh_CN]=CTAN - 综合性 TeX 档案网络
+ Name[zh_TW]=CTAN - 全面的 Tex 收集網路
+ Query=http://ctan.org/cgi-bin/filenameSearch.py?filename=\\{@}&Search=Search
+--- runtime/kurifilter-plugins/ikws/searchproviders/ruby_application_archive.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/searchproviders/ruby_application_archive.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -71,8 +71,8 @@
+ Name[uz@cyrillic]=Ruby дастур архиви
+ Name[vi]=Kho lưu Ứng dụng Ruby
+ Name[wa]=Årtchives di programes Ruby
++Name[xh]=Indawo ye Ruby yokugcina Isicelo
+ Name[x-test]=xxRuby Application Archivexx
+-Name[xh]=Indawo ye Ruby yokugcina Isicelo
+ Name[zh_CN]=Ruby 应用程序档案
+ Name[zh_TW]=Ruby 應用程式檔案庫
+ X-KDE-ServiceTypes=SearchProvider
+--- runtime/kurifilter-plugins/ikws/kurisearchfilter.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/kurifilter-plugins/ikws/kurisearchfilter.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -52,8 +52,8 @@
+ Name[uz@cyrillic]=Қидириш калит сўзлар филтери
+ Name[vi]=Bộ lọc tìm từ khoá
+ Name[wa]=PasseteTapreceCweraedje
++Name[xh]=Phendla Amagama Angundoqo Ecebo Lokucoca Ulwelo
+ Name[x-test]=xxSearchKeywordsFilterxx
+-Name[xh]=Phendla Amagama Angundoqo Ecebo Lokucoca Ulwelo
+ Name[zh_CN]=搜索关键字过滤
+ Name[zh_TW]=搜索關鍵字過濾
+ X-KDE-Library=kurisearchfilter
+--- runtime/drkonqi/presets/developerrc	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/drkonqi/presets/developerrc	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -72,8 +72,8 @@
+ Name[uz]=Tuzuvchi
+ Name[uz@cyrillic]=Тузувчи
+ Name[wa]=Programeu
++Name[xh]=Umbhekisi phambili
+ Name[x-test]=xxDeveloperxx
+-Name[xh]=Umbhekisi phambili
+ Name[zh_CN]=开发者
+ Name[zh_TW]=開發者
+ Comment=Settings preferred for developers
+@@ -146,8 +146,8 @@
+ Comment[uz]=Tuzuvchilar uchun afzal moslamalar
+ Comment[uz@cyrillic]=Тузувчилар учун афзал мосламалар
+ Comment[wa]=Favoris apontiaedjes po programeus
++Comment[xh]=Izicwangciso ezikhetiweyo zababhekisi phambili
+ Comment[x-test]=xxSettings preferred for developersxx
+-Comment[xh]=Izicwangciso ezikhetiweyo zababhekisi phambili
+ Comment[zh_CN]=开发者的首选设置
+ Comment[zh_TW]=開發者預設設定
  
-@@ -59,8 +59,10 @@
- 		QString execLine = KMacroExpander::expandMacrosShellQuote( command, subst );
- 		if ( execLine.isEmpty() )
- 			execLine = command; // fallback
--                //TODO fixme on WIN32
--		QProcess::startDetached( "/bin/sh", QStringList() << "-c" << execLine );
-+                KProcess proc;
-+		proc.setShellCommand(execLine.trimmed());
-+		if(!proc.startDetached())
-+			kDebug(300)<<"KNotify: Could not start process!";
- 	}
- 	
- 	finish( id );
---- runtime/knotify/notifybypopup.cpp	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
-+++ runtime/knotify/notifybypopup.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
-@@ -51,7 +51,7 @@
- 	m_dbusServiceExists = interface && interface->isServiceRegistered(dbusServiceName);
+@@ -228,8 +228,8 @@
+ Name[uz]=Dasturning %progname (%appname), pid %pid, ishida xato roʻy berdi va %signum (%signame) signaliga sababchi boʻldi.
+ Name[uz@cyrillic]=Дастурнинг %progname (%appname), pid %pid, ишида хато рўй берди ва %signum (%signame) сигналига сабабчи бўлди.
+ Name[wa]=Li programe %progname (%appname), pid %pid, s' a spotchî eyet a fwait l' signå %signum (%signame).
++Name[xh]=Isicelo %progname (%appname), pid %pid, ilalhekile kwaye ibangele uphawu %signum (%signame).
+ Name[x-test]=xxThe application %progname (%appname), pid %pid, crashed and caused the signal %signum (%signame).xx
+-Name[xh]=Isicelo %progname (%appname), pid %pid, ilalhekile kwaye ibangele uphawu %signum (%signame).
+ Name[zh_CN]=应用程序 %progname (%appname)，pid %pid，已经崩溃并导致了信号 %signum (%signame)。
+ Name[zh_TW]=應用程式 %progname（%appname），行程代碼 %pid，崩潰並引發信號 %signum（%signame）。
  
- 	if( m_dbusServiceExists )
--		kDebug(300) << "using" << dbusServiceName << "for popups";
-+		slotServiceOwnerChanged(dbusServiceName, QString(), "_"); //connect signals
+@@ -303,8 +303,8 @@
+ Name[tr]=Programınızdaki sorunu çözmek isterseniz hata ayıklayıcı sekmesine bakın.
+ Name[uk]=Полагодьте вашу програму. Загляньте у вкладку зворотного трасування.
+ Name[wa]=Vos vôroz motoit remantchî vosse programe. Riwaitîz al linwete backtrace.
++Name[xh]=Ungafuna ukulungisa udweliso lwakho lwenkqubo. Thatha ujongo kukhangelo lwasemva lwesithuba.
+ Name[x-test]=xxYou might want to fix your program. Take a look at the backtrace tab.xx
+-Name[xh]=Ungafuna ukulungisa udweliso lwakho lwenkqubo. Thatha ujongo kukhangelo lwasemva lwesithuba.
+ Name[zh_CN]=您可能想要修正您的程序。请查阅回溯标签。
+ Name[zh_TW]=您可能要修正您的程式。請參考一下「回溯」分頁。
  
- 	// to catch register/unregister events from service in runtime
- 	connect(interface, SIGNAL(serviceOwnerChanged(const QString&, const QString&, const QString&)),
---- runtime/kcontrol/locale/localetime.cpp	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
-+++ runtime/kcontrol/locale/localetime.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
-@@ -285,7 +285,11 @@
-     connect (m_comboWeekDayOfPray, SIGNAL(activated(int)),
-              this, SLOT(slotWeekDayOfPrayChanged(int)));
+@@ -385,8 +385,8 @@
+ Comment[uz]=Koʻrsatma haqiqiy emas.
+ Comment[uz@cyrillic]=Кўрсатма ҳақиқий эмас.
+ Comment[wa]=Instruccion nén permetowe pal lwè.
++Comment[xh]=Engavumelekanga imiyalelo.
+ Comment[x-test]=xxIllegal instruction.xx
+-Comment[xh]=Engavumelekanga imiyalelo.
+ Comment[zh_CN]=非法指令。
+ Comment[zh_TW]=不合法的指令。
  
--    lay->addRow(fGr,wGr);
-+    QHBoxLayout * horizontalLayout = new QHBoxLayout();
-+    horizontalLayout->addWidget( fGr );
-+    horizontalLayout->addWidget( wGr );
-+    
-+    lay->addRow( horizontalLayout );
+@@ -466,8 +466,8 @@
+ Comment[tr]=İptal edildi.
+ Comment[uk]=Перервано.
+ Comment[wa]=Abandné.
++Comment[xh]=Ayamkelekanga.
+ Comment[x-test]=xxAborted.xx
+-Comment[xh]=Ayamkelekanga.
+ Comment[zh_CN]=已中止。
+ Comment[zh_TW]=被中止。
  
-     updateWeekDayNames();
- }
---- runtime/phonon/kcm/xine/kcm_phononxine.desktop	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
-+++ runtime/phonon/kcm/xine/kcm_phononxine.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
-@@ -32,6 +32,7 @@
- Comment[af]=Xine Backend konfigurasie
- Comment[be]=Настаўленне унутранага карыстання Xine
- Comment[be@latin]=Настаўленне унутранага карыстання Xine
-+Comment[bg]=Настройване Xine
- Comment[bn]=জাইন ব্যাক-এন্ড কনফিগারেশন
- Comment[bn_IN]=Xine ব্যাক-এন্ডের কনফিগারেশন
- Comment[ca]=Configuració del dorsal del Xine
---- runtime/platforms/win/kwinstartmenu/winstartmenu.desktop	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
-+++ runtime/platforms/win/kwinstartmenu/winstartmenu.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
-@@ -3,6 +3,7 @@
- Name=KDED Windows Start Menu Module
- Name[ar]=قائمة K نمط وندوز
- Name[be@latin]=Modul hałoŭnaha menu dla systemy „KDE”
-+Name[bg]=Модул KDED Windows Start Menu
- Name[bn_IN]=KDED Windows Start Menu মডিউল
- Name[ca]=Mòdul del menú d'inici del Windows del KDED
- Name[cs]=Modul KDED pro startovní nabídku
---- runtime/kioslave/info/info.cc	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
-+++ runtime/kioslave/info/info.cc	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
-@@ -38,7 +38,7 @@
- 	} else {
- 		QString missing =m_infoScript.isNull() ?  "kio_info/kde-info2html" : "kio_info/kde-info2html.conf";
- 		errorStr = "kde-info2html" + i18n( "\nUnable to locate file %1 which is necessary to run this service. "
--				"Please check your software installation" ,  missing );
-+				"Please check your software installation." ,  missing );
- 	}
- 	error( KIO::ERR_CANNOT_LAUNCH_PROCESS, errorStr );
- 	exit();
---- runtime/kioslave/info/Messages.sh	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
-+++ runtime/kioslave/info/Messages.sh	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
-@@ -1,2 +1,2 @@
- #! /usr/bin/env bash
--$XGETTEXT *.cpp -o $podir/kio_info.pot
-+$XGETTEXT *.cc -o $podir/kio_info.pot
---- runtime/kstyles/themes/qtwindows.themerc	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
-+++ runtime/kstyles/themes/qtwindows.themerc	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
-@@ -18,7 +18,7 @@
- Comment[ar]=أسلوب مدمجة نمط مايكروسوفت وندوز 9x
- Comment[be]=Убудаваны стыль Windows 9x
- Comment[be@latin]=Styl systemy „Windows 9x”
--Comment[bg]=Вграден стил  Windows 9x style
-+Comment[bg]=Вграден стил Windows 9x
- Comment[ca]=Estil integrat Windows 9x sense temes
- Comment[cs]=Zabudovaný styl Windows 9x bez motivu
- Comment[csb]=Wbùdowóny sztél szlachùjący za Windows 9x
---- runtime/kstyles/oxygen/oxygen.cpp	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
-+++ runtime/kstyles/oxygen/oxygen.cpp	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
-@@ -3021,6 +3021,9 @@
-         case PM_DefaultLayoutSpacing:
-             return 4; // qcommon is 6
+@@ -540,8 +540,8 @@
+ Comment[tr]=Kayar nokta hatası.
+ Comment[uk]=Виключення під час роботи з числами з плаваючою точкою.
+ Comment[wa]=Flotant pont foû rîle.
++Comment[xh]=Amaxabiso okudada akhethekileyo.
+ Comment[x-test]=xxFloating point exception.xx
+-Comment[xh]=Amaxabiso okudada akhethekileyo.
+ Comment[zh_CN]=浮点异常。
+ Comment[zh_TW]=浮點運算出現錯誤。
  
-+        case PM_ButtonMargin:
-+            return 5;
-+
-         case PM_DefaultFrameWidth:
-             if (qobject_cast<const QLineEdit*>(widget))
-                 return 4;
---- runtime/kstyles/oxygen/CMakeLists.txt	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
-+++ runtime/kstyles/oxygen/CMakeLists.txt	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
-@@ -15,7 +15,7 @@
+@@ -616,8 +616,8 @@
+ Comment[tr]=Geçersiz bellek referansı.
+ Comment[uk]=Нечинне посилання на область пам’яті.
+ Comment[wa]=Referince del memwere nén valide.
++Comment[xh]=Uthelekiso lwenkumbulo engasebenziyo.
+ Comment[x-test]=xxInvalid memory reference.xx
+-Comment[xh]=Uthelekiso lwenkumbulo engasebenziyo.
+ Comment[zh_CN]=无效的内存引用。
+ Comment[zh_TW]=記憶體區段錯誤。
  
- kde4_add_plugin(oxygen ${oxygen_PART_SRCS})
+@@ -696,8 +696,8 @@
+ Name[uz]=Nomaʼlum
+ Name[uz@cyrillic]=Номаълум
+ Name[wa]=Nén cnoxhou
++Name[xh]=Engaziwayo
+ Name[x-test]=xxUnknownxx
+-Name[xh]=Engaziwayo
+ Name[zh_CN]=未知
+ Name[zh_TW]=未知
+ Comment=This signal is unknown.
+@@ -769,7 +769,7 @@
+ Comment[uz]=Bu signal nomaʼlum.
+ Comment[uz@cyrillic]=Бу сигнал номаълум.
+ Comment[wa]=Ci signå n' est nén cnoxhou.
++Comment[xh]=Oluphawu olungaziwayo.
+ Comment[x-test]=xxThis signal is unknown.xx
+-Comment[xh]=Oluphawu olungaziwayo.
+ Comment[zh_CN]=此信号未知。
+ Comment[zh_TW]=未知的信號。
+--- runtime/drkonqi/presets/enduserrc	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/drkonqi/presets/enduserrc	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -68,8 +68,8 @@
+ Name[uz]=Oddiy foydalanuvchi
+ Name[uz@cyrillic]=Оддий фойдаланувчи
+ Name[wa]=Finå uzeu
++Name[xh]=Umsebenzisi wokugqibela
+ Name[x-test]=xxEnd userxx
+-Name[xh]=Umsebenzisi wokugqibela
+ Name[zh_CN]=最终用户
+ Name[zh_TW]=終端使用者
+ Comment=Settings preferred for end users
+@@ -141,8 +141,8 @@
+ Comment[uz]=Oddiy foydalanuvchilar uchun afzal moslamalar
+ Comment[uz@cyrillic]=Оддий фойдаланувчилар учун афзал мосламалар
+ Comment[wa]=Favoris apontiaedjes po les finås uzeus
++Comment[xh]=Izicwangciso ezikhethwayo zomsebenzisi osekugqhibeleni
+ Comment[x-test]=xxSettings preferred for end usersxx
+-Comment[xh]=Izicwangciso ezikhethwayo zomsebenzisi osekugqhibeleni
+ Comment[zh_CN]=最终用户的首选设置
+ Comment[zh_TW]=終端使用者設定
  
--target_link_libraries(oxygen  ${KDE4_KDEUI_LIBS} )
-+target_link_libraries(oxygen  ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS})
+@@ -223,8 +223,8 @@
+ Name[uz]=Dasturning %progname (%appname) ishida xato roʻy berdi va %signum (%signame) signaliga sababchi boʻldi.
+ Name[uz@cyrillic]=Дастурнинг %progname (%appname) ишида хато рўй берди ва %signum (%signame) сигналига сабабчи бўлди.
+ Name[wa]=Li programe %progname (%appname) s' a spotchî eyet a fwait l' signå %signum (%signame).
++Name[xh]=Isicelo se %progname (%appname) ingqubekile yaze yabangela uphawu lwe %signum (%signame).
+ Name[x-test]=xxThe application %progname (%appname) crashed and caused the signal %signum (%signame).xx
+-Name[xh]=Isicelo se %progname (%appname) ingqubekile yaze yabangela uphawu lwe %signum (%signame).
+ Name[zh_CN]=应用程序 %progname (%appname) 已经崩溃并导致了信号 %signum (%signame)。
+ Name[zh_TW]=應用程式 %progname（%appname），行程代碼 %pid，崩潰並引發信號 %signum（%signame）。
  
- install(TARGETS oxygen  DESTINATION ${PLUGIN_INSTALL_DIR}/plugins/styles/ )
+@@ -368,8 +368,8 @@
+ Comment[uz]=Odatda, SIGILL signaliga dasturdagi xato sababchi boʻladi. Dasturdan maʼlumotlarni saqlash talab qilindi.
+ Comment[uz@cyrillic]=Одатда, SIGILL сигналига дастурдаги хато сабабчи бўлади. Дастурдан маълумотларни сақлаш талаб қилинди.
+ Comment[wa]=On programe riçût sortot l' signå SIGILL a cåze d' on bug dins l' programe. Dj' a dmandé å programe di schaper ses documints.
++Comment[xh]=Isicelo esifumana i SIGILL uphawu enxa yegciwane kwi sicelo. Isicelo sicelwe ukuba sigcine amaxwebhu aso.
+ Comment[x-test]=xxAn application mostly receives the SIGILL signal due to a bug in the application. The application was asked to save its documents.xx
+-Comment[xh]=Isicelo esifumana i SIGILL uphawu enxa yegciwane kwi sicelo. Isicelo sicelwe ukuba sigcine amaxwebhu aso.
+ Comment[zh_CN]=应用程序之所以收到 SIGILL 信号，大多是因为应用程序有错误。应用程序会请求保存其文档。
+ Comment[zh_TW]=應用程式收到 SIGILL 信號，通常是因為應用程式的錯誤。此應用程式已被要求儲存其文件。
  
---- runtime/kurifilter-plugins/ikws/searchproviders/technoratitags.desktop	(.../tags/KDE/4.2.2/kdebase)	(wersja 956244)
-+++ runtime/kurifilter-plugins/ikws/searchproviders/technoratitags.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 956244)
-@@ -34,6 +34,7 @@
- Name[kn]=ಟೆಕ್ನೋರೆಟಿ ತಲೆಚೀಟಿಗಳು (ಟಾಗ್ಸ್)
- Name[ko]=Technorati 태그
- Name[ku]=Etîketên Technorati
-+Name[lt]=Technorati žymos
- Name[lv]=Technorati tagi
- Name[mai]=टेक्नोराती टैग्स
- Name[ml]=ടെക്നോരാറ്റി ടാഗുകള്‍
+@@ -445,8 +445,8 @@
+ Comment[uz]=Dasturning ishi SIGABRT signali bilan tugashiga uning ichki ketma-ketligini ishdan chiqargan xato sababchi boʻladi.
+ Comment[uz@cyrillic]=Дастурнинг иши SIGABRT сигнали билан тугашига унинг ички кетма-кетлигини ишдан чиқарган хато сабабчи бўлади.
+ Comment[wa]=On programe a fini avou on signå SIGABRT cwand il a trové ene divintrinne inconsistance a cåze d' on bug dins l' programe.
++Comment[xh]=Isicelo sicinywa ngophawu lwe SIGABRT xa sibona ukungahambisalani kwangaphakathi okwenziwa ligciwane kwinkqubo.
+ Comment[x-test]=xxAn application terminates with a SIGABRT signal when it detects an internal inconsistency caused by a bug in the program.xx
+-Comment[xh]=Isicelo sicinywa ngophawu lwe SIGABRT xa sibona ukungahambisalani kwangaphakathi okwenziwa ligciwane kwinkqubo.
+ Comment[zh_CN]=应用程序以 SIGABRT 信号终止，可能是因为程序自身的错误导致了内部不一致。
+ Comment[zh_TW]=應用程式收到 SIGABRT 而結束，通常是因為應用程式的問題，讓它偵測到內部資料有不相符的地方。
+ 
+@@ -523,8 +523,8 @@
+ Comment[uz]=Odatda, SIGFPE signaliga dasturdagi xato sababchi boʻladi. Dasturdan maʼlumotlarni saqlash talab qilindi.
+ Comment[uz@cyrillic]=Одатда, SIGFPE сигналига дастурдаги хато сабабчи бўлади. Дастурдан маълумотларни сақлаш талаб қилинди.
+ Comment[wa]=On programe riçût sortot l' signå SIGFPE a cåze d' on bug dins l' programe. Dj' a dmandé å programe di schaper ses documints.
++Comment[xh]=Isicelo sifumana i SIGFPE uphawu ngenxa ye gciwane kwisicelo. Isicelo sicelwe ukuba sigcine amaxwebhu ayo.
+ Comment[x-test]=xxAn application mostly receives the SIGFPE signal due to a bug in the application. The application was asked to save its documents.xx
+-Comment[xh]=Isicelo sifumana i SIGFPE uphawu ngenxa ye gciwane kwisicelo. Isicelo sicelwe ukuba sigcine amaxwebhu ayo.
+ Comment[zh_CN]=应用程序之所以收到 SIGFPE 信号，大多是因为应用程序有错误。应用程序会请求保存其文档。
+ Comment[zh_TW]=應用程式收到 SIGFPE 信號，通常是因為應用程式的錯誤。此應用程式已被要求儲存其文件。
+ 
+@@ -600,8 +600,8 @@
+ Comment[uz]=Odatda, SIGSEGV signaliga dasturdagi xato sababchi boʻladi. Dasturdan maʼlumotlarni saqlash talab qilindi.
+ Comment[uz@cyrillic]=Одатда, SIGSEGV сигналига дастурдаги хато сабабчи бўлади. Дастурдан маълумотларни сақлаш талаб қилинди.
+ Comment[wa]=On programe riçût sortot l' signå SIGSEGV a cåze d' on bug dins l' programe. Dj' a dmandé å programe di schaper ses documints.
++Comment[xh]=Isicelo esifumana i SIGSEGV uphawu ngenxa yegciwane. Isicelo siceliwe ukuba sigcine amaxwebhu aso.
+ Comment[x-test]=xxAn application mostly receives the SIGSEGV signal due to a bug in the application. The application was asked to save its documents.xx
+-Comment[xh]=Isicelo esifumana i SIGSEGV uphawu ngenxa yegciwane. Isicelo siceliwe ukuba sigcine amaxwebhu aso.
+ Comment[zh_CN]=应用程序之所以收到 SIGSEGV 信号，大多是因为应用程序有错误。应用程序会请求保存其文档。
+ Comment[zh_TW]=應用程式收到 SIGSEGV 信號，通常是因為應用程式的錯誤。此應用程式已被要求儲存其文件。
+ 
+@@ -680,8 +680,8 @@
+ Name[uz]=Nomaʼlum
+ Name[uz@cyrillic]=Номаълум
+ Name[wa]=Nén cnoxhou
++Name[xh]=Engaziwayo
+ Name[x-test]=xxUnknownxx
+-Name[xh]=Engaziwayo
+ Name[zh_CN]=未知
+ Name[zh_TW]=未知
+ Comment=Sorry, I do not know this signal.
+--- runtime/drkonqi/debuggers/gdbrc	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/drkonqi/debuggers/gdbrc	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -135,8 +135,8 @@
+ Comment[uz]=Terminalda GNU uchun matn asosida debagger
+ Comment[uz@cyrillic]=Терминалда GNU учун матн асосида дебаггер
+ Comment[wa]=Disbugueu e tecse di GNU dins ene konzôle
++Comment[xh]=Text based debugger evela kwi GNU kwi konsole
+ Comment[x-test]=xxText based debugger from GNU in a konsolexx
+-Comment[xh]=Text based debugger evela kwi GNU kwi konsole
+ Comment[zh_CN]=在 Konsole 中调用文字界面的 GNU 调试器
+ Comment[zh_TW]=在 Konsole 的文字型除錯器
+ Exec=konsole -e gdb -nw %execname %pid
+--- runtime/l10n/northamerica.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/northamerica.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -76,7 +76,7 @@
+ Name[uz@cyrillic]=Америка, Шимолий
+ Name[vi]=Bắc Mĩ
+ Name[wa]=Amerike bijhrece
++Name[xh]=Melika, Mntla
+ Name[x-test]=xxAmerica, Northxx
+-Name[xh]=Melika, Mntla
+ Name[zh_CN]=北美
+ Name[zh_TW]=美洲，北部
+--- runtime/l10n/za/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/za/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -80,8 +80,8 @@
+ Name[uz@cyrillic]=Жанубий Африка
+ Name[vi]=Nam Phi
+ Name[wa]=Nonne Afrike
++Name[xh]=Mzantsi Afrika
+ Name[x-test]=xxSouth Africaxx
+-Name[xh]=Mzantsi Afrika
+ Name[zh_CN]=南非
+ Name[zh_TW]=南非
+ Region=southafrica
+--- runtime/l10n/kn/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/kn/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -74,8 +74,8 @@
+ Name[uz@cyrillic]=Сент-Кристофер ва Невис
+ Name[vi]=San Khíth và Ne-vi-xợ
+ Name[wa]=Sint Kitts eyet Nevis
++Name[xh]=St. Kitts neNevis
+ Name[x-test]=xxSt. Kitts and Nevisxx
+-Name[xh]=St. Kitts neNevis
+ Name[zh_CN]=圣基茨和尼维斯
+ Name[zh_TW]=聖克理斯多福及尼維斯
+ Region=caribbean
+--- runtime/l10n/kp/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/kp/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -76,8 +76,8 @@
+ Name[uz@cyrillic]=Шимолий Корея
+ Name[vi]=Bắc Triều Tiên
+ Name[wa]=Bijhe Corêye
++Name[xh]=Umntla Korea
+ Name[x-test]=xxNorth Koreaxx
+-Name[xh]=Umntla Korea
+ Name[zh_CN]=朝鲜
+ Name[zh_TW]=北韓
+ Region=eastasia
+--- runtime/l10n/kr/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/kr/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -76,8 +76,8 @@
+ Name[uz@cyrillic]=Жанубий Корея
+ Name[vi]=Hàn Quốc
+ Name[wa]=Nonne Corêye
++Name[xh]=Umzantsi Korea
+ Name[x-test]=xxSouth Koreaxx
+-Name[xh]=Umzantsi Korea
+ Name[zh_CN]=韩国
+ Name[zh_TW]=南韓
+ Region=eastasia
+--- runtime/l10n/C/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/C/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -78,8 +78,8 @@
+ Name[uz@cyrillic]=Андоза
+ Name[vi]=Mặc định
+ Name[wa]=Prémetou
++Name[xh]=Okwendalo
+ Name[x-test]=xxDefaultxx
+-Name[xh]=Okwendalo
+ Name[zh_CN]=默认
+ Name[zh_TW]=預設
+ Languages=en_US
+--- runtime/l10n/southamerica.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/southamerica.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,7 +77,7 @@
+ Name[uz@cyrillic]=Америка, Жанубий
+ Name[vi]=Nam Mĩ
+ Name[wa]=Amerike nonnrece
++Name[xh]=Emelika, Ezantsi
+ Name[x-test]=xxAmerica, Southxx
+-Name[xh]=Emelika, Ezantsi
+ Name[zh_CN]=南美
+ Name[zh_TW]=美洲，南部
+--- runtime/l10n/om/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/om/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -51,8 +51,8 @@
+ Name[uz]=Ummon
+ Name[uz@cyrillic]=Уммон
+ Name[vi]=Ô-man
++Name[xh]= Oman
+ Name[x-test]=xxOmanxx
+-Name[xh]= Oman
+ Name[zh_CN]=阿曼
+ Name[zh_TW]=阿曼
+ Region=middleeast
+--- runtime/l10n/ps/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/ps/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -75,8 +75,8 @@
+ Name[uz@cyrillic]=Фаластин Ерлари
+ Name[vi]=Lãnh thổ Palestine
+ Name[wa]=Palestene
++Name[xh]=Umhlaba wePalestina
+ Name[x-test]=xxPalestinian Territoryxx
+-Name[xh]=Umhlaba wePalestina
+ Name[zh_CN]=巴勒斯坦地区
+ Name[zh_TW]=巴勒斯坦領地
+ Region=middleeast
+--- runtime/l10n/ag/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/ag/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,8 +77,8 @@
+ Name[uz@cyrillic]=Антигуа ва Барбуда
+ Name[vi]=An-ti-gua và Bă-bu-đa
+ Name[wa]=Antigua eyet Barbuda
++Name[xh]=Antigua ne Barbuda
+ Name[x-test]=xxAntigua and Barbudaxx
+-Name[xh]=Antigua ne Barbuda
+ Name[zh_CN]=安提瓜和巴布达
+ Name[zh_TW]=安地瓜島和巴布達島
+ Region=caribbean
+--- runtime/l10n/az/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/az/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -70,7 +70,7 @@
+ Name[tg]=Озарбойҷон
+ Name[th]=อาร์เซอร์ไบจัน
+ Name[tr]=Azerice
+-Name[uk]=Азербайджан
++Name[uk]=Азербайджанська
+ Name[uz]=Ozarbayjon
+ Name[uz@cyrillic]=Озарбайжон
+ Name[vi]=A-xợ-bai-gianh
+--- runtime/l10n/ba/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/ba/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -78,8 +78,8 @@
+ Name[uz@cyrillic]=Босния ва Герцоговина
+ Name[vi]=Bô-xni-a và Héc-xê-gô-vi-na
+ Name[wa]=Bosneye
++Name[xh]=Bosnia ne Herzegovina
+ Name[x-test]=xxBosnia and Herzegovinaxx
+-Name[xh]=Bosnia ne Herzegovina
+ Name[zh_CN]=波斯尼亚和黑塞哥维那
+ Name[zh_TW]=波士尼亞與赫塞哥維納
+ Region=southeurope
+--- runtime/l10n/southeurope.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/southeurope.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,7 +77,7 @@
+ Name[uz@cyrillic]=Ойропа, Жанубий
+ Name[vi]=Nam Âu
+ Name[wa]=Urope nonnrece
++Name[xh]=Yurophu, Emazantsi
+ Name[x-test]=xxEurope, Southernxx
+-Name[xh]=Yurophu, Emazantsi
+ Name[zh_CN]=南欧
+ Name[zh_TW]=歐洲，南部
+--- runtime/l10n/ru/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/ru/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -76,8 +76,8 @@
+ Name[uz@cyrillic]=Россия
+ Name[vi]=Nga
+ Name[wa]=Rûsseye
++Name[xh]=Rashiya
+ Name[x-test]=xxRussiaxx
+-Name[xh]=Rashiya
+ Name[zh_CN]=俄罗斯
+ Name[zh_TW]=俄羅斯
+ Region=easteurope
+--- runtime/l10n/co/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/co/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -69,8 +69,8 @@
+ Name[uz@cyrillic]=Колумбия
+ Name[vi]=Cô-lom-bi-a
+ Name[wa]=Colombeye
++Name[xh]=Columbia
+ Name[x-test]=xxColombiaxx
+-Name[xh]=Columbia
+ Name[zh_CN]=哥伦比亚
+ Name[zh_TW]=哥倫比亞
+ Region=southamerica
+--- runtime/l10n/do/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/do/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -78,8 +78,8 @@
+ Name[uz@cyrillic]=Доминикана Республикаси
+ Name[vi]=Cộng hoà Đô-mi-ni-ca
+ Name[wa]=Republike Dominikinne
++Name[xh]=IRepublic yeDominican
+ Name[x-test]=xxDominican Republicxx
+-Name[xh]=IRepublic yeDominican
+ Name[zh_CN]=多米尼加共和国
+ Name[zh_TW]=多明尼加共和國
+ Region=caribbean
+--- runtime/l10n/tt/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/tt/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -78,8 +78,8 @@
+ Name[uz@cyrillic]=Тринидад ва Тобаго
+ Name[vi]=Tợ-ri-ni-đađ và Tô-ba-gô
+ Name[wa]=Trinité et Tobago
++Name[xh]=Trinidad ne Tobago
+ Name[x-test]=xxTrinidad and Tobagoxx
+-Name[xh]=Trinidad ne Tobago
+ Name[zh_CN]=特立尼达和多巴哥
+ Name[zh_TW]=千里達及托貝哥
+ Region=caribbean
+--- runtime/l10n/us/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/us/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -78,8 +78,8 @@
+ Name[uz@cyrillic]=АҚШ
+ Name[vi]=Hoa Kỳ
+ Name[wa]=Estats Unis
++Name[xh]=United States ye Melika
+ Name[x-test]=xxUnited States of Americaxx
+-Name[xh]=United States ye Melika
+ Name[zh_CN]=美国
+ Name[zh_TW]=美利堅合眾國
+ Region=northamerica
+--- runtime/l10n/fr/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/fr/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -78,8 +78,8 @@
+ Name[uz]=Fransiya
+ Name[uz@cyrillic]=Франция
+ Name[vi]=Pháp
++Name[xh]=Fransi
+ Name[x-test]=xxFrancexx
+-Name[xh]=Fransi
+ Name[zh_CN]=法国
+ Name[zh_TW]=法國
+ Region=westeurope
+--- runtime/l10n/vc/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/vc/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -78,8 +78,8 @@
+ Name[uz@cyrillic]=Сент-Винсент ва Гренадина
+ Name[vi]=Xan Vin-xen và các Gợ-re-na-đinh
+ Name[wa]=St. Vincint et les Grenadines
++Name[xh]=St. Vincent ne Grenadines
+ Name[x-test]=xxSt. Vincent and the Grenadinesxx
+-Name[xh]=St. Vincent ne Grenadines
+ Name[zh_CN]=圣文森特和格林纳丁斯
+ Name[zh_TW]=聖文森及格納那丁
+ Region=caribbean
+--- runtime/l10n/easteurope.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/easteurope.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,7 +77,7 @@
+ Name[uz@cyrillic]=Ойропа, Шарқий
+ Name[vi]=Tây Âu
+ Name[wa]=Urope levantrece
++Name[xh]=Yurophu,Impuma
+ Name[x-test]=xxEurope, Easternxx
+-Name[xh]=Yurophu,Impuma
+ Name[zh_CN]=东欧
+ Name[zh_TW]=歐洲，東部
+--- runtime/l10n/gb/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/gb/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -78,8 +78,8 @@
+ Name[uz@cyrillic]=ББ
+ Name[vi]=Vương quốc Anh
+ Name[wa]=Rweyåme Uni
++Name[xh]=United Kingdom 
+ Name[x-test]=xxUnited Kingdomxx
+-Name[xh]=United Kingdom 
+ Name[zh_CN]=英国
+ Name[zh_TW]=聯合王國
+ Region=westeurope
+--- runtime/l10n/northeurope.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/northeurope.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -76,7 +76,7 @@
+ Name[uz@cyrillic]=Ойропа, Шимолий
+ Name[vi]=Bắc Âu
+ Name[wa]=Urope bijhrece
++Name[xh]=Yurophu, Esemantla
+ Name[x-test]=xxEurope, Northernxx
+-Name[xh]=Yurophu, Esemantla
+ Name[zh_CN]=北欧
+ Name[zh_TW]=歐洲，北部
+--- runtime/l10n/centraleurope.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/centraleurope.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -77,7 +77,7 @@
+ Name[uz@cyrillic]=Ойропа, Марказий
+ Name[vi]=Trung Âu
+ Name[wa]=Urope cintråle
++Name[xh]=Yurophu, Kumbindi
+ Name[x-test]=xxEurope, Centralxx
+-Name[xh]=Yurophu, Kumbindi
+ Name[zh_CN]=中欧
+ Name[zh_TW]=歐洲，中部
+--- runtime/l10n/il/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/il/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -56,8 +56,8 @@
+ Name[uz@cyrillic]=Исроил
+ Name[vi]=Do Thái
+ Name[wa]=Israyel
++Name[xh]=USirayeli
+ Name[x-test]=xxIsraelxx
+-Name[xh]=USirayeli
+ Name[zh_CN]=以色列
+ Name[zh_TW]=以色列
+ Region=middleeast
+--- runtime/l10n/westeurope.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/westeurope.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -78,7 +78,7 @@
+ Name[uz@cyrillic]=Ойропа, Ғарбий
+ Name[vi]=Tây Âu
+ Name[wa]=Urope coûtchantrece
++Name[xh]=Yurophu, Entshona
+ Name[x-test]=xxEurope, Westernxx
+-Name[xh]=Yurophu, Entshona
+ Name[zh_CN]=西欧
+ Name[zh_TW]=歐洲，西部
+--- runtime/l10n/it/entry.desktop	(.../tags/KDE/4.2.3/kdebase)	(wersja 974232)
++++ runtime/l10n/it/entry.desktop	(.../branches/KDE/4.2/kdebase)	(wersja 974232)
+@@ -78,8 +78,8 @@
+ Name[uz@cyrillic]=Италия
+ Name[vi]=Ý
+ Name[wa]=Itåleye
++Name[xh]=Ithali
+ Name[x-test]=xxItalyxx
+-Name[xh]=Ithali
+ Name[zh_CN]=意大利
+ Name[zh_TW]=義大利
+ Region=southeurope
