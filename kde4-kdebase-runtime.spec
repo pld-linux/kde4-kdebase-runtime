@@ -13,7 +13,7 @@ Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.2.91
-Release:	0.1
+Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}svn%{svn}.tar.bz2
@@ -106,7 +106,7 @@ cd build
 %endif
 	../
 
-%{__make} 
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -341,6 +341,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kwalletd.desktop
 %{_datadir}/kde4/services/language.desktop
 %{_datadir}/kde4/services/localdomainurifilter.desktop
+%{_datadir}/kde4/services/lzma.protocol
 %{_datadir}/kde4/services/man.protocol
 %{_datadir}/kde4/services/nfs.protocol
 %{_datadir}/kde4/services/programs.protocol
@@ -357,6 +358,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/thumbnail.protocol
 %{_datadir}/kde4/services/trash.protocol
 %{_datadir}/kde4/services/zip.protocol
+%{_datadir}/kde4/services/xz.protocol
 %{_datadir}/kde4/services/desktop.protocol
 %{_datadir}/kde4/services/kded/desktopnotifier.desktop
 %{_datadir}/kde4/services/desktopthumbnail.desktop
@@ -430,7 +432,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(en) %{_kdedocdir}/en/knetattach
 %lang(en) %{_kdedocdir}/en/network
 %lang(en) %{_mandir}/man1/kdesu.1*
-%lang(en) %{_mandir}/man8/nepomuk*.8.gz
+%lang(en) %{_mandir}/man8/nepomuk*.8*
 
 %{_datadir}/sounds/*
 %{_iconsdir}/hicolor/*/*/*.png
