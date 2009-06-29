@@ -12,12 +12,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.2.91
+Version:	4.2.95
 Release:	1
 License:	GPL
 Group:		X11/Applications
-Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}svn%{svn}.tar.bz2
-# Source0-md5:	a36c837b8f1d027b3ad3023627113acd
+Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
+# Source0-md5:	1a8c7ac4885b4e13160526ee622d36be
 #Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
@@ -91,8 +91,8 @@ KDE Oxygen Style.
 Styl Oxygen dla KDE.
 
 %prep
-##%setup -q -n %{orgname}-%{version}
-%setup -q -n %{orgname}-%{version}svn%{svn} -a1
+%setup -q -n %{orgname}-%{version} -a1
+##%setup -q -n %{orgname}-%{version}svn%{svn} -a1
 #%patch100 -p1
 
 %build
