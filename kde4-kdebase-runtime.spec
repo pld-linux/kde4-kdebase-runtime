@@ -100,6 +100,7 @@ cd build
 %cmake \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
 	-DLIB_INSTALL_DIR=%{_libdir} \
+	-DLIBEXEC_INSTALL_DIR=%{_libdir}/kde4/libexec \
 	-DCMAKE_BUILD_TYPE=%{!?debug:release}%{?debug:debug} \
 %if "%{_lib}" == "lib64"
 	-DLIB_SUFFIX=64 \
