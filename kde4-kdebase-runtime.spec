@@ -44,6 +44,7 @@ BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	soprano-devel >= 2.3
 BuildRequires:	strigi-devel >= 0.6.3
 BuildRequires:	xine-lib-devel
+Provides:	dbus(org.freedesktop.Notifications)
 Obsoletes:	kdebase4-runtime
 Conflicts:	kdebase4-runtime
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
