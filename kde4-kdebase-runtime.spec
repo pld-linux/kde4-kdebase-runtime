@@ -494,4 +494,5 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kstyle_oxygen_config.so
 %attr(755,root,root) %{_libdir}/kde4/plugins/styles/oxygen.so
 %{_datadir}/apps/kstyle/themes/oxygen.themerc
+%dir %{_datadir}/apps/desktoptheme/oxygen
 %dir %{_datadir}/apps/desktoptheme/oxygen/colors
