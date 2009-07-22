@@ -6,18 +6,18 @@
 #
 %define		_state		unstable
 %define		orgname		kdebase-runtime
-%define		qtver		4.5.1
+%define		qtver		4.5.2
 %define		svn		979380
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.2.96
+Version:	4.2.98
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	8966e6f1314104097125dec40339d18c
+# Source0-md5:	f31373a7cc1fc1d465d0385887e783a5
 #Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
@@ -41,7 +41,7 @@ BuildRequires:	phonon-devel >= 4.3.1
 BuildRequires:	pulseaudio-devel
 %{?with_apidocs:BuildRequires:	qt4-doc >= %{qtver}}
 BuildRequires:	rpmbuild(macros) >= 1.129
-BuildRequires:	soprano-devel >= 2.3
+BuildRequires:	soprano-devel >= 2.3.0
 BuildRequires:	strigi-devel >= 0.6.3
 BuildRequires:	xine-lib-devel
 Provides:	dbus(org.freedesktop.Notifications)
@@ -496,3 +496,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kstyle/themes/oxygen.themerc
 %dir %{_datadir}/apps/desktoptheme/oxygen
 %dir %{_datadir}/apps/desktoptheme/oxygen/colors
+%{_datadir}/apps/desktoptheme/oxygen/metadata.desktop
