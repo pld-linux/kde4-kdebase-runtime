@@ -4,24 +4,25 @@
 # Conditional build:
 %bcond_without	apidocs		# do not prepare API documentation
 #
-%define		_state		stable
+%define		_state		unstable
 %define		orgname		kdebase-runtime
 %define		qtver		4.5.2
+%define		snap		svn1010339
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.3.0
-Release:	3
+Version:	4.3.64
+Release:	1
 License:	GPL
 Group:		X11/Applications
-Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	e4ea5d567187f4ac952c67326c5afd94
 #Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
+Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}%{snap}.tar.bz2
+# Source0-md5:	8ec2d3e3f183af68500783b4188c2f25
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
-Patch100:	%{name}-branch.diff
+#Patch100:	%{name}-branch.diff
 URL:		http://www.kde.org/
 BuildRequires:	QtOpenGL-devel >= %{qtver}
 BuildRequires:	QtSvg-devel >= %{qtver}
@@ -91,8 +92,9 @@ KDE Oxygen Style.
 Styl Oxygen dla KDE.
 
 %prep
-%setup -q -n %{orgname}-%{version} -a1
-%patch100 -p1
+%setup -q -n %{orgname}-%{version}%{snap} -a1
+#%setup -q -n %{orgname}-%{version} -a1
+#%patch100 -p1
 
 %build
 install -d build
@@ -228,7 +230,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kio_nfs.so
 %attr(755,root,root) %{_libdir}/kde4/kio_remote.so
 %attr(755,root,root) %{_libdir}/kde4/kio_settings.so
-%attr(755,root,root) %{_libdir}/kde4/kio_sftp.so
+#%attr(755,root,root) %{_libdir}/kde4/kio_sftp.so
 %attr(755,root,root) %{_libdir}/kde4/kio_smb.so
 %attr(755,root,root) %{_libdir}/kde4/kio_thumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/kio_trash.so
@@ -249,10 +251,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/nepomukstorage.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukstrigiservice.so
 %attr(755,root,root) %{_libdir}/kde4/plasma_appletscript_simple_javascript.so
+%attr(755,root,root) %{_libdir}/kde4/plasma_dataenginescript_javascript.so
 %attr(755,root,root) %{_libdir}/kde4/plasma_runnerscript_javascript.so
 %attr(755,root,root) %{_libdir}/kde4/svgthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/textthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/libexec/drkonqi
+%attr(755,root,root) %{_libdir}/kde4/libexec/installdbgsymbols.sh
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdeeject
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdesu
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdesud
@@ -276,11 +280,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kcmlocale
 %{_datadir}/apps/kconf_update/kuriikwsfilter.upd
 %{_datadir}/apps/kde/kde.notifyrc
+%dir %{_datadir}/apps/kglobalaccel
+%{_datadir}/apps/kglobalaccel/kglobalaccel.notifyrc
 %{_datadir}/apps/khelpcenter
 %{_datadir}/apps/kio_bookmarks
 %{_datadir}/apps/kio_finger
 %{_datadir}/apps/kio_info
-%{_datadir}/apps/kio_thumbnail
+#%{_datadir}/apps/kio_thumbnail
 %dir %{_datadir}/apps/konqueror/dirtree
 %dir %{_datadir}/apps/konqueror/dirtree/remote
 %{_datadir}/apps/konqueror/dirtree/remote/smb-network.desktop
@@ -351,7 +357,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/renimagedlg.desktop
 %{_datadir}/kde4/services/searchproviders
 %{_datadir}/kde4/services/settings.protocol
-%{_datadir}/kde4/services/sftp.protocol
+#%{_datadir}/kde4/services/sftp.protocol
 %{_datadir}/kde4/services/smb.protocol
 %{_datadir}/kde4/services/svgthumbnail.desktop
 %{_datadir}/kde4/services/tar.protocol
@@ -378,6 +384,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/nepomukstorage.desktop
 %{_datadir}/kde4/services/nepomukstrigiservice.desktop
 %{_datadir}/kde4/services/plasma-scriptengine-applet-simple-javascript.desktop
+%{_datadir}/kde4/services/plasma-scriptengine-dataengine-javascript.desktop
 %{_datadir}/kde4/services/plasma-scriptengine-runner-javascript.desktop
 %{_datadir}/kde4/servicetypes/nepomukservice.desktop
 %{_datadir}/kde4/servicetypes/searchprovider.desktop
@@ -494,5 +501,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/plugins/styles/oxygen.so
 %{_datadir}/apps/kstyle/themes/oxygen.themerc
 %dir %{_datadir}/apps/desktoptheme/oxygen
-%dir %{_datadir}/apps/desktoptheme/oxygen/colors
-%{_datadir}/apps/desktoptheme/oxygen/metadata.desktop
+%{_datadir}/apps/desktoptheme/oxygen/*
