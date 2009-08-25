@@ -7,18 +7,18 @@
 %define		_state		unstable
 %define		orgname		kdebase-runtime
 %define		qtver		4.5.2
-%define		snap		svn1010339
+%define		snap		svn1013471
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.3.64
+Version:	4.3.65
 Release:	1
 License:	GPL
 Group:		X11/Applications
 #Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}%{snap}.tar.bz2
-# Source0-md5:	8ec2d3e3f183af68500783b4188c2f25
+# Source0-md5:	5d76c4e4d0f11fa94452f851c6dc51d6
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
