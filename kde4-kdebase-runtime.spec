@@ -2,7 +2,6 @@
 # - l10n != %lang glibc locales (et = etiopia not estonia!)
 #
 # Conditional build:
-%bcond_without	apidocs		# do not prepare API documentation
 #
 %define		_state		stable
 %define		orgname		kdebase-runtime
@@ -29,8 +28,6 @@ BuildRequires:	QtTest-devel >= %{qtver}
 BuildRequires:	automoc4 >= 0.9.88
 BuildRequires:	clucene-core-devel >= 0.9.21
 BuildRequires:	cmake >= 2.6.3
-%{?with_apidocs:BuildRequires:	doxygen}
-%{?with_apidocs:BuildRequires:	graphviz}
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdelibs-experimental-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
@@ -38,7 +35,6 @@ BuildRequires:	libsmbclient-devel
 BuildRequires:	openslp-devel
 BuildRequires:	phonon-devel >= 4.3.1
 BuildRequires:	pulseaudio-devel
-%{?with_apidocs:BuildRequires:	qt4-doc >= %{qtver}}
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	soprano-devel >= 2.3.0
 BuildRequires:	strigi-devel >= 0.6.3
