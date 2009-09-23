@@ -2,23 +2,22 @@
 # - l10n != %lang glibc locales (et = etiopia not estonia!)
 #
 # Conditional build:
-%bcond_without	apidocs		# do not prepare API documentation
 #
 %define		_state		unstable
 %define		orgname		kdebase-runtime
 %define		qtver		4.5.2
-%define		snap		svn1020033
+%define		snap		svn1024329
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.3.67
+Version:	4.3.68
 Release:	1
 License:	GPL
 Group:		X11/Applications
 #Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}%{snap}.tar.bz2
-# Source0-md5:	ed16ad7d27a662e65ae395e4a891c9c7
+# Source0-md5:	5152403ce83748fac1be21007aa6acca
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
@@ -30,15 +29,12 @@ BuildRequires:	QtTest-devel >= %{qtver}
 BuildRequires:	automoc4 >= 0.9.88
 BuildRequires:	clucene-core-devel >= 0.9.21
 BuildRequires:	cmake >= 2.6.3
-%{?with_apidocs:BuildRequires:	doxygen}
-%{?with_apidocs:BuildRequires:	graphviz}
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
 BuildRequires:	libsmbclient-devel
 BuildRequires:	openslp-devel
 BuildRequires:	phonon-devel >= 4.3.1
 BuildRequires:	pulseaudio-devel
-%{?with_apidocs:BuildRequires:	qt4-doc >= %{qtver}}
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	soprano-devel >= 2.3.0
 BuildRequires:	strigi-devel >= 0.6.3
@@ -254,8 +250,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/plasma_runnerscript_javascript.so
 %attr(755,root,root) %{_libdir}/kde4/svgthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/textthumbnail.so
+%attr(755,root,root) %{_libdir}/kde4/windowsexethumbnail.so
+%attr(755,root,root) %{_libdir}/kde4/windowsimagethumbnail.so
+
 %attr(755,root,root) %{_libdir}/kde4/libexec/drkonqi
-%attr(755,root,root) %{_libdir}/kde4/libexec/installdbgsymbols.sh
+#%attr(755,root,root) %{_libdir}/kde4/libexec/installdbgsymbols.sh
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdeeject
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdesu
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdesud
@@ -385,6 +384,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/plasma-scriptengine-applet-simple-javascript.desktop
 %{_datadir}/kde4/services/plasma-scriptengine-dataengine-javascript.desktop
 %{_datadir}/kde4/services/plasma-scriptengine-runner-javascript.desktop
+%{_datadir}/kde4/services/windowsexethumbnail.desktop
+%{_datadir}/kde4/services/windowsimagethumbnail.desktop
 %{_datadir}/kde4/servicetypes/nepomukservice.desktop
 %{_datadir}/kde4/servicetypes/searchprovider.desktop
 %{_datadir}/kde4/servicetypes/thumbcreator.desktop
