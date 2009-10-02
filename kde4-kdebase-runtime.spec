@@ -6,18 +6,18 @@
 %define		_state		unstable
 %define		orgname		kdebase-runtime
 %define		qtver		4.5.2
-%define		snap		svn1024329
+%define		snap		svn1027298
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.3.68
+Version:	4.3.69
 Release:	1
 License:	GPL
 Group:		X11/Applications
 #Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}%{snap}.tar.bz2
-# Source0-md5:	5152403ce83748fac1be21007aa6acca
+# Source0-md5:	71b5466d7ccd6301948deb05a7eec2a6
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
@@ -32,6 +32,7 @@ BuildRequires:	cmake >= 2.6.3
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
 BuildRequires:	libsmbclient-devel
+BuildRequires:	libssh-devel >= 0.3.4
 BuildRequires:	openslp-devel
 BuildRequires:	phonon-devel >= 4.3.1
 BuildRequires:	pulseaudio-devel
@@ -225,7 +226,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kio_nfs.so
 %attr(755,root,root) %{_libdir}/kde4/kio_remote.so
 %attr(755,root,root) %{_libdir}/kde4/kio_settings.so
-#%attr(755,root,root) %{_libdir}/kde4/kio_sftp.so
+%attr(755,root,root) %{_libdir}/kde4/kio_sftp.so
 %attr(755,root,root) %{_libdir}/kde4/kio_smb.so
 %attr(755,root,root) %{_libdir}/kde4/kio_thumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/kio_trash.so
@@ -355,7 +356,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/renimagedlg.desktop
 %{_datadir}/kde4/services/searchproviders
 %{_datadir}/kde4/services/settings.protocol
-#%{_datadir}/kde4/services/sftp.protocol
+%{_datadir}/kde4/services/sftp.protocol
 %{_datadir}/kde4/services/smb.protocol
 %{_datadir}/kde4/services/svgthumbnail.desktop
 %{_datadir}/kde4/services/tar.protocol
