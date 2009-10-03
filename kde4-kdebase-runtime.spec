@@ -5,7 +5,7 @@
 #
 %define		_state		stable
 %define		orgname		kdebase-runtime
-%define		qtver		4.5.2
+%define		qtver		4.5.3
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
