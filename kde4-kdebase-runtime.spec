@@ -6,18 +6,18 @@
 %define		_state		unstable
 %define		orgname		kdebase-runtime
 %define		qtver		4.6.0
-%define		snap		svn1035674
+%define		snap		svn1040395
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.3.72
-Release:	2
+Version:	4.3.73
+Release:	1
 License:	GPL
 Group:		X11/Applications
 #Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}%{snap}.tar.bz2
-# Source0-md5:	c0c3041badea8eeaabb4b21ed3f6e5bc
+# Source0-md5:	ecc74700d02bf6fe21ed5d290f78a1b2
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
@@ -37,7 +37,7 @@ BuildRequires:	openslp-devel
 BuildRequires:	phonon-devel >= 4.3.1
 BuildRequires:	pulseaudio-devel
 BuildRequires:	rpmbuild(macros) >= 1.129
-BuildRequires:	soprano-devel >= 2.3.0
+BuildRequires:	soprano-devel >= 2.3.2-0.svn1042011.1
 BuildRequires:	strigi-devel >= 0.6.3
 BuildRequires:	xine-lib-devel
 Provides:	dbus(org.freedesktop.Notifications)
@@ -461,6 +461,14 @@ rm -rf $RPM_BUILD_ROOT
 
 # dir owned by kdelibs
 %{_datadir}/apps/desktoptheme/default/*
+
+# should this really be here? i mean, did kde mess up?
+%{_datadir}/apps/kstyle/themes/qtcde.themerc
+%{_datadir}/apps/kstyle/themes/qtcleanlooks.themerc
+%{_datadir}/apps/kstyle/themes/qtgtk.themerc
+%{_datadir}/apps/kstyle/themes/qtmotif.themerc
+%{_datadir}/apps/kstyle/themes/qtplastique.themerc
+%{_datadir}/apps/kstyle/themes/qtwindows.themerc
 
 %files devel
 %defattr(644,root,root,755)
