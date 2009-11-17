@@ -6,18 +6,18 @@
 %define		_state		unstable
 %define		orgname		kdebase-runtime
 %define		qtver		4.6.0
-%define		snap		svn1040395
+%define		snap		svn1048496
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.3.73
+Version:	4.3.75
 Release:	1
 License:	GPL
 Group:		X11/Applications
 #Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}%{snap}.tar.bz2
-# Source0-md5:	ecc74700d02bf6fe21ed5d290f78a1b2
+# Source0-md5:	60ee3045945de672bf593ddaab3dab32
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
@@ -185,6 +185,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libmolletnetwork.so.?
 %attr(755,root,root) %{_libdir}/libmolletnetwork.so.4.*.*
 #
+%attr(755,root,root) %{_libdir}/kde4/comicbookthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/cursorthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/djvuthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/exrthumbnail.so
@@ -226,9 +227,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kio_nfs.so
 %attr(755,root,root) %{_libdir}/kde4/kio_remote.so
 %attr(755,root,root) %{_libdir}/kde4/kio_settings.so
-%attr(755,root,root) %{_libdir}/kde4/kio_sftp.so
+#%attr(755,root,root) %{_libdir}/kde4/kio_sftp.so
 %attr(755,root,root) %{_libdir}/kde4/kio_smb.so
 %attr(755,root,root) %{_libdir}/kde4/kio_thumbnail.so
+%attr(755,root,root) %{_libdir}/kde4/kio_timeline.so
 %attr(755,root,root) %{_libdir}/kde4/kio_trash.so
 %attr(755,root,root) %{_libdir}/kde4/libkmanpart.so
 %attr(755,root,root) %{_libdir}/kde4/fixhosturifilter.so
@@ -313,6 +315,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/bzip.protocol
 %{_datadir}/kde4/services/bzip2.protocol
 %{_datadir}/kde4/services/cgi.protocol
+%{_datadir}/kde4/services/comicbookthumbnail.desktop
 %{_datadir}/kde4/services/componentchooser.desktop
 %{_datadir}/kde4/services/cursorthumbnail.desktop
 %{_datadir}/kde4/services/djvuthumbnail.desktop
@@ -356,12 +359,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/renimagedlg.desktop
 %{_datadir}/kde4/services/searchproviders
 %{_datadir}/kde4/services/settings.protocol
-%{_datadir}/kde4/services/sftp.protocol
+#%{_datadir}/kde4/services/sftp.protocol
 %{_datadir}/kde4/services/smb.protocol
 %{_datadir}/kde4/services/svgthumbnail.desktop
 %{_datadir}/kde4/services/tar.protocol
 %{_datadir}/kde4/services/textthumbnail.desktop
 %{_datadir}/kde4/services/thumbnail.protocol
+%{_datadir}/kde4/services/timeline.protocol
 %{_datadir}/kde4/services/trash.protocol
 %{_datadir}/kde4/services/zip.protocol
 %{_datadir}/kde4/services/xz.protocol
