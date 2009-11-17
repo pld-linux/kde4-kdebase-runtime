@@ -12,7 +12,7 @@ Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.3.75
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications
 #Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
@@ -32,7 +32,7 @@ BuildRequires:	cmake >= 2.6.3
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
 BuildRequires:	libsmbclient-devel
-BuildRequires:	libssh-devel >= 1:0.3.4
+BuildRequires:	libssh-devel >= 1:0.4.0
 BuildRequires:	openslp-devel
 BuildRequires:	phonon-devel >= 4.3.1
 BuildRequires:	pulseaudio-devel
@@ -227,7 +227,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kio_nfs.so
 %attr(755,root,root) %{_libdir}/kde4/kio_remote.so
 %attr(755,root,root) %{_libdir}/kde4/kio_settings.so
-#%attr(755,root,root) %{_libdir}/kde4/kio_sftp.so
+%attr(755,root,root) %{_libdir}/kde4/kio_sftp.so
 %attr(755,root,root) %{_libdir}/kde4/kio_smb.so
 %attr(755,root,root) %{_libdir}/kde4/kio_thumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/kio_timeline.so
@@ -359,7 +359,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/renimagedlg.desktop
 %{_datadir}/kde4/services/searchproviders
 %{_datadir}/kde4/services/settings.protocol
-#%{_datadir}/kde4/services/sftp.protocol
+%{_datadir}/kde4/services/sftp.protocol
 %{_datadir}/kde4/services/smb.protocol
 %{_datadir}/kde4/services/svgthumbnail.desktop
 %{_datadir}/kde4/services/tar.protocol
