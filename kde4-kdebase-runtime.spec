@@ -12,7 +12,7 @@ Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.3.80
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
@@ -28,6 +28,7 @@ BuildRequires:	QtTest-devel >= %{qtver}
 BuildRequires:	automoc4 >= 0.9.88
 BuildRequires:	clucene-core-devel >= 0.9.21
 BuildRequires:	cmake >= 2.6.3
+BuildRequires:	exiv2-devel >= 0.18.2
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
 BuildRequires:	libsmbclient-devel
@@ -37,7 +38,7 @@ BuildRequires:	phonon-devel >= 4.3.2
 BuildRequires:	pulseaudio-devel
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	soprano-devel >= 2.3.70
-BuildRequires:	strigi-devel >= 0.6.3
+BuildRequires:	strigi-devel >= 0.7.0
 BuildRequires:	xine-lib-devel
 Provides:	dbus(org.freedesktop.Notifications)
 Obsoletes:	kdebase4-runtime
