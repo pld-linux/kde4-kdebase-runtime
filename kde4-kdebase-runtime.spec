@@ -22,24 +22,34 @@ Source1:	kdebase-searchproviders.tar.bz2
 Source2:	l10n-iso639-1
 #Patch100:	%{name}-branch.diff
 URL:		http://www.kde.org/
+BuildRequires:	OpenEXR-devel
+BuildRequires:	Qt3Support-devel
 BuildRequires:	QtOpenGL-devel >= %{qtver}
+BuildRequires:	QtScript-devel
 BuildRequires:	QtSvg-devel >= %{qtver}
 BuildRequires:	QtTest-devel >= %{qtver}
+BuildRequires:	QtUiTools-devel
+BuildRequires:	alsa-lib-devel
 BuildRequires:	automoc4 >= 0.9.88
+BuildRequires:	bzip2-devel
 BuildRequires:	clucene-core-devel >= 0.9.21
 BuildRequires:	cmake >= 2.6.3
 BuildRequires:	exiv2-devel >= 0.18.2
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
+BuildRequires:	libjpeg-devel
 BuildRequires:	libsmbclient-devel
 BuildRequires:	libssh-devel >= 1:0.4.0
 BuildRequires:	openslp-devel
 BuildRequires:	phonon-devel >= 4.3.80
 BuildRequires:	pulseaudio-devel
+BuildRequires:	qt4-build
+BuildRequires:	qt4-qmake
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	soprano-devel >= 2.3.70
 BuildRequires:	strigi-devel >= 0.7.0
 BuildRequires:	xine-lib-devel
+BuildRequires:	xz-devel
 Provides:	dbus(org.freedesktop.Notifications)
 Obsoletes:	kdebase4-runtime
 Conflicts:	kdebase4-runtime
@@ -193,7 +203,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/jpegthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_cgi.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_componentchooser.so
-%attr(755,root,root) %{_libdir}/kde4/kcm_device_automounter.so                                                                                     
+%attr(755,root,root) %{_libdir}/kde4/kcm_device_automounter.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_emoticons.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_filetypes.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_icons.so
@@ -203,7 +213,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_locale.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_nepomuk.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_trash.so
-%attr(755,root,root) %{_libdir}/kde4/kded_device_automounter.so                                                                                    
+%attr(755,root,root) %{_libdir}/kde4/kded_device_automounter.so
 %attr(755,root,root) %{_libdir}/kde4/kded_kpasswdserver.so
 %attr(755,root,root) %{_libdir}/kde4/kded_ktimezoned.so
 %attr(755,root,root) %{_libdir}/kde4/kded_remotedirnotify.so
@@ -233,7 +243,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kio_thumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/kio_timeline.so
 %attr(755,root,root) %{_libdir}/kde4/kio_trash.so
-%attr(755,root,root) %{_libdir}/kde4/kio_nepomuk.so                                                                                                
+%attr(755,root,root) %{_libdir}/kde4/kio_nepomuk.so
 %attr(755,root,root) %{_libdir}/kde4/libkmanpart.so
 %attr(755,root,root) %{_libdir}/kde4/fixhosturifilter.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_phonon.so
@@ -248,7 +258,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/nepomukmigration1.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukontologyloader.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukqueryservice.so
-%attr(755,root,root) %{_libdir}/kde4/nepomukremovablestorageservice.so             
+%attr(755,root,root) %{_libdir}/kde4/nepomukremovablestorageservice.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukstorage.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukstrigiservice.so
 %attr(755,root,root) %{_libdir}/kde4/plasma_appletscript_simple_javascript.so
@@ -321,7 +331,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/comicbookthumbnail.desktop
 %{_datadir}/kde4/services/componentchooser.desktop
 %{_datadir}/kde4/services/cursorthumbnail.desktop
-%{_datadir}/kde4/services/device_automounter_kcm.desktop                                                                     
+%{_datadir}/kde4/services/device_automounter_kcm.desktop
 %{_datadir}/kde4/services/djvuthumbnail.desktop
 %{_datadir}/kde4/services/emoticons.desktop
 %{_datadir}/kde4/services/exrthumbnail.desktop
@@ -340,7 +350,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kcmkded.desktop
 %{_datadir}/kde4/services/kcmnotify.desktop
 %{_datadir}/kde4/services/kcmtrash.desktop
-%{_datadir}/kde4/services/kded/device_automounter.desktop                                                                    
+%{_datadir}/kde4/services/kded/device_automounter.desktop
 %{_datadir}/kde4/services/kded/kpasswdserver.desktop
 %{_datadir}/kde4/services/kded/ktimezoned.desktop
 %{_datadir}/kde4/services/kded/remotedirnotify.desktop
@@ -357,7 +367,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/localdomainurifilter.desktop
 %{_datadir}/kde4/services/lzma.protocol
 %{_datadir}/kde4/services/man.protocol
-%{_datadir}/kde4/services/nepomuk.protocol                                                                                   
+%{_datadir}/kde4/services/nepomuk.protocol
 %{_datadir}/kde4/services/nepomukremovablestorageservice.desktop
 %{_datadir}/kde4/services/nfs.protocol
 %{_datadir}/kde4/services/programs.protocol
