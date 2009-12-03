@@ -22,23 +22,33 @@ Source1:	kdebase-searchproviders.tar.bz2
 Source2:	l10n-iso639-1
 Patch100:	%{name}-branch.diff
 URL:		http://www.kde.org/
+BuildRequires:	OpenEXR-devel
+BuildRequires:	Qt3Support-devel
 BuildRequires:	QtOpenGL-devel >= %{qtver}
+BuildRequires:	QtScript-devel
 BuildRequires:	QtSvg-devel >= %{qtver}
 BuildRequires:	QtTest-devel >= %{qtver}
+BuildRequires:	QtUiTools-devel
+BuildRequires:	alsa-lib-devel
 BuildRequires:	automoc4 >= 0.9.88
+BuildRequires:	bzip2-devel
 BuildRequires:	clucene-core-devel >= 0.9.21
 BuildRequires:	cmake >= 2.6.3
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdelibs-experimental-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
+BuildRequires:	libjpeg-devel
 BuildRequires:	libsmbclient-devel
 BuildRequires:	openslp-devel
 BuildRequires:	phonon-devel >= 4.3.1
 BuildRequires:	pulseaudio-devel
+BuildRequires:	qt4-build
+BuildRequires:	qt4-qmake
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	soprano-devel >= 2.3.0
 BuildRequires:	strigi-devel >= 0.6.3
 BuildRequires:	xine-lib-devel
+BuildRequires:	xz-devel
 Provides:	dbus(org.freedesktop.Notifications)
 Obsoletes:	kdebase4-runtime
 Conflicts:	kdebase4-runtime
