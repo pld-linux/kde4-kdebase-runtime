@@ -34,7 +34,7 @@ BuildRequires:	kde4-kdepimlibs-devel >= %{version}
 BuildRequires:	libsmbclient-devel
 BuildRequires:	libssh-devel >= 1:0.4.0
 BuildRequires:	openslp-devel
-BuildRequires:	phonon-devel >= 4.3.2
+BuildRequires:	phonon-devel >= 4.3.80
 BuildRequires:	pulseaudio-devel
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	soprano-devel >= 2.3.70
