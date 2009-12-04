@@ -165,6 +165,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/kiconfinder
 %attr(755,root,root) %{_bindir}/khelpcenter
 %attr(755,root,root) %{_bindir}/khotnewstuff4
+%attr(755,root,root) %{_bindir}/khotnewstuff-upload
 %attr(755,root,root) %{_bindir}/kioclient
 %attr(755,root,root) %{_bindir}/kmimetypefinder
 %attr(755,root,root) %{_bindir}/knotify4
@@ -184,6 +185,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/nepomukserver
 %attr(755,root,root) %{_bindir}/nepomukservicestub
 %attr(755,root,root) %{_bindir}/plasmapkg
+%attr(755,root,root) %{_libdir}/attica_kde.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_kcmshell4.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_khelpcenter.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_kuiserver.so
@@ -248,6 +250,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kio_nepomuk.so
 %attr(755,root,root) %{_libdir}/kde4/libkmanpart.so
 %attr(755,root,root) %{_libdir}/kde4/fixhosturifilter.so
+%attr(755,root,root) %{_libdir}/kde4/kcm_attica.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_phonon.so
 %attr(755,root,root) %{_libdir}/kde4/kcmspellchecking.so
 %attr(755,root,root) %{_libdir}/kde4/kshorturifilter.so
@@ -320,12 +323,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/config/icons.knsrc
 %{_datadir}/config/emoticons.knsrc
 %{_datadir}/config/kshorturifilterrc
+%{_datadir}/config/khotnewstuff_upload.knsrc
 %{_datadir}/dbus-1/services/org.kde.knotify.service
 %{_datadir}/dbus-1/interfaces/*.xml
 %{_datadir}/emoticons/kde4
 %{_datadir}/kde4/services/about.protocol
 %{_datadir}/kde4/services/applications.protocol
 %{_datadir}/kde4/services/ar.protocol
+%{_datadir}/kde4/services/attica.desktop
 %{_datadir}/kde4/services/bookmarks.protocol
 %{_datadir}/kde4/services/bzip.protocol
 %{_datadir}/kde4/services/bzip2.protocol
