@@ -11,12 +11,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.3.80
-Release:	3
+Version:	4.3.85
+Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	a7e0ce1a6c1c58821566502e6c5dd58c
+# Source0-md5:	e1b01e1e6b572c2b526caa572d5d7558
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
@@ -287,7 +287,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/libexec/kioexec
 %attr(755,root,root) %{_libdir}/kde4/libexec/klocaldomainurifilterhelper
 %attr(755,root,root) %{_libdir}/kde4/libexec/knetattach
-%attr(755,root,root) %{_libdir}/strigi/strigiindex_sopranobackend.so
+%attr(755,root,root) %{_libdir}/strigi/strigiindex_nepomukbackend.so
 %dir %{_libdir}/kde4/plugins/styles
 %{_datadir}/apps/drkonqi
 %dir %{_datadir}/apps/kcm_componentchooser
@@ -311,9 +311,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/konqueror/dirtree/remote/smb-network.desktop
 %dir %{_datadir}/apps/remoteview
 %{_datadir}/apps/remoteview/smb-network.desktop
-%dir %{_datadir}/apps/nepomuk
-%dir %{_datadir}/apps/nepomuk/ontologies
-%{_datadir}/apps/nepomuk/ontologies/*
+#%dir %{_datadir}/apps/nepomuk
+#%dir %{_datadir}/apps/nepomuk/ontologies
+#%{_datadir}/apps/nepomuk/ontologies/*
 %dir %{_datadir}/apps/nepomukstorage
 %{_datadir}/apps/nepomukstorage/nepomukstorage.notifyrc
 %dir %{_datadir}/apps/nepomukstrigiservice
@@ -330,7 +330,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/about.protocol
 %{_datadir}/kde4/services/applications.protocol
 %{_datadir}/kde4/services/ar.protocol
-%{_datadir}/kde4/services/attica.desktop
+%{_datadir}/kde4/services/kcm_attica.desktop
 %{_datadir}/kde4/services/bookmarks.protocol
 %{_datadir}/kde4/services/bzip.protocol
 %{_datadir}/kde4/services/bzip2.protocol
