@@ -43,12 +43,13 @@ BuildRequires:	libsmbclient-devel
 BuildRequires:	libssh-devel >= 1:0.4.0
 BuildRequires:	openslp-devel
 BuildRequires:	phonon-devel >= 4.3.80
+BuildRequires:	pkgconfig
 BuildRequires:	pulseaudio-devel
 BuildRequires:	qt4-build
 BuildRequires:	qt4-qmake
 BuildRequires:	rpmbuild(macros) >= 1.129
-BuildRequires:	soprano-devel >= 2.3.70
 BuildRequires:	shared-desktop-ontologies-devel >= 0.2
+BuildRequires:	soprano-devel >= 2.3.70
 BuildRequires:	strigi-devel >= 0.7.0
 BuildRequires:	xine-lib-devel
 BuildRequires:	xz-devel
