@@ -41,6 +41,7 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libsmbclient-devel
 BuildRequires:	openslp-devel
 BuildRequires:	phonon-devel >= 4.3.1
+BuildRequires:	pkgconfig
 BuildRequires:	pulseaudio-devel
 BuildRequires:	qt4-build
 BuildRequires:	qt4-qmake
