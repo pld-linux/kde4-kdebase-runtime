@@ -11,12 +11,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.3.95
+Version:	4.3.98
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	380462b8b842de9ad1d78b9255f74698
+# Source0-md5:	b90fe0661ac6c826598ffcea05a5cb18
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
@@ -224,6 +224,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kded_remotedirnotify.so
 %attr(755,root,root) %{_libdir}/kde4/kded_soliduiserver.so
 %attr(755,root,root) %{_libdir}/kde4/kded_desktopnotifier.so
+%attr(755,root,root) %{_libdir}/kde4/kded_nepomuksearchmodule.so
 %attr(755,root,root) %{_libdir}/kde4/kded_networkwatcher.so
 %attr(755,root,root) %{_libdir}/kde4/kded_solidautoeject.so
 %attr(755,root,root) %{_libdir}/kde4/kio_applications.so
@@ -361,6 +362,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kded/device_automounter.desktop
 %{_datadir}/kde4/services/kded/kpasswdserver.desktop
 %{_datadir}/kde4/services/kded/ktimezoned.desktop
+%{_datadir}/kde4/services/kded/nepomuksearchmodule.desktop
 %{_datadir}/kde4/services/kded/remotedirnotify.desktop
 %{_datadir}/kde4/services/kded/soliduiserver.desktop
 %{_datadir}/kde4/services/khelpcenter.desktop
