@@ -23,12 +23,12 @@ Source2:	l10n-iso639-1
 #Patch100:	%{name}-branch.diff
 URL:		http://www.kde.org/
 BuildRequires:	OpenEXR-devel
-BuildRequires:	Qt3Support-devel
+BuildRequires:	Qt3Support-devel >= %{qtver}
 BuildRequires:	QtOpenGL-devel >= %{qtver}
-BuildRequires:	QtScript-devel
+BuildRequires:	QtScript-devel >= %{qtver}
 BuildRequires:	QtSvg-devel >= %{qtver}
 BuildRequires:	QtTest-devel >= %{qtver}
-BuildRequires:	QtUiTools-devel
+BuildRequires:	QtUiTools-devel >= %{qtver}
 BuildRequires:	alsa-lib-devel
 BuildRequires:	attica-devel >= 0.1
 BuildRequires:	automoc4 >= 0.9.88
@@ -45,8 +45,8 @@ BuildRequires:	openslp-devel
 BuildRequires:	phonon-devel >= 4.3.80
 BuildRequires:	pkgconfig
 BuildRequires:	pulseaudio-devel
-BuildRequires:	qt4-build
-BuildRequires:	qt4-qmake
+BuildRequires:	qt4-build >= %{qtver}
+BuildRequires:	qt4-qmake >= %{qtver}
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	shared-desktop-ontologies-devel >= 0.2
 BuildRequires:	soprano-devel >= 2.3.70
