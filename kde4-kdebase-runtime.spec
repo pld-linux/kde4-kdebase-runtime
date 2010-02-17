@@ -5,49 +5,51 @@
 #
 %define		_state		stable
 %define		orgname		kdebase-runtime
-%define		qtver		4.5.3
+%define		qtver		4.6.1
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.3.5
-Release:	1
+Version:	4.4.0
+Release:	5
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	2d49beb007c41c0bebac063a579e81d9
-#Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
+# Source0-md5:	066f1de9029e237aaa75d40c3bb3fcd2
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
 Patch100:	%{name}-branch.diff
 URL:		http://www.kde.org/
 BuildRequires:	OpenEXR-devel
-BuildRequires:	Qt3Support-devel
+BuildRequires:	Qt3Support-devel >= %{qtver}
 BuildRequires:	QtOpenGL-devel >= %{qtver}
-BuildRequires:	QtScript-devel
+BuildRequires:	QtScript-devel >= %{qtver}
 BuildRequires:	QtSvg-devel >= %{qtver}
 BuildRequires:	QtTest-devel >= %{qtver}
-BuildRequires:	QtUiTools-devel
+BuildRequires:	QtUiTools-devel >= %{qtver}
 BuildRequires:	alsa-lib-devel
+BuildRequires:	attica-devel >= 0.1
 BuildRequires:	automoc4 >= 0.9.88
 BuildRequires:	bzip2-devel
 BuildRequires:	clucene-core-devel >= 0.9.21
-BuildRequires:	cmake >= 2.6.3
+BuildRequires:	cmake >= 2.8.0
+BuildRequires:	exiv2-devel >= 0.18.2
 BuildRequires:	kde4-kdelibs-devel >= %{version}
-BuildRequires:	kde4-kdelibs-experimental-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libsmbclient-devel
+BuildRequires:	libssh-devel >= 1:0.4.0
 BuildRequires:	openslp-devel
-BuildRequires:	phonon-devel >= 4.3.1
+BuildRequires:	phonon-devel >= 4.3.80
 BuildRequires:	pkgconfig
 BuildRequires:	pulseaudio-devel
-BuildRequires:	qt4-build
-BuildRequires:	qt4-qmake
+BuildRequires:	qt4-build >= %{qtver}
+BuildRequires:	qt4-qmake >= %{qtver}
 BuildRequires:	rpmbuild(macros) >= 1.129
-BuildRequires:	soprano-devel >= 2.3.0
-BuildRequires:	strigi-devel >= 0.6.3
+BuildRequires:	shared-desktop-ontologies-devel >= 0.2
+BuildRequires:	soprano-devel >= 2.3.70
+BuildRequires:	strigi-devel >= 0.7.0
 BuildRequires:	xine-lib-devel
 BuildRequires:	xz-devel
 Provides:	dbus(org.freedesktop.Notifications)
@@ -99,7 +101,7 @@ Styl Oxygen dla KDE.
 
 %prep
 %setup -q -n %{orgname}-%{version} -a1
-#%patch100 -p1
+%patch100 -p1
 
 %build
 install -d build
@@ -163,6 +165,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/kiconfinder
 %attr(755,root,root) %{_bindir}/khelpcenter
 %attr(755,root,root) %{_bindir}/khotnewstuff4
+%attr(755,root,root) %{_bindir}/khotnewstuff-upload
 %attr(755,root,root) %{_bindir}/kioclient
 %attr(755,root,root) %{_bindir}/kmimetypefinder
 %attr(755,root,root) %{_bindir}/knotify4
@@ -182,6 +185,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/nepomukserver
 %attr(755,root,root) %{_bindir}/nepomukservicestub
 %attr(755,root,root) %{_bindir}/plasmapkg
+%attr(755,root,root) %{_libdir}/attica_kde.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_kcmshell4.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_khelpcenter.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_kuiserver.so
@@ -194,6 +198,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libmolletnetwork.so.?
 %attr(755,root,root) %{_libdir}/libmolletnetwork.so.4.*.*
 #
+%attr(755,root,root) %{_libdir}/kde4/comicbookthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/cursorthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/djvuthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/exrthumbnail.so
@@ -202,6 +207,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/jpegthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_cgi.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_componentchooser.so
+%attr(755,root,root) %{_libdir}/kde4/kcm_device_automounter.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_emoticons.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_filetypes.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_icons.so
@@ -211,11 +217,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_locale.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_nepomuk.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_trash.so
+%attr(755,root,root) %{_libdir}/kde4/kded_device_automounter.so
 %attr(755,root,root) %{_libdir}/kde4/kded_kpasswdserver.so
 %attr(755,root,root) %{_libdir}/kde4/kded_ktimezoned.so
 %attr(755,root,root) %{_libdir}/kde4/kded_remotedirnotify.so
 %attr(755,root,root) %{_libdir}/kde4/kded_soliduiserver.so
 %attr(755,root,root) %{_libdir}/kde4/kded_desktopnotifier.so
+%attr(755,root,root) %{_libdir}/kde4/kded_nepomuksearchmodule.so
 %attr(755,root,root) %{_libdir}/kde4/kded_networkwatcher.so
 %attr(755,root,root) %{_libdir}/kde4/kded_solidautoeject.so
 %attr(755,root,root) %{_libdir}/kde4/kio_applications.so
@@ -238,9 +246,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kio_sftp.so
 %attr(755,root,root) %{_libdir}/kde4/kio_smb.so
 %attr(755,root,root) %{_libdir}/kde4/kio_thumbnail.so
+%attr(755,root,root) %{_libdir}/kde4/kio_timeline.so
 %attr(755,root,root) %{_libdir}/kde4/kio_trash.so
+%attr(755,root,root) %{_libdir}/kde4/kio_nepomuk.so
 %attr(755,root,root) %{_libdir}/kde4/libkmanpart.so
 %attr(755,root,root) %{_libdir}/kde4/fixhosturifilter.so
+%attr(755,root,root) %{_libdir}/kde4/kcm_attica.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_phonon.so
 %attr(755,root,root) %{_libdir}/kde4/kcmspellchecking.so
 %attr(755,root,root) %{_libdir}/kde4/kshorturifilter.so
@@ -253,13 +264,19 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/nepomukmigration1.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukontologyloader.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukqueryservice.so
+%attr(755,root,root) %{_libdir}/kde4/nepomukremovablestorageservice.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukstorage.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukstrigiservice.so
 %attr(755,root,root) %{_libdir}/kde4/plasma_appletscript_simple_javascript.so
+%attr(755,root,root) %{_libdir}/kde4/plasma_dataenginescript_javascript.so
 %attr(755,root,root) %{_libdir}/kde4/plasma_runnerscript_javascript.so
 %attr(755,root,root) %{_libdir}/kde4/svgthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/textthumbnail.so
+%attr(755,root,root) %{_libdir}/kde4/windowsexethumbnail.so
+%attr(755,root,root) %{_libdir}/kde4/windowsimagethumbnail.so
+
 %attr(755,root,root) %{_libdir}/kde4/libexec/drkonqi
+#%attr(755,root,root) %{_libdir}/kde4/libexec/installdbgsymbols.sh
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdeeject
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdesu
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdesud
@@ -271,7 +288,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/libexec/kioexec
 %attr(755,root,root) %{_libdir}/kde4/libexec/klocaldomainurifilterhelper
 %attr(755,root,root) %{_libdir}/kde4/libexec/knetattach
-%attr(755,root,root) %{_libdir}/strigi/strigiindex_sopranobackend.so
+%attr(755,root,root) %{_libdir}/strigi/strigiindex_nepomukbackend.so
 %dir %{_libdir}/kde4/plugins/styles
 %{_datadir}/apps/drkonqi
 %dir %{_datadir}/apps/kcm_componentchooser
@@ -283,19 +300,21 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kcmlocale
 %{_datadir}/apps/kconf_update/kuriikwsfilter.upd
 %{_datadir}/apps/kde/kde.notifyrc
+%dir %{_datadir}/apps/kglobalaccel
+%{_datadir}/apps/kglobalaccel/kglobalaccel.notifyrc
 %{_datadir}/apps/khelpcenter
 %{_datadir}/apps/kio_bookmarks
 %{_datadir}/apps/kio_finger
 %{_datadir}/apps/kio_info
-%{_datadir}/apps/kio_thumbnail
+#%{_datadir}/apps/kio_thumbnail
 %dir %{_datadir}/apps/konqueror/dirtree
 %dir %{_datadir}/apps/konqueror/dirtree/remote
 %{_datadir}/apps/konqueror/dirtree/remote/smb-network.desktop
 %dir %{_datadir}/apps/remoteview
 %{_datadir}/apps/remoteview/smb-network.desktop
-%dir %{_datadir}/apps/nepomuk
-%dir %{_datadir}/apps/nepomuk/ontologies
-%{_datadir}/apps/nepomuk/ontologies/*
+#%dir %{_datadir}/apps/nepomuk
+#%dir %{_datadir}/apps/nepomuk/ontologies
+#%{_datadir}/apps/nepomuk/ontologies/*
 %dir %{_datadir}/apps/nepomukstorage
 %{_datadir}/apps/nepomukstorage/nepomukstorage.notifyrc
 %dir %{_datadir}/apps/nepomukstrigiservice
@@ -305,18 +324,22 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/config/icons.knsrc
 %{_datadir}/config/emoticons.knsrc
 %{_datadir}/config/kshorturifilterrc
+%{_datadir}/config/khotnewstuff_upload.knsrc
 %{_datadir}/dbus-1/services/org.kde.knotify.service
 %{_datadir}/dbus-1/interfaces/*.xml
 %{_datadir}/emoticons/kde4
 %{_datadir}/kde4/services/about.protocol
 %{_datadir}/kde4/services/applications.protocol
 %{_datadir}/kde4/services/ar.protocol
+%{_datadir}/kde4/services/kcm_attica.desktop
 %{_datadir}/kde4/services/bookmarks.protocol
 %{_datadir}/kde4/services/bzip.protocol
 %{_datadir}/kde4/services/bzip2.protocol
 %{_datadir}/kde4/services/cgi.protocol
+%{_datadir}/kde4/services/comicbookthumbnail.desktop
 %{_datadir}/kde4/services/componentchooser.desktop
 %{_datadir}/kde4/services/cursorthumbnail.desktop
+%{_datadir}/kde4/services/device_automounter_kcm.desktop
 %{_datadir}/kde4/services/djvuthumbnail.desktop
 %{_datadir}/kde4/services/emoticons.desktop
 %{_datadir}/kde4/services/exrthumbnail.desktop
@@ -335,8 +358,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kcmkded.desktop
 %{_datadir}/kde4/services/kcmnotify.desktop
 %{_datadir}/kde4/services/kcmtrash.desktop
+%{_datadir}/kde4/services/kded/device_automounter.desktop
 %{_datadir}/kde4/services/kded/kpasswdserver.desktop
 %{_datadir}/kde4/services/kded/ktimezoned.desktop
+%{_datadir}/kde4/services/kded/nepomuksearchmodule.desktop
 %{_datadir}/kde4/services/kded/remotedirnotify.desktop
 %{_datadir}/kde4/services/kded/soliduiserver.desktop
 %{_datadir}/kde4/services/khelpcenter.desktop
@@ -351,6 +376,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/localdomainurifilter.desktop
 %{_datadir}/kde4/services/lzma.protocol
 %{_datadir}/kde4/services/man.protocol
+%{_datadir}/kde4/services/nepomuk.protocol
+%{_datadir}/kde4/services/nepomukremovablestorageservice.desktop
 %{_datadir}/kde4/services/nfs.protocol
 %{_datadir}/kde4/services/programs.protocol
 %{_datadir}/kde4/services/remote.protocol
@@ -364,6 +391,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/tar.protocol
 %{_datadir}/kde4/services/textthumbnail.desktop
 %{_datadir}/kde4/services/thumbnail.protocol
+%{_datadir}/kde4/services/timeline.protocol
 %{_datadir}/kde4/services/trash.protocol
 %{_datadir}/kde4/services/zip.protocol
 %{_datadir}/kde4/services/xz.protocol
@@ -385,7 +413,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/nepomukstorage.desktop
 %{_datadir}/kde4/services/nepomukstrigiservice.desktop
 %{_datadir}/kde4/services/plasma-scriptengine-applet-simple-javascript.desktop
+%{_datadir}/kde4/services/plasma-scriptengine-dataengine-javascript.desktop
 %{_datadir}/kde4/services/plasma-scriptengine-runner-javascript.desktop
+%{_datadir}/kde4/services/windowsexethumbnail.desktop
+%{_datadir}/kde4/services/windowsimagethumbnail.desktop
 %{_datadir}/kde4/servicetypes/nepomukservice.desktop
 %{_datadir}/kde4/servicetypes/searchprovider.desktop
 %{_datadir}/kde4/servicetypes/thumbcreator.desktop
@@ -416,6 +447,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/locale/l10n/southeurope.desktop
 %{_datadir}/locale/l10n/westafrica.desktop
 %{_datadir}/locale/l10n/westeurope.desktop
+# really?
+%{_datadir}/locale/currency
 
 %{_desktopdir}/kde4/Help.desktop
 %{_desktopdir}/kde4/knetattach.desktop
@@ -461,6 +494,14 @@ rm -rf $RPM_BUILD_ROOT
 # dir owned by kdelibs
 %{_datadir}/apps/desktoptheme/default/*
 
+# should this really be here? i mean, did kde mess up?
+%{_datadir}/apps/kstyle/themes/qtcde.themerc
+%{_datadir}/apps/kstyle/themes/qtcleanlooks.themerc
+%{_datadir}/apps/kstyle/themes/qtgtk.themerc
+%{_datadir}/apps/kstyle/themes/qtmotif.themerc
+%{_datadir}/apps/kstyle/themes/qtplastique.themerc
+%{_datadir}/apps/kstyle/themes/qtwindows.themerc
+
 %files devel
 %defattr(644,root,root,755)
 %{_libdir}/libkwalletbackend.so
@@ -501,5 +542,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/plugins/styles/oxygen.so
 %{_datadir}/apps/kstyle/themes/oxygen.themerc
 %dir %{_datadir}/apps/desktoptheme/oxygen
-%dir %{_datadir}/apps/desktoptheme/oxygen/colors
-%{_datadir}/apps/desktoptheme/oxygen/metadata.desktop
+%{_datadir}/apps/desktoptheme/oxygen/*
