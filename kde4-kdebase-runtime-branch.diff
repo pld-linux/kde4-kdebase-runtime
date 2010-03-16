@@ -1,1747 +1,2732 @@
---- runtime/solid-device-automounter/kcm/device_automounter_kcm.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/solid-device-automounter/kcm/device_automounter_kcm.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -94,7 +94,7 @@
- Comment[pt]=Configurar o tratamento automático dos dispositivos removíveis de armazenamento
- Comment[pt_BR]=Configurar tratamento automático de dispositivos de armazenamento removíveis
- Comment[ro]=Configurează manipularea automată a mediilor de stocare amovibile
--Comment[ru]=Настройки автоматического подключения внешних носителей информации
-+Comment[ru]=Настройка автоматического подключения внешних носителей информации
- Comment[sk]=Nastavenie automatického zaobchádzania s vymeniteľnými médiami
- Comment[sl]=Nastavitve samodejnega rokovanja z odstranljivimi nosilci za shranjevanje
- Comment[sr]=Подешавање аутоматског руковања уклоњивим складишним медијумима
---- runtime/localization/currency/brl.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/brl.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -24,6 +24,7 @@
- Name[hr]=Brazilski real
- Name[hu]=Brazil real
- Name[id]=Real Brazil
-+Name[is]=Brasilískur real
- Name[it]=Real brasiliano
- Name[ja]=ブラジル・レアル
- Name[kk]=Бразилия риалы
---- runtime/localization/currency/tnd.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/tnd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -21,6 +21,7 @@
- Name[he]=דינר תוניסאי
- Name[hi]=ट्यूनीशियाई दिनार
- Name[hr]=Tuniski dinar
-+Name[hu]=Tunéziai dínár
- Name[id]=Dinar Tunisia
- Name[is]=Túnískur dínar
- Name[it]=Dinaro tunisino
---- runtime/localization/currency/shp.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/shp.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -21,6 +21,7 @@
- Name[he]=פאונד של סנט הלנה
- Name[hi]=सेंट हेलेना पोंड
+--- runtime/knotify/Info.plist.template	(.../tags/KDE/4.4.1/kdebase)	(wersja 0)
++++ runtime/knotify/Info.plist.template	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -0,0 +1,36 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++    <key>CFBundleDevelopmentRegion</key>
++    <string>English</string>
++    <key>CFBundleExecutable</key>
++    <string>${MACOSX_BUNDLE_EXECUTABLE_NAME}</string>
++    <key>CFBundleGetInfoString</key>
++    <string>${MACOSX_BUNDLE_INFO_STRING}</string>
++    <key>CFBundleIconFile</key>
++    <string>${MACOSX_BUNDLE_ICON_FILE}</string>
++    <key>CFBundleIdentifier</key>
++    <string>${MACOSX_BUNDLE_GUI_IDENTIFIER}</string>
++    <key>CFBundleInfoDictionaryVersion</key>
++    <string>6.0</string>
++    <key>CFBundleLongVersionString</key>
++    <string>${MACOSX_BUNDLE_LONG_VERSION_STRING}</string>
++    <key>CFBundleName</key>
++    <string>${MACOSX_BUNDLE_BUNDLE_NAME}</string>
++    <key>CFBundlePackageType</key>
++    <string>APPL</string>
++    <key>CFBundleShortVersionString</key>
++    <string>${MACOSX_BUNDLE_SHORT_VERSION_STRING}</string>
++    <key>CFBundleVersion</key>
++    <string>${MACOSX_BUNDLE_BUNDLE_VERSION}</string>
++    <key>CSResourcesFileMapped</key>
++    <true/>
++    <key>LSRequiresCarbon</key>
++    <true/>
++    <key>LSUIElement</key>
++    <string>1</string>
++    <key>NSHumanReadableCopyright</key>
++    <string>${MACOSX_BUNDLE_COPYRIGHT}</string>
++</dict>
++</plist>
+--- runtime/knotify/CMakeLists.txt	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/knotify/CMakeLists.txt	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -22,6 +22,12 @@
+ set (knotify_OUTPUT_NAME knotify4)
+ kde4_add_executable( knotify ${knotify_SRCS})
+ 
++if (Q_WS_MAC)
++    set_target_properties(knotify PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist.template)
++    set_target_properties(knotify PROPERTIES MACOSX_BUNDLE_GUI_IDENTIFIER "org.kde.knotify4")
++    set_target_properties(knotify PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "KDE Notify")
++endif (Q_WS_MAC)
++
+ target_link_libraries( knotify ${KDE4_KDEUI_LIBS} ${KDE4_PHONON_LIBS})
+ 
+ set_target_properties(knotify PROPERTIES OUTPUT_NAME knotify4 )
+--- runtime/solid-device-automounter/kded/device_automounter.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/solid-device-automounter/kded/device_automounter.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -29,6 +29,7 @@
+ Name[kk]=Ауыстырмалы құрылғының автоттіркегіші
+ Name[km]=កម្មវិធី​ម៉ោន​ឧបករណ៍​ចល័ត​ដោយ​ស្វ័យ​ប្រវត្តិ
+ Name[ko]=이동식 장치 자동 마운터
++Name[lt]=Prijungiamų įrenginių automatinis montavimas
+ Name[lv]=Noņemamo iekārtu automontētājs
+ Name[mk]=Автом. монтирање на подвижните уреди
+ Name[ml]=നീക്കം ചെയ്യാവുന്ന ഉപകരണങ്ങളുടെ ഔട്ടോമൌണ്ടര്‍
+@@ -75,6 +76,7 @@
+ Comment[kk]=Құрылғыны қосқан кезде не кірген кезде автоматты түрде тіркеу
+ Comment[km]=ម៉ោន​ឧបករណ៍​ដោយ​ស្វ័យ​ប្រវត្តិ នៅពេល​ពួកវា​ត្រូវ​បានដោត​ ឬ​ចូល
+ Comment[ko]=로그인하거나 연결할 때 자동으로 장치 마운트하기
++Comment[lt]=Automatiškai primontuoja įrenginius kai jie yra prijungiami, arba – prisiregistravimo metu
+ Comment[lv]=Automātiski piemontē pieslēgtās ierīces, piesakoties datorā vai iespraužot
+ Comment[mk]=Автоматски ги монтира уредите кога ќе бидат вклучени, или при најава
+ Comment[ml]=ഉപകരണള്‍ കുത്തുമ്പോഴോ അകത്തുകയറുമ്പോഴോ അവ മൌണ്ട് ചെയ്യുന്നതാണ്
+--- runtime/solid-device-automounter/kcm/device_automounter_kcm.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/solid-device-automounter/kcm/device_automounter_kcm.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -34,6 +34,7 @@
+ Name[km]=ឧបករណ៍ចល័ត
+ Name[kn]=ತೆಗೆದೆಹಾಕಬಹುದಾದ ಸಾಧನಗಳು
+ Name[ko]=이동식 장치
++Name[lt]=Atjungiami įrenginiai
+ Name[lv]=Noņemamās iekārtas
+ Name[mk]=Подвижни уреди
+ Name[ml]=നീക്കം ചെയ്യാവുന്ന ഉപകരണങ്ങള്‍
+@@ -83,6 +84,7 @@
+ Comment[kk]=Ауыстырмалы сақтағыш тасушылармен автоматты түрде айналысуды баптау
+ Comment[km]=កំណត់​រចនាសម្ព័ន្ធ​ការ​គ្រប់គ្រង​ដោយ​ស្វ័យ​ប្រវត្តិ​របស់​មេឌៀ​ផ្ទុក​ចល័ត
+ Comment[ko]=이동식 저장소 미디어 자동 처리 설정
++Comment[lt]=Atjungiamų įrenginių automatinio tvarkymo konfigūravimas
+ Comment[lv]=Konfifurēt noņemamo datu nesēju automātisku apstrādi
+ Comment[mk]=Го конфигурира автоматското ракување со подвижните носачи
+ Comment[ml]=നീക്കം ചെയ്യാവുന്ന സംഭരണ മാധ്യമത്തിനെ സ്വയം കൈകാര്യം ചെയ്യുന്നതു് ക്രമീകരിയ്ക്കുക.
+--- runtime/localization/currency/all.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/all.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=អាល់បានី ឡិក
+ Name[kn]=ಅಲ್ಬೇನಿಯಾದ ಲೇಕ್
+ Name[ko]=알바니아 레크
++Name[lt]=Albanijos lekas
+ Name[lv]=Albāņu Lekas
+ Name[mai]=अलबानिया लेक
+ Name[mk]=Албански лек
+--- runtime/localization/currency/etb.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/etb.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -28,6 +28,7 @@
+ Name[km]=ប៊ែរ​អេត្យូពី
+ Name[kn]=ಇಥಿಯೋಪಿಯಾದ ಬಿರ್
+ Name[ko]=에티오피아 비르
++Name[lt]=Etiopijos bira
+ Name[ml]=എത്യോപിയയിലെ ബിര്‍
+ Name[nb]=Etiopiske birr
+ Name[nds]=Äthioopsch Birr
+--- runtime/localization/currency/frf.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/frf.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=French Franc
+ Name[kn]=ಫ್ರೆಂಚ್ ಫ್ರಾಂಕ್
+ Name[ko]=프랑스 프랑
++Name[lt]=Prancūzijos frankas
+ Name[lv]=Francijas franks
+ Name[mai]=फ्रेन्च फ्रान्क
+ Name[mk]=Француски франк
+--- runtime/localization/currency/idr.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/idr.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=រ៉ូពី​ឥណ្ឌូនេស៊ី
+ Name[kn]=ಇಂಡೋನೇಶಿಯಾದ ರುಪೈಯಾ
+ Name[ko]=인도네시아 루피아
++Name[lt]=Indonezijos rupija
+ Name[lv]=Indonēzijas rūpija
+ Name[ml]=ഇന്‍ഡോനേഷ്യയിലെ റുപയ്യ
+ Name[nb]=Indonesiske rupier
+--- runtime/localization/currency/brl.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/brl.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=រៀល​ប្រេហ្ស៊ីល
+ Name[kn]=ಬ್ರಝಿಲಿಯಾದ ರೀಲ್
+ Name[ko]=브라질 레알
++Name[lt]=Brazilijos realas
+ Name[lv]=Brazīlijas reāls
+ Name[mai]=ब्राजील रीयाल
+ Name[mk]=Бразилски реал
+--- runtime/localization/currency/bzd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/bzd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -29,6 +29,7 @@
+ Name[km]=ដុល្លារ​បេលីហ្ស
+ Name[kn]=ಬೆಲಿಝ್ ಡಾಲರ್
+ Name[ko]=벨리즈 달러
++Name[lt]=Belizo doleris
+ Name[lv]=Belizas dolārs
+ Name[mai]=बेलाइज डालर
+ Name[ml]=ബെലിസിലെ ഡോളര്‍
+--- runtime/localization/currency/ghs.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/ghs.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -27,6 +27,7 @@
+ Name[km]=សេឌី​ហ្កាណា
+ Name[kn]=ಘಾನಾ ಸೆಡಿ
+ Name[ko]=가나 세디
++Name[lt]=Ganos cedis
+ Name[ml]=ഘാന സെഡി
+ Name[nb]=Ghana Cedi
+ Name[nds]=Ghana-Cedi
+--- runtime/localization/currency/ils.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/ils.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -27,6 +27,7 @@
+ Name[kk]=Израильдің жаңа шекелі
+ Name[km]=Israeli New Sheqel
+ Name[ko]=이스라엘 신 셰켈
++Name[lt]=Izraelio naujasis šekelis
+ Name[lv]=Izraēlas jaunais šekelis
+ Name[mk]=Израелски Нов шекел
+ Name[ml]=ഇസ്രായേലിലെ പുതിയ ഷേകേല്‍
+--- runtime/localization/currency/ats.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/ats.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=Austrian Schilling
+ Name[kn]=ಆಸ್ಟ್ರಿಯಾದ ಶಿಲಿಂಗ್
+ Name[ko]=오스트리아 실링
++Name[lt]=Austrijos šilingas
+ Name[lv]=Austrijas šiliņš
+ Name[mai]=आस्ट्रियन शिल्लिंग
+ Name[mk]=Австриски шилинг
+--- runtime/localization/currency/cad.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/cad.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=Canadian Dollar
+ Name[kn]=ಕೆನಡಾದ ಡಾಲರ್
+ Name[ko]=캐나다 달러
++Name[lt]=Kanados doleris
+ Name[lv]=Kanādas dolārs
+ Name[mai]=कनाडा डालर
+ Name[mk]=Канадски долар
+--- runtime/localization/currency/itl.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/itl.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=Italian Lira
+ Name[kn]=ಇಟಿಲಿಯಾದ ಲಿರಾ
+ Name[ko]=이탈리아 리라
++Name[lt]=Italijos lira
+ Name[lv]=Itālijas lira
+ Name[mai]=इटालियन लीरा
+ Name[mk]=Италијанска лира
+--- runtime/localization/currency/aed.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/aed.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -29,6 +29,7 @@
+ Name[km]=អារ៉ាប់រួម ឌឺហែម
+ Name[kn]=ಯುನೈಟೆಡ್ ಅರಬ್ ಎಮಿರೈಟ್ಸಿನ ದಿರ್ಹಾಮ್
+ Name[ko]=아랍에미리트 디르함
++Name[lt]=Jungtinių arabų emyratų dirhamas
+ Name[lv]=Apvienoto Arābu Emerātu dinārs
+ Name[mai]=संयुक्त अरब अमीरात दिरहम
+ Name[mk]=Дирхам од Обединети Арапски Емирати
+--- runtime/localization/currency/shp.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/shp.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -23,6 +23,7 @@
  Name[hr]=Funta Svete Helene
-+Name[hu]=Szent Heléna-i font
+ Name[hu]=Szent Heléna-i font
  Name[id]=Pound Saint Helena
++Name[is]=Sankti Helenu pund
  Name[it]=Sterlina di Sant'Elena
  Name[ja]=セントヘレナ・ポンド
---- runtime/localization/currency/bsd.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/bsd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -24,6 +24,7 @@
- Name[hr]=Bahamski dolar 
- Name[hu]=Bahamai dollár
- Name[id]=Dollar Bahamia
-+Name[is]=Bahama dollari
- Name[it]=Dollaro bahamense
- Name[ja]=バハマ・ドル
- Name[kk]=Багам доллары
---- runtime/localization/currency/sar.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/sar.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -21,6 +21,7 @@
- Name[he]=ריאל סעודי
- Name[hi]=सऊदी रियाल
- Name[hr]=Saudijski rijal 
-+Name[hu]=Szaúdi riál
- Name[id]=Riyal Saudi
- Name[is]=Sádi-Arabískur ríal
- Name[it]=Riyal saudita
---- runtime/localization/currency/rsd.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/rsd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -21,6 +21,7 @@
- Name[he]=דינר סרבי
- Name[hi]=सर्बियाई दिनार
- Name[hr]=Srpski dinar
-+Name[hu]=Szerb dínár
- Name[id]=Dinar Serbia
- Name[is]=Serbneskur dínar
- Name[it]=Dinaro serbo
---- runtime/localization/currency/xof.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/xof.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -8,6 +8,7 @@
- Name[csb]=Zôpadno Afrikańsczi Frank
- Name[da]=Vestafrikansk CFA franc
- Name[de]=CFA-Franc BCEAO
-+Name[el]=Φράγκο Δημοκρατίας Κεντρικής Αφρικής
- Name[en_GB]=West African CFA Franc
- Name[eo]=Okcidenta afrika CFA franko
- Name[es]=Franco CFA de África Occidental
---- runtime/localization/currency/sit.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/sit.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -21,6 +21,7 @@
- Name[he]=טולר סלובני
- Name[hi]=स्लोवेनियाई तोलार
- Name[hr]=Slovenski tolar
-+Name[hu]=Szlovén tolár
- Name[id]=Tolar Slovenia
- Name[it]=Tallero sloveno
- Name[ja]=スロベニア・トラール
---- runtime/localization/currency/yer.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/yer.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -8,6 +8,7 @@
- Name[csb]=Jemeńsczi Rial
- Name[da]=Yemenitisk rial
- Name[de]=Jemen-Rial
-+Name[el]=Ριάλ Υεμένης
- Name[en_GB]=Yemeni Rial
- Name[es]=Rial yemení
- Name[et]=Jeemeni riaal
---- runtime/localization/currency/top.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/top.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
+ Name[kk]=Әулие Елена фунты
+--- runtime/localization/currency/lvl.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/lvl.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -28,6 +28,7 @@
+ Name[km]=ឡាត​ឡាតវីយ៉ា
+ Name[kn]=ಲಾಟ್ವಿಯಾದ ಲ್ಯಾಟ್ಸ್
+ Name[ko]=라트비아 라트
++Name[lt]=Latvijos latas
+ Name[lv]=Latvijas lats
+ Name[ml]=ലാത്വിയയിലെ ലാത്സ്
+ Name[nb]=Latviske lats
+--- runtime/localization/currency/amd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/amd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=អារមេនី ដ្រាម
+ Name[kn]=ಅರ್ಮೇನಿಯಾದ ದ್ರಾಮ್
+ Name[ko]=아르메니아 드람
++Name[lt]=Armėnijos dramas
+ Name[lv]=Armēņu Dramas
+ Name[mai]=आर्मेनिया ड्रैम
+ Name[mk]=Ерменски драм
+--- runtime/localization/currency/eek.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/eek.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=គ្រូន​​អេស្តូនី
+ Name[kn]=ಎಸ್ಟೋನಿಯಾದ ಕ್ರೂನ್
+ Name[ko]=에스토니아 크룬
++Name[lt]=Estijos krona
+ Name[lv]=Igaunijas krona
+ Name[ml]=എസ്റ്റോണിയയിലെ ക്രൂണ്‍
+ Name[nb]=Estiske kroon
+--- runtime/localization/currency/bsd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/bsd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=Bahamian Dollar
+ Name[kn]=ಬಹಮಿಯಾದ ಡಾಲರ್
+ Name[ko]=바하마 달러
++Name[lt]=Bahamų doleris
+ Name[lv]=Bahamu dolārs
+ Name[mai]=बहामा डालर
+ Name[mk]=Бахамски долар
+--- runtime/localization/currency/aud.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/aud.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=ដុល្លារ​អូស្ត្រាលី
+ Name[kn]=ಆಸ್ಟ್ರೇಲಿಯಾದ ಡಾಲರ್
+ Name[ko]=오스트레일리아 달러
++Name[lt]=Australijos doleris
+ Name[lv]=Austrālijas dolārs
+ Name[mai]=आस्ट्रेलिया डालर
+ Name[mk]=Австралиски долар
+--- runtime/localization/currency/iep.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/iep.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=ផោ​ន​អៀឡង់
+ Name[kn]=ಐರಿಶ್ ಪೌಂಡ್
+ Name[ko]=아일랜드 파운드
++Name[lt]=Airijos svaras
+ Name[lv]=Īru mārciņa
+ Name[mk]=Ирска фунта
+ Name[ml]=ഐറിഷ് പൌണ്ട്
+--- runtime/localization/currency/gip.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/gip.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=ផោន ហ្គីប្រាតា
+ Name[kn]=ಜಿಬ್ರಾಲ್ಟರ್ ಪೌಂಡ್
+ Name[ko]=지브롤터 파운드
++Name[lt]=Gibraltaro svaras
+ Name[lv]=Gibraltāra mārciņa
+ Name[mk]=Гибралтарска фунта
+ Name[ml]=ജിബ്രാല്‍ട്ടറിലെ പൌണ്ട്
+--- runtime/localization/currency/fkp.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/fkp.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -29,6 +29,7 @@
+ Name[km]=ផោន​កោះ​ហ្វ៉កឡង់
+ Name[kn]=ಫಾಕ್‌ಲ್ಯಾಂಡ್ ಐಲ್ಯಾಂಡುಗಳ ಪೌಂಡ್
+ Name[ko]=포클랜드 제도 파운드
++Name[lt]=Falklando salų svaras
+ Name[lv]=Folklendu salu mārciņa
+ Name[mk]=Фунта од Фокландски Острови
+ Name[ml]=ഫാക്‍ലാന്റ് ദ്വീപുകളിലെ പൌണ്ട്
+--- runtime/localization/currency/dop.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/dop.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=ប៉េសូ​ដូមីនីកា
+ Name[kn]=ಡೊಮಿನಿಕನ್ ಪೆಸೊ
+ Name[ko]=도미니카 페소
++Name[lt]=Dominikos pesas
+ Name[lv]=Dominikas peso
+ Name[mk]=Доминикански пезос
+ Name[ml]=‌ഡൊമിനിയ്ക്കയിലെ പെസോ
+--- runtime/localization/currency/afa.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/afa.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=អាហ្គានីស្ថាន
+ Name[kn]=ಅಫ್ಘನ್‌ ಆಫ್ಘಾನಿ
+ Name[ko]=아프가니스탄 아프가니
++Name[lt]=Afganistano afganis
+ Name[lv]=Afgāņu afgāni
+ Name[mai]=अफगान अफगानी
+ Name[ml]=അഫ്ഗാനിലെ അഫ്ഗാനി
+--- runtime/localization/currency/rsd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/rsd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=ឌីណា​ស៊ឺប៊ែរ
+ Name[kn]=ಸರ್ಬಿಯಾದ ದಿನಾರ್
+ Name[ko]=세르비아 디나르
++Name[lt]=Serbijos dinaras
+ Name[lv]=Serbijas dinārs
+ Name[mk]=Српски динар
+ Name[ml]=സെര്‍ബിയയിലെ ദിനാര്‍
+--- runtime/localization/currency/eur.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/eur.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -32,6 +32,7 @@
+ Name[km]=អឺរ៉ូ
+ Name[kn]=ಯೂರೊ
+ Name[ko]=유로
++Name[lt]=Euras
+ Name[lv]=Eiro
+ Name[mk]=Евро
+ Name[ml]=യൂറോ
+--- runtime/localization/currency/xof.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/xof.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -22,7 +22,7 @@
+ Name[hr]=Zapadno afrički CFA frank
+ Name[id]=CFA Franc Afrika Barat
+ Name[is]=Vestur-afrískur CFA franki
+-Name[it]=Franco CFA dell'africa occidentale
++Name[it]=Franco CFA dell'Africa occidentale
+ Name[ja]=西部アフリカ CFA フラン
+ Name[kk]=Батыс Африка CFA франкі
+ Name[km]=West African CFA Franc
+--- runtime/localization/currency/afn.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/afn.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=អាហ្គានីស្ថាន
+ Name[kn]=ಅಫ್ಘನ್‌ ಆಫ್ಘಾನಿ
+ Name[ko]=아프가니스탄 아프가니
++Name[lt]=Afganistano afganis
+ Name[lv]=Afgāņu afgāni
+ Name[mai]=अफगान अफगानी
+ Name[ml]=അഫ്ഗാനിലെ അഫ്ഗാനി
+--- runtime/localization/currency/ang.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/ang.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -29,6 +29,7 @@
+ Name[km]=អង់ទីយ៍​ហុល្លង់
+ Name[kn]=ನೆದರ್ಲ್ಯಾಂಡ್ಸ್ ಆಂಟಿಲಿಯಾದ ಗಿಲ್ಡರ್
+ Name[ko]=네덜란드령 앤틸리스 길더
++Name[lt]=Nyderlandų Antilų guldenas
+ Name[lv]=Nīderlandes Antiļas guldeņi
+ Name[mai]=नीदरलैंड्स एंटीलेस गिल्डर
+ Name[mk]=Холандски Антилски гилдер
+--- runtime/localization/currency/crc.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/crc.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -28,6 +28,7 @@
+ Name[km]=កូឡុន​កូស្តារីកា 
+ Name[kn]=ಕೋಸ್ಟ ರಿಕಾದ ಕೊಲೊನ್
+ Name[ko]=코스타리카 콜론
++Name[lt]=Kosta Rikos kolonas
+ Name[mai]=कोस्टा रिका कोलोन
+ Name[ml]=കൊസ്റ്ററിക്കയിലെ കോളന്‍
+ Name[nb]=Costa Rica-Colon
+--- runtime/localization/currency/gbp.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/gbp.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=British Pound Sterling
+ Name[kn]=ಬ್ರಿಟಿಷ್ ಪೌಂಡ್ ಸ್ಟರ್ಲಿಂಗ್
+ Name[ko]=영국 파운드
++Name[lt]=Britų svaras sterlingų
+ Name[lv]=Britu mārciņa
+ Name[ml]=ബ്രിട്ടീഷ് പൌണ്ട് സ്റ്റര്‍ലിങ്
+ Name[nb]=Britiske Pund Sterling
+--- runtime/localization/currency/bdt.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/bdt.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=តាកា​បង់ក្លាដេស្ហ
+ Name[kn]=ಬಾಂಗ್ಲಾದೇಶದ ಟಾಕಾ
+ Name[ko]=방글라데시 타카
++Name[lt]=Bangladešo taka
+ Name[mai]=बांग्लादेश टका
+ Name[ml]=ബംഗ്ലാദേശിലെ ടാക്ക
+ Name[nb]=Bangladesh Taka
+--- runtime/localization/currency/grd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/grd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -28,6 +28,7 @@
+ Name[kk]=Грекия драхмасы
+ Name[km]=Greek Drachma
+ Name[ko]=그리스 드라크마
++Name[lt]=Graikijos drachma
+ Name[lv]=Grieķijas drahma
+ Name[mai]=ग्रीक ड्राक्मा
+ Name[mk]=Грчка драхма
+--- runtime/localization/currency/btn.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/btn.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -22,11 +22,13 @@
+ Name[hr]=Bhutanese Ngultrum
+ Name[hu]=Bhutáni ngultrum
+ Name[id]=Ngultrum Bhutan
++Name[is]=Bhútanskur Ngultrum
+ Name[it]=Ngultrum bhutanese
+ Name[ja]=ブータン・ニュルタム
+ Name[kk]=Бутан нгултрумы
+ Name[km]=Bhutanese Ngultrum
+ Name[ko]=부탄 엉굴트럼
++Name[lt]=Butano ngultrumas
+ Name[mai]=भुटानी न्गुलट्रम
+ Name[ml]=ഭൂട്ടാനിലെ ഗള്‍ട്ടറം
+ Name[nb]=Butanske Ngultrum
+--- runtime/localization/currency/czk.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/czk.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=Czech Koruna
+ Name[kn]=ಜೆಕ್ ಕೊರುನಾ
+ Name[ko]=체코 코루나
++Name[lt]=Čekų krona
+ Name[lv]=Čehu krona
+ Name[ml]=ചെക്ക് കൊറുണാ
+ Name[nb]=Tsjekkiske koruna
+--- runtime/localization/currency/inr.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/inr.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=រ៉ូពី​ឥណ្ឌា
+ Name[kn]=ಭಾರತದ ರುಪಾಯಿ
+ Name[ko]=인도 루피
++Name[lt]=Indijos rupija
+ Name[lv]=Indijas rūpija
+ Name[ml]=ഇന്ത്യയിലെ രൂപ
+ Name[nb]=Indiske rupier
+--- runtime/localization/currency/xpd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/xpd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -27,6 +27,7 @@
+ Name[km]=Palladium
+ Name[kn]=ಪೆಲಾಡಿಯಮ್
+ Name[ko]=팔라듐
++Name[lt]=Paladijus
+ Name[lv]=Palādijs
+ Name[mk]=Паладиум
+ Name[ml]=പലാഡിയം
+--- runtime/localization/currency/bef.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/bef.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=Belgian Franc
+ Name[kn]=ಬೆಲ್ಜಿಯನ್ ಫ್ರಾಂಕ್
+ Name[ko]=벨기에 프랑
++Name[lt]=Belgijos frankas
+ Name[lv]=Beļģijas franks
+ Name[mai]=बेल्जियन फ्रान्क 
+ Name[mk]=Белгиски франк
+--- runtime/localization/currency/aoa.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/aoa.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -29,6 +29,7 @@
+ Name[km]=អង់ហ្គោឡា ខ្វាន់ហ្សា
+ Name[kn]=ಅಂಗೋಲಾದ ಕ್ವಾಂಝಾ
+ Name[ko]=앙골라 콴자
++Name[lt]=Angolos kvanzas
+ Name[mai]=अंगोला क्वांजा
+ Name[ml]=അംഗോളയിലെ ക്വാന്‍സ
+ Name[nb]=Angolanske Kwanza
+--- runtime/localization/currency/bmd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/bmd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -24,12 +24,14 @@
+ Name[hr]=Bermudski dolar
+ Name[hu]=Bermudai dollár
+ Name[id]=Dollar Bermuda
++Name[is]=Bermúdadollari
+ Name[it]=Dollaro della Bermuda
+ Name[ja]=バミューダ・ドル
+ Name[kk]=Бермуд доллары
+ Name[km]=ដុល្លារ​ប៊េរមូដា
+ Name[kn]=ಬರ್ಮುಡಾ ಡಾಲರ್
+ Name[ko]=버뮤다 달러
++Name[lt]=Bermudų doleris
+ Name[lv]=Bermudu dolārs
+ Name[mai]=बरमुडा डालर
+ Name[mk]=Бермудски долар
+--- runtime/localization/currency/jmd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/jmd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=ដុល្លារ​ហ្សាម៉ាអ៊ិកា
+ Name[kn]=ಜಮೈಕಾದ ಡಾಲರ್
+ Name[ko]=자메이카 달러
++Name[lt]=Jamaikos doleris
+ Name[lv]=Jamaikas dolārs
+ Name[mk]=Јамајкански долар
+ Name[ml]=ജമൈക്കയിലെ ഡോളര്‍
+--- runtime/localization/currency/egp.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/egp.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=Egyptian Pound
+ Name[kn]=ಈಜಿಪ್ಟಿಯನ್ ಪೌಂಡ್
+ Name[ko]=이집트 파운드
++Name[lt]=Egipto svaras
+ Name[lv]=Ēģiptes mārciņa
+ Name[mk]=Египетска фунта
+ Name[ml]=ഈജിപ്റ്റിലെ പൌണ്ട്
+--- runtime/localization/currency/aon.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/aon.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -28,6 +28,7 @@
+ Name[kk]=Анголаның нова кванзасы
+ Name[km]=Angolan Novo Kwanza
+ Name[ko]=앙골라 노보 콴자
++Name[lt]=Angolos Novo kvanzas
+ Name[mai]=अंगोला नोवा क्वांजा
+ Name[ml]=അന്ഗോളിയന്‍ നോവൊ ക്വാന്‍സാ
+ Name[nb]=Angolanske Novo Kwanza
+--- runtime/localization/currency/xaf.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/xaf.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -23,7 +23,7 @@
+ Name[hr]=CFA Franak Centralne Afrike
+ Name[id]=Franc CFA Afrika Tengah
+ Name[is]=Mið-Afríkulýðveldis CFA franki
+-Name[it]=Franco CFA dell'africa centrale
++Name[it]=Franco CFA dell'Africa centrale
+ Name[ja]=中部アフリカ CFA フラン
+ Name[kk]=Орталық Африка CFA франкі
+ Name[km]=សាធារណរដ្ឋ​អាហ្វ្រិក​កណ្ដាល CFA
+--- runtime/localization/currency/awg.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/awg.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -27,6 +27,7 @@
+ Name[kk]=Аруби флорині
+ Name[km]=Aruban Florin
+ Name[ko]=아루바 길더
++Name[lt]=Arubos florinas
+ Name[mai]=अरूबन फ्लोरिन
+ Name[ml]=അറുബന്‍ ഫ്ലൊറിന്‍
+ Name[nb]=Arubisk gylden
+--- runtime/localization/currency/xag.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/xag.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -29,6 +29,7 @@
+ Name[km]=ប្រាក់
+ Name[kn]=ಬೆಳ್ಳಿ
+ Name[ko]=은
++Name[lt]=Sidabras
+ Name[lv]=Sudrabs
+ Name[mk]=Сребро
+ Name[ml]=വെള്ളി
+--- runtime/localization/currency/rub.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/rub.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=រ៉ូប៊ល​រូស្ស៊ី
+ Name[kn]=ರಷ್ಯಾದ ರೂಬೆಲ್
+ Name[ko]=러시아 루블
++Name[lt]=Rusijos rublis
+ Name[lv]=Krievijas rublis
+ Name[mk]=Руска рубља
+ Name[ml]=റഷ്യയിലെ റൂബിള്‍
+--- runtime/localization/currency/cdf.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/cdf.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
 @@ -17,6 +17,7 @@
- Name[fr]=Pa'anga des Tonga
- Name[fy]=Tonganeeske pa'anga
- Name[hr]=Tonganska pa'anga
-+Name[hu]=Tongai pa'anga
- Name[id]=Pa'anga Tonga
- Name[it]=Paʻanga tongano
- Name[ja]=トンガ・パ・アンガ
---- runtime/localization/currency/sbd.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/sbd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -21,6 +21,7 @@
- Name[he]=דולר של איי שלמה
- Name[hi]=सोलोमन आइलैंड डॉलर
- Name[hr]=Dolar solomonskih otoka
-+Name[hu]=Salamon-szigeteki dollár
- Name[id]=Dollar Kepulauan Solomon
- Name[is]=Salómonseyjadollari
- Name[it]=Dollaro delle Isole Salomone
---- runtime/localization/currency/bdt.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/bdt.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -23,6 +23,7 @@
- Name[hr]=Bangladeška taka
- Name[hu]=Bangladesi taka
- Name[id]=Taka Bangladesh
-+Name[is]=Bangladeskt taka
- Name[it]=Taka bengalese
- Name[ja]=バングラデシュ・タカ
- Name[kk]=Бангладеш такасы
---- runtime/localization/currency/yum.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/yum.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -8,6 +8,7 @@
- Name[csb]=Jugòsłowiańsczi Dinar
- Name[da]=Jugoslavisk Dinar
- Name[de]=Jugoslawischer Dinar
-+Name[el]=Δηνάριο Γιουγκοσλαβίας
- Name[en_GB]=Yugoslav Dinar
- Name[es]=Dinar yugoslavo
- Name[et]=Jugoslaavia dinaar
---- runtime/localization/currency/syp.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/syp.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -21,6 +21,7 @@
- Name[he]=לירה סורית
- Name[hi]=सिरियाई पोंड
- Name[hr]=Sirijska funta
-+Name[hu]=Szír font
- Name[id]=Pound Suriah
- Name[is]=Sýrlenskt pund
- Name[it]=Lira siriana
---- runtime/localization/currency/thb.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/thb.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -20,6 +20,7 @@
- Name[gu]=થાઈ બાહ્ત
- Name[hi]=थाई भत
- Name[hr]=Tajlansdski baht
-+Name[hu]=Thai baht
- Name[id]=Baht Thailand
- Name[is]=Tælenskt baht
- Name[it]=Baht thailandese
---- runtime/localization/currency/srd.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/srd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -21,6 +21,7 @@
- Name[he]=דולר סורינאמי
- Name[hi]=सूरीनाम डॉलर
- Name[hr]=Surinamski dolar
-+Name[hu]=Suriname-i dollár
- Name[id]=Dolar Suriname
- Name[it]=Dollaro surinamese
- Name[ja]=スリナム・ドル
---- runtime/localization/currency/xpd.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/xpd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -8,6 +8,7 @@
- Name[csb]=Pallad
- Name[da]=Palladium
- Name[de]=Palladium
-+Name[el]=Παλλάδιο
- Name[en_GB]=Palladium
- Name[es]=Paladio
- Name[et]=Pallaadium
---- runtime/localization/currency/srg.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/srg.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -19,6 +19,7 @@
- Name[gu]=સુરિનામ ગિલ્ડર
- Name[he]=גיולדר סורינאמי
- Name[hr]=Surinamski gulden
-+Name[hu]=Suriname-i guilden
- Name[id]=Guilder Suriname
- Name[is]=Súrínamgyllini
- Name[it]=Fiorino surinamese
---- runtime/localization/currency/xpf.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/xpf.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -8,6 +8,7 @@
- Name[csb]=CFP Frank
- Name[da]=CFP-franc
- Name[de]=CFP Franc
-+Name[el]=Φράγκο CFP
- Name[en_GB]=CFP Franc
- Name[eo]=CFP franko
- Name[es]=Franco CFP
---- runtime/localization/currency/szl.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/szl.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -19,6 +19,7 @@
- Name[gu]=સ્વાઝિ લિલાન્ગેની
- Name[he]=לילאנגני של סוואזילנד
- Name[hr]=Svazski lilangeni
-+Name[hu]=Szváziföldi lilangeni
- Name[id]=Lilangeni Swaziland
- Name[it]=Lilangeni dello Swaziland
- Name[ja]=スワジランド・リランゲニ
---- runtime/localization/currency/veb.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/veb.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -8,6 +8,7 @@
- Name[csb]=Wenezuelsczi Bolívar Fuerte
- Name[da]=Venezuelansk bolivar fuerte
- Name[de]=Venezolanischer Bolívar
-+Name[el]=Μπολιβάρ φουέρτε Βενεζουέλας
- Name[en_GB]=Venezuelan Bolívar Fuerte
- Name[es]=Bolívar Fuerte venezolano
- Name[et]=Venezuela Bolívar Fuerte
---- runtime/localization/currency/xaf.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/xaf.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -8,6 +8,7 @@
- Name[csb]=Westrzódno Afrikańsczi Frank
- Name[da]=Centralafrikansk CFA-franc
- Name[de]=CFA-Franc BEAC
-+Name[el]=Φράγκο Δημοκρατίας Κεντρικής Αφρικής
- Name[en_GB]=Central African CFA Franc
- Name[eo]=centrafrika CFA franko
- Name[es]=Franco CFA de la República Centroafricana
---- runtime/localization/currency/xag.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/xag.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -8,6 +8,7 @@
- Name[csb]=Strzébro
- Name[da]=Sølv
- Name[de]=Silber
-+Name[el]=Ασήμι
- Name[en_GB]=Silver
- Name[eo]=Arĝento
- Name[es]=Plata
---- runtime/localization/currency/scr.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/scr.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -21,6 +21,7 @@
- Name[he]=רופיה של איי סיישל
- Name[hi]=शेसेल्स रुपया
- Name[hr]=Sejšelska rupija 
-+Name[hu]=Seychelles-i rúpia
- Name[id]=Rupee Seychelles
- Name[it]=Rupia delle Seychelles
- Name[ja]=セーシェル・ルピー
---- runtime/localization/currency/skk.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/skk.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -21,6 +21,7 @@
- Name[he]=קורונה סלובקית
- Name[hi]=स्लोवाकिया कोरुना
- Name[hr]=Slovačka kruna
-+Name[hu]=Szlovák korona
- Name[id]=Koruna Slovakia
- Name[it]=Corona slovacca
- Name[ja]=スロバキア・コルナ
---- runtime/localization/currency/rub.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/rub.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
+ Name[hi]=कोंगोली फ्रांक
+ Name[hr]=Kongoanski franak
+ Name[id]=Franc Kongo
++Name[is]=Kongóskur franki
+ Name[it]=Franco congolese
+ Name[ja]=コンゴ・フラン
+ Name[kk]=Конгоның франкі
+--- runtime/localization/currency/xau.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/xau.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -29,6 +29,7 @@
+ Name[km]=មាស
+ Name[kn]=ಚಿನ್ನ
+ Name[ko]=금
++Name[lt]=Auksas
+ Name[lv]=Zelts
+ Name[mk]=Злато
+ Name[ml]=സ്വര്‍ണ്ണം
+--- runtime/localization/currency/ugx.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/ugx.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
 @@ -22,6 +22,7 @@
- Name[he]=רובל רוסי
- Name[hi]=रुसी रुबल
- Name[hr]=Ruski rubalj
-+Name[hu]=Orosz rubel
- Name[id]=Ruble Rusia
- Name[is]=Rússnesk rúbla
- Name[it]=Rublo russo
---- runtime/localization/currency/cdf.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/cdf.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -7,6 +7,7 @@
- Name[ca@valencia]=Franc congolés
- Name[da]=Congolesisk franc
- Name[de]=Kongo-Franc
-+Name[el]=Φράγκο κογκολέζικο
- Name[en_GB]=Congolese Franc
- Name[es]=Franco congolés
- Name[et]=Kongo frank
---- runtime/localization/currency/xau.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/xau.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -8,6 +8,7 @@
- Name[csb]=Złoto
- Name[da]=Guld
- Name[de]=Gold
-+Name[el]=Χρυσός
- Name[en_GB]=Gold
- Name[eo]=Oro
- Name[es]=Oro
---- runtime/localization/currency/zmk.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/zmk.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -8,6 +8,7 @@
- Name[csb]=Zambijskô Kwacha
- Name[da]=Zambisk kwacha
- Name[de]=Sambischer Kwacha
-+Name[el]=Κουάτσα Ζάμπιας
- Name[en_GB]=Zambian Kwacha
- Name[es]=Kwacha zambiano
- Name[et]=Sambia kwacha
---- runtime/localization/currency/rur.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/rur.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -21,6 +21,7 @@
- Name[he]=רובל רוסי (אחרי 1997)
- Name[hi]=रुसी रुबल A/97
- Name[hr]=Ruski rubalj A/97
-+Name[hu]=Orosz rubel A/97
- Name[id]=Ruble A/97 Rusia
- Name[is]=Rússnesk rúbla A/97
- Name[it]=Rublo russo A/97
---- runtime/localization/currency/sdd.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/sdd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -21,6 +21,7 @@
- Name[he]=דינר סודני
- Name[hi]=सूदानी दिनार
+ Name[hi]=उगाँडा शिल्लिंग
+ Name[hr]=Ugandski šiling
+ Name[id]=Shilling Uganda
++Name[is]=Úgandískur skildingur
+ Name[it]=Scellino ugandese
+ Name[ja]=ウガンダ・シリング
+ Name[kk]=Уганда шиллингі
+--- runtime/localization/currency/djf.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/djf.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=ហ្វ្រង់​ហ្ស៊ីបូទី
+ Name[kn]=ಜಿಬೌಟಿಯ ಫ್ರಾಂಕ್
+ Name[ko]=지부티 프랑
++Name[lt]=Džibučio frankas
+ Name[lv]=Džibutijas franks
+ Name[mk]=Џибутиски франк
+ Name[ml]=ജിബൂട്ടിയിലെ ഫ്രാങ്ക്
+--- runtime/localization/currency/bnd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/bnd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -24,12 +24,14 @@
+ Name[hr]=Brunejski dolar
+ Name[hu]=Brunei dollár
+ Name[id]=Dollar Brunei
++Name[is]=Brúnei dollari
+ Name[it]=Dollaro del Brunei
+ Name[ja]=ブルネイ・ドル
+ Name[kk]=Бруней доллары
+ Name[km]=ដុល្លារ​ប្រ៊ុយណេ
+ Name[kn]=ಬ್ರೂನೈ ಡಾಲರ್
+ Name[ko]=브루나이 달러
++Name[lt]=Brunėjaus doleris
+ Name[lv]=Brunejas dolārs
+ Name[mai]=ब्रुनेई डालर
+ Name[mk]=Брунејски долар
+--- runtime/localization/currency/rur.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/rur.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=Russian Ruble A/97
+ Name[kn]=ರಶಿಯನ್ ರೂಬಲ್ A/97
+ Name[ko]=러시아 루블 (1997년)
++Name[lt]=Rusijos rublis A/97
+ Name[lv]=Krievijas rublis A/97
+ Name[mk]=Руска рубља A/97
+ Name[ml]=റഷ്യയിലെ റൂബിള്‍ എ/97
+--- runtime/localization/currency/sdd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/sdd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -23,6 +23,7 @@
  Name[hr]=Sudanski dinar
-+Name[hu]=Szudáni dínár
+ Name[hu]=Szudáni dínár
  Name[id]=Dinar Sudan
++Name[is]=Súdanskur dínar
  Name[it]=Dinaro sudanese
  Name[ja]=スーダン・ディナール
---- runtime/localization/currency/wst.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/wst.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -8,6 +8,7 @@
- Name[csb]=Samoańskô Tala
- Name[da]=Samoansk tala
- Name[de]=Samoanischer Tala
-+Name[el]=Τάλα Σαμόας 
- Name[en_GB]=Samoan Tala
- Name[es]=Tala de Samoa
- Name[et]=Samoa tala
---- runtime/localization/currency/sdg.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/sdg.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -22,6 +22,7 @@
- Name[he]=לירה סודנית
- Name[hi]=सूदानी पोंड
+ Name[kk]=Судан динары
+--- runtime/localization/currency/sdg.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/sdg.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -24,6 +24,7 @@
  Name[hr]=Sudanska funta
-+Name[hu]=Szudáni font
+ Name[hu]=Szudáni font
  Name[id]=Pound Sudan
++Name[is]=Súdanskt pund
  Name[it]=Sterlina sudanese
  Name[ja]=スーダン・ポンド
---- runtime/localization/currency/vuv.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/vuv.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -8,6 +8,7 @@
- Name[csb]=Vanuatu Vatu
- Name[da]=Vanuatisk vatu
- Name[de]=Vatu
-+Name[el]=Βάτου Βανουάτου
- Name[en_GB]=Vanuatu Vatu
- Name[es]=Vatu de Vanuatu
- Name[et]=Vanuatu vatu
---- runtime/localization/currency/vnd.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/vnd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -8,6 +8,7 @@
- Name[csb]=Wietnamsczo Dong
- Name[da]=Vietnamesisk dong
- Name[de]=Đồng
-+Name[el]=Ντονγκ Βιετνάμ
- Name[en_GB]=Vietnamese Dong
- Name[es]=Dong vietnamita
- Name[et]=Vietnami dong
---- runtime/localization/currency/std.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/std.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -20,6 +20,7 @@
- Name[he]=דוברה של סאו טומה ופרינסיפה
- Name[hi]=साओ टोम तथा प्रिंसिपी
- Name[hr]=Dobra Sv. Tome i Principa
-+Name[hu]=Sao Tome és Principe-i dobra
- Name[id]=Dobra São Tomé dan Príncipe
- Name[it]=Dobra di São Tomé e Príncipe
- Name[ja]=サントメ・プリンシペ・ドブラ
---- runtime/localization/currency/sll.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/sll.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -19,6 +19,7 @@
- Name[gu]=સિએરા લિઓન લેવન
- Name[he]=לאון של סיירה לאון
- Name[hr]=Sijeraleonski leone
-+Name[hu]=Sierra Leone-i leone
- Name[id]=Leone Sierra Leone
- Name[it]=Leone della Sierra Leone
- Name[ja]=シエラレオネ・レオン
---- runtime/localization/currency/tjs.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/tjs.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -20,6 +20,7 @@
- Name[he]=סומוני טג'יקיסטני
- Name[hi]=ताजिकिस्तान सोमोनी
- Name[hr]=Tadžikistanski somoni
-+Name[hu]=Tádzsik szomoni
- Name[id]=Somoni Tajikistan
- Name[it]=Somoni tagico
- Name[ja]=タジキスタン・ソモニ
---- runtime/localization/currency/bgl.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/bgl.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
+ Name[kk]=Судан фунты
+--- runtime/localization/currency/clp.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/clp.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=Chilean Peso
+ Name[kn]=ಚಿಲಿಯ ಪೆಸೊ
+ Name[ko]=칠레 페소
++Name[lt]=Čilės pesas
+ Name[lv]=Čīles peso
+ Name[mai]=चीलियन पेसो
+ Name[mk]=Чилеански пезос
+--- runtime/localization/currency/dzd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/dzd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=ឌីណា​អាល់ហ្សេរី
+ Name[kn]=ಅಲ್ಜೀರಿಯನ್ ದಿನಾರ್
+ Name[ko]=알제리 디나르
++Name[lt]=Alžyro dinaras
+ Name[lv]=Alžīrijas dinārs
+ Name[mk]=Алжирски динар
+ Name[ml]=അല്‍ജീരിയയിലെ ദിനാര്‍
+--- runtime/localization/currency/hrk.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/hrk.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=ឃុណា​ក្រូអាត
+ Name[kn]=ಕ್ರೊಯೆಶಿಯಾದ ಕುನಾ
+ Name[ko]=크로아티아 쿠나
++Name[lt]=Kroatijos kuna
+ Name[lv]=Horvātijas kuna
+ Name[mk]=Хрватска куна
+ Name[ml]=ക്രൊയേഷ്യയിലെ ക്യൂന
+--- runtime/localization/currency/bob.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/bob.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -22,12 +22,14 @@
+ Name[hr]=Bolivijski boliviano
+ Name[hu]=Bolíviai boliviano
+ Name[id]=Boliviano Bolivia
++Name[is]=Bólivískur Boliviano
+ Name[it]=Boliviano
+ Name[ja]=ボリビア・ボリビアーノ
+ Name[kk]=Боливия боливианосы
+ Name[km]=Bolivian Boliviano
+ Name[kn]=ಬೊಲಿವಿಯಾದ ಬೊಲಿವಿಯಾನೊ
+ Name[ko]=볼리비아 볼리비아노
++Name[lt]=Bolivijos bolivijanas
+ Name[lv]=Bolīvijas boliviano
+ Name[mai]=बोलिबन बोलिबिनो
+ Name[ml]=ബൊളീവിയയിലെ ബൊളിവിയാനോ
+--- runtime/localization/currency/bgl.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/bgl.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -29,6 +29,7 @@
+ Name[km]=ប៊ុលហ្ការី Lev A/99
+ Name[kn]=ಬಲ್ಗೇರಿಯಾದ  Lev A/99
+ Name[ko]=불가리아 레프 (1999년)
++Name[lt]=Bulgarijos levas A/99
+ Name[lv]=Bulgārijas leva A/99
+ Name[mai]=बल्गारिया Lev A/99
+ Name[mk]=Бугарски лев A/99
+--- runtime/localization/currency/bgn.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/bgn.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=ប៊ុលហ្ការី Lev
+ Name[kn]=ಬಲ್ಗೇರಿಯಾದ  Lev
+ Name[ko]=불가리아 레프
++Name[lt]=Bulgarijos levas
+ Name[lv]=Bulgārijas leva
+ Name[mai]=बल्गारिया लेव
+ Name[mk]=Бугарски лев
+--- runtime/localization/currency/gel.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/gel.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=ឡារី​ហ្សកហ្ស៊ី
+ Name[kn]=ಜಾರ್ಜಿಯಾದ ಲಾರಿ
+ Name[ko]=그루지야 라리
++Name[lt]=Gruzijos laris
+ Name[lv]=Gruzijas lars
+ Name[ml]=ജോര്‍ജ്ജിയയിലെ ലാരി
+ Name[nb]=Georgiske Lari
+--- runtime/localization/currency/dkk.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/dkk.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=Danish Krone
+ Name[kn]=ಡ್ಯಾನಿಶ್ ಕ್ರೋನ್
+ Name[ko]=덴마크 크로네
++Name[lt]=Danijos krona
+ Name[lv]=Dāņu krona
+ Name[mk]=Данска круна
+ Name[ml]=ഡെന്മാര്‍ക്കിലെ ക്രോണ
+--- runtime/localization/currency/cuc.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/cuc.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -27,6 +27,7 @@
+ Name[kk]=Кубаның конвертацияланатын песосы
+ Name[km]=Cuban Convertible Peso
+ Name[ko]=쿠바 유동적 페소
++Name[lt]=Kubos konvertuojamasis pesas
+ Name[lv]=Kubas konverējamais peso
+ Name[mai]=कूबान बदलैबला पेसो
+ Name[mk]=Кубански конвертибилен пезос
+--- runtime/localization/currency/iqd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/iqd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=Iraqi Dinar
+ Name[kn]=ಇರಾಕಿ ದಿನಾರ್
+ Name[ko]=이라크 디나르
++Name[lt]=Irako dinaras
+ Name[lv]=Irākas dinārs
+ Name[mk]=Ирачки динар
+ Name[ml]=ഇറാക്കിലെ ദിനാര്‍
+--- runtime/localization/currency/tzs.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/tzs.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
 @@ -22,6 +22,7 @@
- Name[hr]=Bugarski Lev A/99
- Name[hu]=Bolgár régi leva
- Name[id]=Lev A/99 Bulgaria
-+Name[is]=Búlgarskur lev A/99
- Name[it]=Lev bulgaro A/99
- Name[ja]=旧ブルガリア・レフ
- Name[kk]=Болгария леві (99-ға дейінгі)
---- runtime/localization/currency/bgn.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/bgn.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -24,6 +24,7 @@
- Name[hr]=Bugarski lev
- Name[hu]=Bolgár új leva
- Name[id]=Lev Bulgaria
-+Name[is]=Búlgarskur lev
- Name[it]=Lev bulgaro
- Name[ja]=ブルガリア・レフ
- Name[kk]=Болгария леві
---- runtime/localization/currency/xcd.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/xcd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -8,6 +8,7 @@
- Name[csb]=Karajibsczi Dolar
- Name[da]=Østcaribisk dollar
- Name[de]=Ostkaribischer Dollar
-+Name[el]=Δολάριο ανατολικής Καραϊβικής
- Name[en_GB]=East Caribbean Dollar
- Name[eo]=Orienta Kariba dolaro
- Name[es]=Dólar del Caribe Oriental
---- runtime/localization/currency/sek.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/sek.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -22,6 +22,7 @@
- Name[he]=קורונה שוודית
- Name[hi]=स्विदी क्रोन
- Name[hr]=Švedska kruna
-+Name[hu]=Svéd korona
- Name[id]=Krona Swedia
- Name[is]=Sænsk króna
- Name[it]=Corona svedese
---- runtime/localization/currency/bov.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/bov.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -22,6 +22,7 @@
- Name[hr]=Bolivijski mvdol
- Name[hu]=Bolíviai mvdol
- Name[id]=Mvdol Bolivia
-+Name[is]=Bólivískur mvdol
- Name[it]=Mvdol boliviano
+ Name[hi]=तनजानी शिल्लिंग
+ Name[hr]=Tanzanijski šiling
+ Name[id]=Shilling Tanzania
++Name[is]=Tansanískur skildingur
+ Name[it]=Scellino tanzaniano
+ Name[ja]=タンザニア・シリング
+ Name[kk]=Танзания шиллингі
+--- runtime/localization/currency/sek.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/sek.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=Swedish Krona
+ Name[kn]=ಸ್ವೀಡಿಶ್ ಕ್ರೋನಾ
+ Name[ko]=스웨덴 크로나
++Name[lt]=Švedijos krona
+ Name[lv]=Zviedru krona
+ Name[mk]=Шведска круна
+ Name[ml]=സ്വീഡനിലെ ക്രോണ
+--- runtime/localization/currency/bov.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/bov.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -27,6 +27,7 @@
  Name[kk]=Боливияның Mvdol-ы
  Name[km]=បូលីវី Mvdol
---- runtime/localization/currency/rwf.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/rwf.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
+ Name[ko]=볼리비아 MVDOL
++Name[lt]=Bolivijos midolis
+ Name[mai]=बोलिविया म्वडोल
+ Name[ml]=ബൊളീവിയയിലെ മവ്ഡോള്‍
+ Name[nb]=Bolivianske Mydol
+--- runtime/localization/currency/cup.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/cup.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=Cuban Peso
+ Name[kn]=ಕ್ಯೂಬನ್ ಪೆಸೊ
+ Name[ko]=쿠바 페소
++Name[lt]=Kubos pesas
+ Name[lv]=Kubas peso
+ Name[mai]=क्यूबान पेसो
+ Name[mk]=Кубански пезос
+--- runtime/localization/currency/nok.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/nok.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=Norwegian Krone
+ Name[kn]=ನಾರ್ವೆಯ ಕ್ರೋನ್
+ Name[ko]=노르웨이 크로네
++Name[lt]=Norvegijos krona
+ Name[lv]=Norvēģu krona
+ Name[mk]=Норвешка круна
+ Name[ml]=നോര്‍വെയിലെ ക്രോണ
+--- runtime/localization/currency/bwp.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/bwp.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -29,6 +29,7 @@
+ Name[km]=ពូឡា​បុតស្វាណា
+ Name[kn]=ಬೋಟ್ಸ್ವಾನದ ಪುಲಾ
+ Name[ko]=보츠와나 풀라
++Name[lt]=Botsvanos pula
+ Name[mai]=बोत्सवाना पुला
+ Name[ml]=ബോട്സ്വാനയിലെ പുല
+ Name[nb]=Botswana Pula
+--- runtime/localization/currency/bhd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/bhd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -24,12 +24,14 @@
+ Name[hr]=Bahreinski dinar 
+ Name[hu]=Bahreini dínár
+ Name[id]=Dinar Bahrain
++Name[is]=Bareinskur dínar
+ Name[it]=Dinaro del Bahrain
+ Name[ja]=バーレーン・ディナール
+ Name[kk]=Бахрейн динары
+ Name[km]=ឌីណា​បារ៉ែន
+ Name[kn]=ಬಹರೈನಿ ದಿನಾರ್
+ Name[ko]=바레인 디나르
++Name[lt]=Bahreino dinaras
+ Name[lv]=Bahreinas dinārs
+ Name[mai]=बहरीन दिनार
+ Name[mk]=Бахреински динар
+--- runtime/localization/currency/omr.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/omr.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
 @@ -22,6 +22,7 @@
- Name[he]=פרנק רואנדי
- Name[hi]=रवांडा फ्रांक
- Name[hr]=Ruandski frank
-+Name[hu]=Ruandai frank
- Name[id]=Franc Rwanda
- Name[is]=Rúandafranki
- Name[it]=Franco ruandese
---- runtime/localization/currency/cve.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/cve.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -49,7 +49,7 @@
- Name[sr@latin]=zelenortski eskudo
- Name[sv]=Kapverdiska escudo
- Name[tg]=Кабо-Верде
--Name[uk]=Ескудо Кабо Верде
-+Name[uk]=Ескудо Кабо-Верде
- Name[x-test]=xxCape Verde Escudoxx
- Name[zh_CN]=佛得角埃斯库多
- Name[zh_TW]=維德角─埃斯庫多（Escudo）
---- runtime/localization/currency/svc.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/svc.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -18,6 +18,7 @@
- Name[fy]=Salvadoraaske colon
- Name[he]=קולון סלוואדורי
- Name[hr]=Salvadorski kolon
-+Name[hu]=Salvadori colon
- Name[id]=Colon Salvador
- Name[it]=Colón salvadoregno
- Name[ja]=エルサルバドル・コロン
---- runtime/localization/currency/sgd.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/sgd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -22,6 +22,7 @@
- Name[he]=דולר סינגפורי
- Name[hi]=सिंगापोर डॉलर
+ Name[hr]=Omanski rial
+ Name[hu]=Ománi riál
+ Name[id]=Rial Oman
++Name[is]=Ómanskur ríal
+ Name[it]=Riyal dell'Oman
+ Name[ja]=オーマン・リヤル
+ Name[kk]=Оман риалы
+--- runtime/localization/currency/ern.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/ern.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -27,6 +27,7 @@
+ Name[kk]=Эритрея накфасы
+ Name[km]=ណាកហ្វា​អេរីទ្រា
+ Name[ko]=에리트리아 나크파
++Name[lt]=Eritrėjos nakfa
+ Name[ml]=എറിട്രിയയിലെ നകഫ
+ Name[nb]=Eritreiske Nakfa
+ Name[nds]=Eritreesch Nakfa
+--- runtime/localization/currency/ars.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/ars.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=អាហ្សង់ទីន ប៉េស្សូ
+ Name[kn]=ಅರ್ಜಂಟೀನಾದ ಪೆಸೊ
+ Name[ko]=아르헨티나 페소
++Name[lt]=Argentinos pesas
+ Name[lv]=Argentīnas peso
+ Name[mai]=अर्जेन्टिना पेसो
+ Name[mk]=Аргентинско пезо
+--- runtime/localization/currency/azm.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/azm.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -29,6 +29,7 @@
+ Name[km]=អាហ្ស៊ែរបែហ្សង់ ម៉ាណាត
+ Name[kn]=ಅಝರ್ಬೈಜಾನಿಯಾದ ಮನಾಟ್
+ Name[ko]=아제르바이잔 마나트
++Name[lt]=Azerbaidžano manatas
+ Name[mai]=अजरबैजान मनात
+ Name[ml]=അസര്‍ബൈജാനിലെ മാനറ്റ്
+ Name[nb]=Aserbajdsjanske Manat
+--- runtime/localization/currency/azn.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/azn.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -29,6 +29,7 @@
+ Name[km]=អាហ្ស៊ែរបែហ្សង់ ម៉ាណាត
+ Name[kn]=ಅಝರ್ಬೈಜಾನಿಯಾದ ಮನಾಟ್
+ Name[ko]=아제르바이잔 마나트
++Name[lt]=Azerbaidžano manatas
+ Name[mai]=अजरबैजान मनात
+ Name[ml]=അസര്‍ബൈജാനിലെ മാനറ്റ്
+ Name[nb]=Aserbajdsjanske Manat
+--- runtime/localization/currency/cny.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/cny.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=យ័ន ចិន
+ Name[kn]=ಚೈನಾದ ಯುವಾನ್
+ Name[ko]=중국 위안
++Name[lt]=Kinijos juanis
+ Name[lv]=Ķīnas juaņa
+ Name[mai]=चीनी यूआन
+ Name[mk]=Кинески јуан
+--- runtime/localization/currency/pln.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/pln.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -29,6 +29,7 @@
+ Name[kk]=Польша злотыйы
+ Name[km]=Polish Zloty
+ Name[ko]=폴란드 즈워티
++Name[lt]=Lenkijos zlotas
+ Name[lv]=Polijas zlots
+ Name[mk]=Полска злота
+ Name[ml]=പോളണ്ടിലെ സ്ലോട്ടി
+--- runtime/localization/currency/ltl.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/ltl.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -28,6 +28,7 @@
+ Name[km]=លីតាស​លីទុយអានី
+ Name[kn]=ಲಿಥುವೇನಿಯಾದ ಲಿಟಾಸ್
+ Name[ko]=리투아니아 리타스
++Name[lt]=Lietuvos litas
+ Name[lv]=Lietuvas lits
+ Name[ml]=ലിത്വാനിയയിലെ ലിതാസ്
+ Name[nb]=Litauiske litas
+--- runtime/localization/currency/bam.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/bam.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -28,6 +28,7 @@
+ Name[kk]=Босния және Герцоговинаның конвертацияланатын маркасы
+ Name[km]=Bosnia and Herzegovina Convertible Mark
+ Name[ko]=보스니아 헤르체고비나 유동적 마르크
++Name[lt]=Bosnijos ir Hercegovinos konvertuojama markė
+ Name[lv]=Bosnijas un Hercogovinas konvertējamā marka
+ Name[mai]=बोस्निया आओर हर्जेगोविना बदलेबला मार्क
+ Name[mk]=Конвертибилна марка од Босна и Херцеговина
+--- runtime/localization/currency/bif.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/bif.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -24,12 +24,14 @@
+ Name[hr]=Burundijski franak
+ Name[hu]=Burundi frank
+ Name[id]=Franc Burundi
++Name[is]=Búrúndískur franki
+ Name[it]=Franco del Burundi
+ Name[ja]=ブルンジ・フラン
+ Name[kk]=Бурунди франкі
+ Name[km]=ហ្វ្រង់​ប៊ូរុនឌី​
+ Name[kn]=ಬುರುಂಡಿಯಾದ ಫ್ರಾಂಕ್
+ Name[ko]=부룬디 프랑
++Name[lt]=Burundijos frankas
+ Name[lv]=Burundijas franks
+ Name[mai]=बुरूंडी फ्रैंक
+ Name[mk]=Бурундиски франк
+--- runtime/localization/currency/dem.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/dem.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=ម៉ាក​អាល្លឺម៉ង់
+ Name[kn]=ಜರ್ಮನಿಯ ಮಾರ್ಕ್
+ Name[ko]=독일 마르크
++Name[lt]=Vokietijos markė
+ Name[lv]=Vācijas marka
+ Name[mk]=Германска марка
+ Name[ml]=ജര്‍മനിയിലെ മാര്‍ക്ക്
+--- runtime/localization/currency/fim.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/fim.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -29,6 +29,7 @@
+ Name[kk]=Финн маркасы
+ Name[km]=Finnish Markka
+ Name[ko]=핀란드 마르카
++Name[lt]=Suomijos markė
+ Name[lv]=Somu marka
+ Name[ml]=ഫിന്‍ലന്റിലെ മാര്‍ക്ക
+ Name[nb]=Finske mark
+--- runtime/localization/currency/sgd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/sgd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -24,6 +24,7 @@
  Name[hr]=Singapurški dolar
-+Name[hu]=Szingapúri dollár
+ Name[hu]=Szingapúri dollár
  Name[id]=Dollar Singapura
++Name[is]=Singapúrskur dollari
  Name[it]=Dollaro di Singapore
  Name[ja]=シンガポール・ドル
-@@ -50,7 +51,7 @@
- Name[sr@latin]=singapurski dolar
- Name[sv]=Singaporianska dollar
- Name[tg]=Сингапур
--Name[uk]=Сингапурський долар
-+Name[uk]=Сінгапурський долар
- Name[x-test]=xxSingapore Dollarxx
- Name[zh_CN]=新加坡元
- Name[zh_TW]=新加坡─元（Dollar）
---- runtime/localization/currency/pen.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/pen.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -7,12 +7,14 @@
- Name[ca@valencia]=Nuevo Sol de Perú
- Name[da]=Peruviansk nuevo sol
- Name[de]=Peruanischer Sol
-+Name[el]=Νέο σολ Περουβιανό
- Name[en_GB]=Peruvian Nuevo Sol
- Name[es]=Nuevo sol peruano
- Name[et]=Peruu Nuevo Sol
- Name[eu]=Peruko nuevo sol
- Name[fr]=Nouveau sol péruvien
- Name[hr]=Peruanski novi sol
-+Name[hu]=Perui új sol
- Name[id]=Sol Nuevo Peru
- Name[it]=Nuevo sol peruviano
- Name[kk]=Перудың жаңа солі
---- runtime/localization/currency/bbd.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/bbd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -24,6 +24,7 @@
- Name[hr]=Barbadoski dolar
- Name[hu]=Barbadosi dollár
- Name[id]=Dollar Barbados
-+Name[is]=Barbados dollari
- Name[it]=Dollaro di Barbados
- Name[ja]=バルバドス・ドル
- Name[kk]=Барбадос доллары
---- runtime/localization/currency/zar.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/zar.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -8,6 +8,7 @@
- Name[csb]=Pôłniowò Afrikańsczi Rand
- Name[da]=Sydafrikansk rand
- Name[de]=Südafrikanischer Rand
-+Name[el]=Νότια Αφρική ραντ
- Name[en_GB]=South African Rand
- Name[es]=Rand sudafricano
- Name[et]=LAV rand
---- runtime/localization/currency/tmm.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/tmm.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -19,6 +19,7 @@
- Name[he]=מאנאט ישן של טורקמניסטן
- Name[hi]=तुर्कमेनिस्तान पुराना मनत
- Name[hr]=Turkmenistanski stari manat
-+Name[hu]=Türkmén régi manat
- Name[id]=Manat Lama Turkmenistan
- Name[it]=Vecchio manat turkmeno
- Name[ja]=旧トルクメニスタン・マナト
---- runtime/localization/currency/sos.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/sos.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -21,6 +21,7 @@
- Name[he]=שילינג סומאלי
- Name[hi]=सोमाली शिल्लिंग
+ Name[kk]=Сингапур доллары
+--- runtime/localization/currency/cop.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/cop.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=ប៉ូសូ​កូឡុំប៊ី
+ Name[kn]=ಕೊಲಂಬಿಯಾದ ಪೆಸೊ
+ Name[ko]=콜롬비아 페소
++Name[lt]=Kolumbijos pesas
+ Name[lv]=Kolumbijas peso
+ Name[mai]=कोलंबिया पेसो
+ Name[mk]=Колумбиски пезос
+--- runtime/localization/currency/huf.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/huf.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -29,6 +29,7 @@
+ Name[kk]=Венгрия форинті
+ Name[km]=Hungarian Forint
+ Name[ko]=헝가리 포린트
++Name[lt]=Vengrijos forintas
+ Name[lv]=Ungārijas forints
+ Name[mk]=Унгарска форинта
+ Name[ml]=ഹംഗറിയിലെ ഫൊറിന്റ്
+--- runtime/localization/currency/isk.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/isk.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=ក្រូណា​អ៊ីស្លង់
+ Name[kn]=ಐಸ್‌ಲ್ಯಾಂಡಿನ ಕ್ರೋನ
+ Name[ko]=아이슬란드 크로나
++Name[lt]=Islandijos krona
+ Name[lv]=Īslandes krona
+ Name[mk]=Исландска круна
+ Name[ml]=ഐസ്‌ലാന്‍ഡിലെ ക്രോണ
+--- runtime/localization/currency/bbd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/bbd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=ដុល្លារ​បារបាដូស
+ Name[kn]=ಬಾರ್ಬಡೋಸ್ ಡಾಲರ್
+ Name[ko]=바베이도스 달러
++Name[lt]=Barbadoso doleris
+ Name[lv]=Barbadosas dolārs
+ Name[mai]=बारबोडस डालर
+ Name[mk]=Барбадоски долар
+--- runtime/localization/currency/esp.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/esp.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=Spanish Peseta
+ Name[kn]=ಸ್ಪಾನಿಶ್ ಪೆಸೆಟಾ
+ Name[ko]=스페인 페세타
++Name[lt]=Ispanijos peseatas
+ Name[lv]=Spānijas peseta
+ Name[mai]=स्पानिश पेसेटा
+ Name[mk]=Шпанска пезета
+--- runtime/localization/currency/adf.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/adf.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=Andorran Franc
+ Name[kn]=ಅಂಡೋರಾದ ಫ್ರಾಂಕ್
+ Name[ko]=안도라 프랑
++Name[lt]=Andoros frankas
+ Name[lv]=Andoras franki
+ Name[mai]=अंडोरा फ्रैंक
+ Name[mk]=Андорски франк
+--- runtime/localization/currency/byr.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/byr.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=រ៉ូប៊ល បេឡារុស្ស
+ Name[kn]=ಬೆಲಾರುಸಿಯ ರೂಬಲ್
+ Name[ko]=벨라루스 루블
++Name[lt]=Baltarusijos rublis
+ Name[lv]=Baltkrievijas rublis
+ Name[mai]=बेलारूस रूबल
+ Name[mk]=Белоруска рубља
+--- runtime/localization/currency/chf.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/chf.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=Swiss Franc
+ Name[kn]=ಸ್ವಿಸ್ ಫ್ರಾಂಕ್
+ Name[ko]=스위스 프랑
++Name[lt]=Šveicarijos frankas
+ Name[lv]=Šveices franks
+ Name[mai]=स्विस फ्रैंक
+ Name[mk]=Швајцарски франк
+--- runtime/localization/currency/ghc.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/ghc.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -27,6 +27,7 @@
+ Name[kk]=Гананың седиі
+ Name[km]=Ghanaian Cedi
+ Name[ko]=가나 세디
++Name[lt]=Ganos cedis
+ Name[ml]=ഘാനൈയന്‍ സെഡി
+ Name[nb]=Ghanesiske Cedi
+ Name[nds]=Ghanaasch Cedi
+--- runtime/localization/currency/fjd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/fjd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -30,6 +30,7 @@
+ Name[km]=Fijian Dollar
+ Name[kn]=ಫಿಜಿಯನ್ ಡಾಲರ್
+ Name[ko]=피지 달러
++Name[lt]=Fidži doleris
+ Name[lv]=Fidži dolārs
+ Name[ml]=ഫിജിയിലെ ഡോളര്‍
+ Name[nb]=Fiji-dollar
+--- runtime/localization/currency/adp.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/adp.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -31,6 +31,7 @@
+ Name[km]=Andorran Peseta
+ Name[kn]=ಅಂಡೋರಾದ ಪೆಸೆಟಾ
+ Name[ko]=안도라 페소
++Name[lt]=Andoros pesetas
+ Name[lv]=Andoras pesetas
+ Name[mai]=अंडोरा पेसेटा
+ Name[mk]=Андорска пезета
+--- runtime/localization/currency/sos.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/localization/currency/sos.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -23,6 +23,7 @@
  Name[hr]=Somalijski šiling
-+Name[hu]=Szomáliai schilling
+ Name[hu]=Szomáliai schilling
  Name[id]=Shilling Somalia
++Name[is]=Sómalskur skildingur
  Name[it]=Scellino somalo
  Name[ja]=ソマリア・シリング
---- runtime/localization/currency/tmt.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/localization/currency/tmt.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -19,6 +19,7 @@
- Name[he]=מאנאט של טורקמניסטן
- Name[hi]=तुर्कमेनिस्तानी मनत
- Name[hr]=Turkmenistanski manat
-+Name[hu]=Türkmén manat
- Name[id]=Manat Turkmenistan
- Name[it]=Manat turkmeno
- Name[ja]=トルクメニスタン・マナト
---- runtime/khelpcenter/plugins/faq.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/khelpcenter/plugins/faq.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -54,7 +54,7 @@
- Name[nb]=Ofte stilte KDE-spørsmål
- Name[nds]=Dat KDE-FAQ
- Name[ne]=KDE FAQ
--Name[nl]=Veel voorkomde vragen over KDE
-+Name[nl]=Veel voorkomende vragen over KDE
- Name[nn]=Ofte stilte KDE-spørsmål
- Name[or]=KDE FAQ
- Name[pa]=KDE ਸਵਾਲ-ਜਵਾਬ
---- runtime/doc/knetattach/index.docbook	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/doc/knetattach/index.docbook	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -34,12 +34,12 @@
- </copyright>
- <legalnotice>&FDLNotice;</legalnotice>
+ Name[kk]=Сомали шиллингі
+--- runtime/kcontrol/componentchooser/CMakeLists.txt	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kcontrol/componentchooser/CMakeLists.txt	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -19,10 +19,10 @@
+     componentchooserterminal.cpp ktimerdialog.cpp)
+ endif(NOT WIN32)
  
--<date>2005-02-09</date>
--<releaseinfo>1.01.00</releaseinfo>
-+<date>2010-01-18</date>
-+<releaseinfo>&kde; 4.4</releaseinfo>
+-if(NOT APPLE AND NOT WIN32)
++if(Q_WS_X11)
+   set(kcm_componentchooser_SRCS ${kcm_componentchooser_SRCS}
+      componentchooserwm.cpp )
+-endif(NOT APPLE AND NOT WIN32)
++endif(Q_WS_X11)
  
- <abstract>
- <para>
--&knetattach; is an application which makes it easier to integrate your 
-+&knetattach; is a wizard which makes it easier to integrate your 
- network resources with your &kde; Desktop.
- </para>
- </abstract>
-@@ -59,11 +59,18 @@
  
- </bookinfo>
+ kde4_add_ui_files(kcm_componentchooser_SRCS 
+--- runtime/phonon/platform_kde/phonon.notifyrc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/phonon/platform_kde/phonon.notifyrc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -266,7 +266,7 @@
+ Comment[lv]=Paziņojums par automātisku atkāpšanos, ja vēlamā iekārta nav pieejama
+ Comment[ml]=ഇഷ്ടപ്പെട്ട ഉപകരണം ലഭ്യമല്ലാതിരിയ്ക്കുമ്പോള്‍ പകരമുള്ള ഉപകരണത്തിലേയ്ക്ക് സ്വയമുള്ള മാറ്റം അറിയിയ്ക്കുക
+ Comment[mr]=सूचीत केलेले साधन अनुपलब्ध असल्यास स्वयंरूपी फॉलबॅक करीता सूचना पुरविली जाते
+-Comment[nb]=Gi varsel dersom enehenten det skal falles tilbake til ikke er tilgjengelig
++Comment[nb]=Gi varsel dersom enheten det skal falles tilbake til ikke er tilgjengelig
+ Comment[nds]=Bescheed, wenn de vörtrocken Reedschap nich verföögbor is un ansteed de Opbackreedschap bruukt warrt
+ Comment[nl]=Melding voor automatische terugval als het gewenste apparaat niet beschikbaar is
+ Comment[nn]=Varsling om automatisk reserveeining om den føretrekte eininga ikkje er tilgjengeleg
+--- runtime/khelpcenter/plugins/plasma.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/khelpcenter/plugins/plasma.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -1,5 +1,5 @@
+ [Desktop Entry]
+-X-DocPath=help:/plasma/index.html
++X-DocPath=help:/plasma-desktop/index.html
+ Icon=plasma
+ Name=Plasma Manual
+ Name[ar]=دليل بلازما
+--- runtime/doc/kdebugdialog/index.docbook	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/doc/kdebugdialog/index.docbook	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" ?>
+-<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN"
++<!DOCTYPE article PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN"
+ "dtd/kdex.dtd" [
+   <!ENTITY kdebugdialog "<application>KDebugDialog</application>">
+   <!ENTITY kappname "&kdebugdialog;">
+@@ -9,57 +9,56 @@
+   
+ ]>
  
-+<!-- 
-+in kde 4 no application any more.
-+
-+konqueror/dolphin/gwenview enter "remote:/" in location bar or click Network in Places
-+"Add Network Folder" click opens the wizard
-+-->
-+
- <chapter id="introduction">
- <title>Introduction</title>
- 
- <para>
--The &knetattach; program, affectionately and hereafter known as the 
-+The &knetattach; wizard, affectionately and hereafter known as the 
- Network Folder Wizard, allows easy addition and integration of various 
- network folders with your &kde; desktop. Please report any problems or 
- feature requests for it to the &kde; bugs website.
-@@ -75,10 +82,9 @@
- 
- <para>
- As you will see in the screenshot below, the Network Folder Wizard currently
--allows 
--you to add four types of network folders: WebDav, &FTP;, 
--&Microsoft; &Windows; (Samba) network drives and
--SSH.
-+allows you to add four types of network folders: WebDav, &FTP;, 
-+&Microsoft; &Windows; (Samba) network drives and SSH.
-+Additionally you can select a recent connection for the list box.
- 
- <screenshot>
- <screeninfo>Here's a screenshot of &knetattach;</screeninfo>
-@@ -101,10 +107,11 @@
- <title>Adding network folders</title>
- 
- <para>
--Network folders show up in a special location of &konqueror; called a
--<emphasis>virtual folder</emphasis>.
-+Network folders show up in a special location of &konqueror; and &dolphin; 
-+called a <emphasis>virtual folder</emphasis>.
- This virtual folder is accessed by typing <userinput>remote:/</userinput> in
--&konqueror; <interface>Location bar</interface>. You will then be able to see
-+the location bar or by selecting <guilabel>Network</guilabel> from the 
-+<guilabel>Places</guilabel> panel. You will then be able to see
- any folders which have been previously added and you also will be able to use
- the wizard to add new ones.
- <screenshot>
-@@ -133,8 +140,8 @@
- <para>
- Below is a list of the information needed by the wizard to create the network
- folders. If an option is not 
--available for a particular folder it does not have to be entered. &eg;. The Samba
--folders do not require a <guilabel>Port</guilabel> entry.
-+available for a particular folder it does not have to be entered. The Samba
-+folders &eg; do not require a <guilabel>Port</guilabel> entry.
- </para>
- 
- <para>
-@@ -149,9 +156,17 @@
- </listitem>
- </varlistentry>
- <varlistentry>
--<term>Server:</term>
-+<term><guilabel>User:</guilabel></term>
- <listitem>
- <para>
-+This is the username that will be used to establish the connection.
-+</para>
-+</listitem>
-+</varlistentry>
-+<varlistentry>
-+<term><guilabel>Server:</guilabel></term>
-+<listitem>
-+<para>
- This is the address of the server you are attempting to add. It can be an 
- IP address or domain name.
- </para>
-@@ -180,6 +195,14 @@
- </listitem>
- </varlistentry>
- <varlistentry>
-+<term><guilabel>Encoding:</guilabel></term>
-+<listitem>
-+<para>
-+Use the items in this list box to select an encoding for &FTP; and ssh connections.
-+</para>
-+</listitem>
-+</varlistentry>
-+<varlistentry>
- <term><guilabel>Create an icon for this remote folder</guilabel></term>
- <listitem>
- <para>
-@@ -289,7 +312,8 @@
- <para>
- To get back to our network folders all that is necessary is typing
- <action>remote:/</action>
--in the <guilabel>Location:</guilabel> bar of &konqueror;.
-+in the location bar of &konqueror; or &dolphin; or
-+select <guilabel>Network</guilabel> from the <guilabel>Places</guilabel> panel.
- </para>
- 
- <para>
---- runtime/doc/faq/contrib.docbook	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/doc/faq/contrib.docbook	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -138,16 +138,6 @@
- 
- <qandaentry>
- <question>
--<para>Are there any <acronym>SVN</acronym> mirror sites for &kde;?</para>
--</question>
--<answer>
--<para>No, there are currently no anonymous <acronym>SVN</acronym> mirror sites for &kde;. If you're interested in setting one up, please contact <email>sysadmin@kde.org</email>
--</para>
--</answer>
--</qandaentry>
+-<book lang="&language;">
+-<bookinfo>
+-<title>The &kdebugdialog; Handbook</title>
 -
--<qandaentry>
--<question>
- <para>How do I go about translating &kde; programs into my native
- language?</para>
- </question>
---- runtime/doc/kcontrol/paths/index.docbook	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/doc/kcontrol/paths/index.docbook	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -70,7 +70,7 @@
- </varlistentry>
- <varlistentry>
- <term><guilabel>Download path:</guilabel></term>
--<listitem><para>This folder will be used by default to your downloaded items.</para></listitem>
-+<listitem><para>This folder will be used by default to save your downloaded items.</para></listitem>
- </varlistentry>
- <varlistentry>
- <term><guilabel>Movies path:</guilabel></term>
---- runtime/doc/kcontrol/language/index.docbook	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/doc/kcontrol/language/index.docbook	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -53,7 +53,7 @@
- to use.</para>
- 
- <para>When you click on <guilabel>change</guilabel>,
--a menu pops up showing major groups of countries. You can select
-+a dialog pops up showing major groups of countries. You can select
- one of these regions and see a list of the countries that are
- available for that region.</para>
- 
-@@ -69,7 +69,7 @@
- 
- <para>Click on the <guilabel>Add Language</guilabel> drop down box to add a 
- language to the list. If the language is already in the 
--list, the old one will be moved instead.</para>
-+list, it will be moved up to the first place in the list instead.</para>
- 
- <para>If only US English is available, no translations have been installed.
- </para>
---- runtime/doc/kcontrol/solid-device-automounter/index.docbook	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/doc/kcontrol/solid-device-automounter/index.docbook	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -32,7 +32,7 @@
- recently plugged in device.
- </para>
- 
--<para>On the bottom of the dialog you find the global settings, which can be overridden
-+<para>At the top of the dialog you find the global settings, which can be overridden
- for each single device in the <guilabel>Device Overrides</guilabel> list.
- For a single-user desktop it is recommended to have all the 
- check boxes above the overrides list enabled. 
---- runtime/doc/kcontrol/khtml-general/index.docbook	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/doc/kcontrol/khtml-general/index.docbook	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -119,8 +119,7 @@
- <term><guilabel>Confirm when closing windows with multiple tabs</guilabel></term>
- <listitem><para>If you close a window in &konqueror; that has multiple tabs
- open, &konqueror; will ask you if you're sure that you meant to close
--it.  You can toggle on and off this behavior with the
--<guilabel>Confirm when closing windows with multiple tabs</guilabel>
-+it.  You can toggle on and off this behavior with this
- check box.</para></listitem>
- </varlistentry>
- 
---- runtime/doc/kcontrol/ebrowsing/index.docbook	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/doc/kcontrol/ebrowsing/index.docbook	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -67,8 +67,7 @@
- shortcuts wherever you would normally use
- &URI;s. Shortcuts for several search engines should
- already be configured on your system, but you can add new keywords, and
--change or delete existing ones in the enhanced browsing control
--module. </para>
-+change or delete existing ones in this module. </para>
- 
- </sect2>
- 
-@@ -163,4 +162,4 @@
- 
- </sect1>
- 
--</article>
-\ No newline at end of file
-+</article>
---- runtime/doc/kcontrol/filetypes/index.docbook	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/doc/kcontrol/filetypes/index.docbook	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -279,6 +279,29 @@
- type.  Click <guibutton>OK</guibutton> when you are done, and the
- application will be added to the current list.</para>
- 
-+<para>To change the options of an application for a particular &MIME; type 
-+select it in the list and then press the <guibutton>Edit...</guibutton> button. 
-+This opens a new dialog with <guilabel>General</guilabel>, 
-+<guilabel>Permissions</guilabel>, <guilabel>Applications</guilabel> and
-+<guilabel>Preview</guilabel> tabs.
-+On the <guilabel>Applications</guilabel> tab you can edit <guilabel>Name</guilabel>,
-+<guilabel>Description</guilabel> and <guilabel>Comment</guilabel>.
-+In the <guilabel>Command</guilabel> field you can have several place holders 
-+following the command, which will be replaced with the actual values 
-+when the actual program is run:</para>
-+<itemizedlist>
-+<listitem><para>%f - a single file name</para></listitem>
-+<listitem><para>%F - a list of files; use for applications that can open several local files 
-+at once</para></listitem>
-+<listitem><para>%u - a single URL</para></listitem>
-+<listitem><para>%U - a list of URLs</para></listitem>
-+<listitem><para>%d - the folder of the file to open</para></listitem>
-+<listitem><para>%D - a list of folders</para></listitem>
-+<listitem><para>%i - the icon</para></listitem>
-+<listitem><para>%m - the mini-icon</para></listitem>
-+<listitem><para>%c - the caption</para></listitem>
-+</itemizedlist>
-+
- <para>You can remove an application (thereby ensuring that the
- application will never run with this &MIME; type by clicking once on the
- name of the application, and clicking the <guibutton>Remove</guibutton>
---- runtime/doc/kcontrol/kded/index.docbook	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/doc/kcontrol/kded/index.docbook	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -45,12 +45,18 @@
- <varlistentry>
- <term><guilabel>Startup Services</guilabel></term>
- <listitem><para>
--This shows all &kde; services that can be loaded on &kde; startup. Checked 
--services will be invoked on next startup.</para>
-+This shows all &kde; services that can be loaded on &kde; startup.  
-+Services checked in the <guilabel>Use</guilabel> column will be invoked on next startup.</para>
- <para>Be careful with deactivation of 
- unknown services: some services are vital for &kde;; do 
- not deactivate services if you do not know what you are doing.
--</para></listitem>
-+</para>
-+<para>To change the <guilabel>Status</guilabel> of a service, select it in the list. 
-+Then you can use the <guibutton>Start</guibutton> and <guibutton>Stop</guibutton>
-+to change the status of a service from <guilabel>Not running</guilabel> to <guilabel>Running</guilabel>
-+and vice versa.
-+</para>
-+</listitem>
- </varlistentry>
- 
- </variablelist>
---- runtime/doc/kcontrol/khtml-behavior/index.docbook	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/doc/kcontrol/khtml-behavior/index.docbook	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -47,7 +47,7 @@
- in forms for you with the answers you previously used.</para>
- 
- <para>You can configure the number of form items &konqueror; remembers
--with the slider below labelled <guilabel>Maximum
-+with the spin box labelled <guilabel>Maximum
- completions</guilabel></para>
- 
- <note><para>Of course, anything &konqueror; fills in a form with, you
-@@ -78,7 +78,7 @@
- new website.  However, such features can be confusing, or annoying,
- when misused, and so you may wish to disable it.</para>
- 
--<para><guilabel>Enable Access Key activation with Ctrl key</guilabel>: 
-+<para><guilabel>Enable Access Key activation with &Ctrl; key</guilabel>: 
- Pressing the &Ctrl; key when viewing web pages activates Access Keys. 
- Unchecking this box will disable this accessibility feature. &konqueror; 
- needs to be restarted for this change to take effect.</para>
---- runtime/doc/kcontrol/CMakeLists.txt	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/doc/kcontrol/CMakeLists.txt	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -24,7 +24,6 @@
- add_subdirectory(kcmcss)
- add_subdirectory(kcmlaunch)
- add_subdirectory(kcmnotify)
--add_subdirectory(kdm)
- add_subdirectory(language)
- add_subdirectory(netpref)
- add_subdirectory(paths)
---- runtime/doc/kcontrol/khtml-java-js/index.docbook	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/doc/kcontrol/khtml-java-js/index.docbook	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -98,8 +98,7 @@
- <para>Despite the name, JavaScript is not related at all to
- &Java;.</para>
- 
--<para>The first part of this tab works the same as the &Java; page
--settings.</para>
-+<para>The first part of this tab works the same as the &Java; settings.</para>
- 
- <para>The checkbox <guilabel>Enable JavaScript globally</guilabel> allows
- you to turn JavaScript support on for all web sites by default. You
---- runtime/doc/kcontrol/spellchecking/index.docbook	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/doc/kcontrol/spellchecking/index.docbook	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -17,7 +17,7 @@
++<article lang="&language;">
++<title>KDebugDialog</title>
++<articleinfo>
+ <authorgroup>
+ <author>&David.Faure; &David.Faure.mail;</author>
+ <!-- TRANS:ROLES_OF_TRANSLATORS -->
  </authorgroup>
  
- <date>2009-11-18</date>
--<releaseinfo>4.4</releaseinfo>
-+<releaseinfo>&kde; 4.4</releaseinfo>
+-<date>2001-02-13</date>
+-<releaseinfo>0.03.00</releaseinfo>
++<date>2010-02-11</date>
++<releaseinfo>1.0 &kde; 4.4</releaseinfo>
  
+-<abstract>
+-<para>This document describes &kdebugdialog;.</para>
+-</abstract>
+-
  <keywordset>
  <keyword>KDE</keyword>
-@@ -41,13 +41,22 @@
- <para>In the drop down box <guilabel>Default language</guilabel> choose from the 
- available dictionaries, which one to use for &sonnet;. </para>
+ <keyword>KDebugdialog</keyword>
++<keyword>Debug</keyword>
+ </keywordset>
+-</bookinfo>
++</articleinfo>
  
-+<!-- in case of missing language in the list which apps to install?
-+sonnet has pluins HSpell enchant hspell hunspell ??
-+<para>(If you do not have <application>Ispell</application> installed
-+you can obtain it from the <ulink
-+url="http://fmg-www.cs.ucla.edu/geoff/ispell.html">International
-+ISpell home page</ulink>.  <application>ASpell</application> is available from the <ulink
-+url="http://aspell.sourceforge.net/">ASpell home page</ulink>.)
+-<chapter id="Introduction">
+-<title>What is &kdebugdialog;?</title>
+ 
+-<para>It is a dialog box for managing diagnostic messages at runtime.
+-</para>
++<para>&kdebugdialog; is a dialog box for managing diagnostic messages at runtime.
++It features a simple and a full mode.</para>
++<para>In order to be able to make changes  
++<guilabel>Disable all debug output</guilabel> has to be unchecked.</para>
+ 
++<variablelist>
++<varlistentry>
++<term>Simple mode</term>
++<listitem>
+ <para>If you simply start <command>kdebugdialog</command>, you will
+ see a list of <quote>areas</quote>, that can be disabled or enabled. A
+ <function>kDebug(area)</function> call in the code will show
+ something in the debug output only if the area is enabled.</para>
+ 
+ <note><para>Note that kWarning, kError and kFatal always appear,
+-they are NOT controlled by this setting.  </para></note>
++they are <emphasis>NOT</emphasis> controlled by this setting.  </para></note>
+ 
+-<variablelist>
+-<varlistentry>
+-<term><guilabel>Area</guilabel></term>
+-<listitem>
+-<para>The areas which should only be output. Every message
+-that is not mentioned here will simply not be output (unless
+-this field remains empty, which is the default, and means that all
+-messages should be output). You can enter several areas
+-separated by commas here, and you can also use area ranges with
+-the syntax start-end. Thus a valid entry could be:
+-117,214-289,356-359,221. Do not use whitespaces.</para>
++<para>Enter a matching string into the <guilabel>Search</guilabel> 
++box at the top of the list, this allows you to filter the areas 
++which are displayed in the list view.
++Use the buttons below the list to select or deselect all items in the view
++(the other areas are not effected) or change the debug output for a single
++item using the check box in front of it.
 +</para>
-+-->
- <sect2 id="spell-options">
- <title>Spell Options</title>
- 
- <variablelist>
- 
- <varlistentry>
--<term><guilabel>Auto spell check enabled by default</guilabel></term>
-+<term><guilabel>Automatic spell checking enabled by default</guilabel></term>
- <listitem>
- <para>If a mark is placed in this checkbox, the spelling of words will be check in your document 
- as you type them. Misspelled will have a red line drawn under them.
-@@ -80,6 +89,7 @@
- 
- </variablelist>
- </sect2>
-+<!-- from koffice/kword/opt.docbook 1.6.2--> 
- <sect2><title>Ignoring words</title>
- <para>The bottom half of the dialog box allows you to designate specific words (they may be specialized terminology, proper names, &etc;) which
- should be ignored by the spelling program.</para>
---- runtime/doc/kioslave/man/index.docbook	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/doc/kioslave/man/index.docbook	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -33,28 +33,28 @@
- </listitem>
- </varlistentry>
- <varlistentry>
--<term><userinput><command>man:</command><replaceable>fopen</replaceable></userinput></term>
-+<term><userinput><command>man:/</command><replaceable>fopen</replaceable></userinput></term>
- <listitem>
- <para>See the man page of <command>fopen</command>.
- </para>
- </listitem>
- </varlistentry>
- <varlistentry>
--<term><userinput><command>man:</command><replaceable>fopen(3)</replaceable></userinput></term>
-+<term><userinput><command>man:/</command><replaceable>fopen(3)</replaceable></userinput></term>
- <listitem>
- <para>See the man page of <command>fopen</command> in section 3.
- </para>
- </listitem>
- </varlistentry>
- <varlistentry>
--<term><userinput><command>man:</command><replaceable>(3)</replaceable></userinput></term>
-+<term><userinput><command>man:/</command><replaceable>(3)</replaceable></userinput></term>
- <listitem>
- <para>See the index of section 3.
- </para>
- </listitem>
- </varlistentry>
- <varlistentry>
--<term><userinput><command>man:</command>intro<replaceable>(3)</replaceable></userinput></term>
-+<term><userinput><command>man:/</command>intro<replaceable>(3)</replaceable></userinput></term>
- <listitem>
- <para>See the introduction of section 3.
- </para>
-@@ -81,7 +81,7 @@
- 
- <para>
- As with any other &kde; ioslave, it is possible to enter a &URL;, like
--<userinput><command>man:socket</command></userinput> in <emphasis>any</emphasis>
-+<userinput><command>man:/socket</command></userinput> in <emphasis>any</emphasis>
- &kde; application.  Try it in &kwrite; and you will see the man page in
- &HTML; format.
- </para>
---- runtime/kioslave/thumbnail/windowsimagecreator.cpp	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/kioslave/thumbnail/windowsimagecreator.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -31,11 +31,8 @@
- 
- bool WindowsImageCreator::create(const QString &path, int width, int height, QImage &img) {
- 
--	QTemporaryFile icoTempFile, pngTempFile;
-+	QTemporaryFile pngTempFile;
- 
--	if ( ! icoTempFile.open() )
--		return false;
--
- 	if ( ! pngTempFile.open() )
- 		return false;
- 
---- runtime/kioslave/thumbnail/icoutils.cpp	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/kioslave/thumbnail/icoutils.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -19,6 +19,7 @@
- 
- #include <QString>
- #include <QStringList>
-+#include <QFile>
- #include <QRegExp>
- #include <QProcess>
- #include <QPair>
-@@ -124,10 +125,13 @@
- 	if ( index == -1 )
- 		return false;
- 
-+	QFile(outputPath).resize(0);
 +
- 	icotool.start("icotool", QStringList() << "-x" << "-i" << QString::number(index) << inputPath << "-o" << outputPath);
- 	icotool.waitForFinished();
+ </listitem>
+ </varlistentry>
+-</variablelist>
  
--	if ( icotool.exitCode() != 0 )
-+	//For some windows icon files icotool return 1 and show warning message "compressed image data not supported", but it extract correct icon - so check if output file is not null
-+	if ( icotool.exitCode() != 0 && QFile(outputPath).size() == 0 )
- 		return false;
++<varlistentry>
++<term>Full mode</term>
++<listitem>
+ <para>If you start <command>kdebugdialog</command>
+ <option>--fullmode</option>, then for every severity level you can
+ define separately what should be done with the diagnostic messages of
+@@ -89,7 +88,7 @@
+ Box</quote>, <quote>Shell</quote> (meaning stderr) and
+ <quote>Syslog</quote>. Please do not direct fatal messages to syslog
+ unless you are the system administrator yourself. The default is
+-<quote>Message Box</quote>.</para> 
++<quote>Shell</quote>.</para> 
+ </listitem>
+ </varlistentry>
  
- 	return true;
---- runtime/kioslave/network/ioslave/networkslave.cpp	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/kioslave/network/ioslave/networkslave.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -303,7 +303,8 @@
- {
-     entry->insert( KIO::UDSEntry::UDS_NAME,         serviceData.name()+'.'+serviceData.type() );
-     entry->insert( KIO::UDSEntry::UDS_DISPLAY_NAME, serviceData.name() );
--    entry->insert( KIO::UDSEntry::UDS_FILE_TYPE,    S_IFDIR );
-+    entry->insert( KIO::UDSEntry::UDS_FILE_TYPE,    S_IFLNK );
-+    entry->insert( KIO::UDSEntry::UDS_ACCESS,       S_IRWXU|S_IRWXG|S_IRWXO );
- //     entry->insert( KIO::UDSEntry::UDS_ICON_NAME,    serviceData.iconName() );
-     entry->insert( KIO::UDSEntry::UDS_MIME_TYPE,    Mimetypes::mimetypeForServiceType(serviceData.type()) );
-     if( !serviceData.url().isEmpty() )
---- runtime/kioslave/network/network/builder/dnssd/dnssdnetworkbuilder.cpp	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/kioslave/network/network/builder/dnssd/dnssdnetworkbuilder.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -212,8 +212,6 @@
- {
-     QList<NetDevice>& deviceList = mNetworkPrivate->deviceList();
+@@ -109,9 +108,13 @@
+ output, the application aborts with a SIGABRT after outputting the
+ message.</para>
  
--    service->resolve();
++</listitem>
++</varlistentry>
++</variablelist>
++
+ <para>When you close the dialog by pressing <guibutton>OK</guibutton>,
+ your entries apply immediately and are saved in
+-<filename>kdebugrc</filename>. When you press
++<filename>$<envar>KDEHOME</envar>/share/config/kdebugrc</filename>. When you press
+ <guibutton>Cancel</guibutton>, your entries are discarded and the old
+ ones are restored.</para>
+ 
+@@ -122,10 +125,7 @@
+ 
+ &underFDL;
+ 
+-</chapter>
 -
-     const QString hostName = service->hostName();
+-&documentation.index; 
+-</book>
++</article>
+ <!--
+ Local Variables:
+ mode: sgml
+--- runtime/doc/kcontrol/index.docbook	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/doc/kcontrol/index.docbook	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -1,639 +0,0 @@
+-<?xml version="1.0" ?>
+-<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" 
+-"dtd/kdex.dtd" [
+-<!ENTITY % addindex "IGNORE">
+-<!ENTITY % English "INCLUDE" > <!-- change language only here -->
+-]>
+-
+-<book lang="&language;">
+-<bookinfo>
+-<title>The &kcontrolcenter;</title>
+-
+-<authorgroup>
+-<author>&Mike.McBride; &Mike.McBride.mail;</author>
+-<!-- TRANS:ROLES_OF_TRANSLATORS -->
+-</authorgroup>
+-
+-<legalnotice>&FDLNotice;</legalnotice>
+-
+-<date>2005-03-05</date>
+-<releaseinfo>3.4.0</releaseinfo>
+-
+-<abstract>
+-<para>This documentation describes &kde;'s control center.</para>
+-</abstract>
+-
+-<keywordset>
+-<keyword>KDE</keyword>
+-<keyword>kcontrol</keyword>
+-<keyword>configuration</keyword>
+-<keyword>settings</keyword>
+-<keyword>module</keyword>
+-</keywordset>
+-
+-</bookinfo>
+-
+-<chapter id="introduction">
+-<title>The &kcontrolcenter;</title>
+-
+-<para>
+-The &kcontrolcenter; (from now on referred to simply as <quote>the
+-control center</quote>) provides you with a centralized and convenient
+-way to configure all of your &kde; settings.
+-</para>
+-
+-<para>
+-The control center is made up of multiple modules.  Each module is a
+-separate application, but the control center organizes all of these
+-programs into a convenient location.
+-</para>
+-
+-<tip>
+-<para>
+-Each control center module can be executed individually
+-</para>
+-
+-<para>
+-See section entitled <link linkend="control-center-run-indiv">Running
+-individual control center modules</link> for more information.
+-</para>
+-</tip>
+-
+-<para>
+-The control center groups the configuration modules into categories, so
+-they are easy to locate.  Within each category, the control center shows
+-all the modules in a list, so it is easier to find the right
+-configuration module.
+-</para>
+-</chapter>
+-
+-<chapter id="control-center">
+-<title>Using the &kcontrolcenter;</title>
+-
+-<para>
+-This next section details the use of the control center itself.  For
+-information on individual modules, please see <link linkend="module">Control
+-Center Modules</link>
+-</para>
+-
+-<sect1 id="control-center-starting">
+-<title>Starting the &kcontrol;</title>
+-
+-<para>The &kcontrolcenter; can be started in 3 ways:
+-</para>
+-
+-<orderedlist> 
+-<listitem>
+-<para>
+-By selecting <menuchoice><guimenu>K Button</guimenu><guimenuitem>Control
+-Center</guimenuitem></menuchoice> from the &kde; Panel.
+-</para>
+-</listitem>
+-<listitem>
+-<para>
+-By pressing <keycombo
+-action="simul">&Alt;<keycap>F2</keycap></keycombo>.
+-</para>
+-
+-<para>
+-This will bring up a dialog box.  Type
+-<userinput><command>kcontrol</command></userinput>, and click
+-<guibutton>Run</guibutton>.
+-</para>
+-</listitem>
+-
+-<listitem>
+-<para>
+-You can type <command>kcontrol &amp;</command> at any command prompt.
+-</para>
+-</listitem> 
+-</orderedlist> 
+-
+-<para>
+-All three of these methods are equivalent, and produce the same result.
+-</para>
+-
+-</sect1>
+-
+-<sect1 id="control-center-screen"> 
+-<title>The &kcontrolcenter; Screen</title>
+-
+-<para>
+-When you start the control center, you are presented with a window,
+-which can be divided into 3 functional parts.
+-</para>
+-
+-<screenshot>
+-<screeninfo>Screenshot</screeninfo>
+-<mediaobject>
+-<imageobject> <imagedata fileref="screenshot.png" format="PNG"/> 
+-</imageobject>
+-<textobject> <phrase>Screenshot</phrase> </textobject>
+-<caption>
+-<para>The &kde; Control Center Screen</para>
+-</caption>
+-</mediaobject>
+-</screenshot> 
+-
+-<para>
+-Across the top is a menubar.  The menubar will provide you with quick
+-access to most of &kcontrolcenter;'s features.  The menus are detailed in
+-<link linkend="control-center-menus">The &kde; Control Center
+-Menus</link>.
+-</para>
+-
+-<para>
+-Along the left hand side, is a icon tree.  Here you can choose which
+-module to configure.
+-</para>
+-
+-<para>
+-The main panel shows you some system information.
+-</para>
+-
+-<para>
+-In this example, we are running &kde; 3.4.0, we started &kcontrolcenter;
+-as user <systemitem class="username">newkde</systemitem>, the computer is
+-named <systemitem class="systemname">turtle</systemitem>, it is a
+-&Linux; system running the 2.6 kernel, on a i686 processor.
+-</para>
+-
+-</sect1>
+-
+-<sect1 id="control-center-menus">
+-<title>The &kcontrolcenter; Menus</title>
+-
+-<para>
+-This next section gives you a brief description of what each menu item
+-does.
+-</para>
+-
+-<sect2 id="control-center-menu-file">
+-<title><guimenu>File</guimenu> Menu</title>
+-
+-<para>
+-The <guimenu>File</guimenu> menu has a single entry.
+-</para>
+-
+-<variablelist>
+-
+-<varlistentry>
+-<term><menuchoice>
+-<shortcut>
+-<keycombo action="simul">&Ctrl;<keycap>Q</keycap></keycombo>
+-</shortcut>
+-<guimenu>File</guimenu>
+-<guimenuitem>Quit</guimenuitem>
+-</menuchoice></term>
+-<listitem>
+-<para>
+-<action>Closes the control center.</action>
+-</para>
+-</listitem>
+-</varlistentry>
+-</variablelist>
+-
+-</sect2>
+-
+-<sect2 id="control-center-menu-view">
+-<title><guimenu>View</guimenu> Menu</title>
+-
+-<para>
+-These options determine how the module selection looks and behaves.
+-</para>
+-
+-<variablelist> 
+-<varlistentry> 
+-<term><menuchoice><guimenu>View</guimenu> <guimenuitem>Mode</guimenuitem>
+-</menuchoice></term>
+-
+-<listitem>
+-<para>
+-Determines whether to use <guimenuitem>Tree</guimenuitem> view,
+-or <guimenuitem>Icon</guimenuitem> view for your modules.
+-</para>
+-
+-<para>
+-With <guimenuitem>Tree</guimenuitem> view, each submenu appears as an
+-indented list.
+-</para>
+-
+-<para>
+-With <guimenuitem>Icon</guimenuitem> view, when you click on a category,
+-the categories disappear and are replaced with the module list.  You
+-then use the <guiicon>Back</guiicon> button to return to the categories.
+-</para>
+-</listitem>
+-</varlistentry>
+-
+-<varlistentry> 
+-<term><menuchoice> 
+-<guimenu>View</guimenu><guisubmenu>Icon size</guisubmenu> 
+-</menuchoice></term> 
+-
+-<listitem>
+-<para>
+-Using this option, you can choose
+-<guimenuitem>Small</guimenuitem>, <guimenuitem>Medium</guimenuitem>, or
+-<guimenuitem>Large</guimenuitem> icons to select your modules.
+-</para>
+-
+-<note><para> 
+-This menu item only controls the icon size if you are in
+-<guimenuitem>Icon View</guimenuitem>.  If you choose
+-<guimenuitem>Tree View</guimenuitem>, the <guimenuitem>Small</guimenuitem>
+-icon size will be used, no matter what size was previously selected in
+-<guimenuitem>Icon View</guimenuitem>.
+-</para>
+-</note>
+-</listitem>
+-
+-</varlistentry> 
+-</variablelist> 
+-</sect2>
+-
+-<sect2 id="control-center-menu-settings">
+-<title><guimenu>Settings</guimenu> Menu</title>
+-
+-<para>
+- The <guimenu>Settings</guimenu> menu has a single entry,
+-<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Shortcuts...</guimenuitem></menuchoice>. From here you can map keyboard shortcuts to the 
+-other menu options.
+-</para>
+-
+-</sect2>
+-
+-<sect2 id="control-center-menu-help">
+-<title><guimenu>Help</guimenu> Menu</title>
+-
+-&help.menu.documentation;
+-
+-</sect2>
+-
+-</sect1>
+-
+-<sect1 id="control-center-exiting">
+-<title>Exiting The &kde; Control Center</title>
+-
+-<para>
+-You can exit the control center one of three ways:
+-</para>
+-
+-<itemizedlist>
+-<listitem>
+-<para>
+-Select <menuchoice><guimenu>File</guimenu>
+-<guimenuitem>Quit</guimenuitem></menuchoice> from the menu bar.
+-</para>
+-</listitem>
+-
+-<listitem>
+-<para>Type <keycombo action="simul">&Ctrl;<keycap>Q</keycap></keycombo>
+-on the keyboard.
+-</para>
+-</listitem>
+-
+-<listitem>
+-<para>
+-Click on the <guiicon>Close</guiicon> button on the frame surrounding
+-the control center.
+-</para>
+-</listitem>
+-</itemizedlist>
+-
+-</sect1>
+-
+-<sect1 id="control-center-run-indiv">
+-<title>Running Individual Modules</title>
+-
+-<para>
+-You can run individual modules without running kcontrol using the command <command>kcmshell4</command> from &konsole;. Type <userinput> <command>kcmshell4</command><option> --list</option></userinput> to see a list of the available &kcontrolcenter; modules. You can also access individual &kcontrolcenter; modules through adding the <guilabel>Preferences</guilabel> button to either &kicker; or the &kmenu; through their respective configuration dialogs.
+-</para>
+-
+-</sect1>
+-
+-</chapter>
+-
+-<!--*****************************************************************-->
+-
+-<chapter id="module">
+-<title>The &kcontrolcenter; Modules</title>
+-
+-<para>
+-In order to make it as easy as possible, the &kcontrolcenter; has organized
+-similar options into groups.  Each group is called a module.  When you
+-click on the name of a module in the left window, you will be presented
+-with the options of the module on the right.
+-</para>
+-
+-<para>
+-Each module will have some or all of the following buttons:
+-</para>
+-
+-<variablelist>
+-
+-<varlistentry>
+-<term>Help</term>
+-<listitem>
+-<para>
+-This button will give you help specific to the current module.  The
+-button will show you a short summary help page in the left window.  At
+-the bottom of that window, you can click on a link to get more detailed
+-help.
+-</para>
+-</listitem>
+-</varlistentry>
+-
+-<varlistentry>
+-<term><guilabel>Defaults</guilabel></term> 
+-<listitem>
+-<para>
+-This button will restore this module to its default values.  You must
+-click <guibutton>OK</guibutton> to save the options.
+-</para>
+-</listitem>
+-</varlistentry>
+-
+-<varlistentry>
+-<term><guibutton>Apply</guibutton></term>
+-<listitem>
+-<para>
+-Clicking this button will save all changes to &kde;.  If you have
+-changed anything, clicking <guibutton>Apply</guibutton> will cause the
+-changes to take effect.
+-</para>
+-</listitem>
+-</varlistentry>
+-
+-<varlistentry>
+-<term><guibutton>Reset</guibutton></term>
+-<listitem>
+-<para>
+-This button will <quote>Reset</quote> the module to the previous settings. 
+-</para>
+-</listitem>
+-</varlistentry> 
+-
+-</variablelist>
+-
+-<note>
+-<para>
+-You must save the options of the current module using
+-<guibutton>Apply</guibutton> before you can change to a different
+-module.
+-</para>
+-<para>
+-If you try to change without saving your options, you will be asked if
+-you want to save your changes, or discard them.
+-</para>
+-</note>
+-</chapter>
+-<!--  
+-      Commented until fixed arrangement is made
+-<sect1 id="module-intro">
+-<title>Navigating Modules</title>
+-
+-<para>
+-This is a list of the <emphasis>standard</emphasis> configuration
+-modules (sorted by category) provided by the <application
+-role="package">KDE base</application> package. Please note that there
+-may be many more modules on your system if you have installed additional
+-software.
+-</para>
+- 
+-<variablelist>
+-<varlistentry>
+-<term>File Browsing</term>
+-<listitem>
+-<para>
+-<link linkend="file-assoc">File Associations</link>,
+-<link linkend="file-manager">File Manager</link>,
+-</para>
+-</listitem>
+-</varlistentry>
+-
+-<varlistentry>
+-<term>Look and Feel</term>
+-<listitem>
+-<para>
+-<link linkend="background">Background</link>,
+-<!- - <link linkend="borders">Borders</link>,- ->
+-<link linkend="color">Colors</link>,
+-<link linkend="desktop">Desktop</link>,
+-<link linkend="fonts">Fonts</link>,
+-<link linkend="icons">Icons</link>,
+-<!- -  <link linkend="iconstyle">Icon Style</link>, - ->
+-<link linkend="key-bindings">Key Bindings</link>,
+-<link linkend="launch-feedback">Launch feedback</link>,
+-<link linkend="panel">Panel</link>,
+-<link linkend="screensaver">Screensaver</link>,
+-<link linkend="style">Style</link>,
+-<link linkend="sys-notify">System Notifications</link>,
+-<link linkend="taskbar">Taskbar</link>,
+-<link linkend="theme-manager">Theme Manager</link>,
+-<!- - <link linkend="numbername">Virtual Desktops</link>,- ->
+-<link linkend="window-behavior">Window Behavior</link>,
+-<link linkend="window-deco">Window Decoration</link>.
+-</para>
+-</listitem>
+-</varlistentry>
+-
+-<varlistentry>
+-<term>Network</term>
+-<listitem>
+-<para>
+-<link linkend="e-mail">E-Mail</link>,
+-<link linkend="lan-browsing">LAN Browsing</link>,
+-<link linkend="timeouts">Preferences</link>, <!- - FIXME - ->
+-<link linkend="socks">SOCKS</link>,
+-<link linkend="talk">Talk Configuration</link>
+-<link linkend="windows-shares">Windows Shares</link>
+-</para>
+-</listitem>
+-</varlistentry>
+-
+-<varlistentry>
+-<term>Peripherals</term>
+-<listitem>
+-<para>
+-<link linkend="kbd">Keyboard</link>,
+-<link linkend="mouse">Mouse</link>
+-</para>
+-</listitem>
+-</varlistentry>
+-
+-<varlistentry>
+-<term>Personalization</term>
+-<listitem>
+-<para>
+-<link linkend="accessibility">Accessibility</link>,
+-<link linkend="locale">Country &amp; Language</link>,
+-<link linkend="crypto">Crypto</link>,
+-<!- - <link linkend="kblayout">Keyboard Layout</link>, - ->
+-<link linkend="passwords">Passwords</link>
+-<link linkend="spell-checking">Spell Checking</link>.
+-</para>
+-</listitem>
+-</varlistentry>
+-
+-<varlistentry>
+-<term>Power Control</term>
+-<listitem>
+-<para>
+-<link linkend="battery-monitor">Battery Monitor</link>,
+-<link linkend="energy">Energy</link>,
+-<link linkend="powerctrl">Laptop Power Control</link>,
+-<link linkend="lowbatcrit">Low Battery Critical</link>,
+-<link linkend="lowbatwarn">Low Battery Warning</link>
+-</para>
+-</listitem>
+-</varlistentry>
+-
+-<varlistentry>
+-<term>Sound</term>
+-<listitem>
+-<para>
+-<link linkend="midi">Midi</link>,
+-<link linkend="mixer">Mixer</link>,
+-<link linkend="sndserver">Sound Server</link>,
+-<link linkend="bell">System Bell</link>
+-</para>
+-</listitem>
+-</varlistentry>
+-
+-<varlistentry>
+-<term>System</term>
+-<listitem>
+-<para>
+-<link linkend="datetime">Date and Time</link>,
+-<link linkend="konsole">&konsole;</link>,
+-<link linkend="login-manager">Login Manager</link>,
+-<link linkend="print-manager">Printing Manager</link>,
+-<link linkend="sessions">Session Manager</link>,
+-</para>
+-</listitem>
+-</varlistentry>
+-
+-<varlistentry>
+-<term>Web Browsing</term>
+-<listitem>
+-<para>
+-<link linkend="cookie">Cookies</link>,
+-<link linkend="ebrowse">Enhanced Browsing</link>,
+-<link linkend="konq-browsing">Konqueror Browser</link>,
+-<link linkend="nsplugins">Netscape Plugins</link>,
+-<link linkend="proxies">Proxies &amp; Cache</link>,
+-<link linkend="stylesheets">Stylesheets</link>,
+-<link linkend="user-agent">User Agent</link>,
+-</para>
+-</listitem>
+-</varlistentry>
+-
+-</variablelist>
+-</sect1>
+-</chapter>
+--->
+-
+-<!-- commenting this section out until I figure out what to do with it :) 
+-<chapter id="laptop">
+-<title>Laptop Modules Notes</title>
+-
+-<para>
+-In order to use the laptop modules, you must have the kernel
+-<acronym>APM</acronym> package installed in your kernel.  Useful information 
+-
+-on
+-how to do this can be found at
+-<ulink url="http://www.cs.utexas.edu/users/kharker/linux-laptop/apm.html">
+-http://www.cs.utexas.edu/users/kharker/linux-laptop/apm.html</ulink> and
+-in the Battery Powered Linux mini-HOWTO at <ulink
+-url="http://metalab.unc.edu/LDP/HOWTO/mini/Battery-Powered.html">
+-http://metalab.unc.edu/LDP/HOWTO/mini/Battery-Powered.html</ulink>.
+-</para>
+-
+-<para>
+-If you want the <guimenuitem>suspend</guimenuitem> and
+-<guimenuitem>standby</guimenuitem> menu commands to work then you should
+-install the &Linux; <application>apmd</application> package (version 2.4
+-or later). If you want to use them from non-root accounts you must mark
+-the <application>apm</application> command <quote>set uid root</quote>.
+-</para>
+-
+-<para>
+-To do this, log on as <systemitem class="username">root</systemitem> and 
+-enter:
+-</para>
+-
+-<screen>
+-<prompt>%</prompt><userinput><command>chown</command> <option>root 
+-/usr/bin/apm</option>;<command>chmod</command> <option>+s 
+-/usr/bin/apm</option></userinput>
+-</screen>
+-
+-<warning>
+-<para>
+-By doing this you will allow any user of your system to put it into suspend 
+-or
+-standby states - if you are the only user, this should not be a problem.
+-</para>
+-
+-<para>
+-Also note that any program which has <systemitem
+-class="username">root</systemitem> access, can be a potential security
+-problem.  You should carefully determine if there are any security
+-concerns <emphasis>before</emphasis> giving any program <systemitem
+-class="username">root</systemitem> permissions.
+-</para>
+-</warning>
+-</chapter>
+--->
+-
+-<chapter id="credits">
+-<title>Credits and License</title>
+-
+-<para>&kcontrol;</para>
+-<para>Program copyright 1997-2001 The &kcontrolcenter; Developers</para>
+-<para>Contributors:</para>
+-
+-<itemizedlist>
+-<listitem><para>Matthias Hoelzer-Kluepfel 
+-&Matthias.Hoelzer-Kluepfel.mail;</para></listitem>
+-<listitem><para>&Matthias.Elter;
+-&Matthias.Elter.mail;</para></listitem>
+-</itemizedlist>
+-
+-<para>Documentation <trademark class="copyright">copyright 2000 Michael
+-McBride</trademark> &Mike.McBride.mail;</para>
+-
+-<para>Contributors:</para>
+-
+-<itemizedlist>
+-<listitem><para>&Paul.Campbell; &Paul.Campbell.mail;</para></listitem>
+-<listitem><para>&Helge.Deller; &Helge.Deller.mail;</para></listitem>
+-<listitem><para>&Mark.Donohoe; </para></listitem>
+-<listitem><para>&Patrick.Dowler; </para></listitem>
+-<listitem><para>&Duncan.Haldane; <email>duncan@kde.org</email></para></listitem>
+-<listitem><para>&Steffen.Hansen; <email>stefh@mip.ou.dk</email>.</para></listitem>
+-<listitem><para>Matthias Hoelzer-Kluepfel &Matthias.Hoelzer-Kluepfel.mail;</para></listitem>
+-<listitem><para>Martin Jones &Martin.R.Jones.mail;</para></listitem>
+-<listitem><para>&Jost.Schenck; &Jost.Schenck.mail;</para></listitem>
+-<listitem><para>&Jonathan.Singer; &Jonathan.Singer.mail;</para></listitem>
+-<listitem><para>&Thomas.Tanghus; &Thomas.Tanghus.mail;</para></listitem>
+-<listitem><para>&Krishna.Tateneni; &Krishna.Tateneni.mail;</para></listitem>
+-<listitem><para>Ellis Whitehead <email>ewhitehe@uni-freiburg.de</email></para></listitem>
+-
+-</itemizedlist>
+-<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+-
+-&underFDL;
+-&underGPL;
+-</chapter>
+-
+-</book>
+-
+-<!--
+-Local Variables:
+-mode: sgml
+-End:
+--->
+-
+--- runtime/doc/kcontrol/language/index.docbook	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/doc/kcontrol/language/index.docbook	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -77,6 +77,10 @@
+ <note><para>
+ Note that some applications may not be translated to your languages; in 
+ this case, they will automatically fall back to US English.</para></note>
++<note><para>
++Language and Country/Region are independent settings. Changing a language
++does <emphasis>not</emphasis> automatically change the settings for numbers,
++currency &etc; to the corresponding country or region.</para></note>
+ </sect2>
  
-     // device
---- runtime/nepomuk/kioslaves/search/kdedmodule/nepomuksearchmodule.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/nepomuk/kioslaves/search/kdedmodule/nepomuksearchmodule.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -19,6 +19,7 @@
+ <sect2 id="locale-numbers">
+--- runtime/doc/kcontrol/CMakeLists.txt	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/doc/kcontrol/CMakeLists.txt	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -37,9 +37,3 @@
+ add_subdirectory(solid-device-automounter)
+ add_subdirectory(phonon)
+ endif ( Q_WS_X11 )
+-
+-########### install files ###############
+-#
+-#
+-#
+-kde4_create_handbook(index.docbook INSTALL_DESTINATION ${HTML_INSTALL_DIR}/en)
+--- runtime/kwalletd/backend/kwalletbackend.cc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kwalletd/backend/kwalletbackend.cc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -325,7 +325,8 @@
+    }
+    
+    // check the password hash for correct size (currently fixed)
+-   if (passwordHash.size() != 20) {
++   if (passwordHash.size() != 20 && passwordHash.size() != passwordHash.size() != 40 &&
++	   passwordHash.size() != 56) {
+       return -42; // unsupported encryption scheme
+    }
+    
+--- runtime/kwalletd/kwalletd.notifyrc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kwalletd/kwalletd.notifyrc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -86,7 +86,7 @@
+ Name[gu]=kwalletd
+ Name[he]=kwalletd
+ Name[hi]=kwalletd
+-Name[hr]=kwalletd – KNovčanik daemon
++Name[hr]=kwalletd
+ Name[hu]=kwalletd
+ Name[id]=kwalletd
+ Name[is]=kwalletd
+--- runtime/kioslave/trash/trashimpl.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kioslave/trash/trashimpl.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -1099,8 +1099,6 @@
+             if ( info.deletionDate.daysTo( currentDate ) > maxDays )
+               del( info.trashId, info.fileId );
+         }
+-
+-        return true;
+     }
+ 
+     if ( useSizeLimit ) { // check if size limit exceeded
+--- runtime/kioslave/thumbnail/jpegthumbnail.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kioslave/thumbnail/jpegthumbnail.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -28,6 +28,7 @@
+ Name[km]=រូបភាព JPEG
+ Name[kn]=JPEG ಚಿತ್ರಗಳು
+ Name[ko]=JPEG 그림
++Name[lt]=JPEG paveikslėliai
+ Name[lv]=JPEG attēli
+ Name[mk]=JPEG-слики
+ Name[ml]=ജെപെഗ് ചിത്രങ്ങള്‍
+--- runtime/kioslave/thumbnail/svgthumbnail.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kioslave/thumbnail/svgthumbnail.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -28,6 +28,7 @@
+ Name[km]=រូបភាព SVG
+ Name[kn]=SVG ಚಿತ್ರಗಳು
+ Name[ko]=SVG 그림
++Name[lt]=SVG paveikslėliai
+ Name[lv]=SVG attēli
+ Name[mk]=SVG-слики
+ Name[ml]=എസ്‌വിജി ചിത്രങ്ങള്‍
+--- runtime/kioslave/thumbnail/comicbookthumbnail.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kioslave/thumbnail/comicbookthumbnail.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -27,6 +27,7 @@
+ Name[km]=សៀវភៅ​កំ​ប្លែង
+ Name[kn]=ಕಾಮಿಕ್ ಪುಸ್ತಕಗಳು
+ Name[ko]=만화책
++Name[lt]=Komiksų knygos
+ Name[lv]=Komiksu grāmatas
+ Name[mai]=कॉमिक पुस्तक
+ Name[mk]=Стрипови
+--- runtime/kioslave/network/kded/networkwatcher.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kioslave/network/kded/networkwatcher.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -40,7 +40,7 @@
+ Name[mai]=नेटवर्क वाचर
+ Name[mk]=Анализатор на мрежи
+ Name[ml]=ശൃംഖല നിരീക്ഷകന്‍
+-Name[nb]=Nettversksovervåker
++Name[nb]=Nettverksovervåker
+ Name[nds]=Nettwark-Kieker
+ Name[nl]=Netwerkbewaker
+ Name[nn]=Nettverksovervakar
+--- runtime/kioslave/sftp/kio_sftp.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kioslave/sftp/kio_sftp.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -449,11 +449,6 @@
+ 
+   mUsername = user;
+   mPassword = pass;
+-
+-  if (user.isEmpty()) {
+-    KUser u;
+-    mUsername = u.loginName();
+-  }
+ }
+ 
+ void sftpProtocol::openConnection() {
+--- runtime/nepomuk/kioslaves/search/CMakeLists.txt	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/nepomuk/kioslaves/search/CMakeLists.txt	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -8,6 +8,7 @@
+   ${QT_INCLUDES}
+   ${KDE4_INCLUDES}
+   ${KDE4_KIO_INCLUDES}
++  ${SOPRANO_INCLUDE_DIR}
+   ${NEPOMUK_INCLUDE_DIR}
+   ${nepomuk_kio_slaves_SOURCE_DIR}/common
+ )
+--- runtime/nepomuk/kioslaves/search/kdedmodule/nepomuksearchmodule.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/nepomuk/kioslaves/search/kdedmodule/nepomuksearchmodule.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -18,10 +18,12 @@
+ Name[hi]=नेपोमक खोज मोड्यूल
  Name[hr]=Nepomukov modul za pretraživanje
  Name[id]=Modul Pencarian Nepomuk
++Name[is]=Nepomuk leitareining
  Name[it]=Modulo di ricerca di Nepomuk
-+Name[ja]=Nepomuk 検索モジュール
+ Name[ja]=Nepomuk 検索モジュール
  Name[kk]=Nepomuk іздеу модулі
  Name[km]=ម៉ូឌុល​ស្វែងរក​របស់ Nepomuk
++Name[lt]=Nepomuk paieškos modulis
  Name[mk]=Модул на Непомук за пребарување
---- runtime/nepomuk/kioslaves/nepomuk/kio_nepomuk.cpp	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/nepomuk/kioslaves/nepomuk/kio_nepomuk.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -250,7 +250,11 @@
-     QString filename;
-     Nepomuk::Resource res = splitNepomukUrl( url, filename );
- 
--    if ( res.hasType( Soprano::Vocabulary::NAO::Tag() ) ) {
-+    if ( res.hasType( Nepomuk::Vocabulary::NFO::Folder() ) ) {
-+        redirection( res.property( Nepomuk::Vocabulary::NIE::url() ).toUrl() );
-+        finished();
-+    }
-+    else if ( res.hasType( Soprano::Vocabulary::NAO::Tag() ) ) {
-         Query::ComparisonTerm term( Soprano::Vocabulary::NAO::hasTag(), Query::ResourceTerm( res ), Query::ComparisonTerm::Equal );
-         redirection( Query::Query( term ).toSearchUrl().url() );
-         finished();
---- runtime/nepomuk/services/removablestorage/removablestorageservice.cpp	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/nepomuk/services/removablestorage/removablestorageservice.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -1,5 +1,5 @@
- /* This file is part of the KDE Project
--   Copyright (c) 2009 Sebastian Trueg <trueg@kde.org>
-+   Copyright (c) 2009-2010 Sebastian Trueg <trueg@kde.org>
- 
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-@@ -263,13 +263,18 @@
-         // The Strigi service cannot handle this since it does not support filex:/ URLs when updating folders.
-         //
-         QString query = QString::fromLatin1( "select ?url ?r where { "
--                                             "?r a nfo:FileDataObject . "
--                                             "?r nie:isPartOf ?fs . "
--                                             "?r nie:url ?url . "
--                                             "?fs a nfo:Filesystem . "
--                                             "?fs nao:identifier %1 . "
-+                                             "?r a %1 . "
-+                                             "?r %2 ?fs . "
-+                                             "?r %3 ?url . "
-+                                             "?fs a %4 . "
-+                                             "?fs %5 %6 . "
-                                              "}" )
--                        .arg( Soprano::Node::literalToN3( entry.m_uuid ) );
-+                        .arg( Soprano::Node::resourceToN3( Nepomuk::Vocabulary::NFO::FileDataObject() ),
-+                              Soprano::Node::resourceToN3( Nepomuk::Vocabulary::NIE::isPartOf() ),
-+                              Soprano::Node::resourceToN3( Nepomuk::Vocabulary::NIE::url() ),
-+                              Soprano::Node::resourceToN3( Nepomuk::Vocabulary::NFO::Filesystem() ),
-+                              Soprano::Node::resourceToN3( Soprano::Vocabulary::NAO::identifier() ),
-+                              Soprano::Node::literalToN3( entry.m_uuid ) );
-         Soprano::QueryResultIterator it = mainModel()->executeQuery( query, Soprano::Query::QueryLanguageSparql );
-         while ( it.next() ) {
-             QString path = entry.constructLocalPath( it["url"].uri() );
-@@ -332,7 +337,9 @@
-         // the mount point is no longer the parent folder of the top level files on the removable device
-         // We need to delete those relations seperately
-         //
--        mainModel()->removeAllStatements( Soprano::Node(), Nepomuk::Vocabulary::NIE::isPartOf(), Resource( KUrl( entry.m_lastMountPath ) ).resourceUri() );
-+        QUrl parentUrl = Resource( KUrl( entry.m_lastMountPath ) ).resourceUri();
-+        if( parentUrl.isValid() )
-+            mainModel()->removeAllStatements( Soprano::Node(), Nepomuk::Vocabulary::NIE::isPartOf(), parentUrl );
-     }
-     kDebug() << "done";
- }
---- runtime/nepomuk/services/strigi/filesystemwatcher.cpp	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/nepomuk/services/strigi/filesystemwatcher.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -196,10 +196,17 @@
-                 emit q->dirty( dirIt.filePath() );
-             }
-         }
-+
-+        // check if we have been stopped
-+        if ( !continueChecking() )
-+            return;
-     }
- 
-     for( QHash<QString, FolderEntry>::iterator it = parentEntry.children.begin();
-          it != parentEntry.children.end(); ++it ) {
-+        // check if we have been stopped
-+        if ( !continueChecking() )
-+            return;
-         updateChildrenCache( parentPath + '/' + it.key(), it.value(), signalNewEntries );
-     }
- }
---- runtime/nepomuk/services/strigi/indexscheduler.cpp	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/nepomuk/services/strigi/indexscheduler.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -57,8 +57,8 @@
+ Name[nb]=Nepomuk søkemodul
+ Name[nds]=Nepomuk-Söökmoduul
+@@ -58,6 +60,7 @@
+ Comment[it]=Modulo ausiliare per KIO per assicurare gli aggiornamenti automatici delle liste di ricerca di Nepomuk.
+ Comment[kk]=nepomuksearch тізімдерін автоматты түрде жаңартуға арналған KIO-нің көмекші модулі
+ Comment[km]=ម៉ឌុល​កម្មវិធី​ជំនួយ​សម្រាប់ KIO ដើម្បី​ប្រាកដ​ថា​មាន​ភាព​​ធ្វើ​ឲ្យ​ទាន់សម័យ​​របស់ nepomuksearch ។
++Comment[lt]=Pagalbos modulis, skirtas KIO, užtikrinantis automatinius atnaujinimus nepomuk paieškos sąrašuose.
+ Comment[nb]=Hjelpemodul for KIO – for å sikre automatiske oppdateringer av nepomuksearch-resultater.
+ Comment[nds]=Hülpmoduul för de KDE-In-/Utgaav för automaatsch Opfrischen vun Nepomuk-Sööklisten
+ Comment[nl]=Helper-module voor KIO om automatisch bijwerken van nepomukzoeklijsten.
+--- runtime/nepomuk/kioslaves/timeline/kio_timeline.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/nepomuk/kioslaves/timeline/kio_timeline.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -68,7 +68,7 @@
+                                 "  ?de ntao:dataObject ?r . "
+                                 "} "
+ #endif
+-                                "FILTER(?date > '%3'^^%5 && ?date < '%4'^^%5) . "
++                                "FILTER(?date > '%1'^^%3 && ?date < '%2'^^%3) . "
+                                 "OPTIONAL { ?r2 a nfo:Folder . FILTER(?r=?r2) . } . FILTER(!BOUND(?r2)) . "
+                                 "}")
+                         .arg(dateFrom)
+--- runtime/nepomuk/services/removablestorage/nepomukremovablestorageservice.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/nepomuk/services/removablestorage/nepomukremovablestorageservice.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -27,6 +27,7 @@
+ Name[km]=សេវា​ផ្ទុក​ចល័រ​របស់ Nepomuk
+ Name[kn]=ನೆಪೋಮುಕ್ ತೆಗೆದು ಹಾಕಬಹುದಾದ ಶೇಖರಣಾ ಸೇವೆ
+ Name[ko]=Nepomuk 이동식 저장소 서비스
++Name[lt]=Nepomuk atjungiamų kaupiklių tarnyba
+ Name[lv]=Nepomuk noņemamo glabāšanas ierīču serviss
+ Name[mk]=Сервис на Непомук за подвижни медиуми
+ Name[ml]=നെപ്പോമുക്ക്  സൂക്ഷിപ്പു് സേവനം
+@@ -72,6 +73,7 @@
+ Comment[kk]=Ауыстырмалы Nepomuk құрылғыда метадеректеріне қатынауды қамтамасыз етіп сақтау қызметі.
+ Comment[km]=សេវា​​ឧបករណ៍​ផ្ទុក​ចល័ត​របស់ Nepomuk ដោយ​ផ្ដល់​ការ​ចូលដំណើរការ​ទៅ​កាន់​​ទិន្នន័យ​មេតា​របស់ Nepomuk នៅ​លើ​ឧបករណ៍​ផ្ទុក​ចល័ត ។
+ Comment[ko]=Nepomuk 이동식 저장소 서비스는 이동식 저장소에 있는 Nepomuk 메타데이터를 사용합니다.
++Comment[lt]=Nepomuk atjungiamų kaupiklių tarnba, leidžianti pasiekti Nepomuk metaduomenis atjungiamuose kaupikliuose.
+ Comment[lv]=Nepomuk noņemamo ierīču serviss, nodrošina piekļuvi pie Nepomuk medatatiem failiem uz noņemamajām ierīcēm.
+ Comment[ml]=നീക്കം ചെയ്യാവുന്ന സംഭരണോപകരണങ്ങള്‍ക്കു് നെപ്പോമുക്ക് മെറ്റാഡാറ്റ ഉപയോഗിയ്ക്കാന്‍ അനുവദിയ്ക്കുന്ന നെപ്പോമുക്കിന്റെ നീക്കം ചെയ്യാവുന്ന സംഭരണ സേവനം.
+ Comment[nb]=Nepomuk flyttbar lagringstjeneste som gir tilgang til Nepomuk metadata på flyttbare lagringsenheter.
+--- runtime/nepomuk/services/strigi/indexscheduler.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/nepomuk/services/strigi/indexscheduler.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -533,10 +533,27 @@
  
  
  namespace {
--    const int s_reducedSpeedDelay = 50; // ms
--    const int s_snailPaceDelay = 200;   // ms
-+    const int s_reducedSpeedDelay = 200; // ms
-+    const int s_snailPaceDelay = 1000;   // ms
++    /**
++     * Returns true if the specified folder f would already be included or excluded using the list
++     * folders
++     */
++    bool alreadyInList( const QList<QPair<QString, bool> >& folders, const QString& f, bool include )
++    {
++        bool included = false;
++        for ( int i = 0; i < folders.count(); ++i ) {
++            if ( f != folders[i].first &&
++                 f.startsWith( folders[i].first ) )
++                included = folders[i].second;
++        }
++        return included == include;
++    }
++
++    /**
++     * Simple insertion sort
++     */
+     void insertSortFolders( const QStringList& folders, bool include, QList<QPair<QString, bool> >& result )
+     {
+         foreach( const QString& f, folders ) {
+-            // insertion sort
+             int pos = 0;
+             while ( result.count() > pos &&
+                     result[pos].first < f )
+@@ -545,9 +562,28 @@
+         }
+     }
+ 
+-    QString constructFolderFilter( const QList<QPair<QString, bool> > folders, int& index )
++    /**
++     * Remove useless entries which would confuse the algo below.
++     * This makes sure all top-level items are include folders.
++     * This runs in O(n^2) and could be optimized but what for.
++     */
++    void cleanupList( QList<QPair<QString, bool> >& result )
+     {
+-        const QString path = folders[index].first;
++        int i = 0;
++        while ( i < result.count() ) {
++            if ( result[i].first.isEmpty() ||
++                 alreadyInList( result, result[i].first, result[i].second ) )
++                result.removeAt( i );
++            else
++                ++i;
++        }
++    }
++
++    QString constructFolderSubFilter( const QList<QPair<QString, bool> > folders, int& index )
++    {
++        QString path = folders[index].first;
++        if ( !path.endsWith( '/' ) )
++            path += '/';
+         const bool include = folders[index].second;
+ 
+         ++index;
+@@ -555,7 +591,7 @@
+         QStringList subFilters;
+         while ( index < folders.count() &&
+                 folders[index].first.startsWith( path ) ) {
+-            subFilters << constructFolderFilter( folders, index );
++            subFilters << constructFolderSubFilter( folders, index );
+         }
+ 
+         QString thisFilter = QString::fromLatin1( "REGEX(STR(?url),'^file://%1')" ).arg( path );
+@@ -573,6 +609,20 @@
+             return subFilters.first();
+         }
+     }
++
++    QString constructFolderFilter()
++    {
++        QList<QPair<QString, bool> > folders;
++        insertSortFolders( Nepomuk::StrigiServiceConfig::self()->folders(), true, folders );
++        insertSortFolders( Nepomuk::StrigiServiceConfig::self()->excludeFolders(), false, folders );
++        cleanupList( folders );
++        int index = 0;
++        QStringList subFilters;
++        while ( index < folders.count() ) {
++            subFilters << constructFolderSubFilter( folders, index );
++        }
++        return subFilters.join(" && ");
++    }
  }
- 
- 
-@@ -535,6 +535,7 @@
  
  void Nepomuk::IndexScheduler::removeOldAndUnwantedEntries()
+@@ -581,11 +631,7 @@
+     // We now query all indexed files that are in folders that should not
+     // be indexed at once.
+     //
+-    QList<QPair<QString, bool> > folders;
+-    insertSortFolders( StrigiServiceConfig::self()->folders(), true, folders );
+-    insertSortFolders( StrigiServiceConfig::self()->excludeFolders(), false, folders );
+-    int i = 0;
+-    QString folderFilter = constructFolderFilter( folders, i );
++    QString folderFilter = constructFolderFilter();
+ 
+     //
+     // We query all files that should not be in the store
+--- runtime/nepomuk/services/strigi/strigiserviceconfig.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/nepomuk/services/strigi/strigiserviceconfig.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -36,6 +36,8 @@
+     connect( dirWatch, SIGNAL( created( const QString& ) ),
+              this, SLOT( slotConfigDirty() ) );
+     dirWatch->addFile( KStandardDirs::locateLocal( "config", m_config.name() ) );
++
++    buildExcludeFilterRegExpCache();
+ }
+ 
+ 
+@@ -92,6 +94,7 @@
+ void Nepomuk::StrigiServiceConfig::slotConfigDirty()
  {
-+    kDebug();
-     //
-     // Get all folders that are stored as parent folders of indexed files
-     //
-@@ -607,6 +608,7 @@
-             ResourceManager::instance()->mainModel()->removeContext( g );
+     m_config.reparseConfiguration();
++    buildExcludeFilterRegExpCache();
+     emit configChanged();
+ }
+ 
+@@ -102,11 +105,47 @@
+ }
+ 
+ 
++namespace {
++    /// recursively check if a folder is hidden
++    bool isDirHidden( QDir& dir ) {
++        if ( QFileInfo( dir.path() ).isHidden() )
++            return true;
++        else if ( dir.cdUp() )
++            return isDirHidden( dir );
++        else
++            return false;
++    }
++}
++
+ bool Nepomuk::StrigiServiceConfig::shouldFolderBeIndexed( const QString& path )
+ {
+-    QStringList inDirs = folders();
+-    QStringList exDirs = excludeFolders();
++    if ( folderInFolderList( path, folders(), excludeFolders() ) ) {
++        // check for hidden folders
++        QDir dir( path );
++        if ( !indexHiddenFolders() && isDirHidden( dir ) )
++            return false;
+ 
++        // reset dir
++        dir = path;
++
++        // check the filters
++        const QString dirName = dir.dirName();
++        foreach( const QRegExp& filter, m_excludeFilterRegExpCache ) {
++            if ( filter.exactMatch( dirName ) ) {
++                return false;
++            }
++        }
++
++        return true;
++    }
++    else {
++        return false;
++    }
++}
++
++
++bool Nepomuk::StrigiServiceConfig::folderInFolderList( const QString& path, const QStringList& inDirs, const QStringList& exDirs ) const
++{
+     if( inDirs.contains( path ) ) {
+         return true;
+     }
+@@ -119,9 +158,21 @@
+             return false;
+         }
+         else {
+-            return shouldFolderBeIndexed( parent );
++            return folderInFolderList( parent, inDirs, exDirs );
          }
      }
-+    kDebug() << "done";
  }
  
- 
---- runtime/nepomuk/services/strigi/statuswidget.cpp	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/nepomuk/services/strigi/statuswidget.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -91,7 +91,8 @@
-         // ========================================
-         Soprano::Util::AsyncQuery* query
-             = Soprano::Util::AsyncQuery::executeQuery( m_model,
--                                                       QLatin1String( "select count(distinct ?r) where { ?r a nfo:FileDataObject . }" ),
-+                                                       QString::fromLatin1( "select count(distinct ?r) where { ?r a %1 . }" )
-+                                                       .arg( Soprano::Node::resourceToN3( Nepomuk::Vocabulary::NFO::FileDataObject() ) ),
-                                                        Soprano::Query::QueryLanguageSparql );
-         connect( query, SIGNAL( nextReady(Soprano::Util::AsyncQuery*) ), this, SLOT( slotFileCountFinished(Soprano::Util::AsyncQuery*) ) );
-     }
---- runtime/nepomuk/services/storage/repository.cpp	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/nepomuk/services/storage/repository.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -328,6 +328,9 @@
-     // alwyays index literals
-     settings << Soprano::BackendSetting( "fulltextindex", "sync" );
- 
-+    // Always force the start, ie. kill previously started Virtuoso instances
-+    settings << Soprano::BackendSetting( "forcedstart", true );
 +
-     return settings;
- }
- 
---- runtime/nepomuk/kcm/nepomukserverkcm.cpp	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/nepomuk/kcm/nepomukserverkcm.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -115,6 +115,8 @@
-              this, SLOT( changed() ) );
-     connect( m_sliderMemoryUsage, SIGNAL( valueChanged(int) ),
-              this, SLOT( changed() ) );
-+    connect( m_checkIndexRemovableMedia, SIGNAL( toggled(bool) ),
-+             this, SLOT( changed() ) );
-     connect( m_checkShowHiddenFolders, SIGNAL( toggled( bool ) ),
-              m_folderModel, SLOT( setHiddenFoldersShown( bool ) ) );
- 
---- runtime/kstyles/oxygen/oxygen.h	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/kstyles/oxygen/oxygen.h	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -136,6 +136,7 @@
-     virtual bool drawGroupBoxComplexControl( const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const;
-     virtual bool drawDialComplexControl( const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const;
-     virtual bool drawToolButtonComplexControl( const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const;
-+    virtual void drawSliderTickmarks( const QStyleOptionSlider* option, QPainter *painter, const QWidget *widget) const;
-     //@}
- 
-     //!@name dedicated primitive drawing
-@@ -303,12 +304,12 @@
-     //! returns true if compositing is active
-     bool compositingActive( void ) const;
- 
--    /*! 
-+    /*!
-     returns first widget in parent chain that sets autoFillBackground to true,
-     or NULL if none
-     */
-     const QWidget* checkAutoFillBackground( const QWidget* ) const;
--    
-+
-     protected Q_SLOTS:
- 
-     //! standard icons
---- runtime/kstyles/oxygen/oxygen.cpp	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/kstyles/oxygen/oxygen.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -270,6 +270,28 @@
-         if( drawToolButtonComplexControl( option, painter, widget) ) return;
-         else break;
- 
-+        case CC_Slider:
-+        {
-+            if (const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(option))
-+            {
-+
-+                // if tickmarks are not requested, fall back to default
-+                if( !(slider->subControls & SC_SliderTickmarks) || slider->tickPosition == QSlider::NoTicks ) break;
-+
-+                // draw oxygen custom tickmarks
-+                drawSliderTickmarks( slider, painter, widget );
-+
-+                // disable tickmarks drawing and draw using default
-+                // this is necessary because by default kstyle does not allow style
-+                // to customize tickmarks painting
-+                QStyleOptionSlider local( *slider );
-+                local.subControls &= ~SC_SliderTickmarks;
-+                KStyle::drawComplexControl(control,&local,painter,widget);
-+                return;
-+
-+            } else break;
-+        }
-+
-         default: break;
- 
-     }
-@@ -784,19 +806,40 @@
-             if( bOpt && ( bOpt->features & QStyleOptionButton::Flat ) )
-             {
- 
--                // hover rect
--                QRect slitRect = r;
- 
--                if( enabled && hoverAnimated )
-+                QRect slitRect(r);
-+                if( !( opts & Sunken) )
-                 {
-+                    // hover rect
-+                    if( enabled && hoverAnimated )
-+                    {
- 
--                    QColor glow( _helper.alphaColor( _viewFocusBrush.brush(QPalette::Active).color(), hoverOpacity ) );
--                    _helper.slitFocused( glow )->render(slitRect, p);
-+                        QColor glow( _helper.alphaColor( _viewFocusBrush.brush(QPalette::Active).color(), hoverOpacity ) );
-+                        _helper.slitFocused( glow )->render(slitRect, p);
- 
--                } else if( mouseOver) {
-+                    } else if( mouseOver) {
- 
--                    _helper.slitFocused(_viewFocusBrush.brush(QPalette::Active).color())->render(slitRect, p);
-+                        _helper.slitFocused(_viewFocusBrush.brush(QPalette::Active).color())->render(slitRect, p);
- 
-+                    }
-+
-+                } else {
-+
-+                    slitRect.adjust( 0, 0, 0, -1 );
-+
-+                    // flat pressed-down buttons do not get focus effect,
-+                    // consistently with tool buttons
-+                    if( enabled && hoverAnimated )
-+                    {
-+
-+                        renderHole(p, pal.color(QPalette::Window), slitRect, false, mouseOver, hoverOpacity, Oxygen::AnimationHover, TileSet::Ring );
-+
-+                    } else {
-+
-+                        renderHole(p, pal.color(QPalette::Window), slitRect, false, mouseOver);
-+
-+                    }
-+
-                 }
- 
-             } else {
-@@ -2244,6 +2287,76 @@
- }
- 
- //_________________________________________________________
-+void OxygenStyle::drawSliderTickmarks(
-+    const QStyleOptionSlider* opt,
-+    QPainter* p,
-+    const QWidget* widget ) const
++void Nepomuk::StrigiServiceConfig::buildExcludeFilterRegExpCache()
 +{
-+
-+    int ticks = opt->tickPosition;
-+    int available = pixelMetric(PM_SliderSpaceAvailable, opt, widget);
-+    int interval = opt->tickInterval;
-+    if( interval < 1 ) interval = opt->pageStep;
-+    if( interval < 1 ) return;
-+
-+    QRect r( widget->rect() );
-+    QPalette pal( widget->palette() );
-+
-+    const int len = pixelMetric(PM_SliderLength, opt, widget);
-+    const int fudge = len / 2;
-+    int current( opt->minimum );
-+
-+    // Since there is no subrect for tickmarks do a translation here.
-+    p->save();
-+    p->translate(r.x(), r.y());
-+
-+    if( opt->orientation == Qt::Horizontal )
-+    {
-+        QColor base( _helper.backgroundColor( pal.color( QPalette::Window ), widget, r.center() ) );
-+        p->setPen( _helper.calcDarkColor( base ) );
++    m_excludeFilterRegExpCache.clear();
++    foreach( const QString& filter, excludeFilters() ) {
++        QString filterRxStr = QRegExp::escape( filter );
++        filterRxStr.replace( "\\*", QLatin1String( ".*" ) );
++        filterRxStr.replace( "\\?", QLatin1String( "." ) );
++        m_excludeFilterRegExpCache << QRegExp( filterRxStr );
 +    }
-+
-+    int tickSize( opt->orientation == Qt::Horizontal ? r.height()/3:r.width()/3 );
-+
-+    while( current <= opt->maximum )
-+    {
-+
-+        int position( sliderPositionFromValue(opt->minimum, opt->maximum, current, available) + fudge );
-+
-+        // calculate positions
-+        if( opt->orientation == Qt::Horizontal )
-+        {
-+            if( ticks == QSlider::TicksAbove ) p->drawLine( position, 0, position, tickSize );
-+            else if( ticks == QSlider::TicksBelow ) p->drawLine( position, r.height()-tickSize, position, r.height() );
-+            else {
-+                p->drawLine( position, 0, position, tickSize );
-+                p->drawLine( position, r.height()-tickSize, position, r.height() );
-+            }
-+
-+        } else {
-+
-+            QColor base( _helper.backgroundColor( pal.color( QPalette::Window ), widget, QPoint( r.center().x(), position ) ) );
-+            p->setPen( _helper.calcDarkColor( base ) );
-+
-+            if( ticks == QSlider::TicksAbove ) p->drawLine( 0, position, tickSize, position );
-+            else if( ticks == QSlider::TicksBelow ) p->drawLine( r.width()-tickSize, position, r.width(), position );
-+            else {
-+                p->drawLine( 0, position, tickSize, position );
-+                p->drawLine( r.width()-tickSize, position, r.width(), position );
-+            }
-+        }
-+
-+        // go to next position
-+        int next( current + interval );
-+        if( next < current ) break;
-+        current = next;
-+
-+    }
-+
-+    p->restore();
 +}
 +
-+//_________________________________________________________
- bool OxygenStyle::drawSliderPrimitive(
-     int primitive,
-     const QStyleOption* opt,
-@@ -3527,6 +3640,19 @@
+ #include "strigiserviceconfig.moc"
+--- runtime/nepomuk/services/strigi/strigiserviceconfig.h	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/nepomuk/services/strigi/strigiserviceconfig.h	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -20,6 +20,8 @@
+ #define _NEPOMUK_STRIGI_SERVICE_CONFIG_H_
  
-     if( !scrollArea ) return;
+ #include <QtCore/QObject>
++#include <QtCore/QList>
++#include <QtCore/QRegExp>
  
-+    // HACK: add exception for KPIM transactionItemView, which is an overlay widget
-+    // and must have filled background. This is a temporary workaround until a more
-+    // robust solution is found.
-+    if( scrollArea->inherits( "KPIM::TransactionItemView" ) )
-+    {
-+        // also need to make the scrollarea background plain (using autofill background)
-+        // so that optional vertical scrollbar background is not transparent either.
-+        // TODO: possibly add an event filter to use the "normal" window background
-+        // instead of something flat.
-+        scrollArea->setAutoFillBackground( true );
-+        return;
-+    }
+ #include <kconfig.h>
+ #include <kio/global.h>
+@@ -67,7 +69,7 @@
+         bool isInitialRun() const;
+ 
+         /**
+-         * Check if the folder should be indexed based on 
++         * Check if the folder should be indexed based on
+          * folders() and excludeFolders()
+          */
+         bool shouldFolderBeIndexed( const QString& );
+@@ -81,7 +83,14 @@
+     private:
+         StrigiServiceConfig();
+ 
++        bool folderInFolderList( const QString& path, const QStringList& include, const QStringList& exclude ) const;
++        void buildExcludeFilterRegExpCache();
 +
-     // check frame style and background role
-     if( scrollArea->frameShape() != QFrame::NoFrame ) return;
-     if( scrollArea->backgroundRole() != QPalette::Window ) return;
-@@ -3866,18 +3992,22 @@
+         KConfig m_config;
++
++        /// cache of regexp objects for all exclude filters
++        /// to prevent regexp parsing over and over
++        QList<QRegExp> m_excludeFilterRegExpCache;
+     };
  }
  
- //___________________________________________________________________________________
--void OxygenStyle::renderDialSlab( QPainter *painter, QRect rect, const QColor &color, const QStyleOption *option, StyleOptions opts, qreal opacity, Oxygen::AnimationMode mode) const
-+void OxygenStyle::renderDialSlab( QPainter *painter, QRect r, const QColor &color, const QStyleOption *option, StyleOptions opts, qreal opacity, Oxygen::AnimationMode mode) const
+--- runtime/nepomuk/services/storage/nepomukstorage.notifyrc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/nepomuk/services/storage/nepomukstorage.notifyrc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -172,6 +172,7 @@
+ Name[km]=បានបរាជ័យ​ក្នុង​ការ​ចាប់ផ្ដើម Nepomuk
+ Name[kn]=ನೆಪೋಮುಕ್ ಅನ್ನು ಆರಂಭಿಸುವಲ್ಲಿ ವಿಫಲಗೊಂಡಿದೆ
+ Name[ko]=Nepomuk을 시작할 수 없음
++Name[lt]=Nepavyko paleisti Nepomuk
+ Name[lv]=Neizdevās palaist Nepomuk
+ Name[mk]=Не успеа стартувањето на Непомук
+ Name[ml]=നെപ്പോമുക്ക് ആരംഭിയ്ക്കുന്നതില്‍ പരാജയപ്പെട്ടു
+@@ -216,6 +217,7 @@
+ Comment[kk]=Nepomuk семантикалық үстел жүйесі жұмысын бастай алмады
+ Comment[km]=ប្រព័ន្ធ​ផ្ទៃតុ​ Nepomuk Semantic មិនអាច​ត្រូវ​បាន​ចាប់ផ្ដើម​បានទេ
+ Comment[ko]=Nepomuk 시맨틱 데스크톱을 시작할 수 없음
++Comment[lt]=Nepomuk semantinio darbastalio sistemos paleisti nepavyko
+ Comment[lv]=Nebija iespējams palaist Nepomuk semantisko darbvirsmas sistēmu
+ Comment[mk]=Системот „Непомук семантички десктоп“ не можеше да биде стартуван
+ Comment[ml]=നെപ്പോമുക്ക് സിമാന്റിക്ക് പണിയിട സിസ്റ്റം തുടങ്ങുവാന്‍ കഴിഞ്ഞില്ല
+--- runtime/nepomuk/services/queryservice/CMakeLists.txt	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/nepomuk/services/queryservice/CMakeLists.txt	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -7,6 +7,7 @@
+ include_directories(
+   ${QT_INCLUDES}
+   ${KDE4_INCLUDES}
++  ${SOPRANO_INCLUDE_DIR}
+   ${NEPOMUK_INCLUDES}
+ )
+ 
+--- runtime/kstyles/themes/qtgtk.themerc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kstyles/themes/qtgtk.themerc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -28,6 +28,7 @@
+ Name[km]=GTK+ Style
+ Name[kn]=GTK+ ವೈಖರಿ
+ Name[ko]=GTK+ 스타일
++Name[lt]=GTK+ stilius
+ Name[lv]=GTK+ stils
+ Name[mai]=GTK+ शैली
+ Name[mk]=Стил GTK+
+@@ -83,6 +84,7 @@
+ Comment[kk]=GTK+ нақыштар тетігін қолданатын стилі
+ Comment[km]=រចនាប័ទ្ម​ដែលប្រើ​ម៉ាស៊ីន GTK+ theming
+ Comment[ko]=GTK+ 테마 엔진을 사용하는 스타일
++Comment[lt]=Stilius, naudojantis GTK+ temų variklį
+ Comment[lv]=Stils, kas izmanto GTK+ tēmošanas dzinēju
+ Comment[mk]=Стил што ја користи машината на теми од GTK+
+ Comment[ml]=ജിടികെ+ പ്രമേയ എഞ്ചിന്‍ ഉപയോഗിയ്ക്കുന്ന ശൈലി
+--- runtime/kstyles/themes/qtmacintosh.themerc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kstyles/themes/qtmacintosh.themerc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -29,6 +29,7 @@
+ Name[km]=Mac OS X
+ Name[kn]=Max OS X
+ Name[ko]=Mac OS X
++Name[lt]=Mac OS X
+ Name[lv]=Mac OS X
+ Name[mai]=Mac OS X
+ Name[mk]=Mac OS X
+@@ -83,6 +84,7 @@
+ Comment[kk]=Apple Appearance Manager-ін қолданатын стилі
+ Comment[km]=រចនាប័ទ្ម​ដែលប្រើ​កម្មវិធី​គ្រប់គ្រង​រូបរាង​របស់​ Apple
+ Comment[ko]=Apple 모양 관리자를 사용하는 스타일
++Comment[lt]=Stilius, naudojantis Apple išvaizdos tvarkyklę
+ Comment[lv]=Stils, kas izmanto Apple Apperance Manager
+ Comment[mk]=Стил што го користи „Apple Appearance Manager“
+ Comment[ml]=ആപ്പിള്‍ ചമയം നടത്തിപ്പുകാരനെ ഉപയോഗിയ്ക്കുന്ന രീതി
+--- runtime/kstyles/themes/qtcleanlooks.themerc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kstyles/themes/qtcleanlooks.themerc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -26,6 +26,7 @@
+ Name[km]=រូបរាង​ច្បាស់
+ Name[kn]=Cleanlooks
+ Name[ko]=Cleanlooks
++Name[lt]=Cleanlooks
+ Name[lv]=Cleanlooks
+ Name[mk]=Чист изглед
+ Name[ml]=ക്ലീന്‍ലുക്സ്
+@@ -74,6 +75,7 @@
+ Comment[kk]=Құрамындағы GNOME Clearlooks тәрізді нақышы өзгертілмейтін стилі
+ Comment[km]=រចនាប័ទ្ម unthemed ជាប់​ដូច​គ្នា​ទៅនឹង​រូបរាង​ច្បាស់​ពី GNOME
+ Comment[ko]=그놈의 Clearlooks와 닮은 내장 스타일
++Comment[lt]=Stilius nesusietas su tema, primenantis GNOME Clearlooks
+ Comment[lv]=Iebūvēts netēmots stils, līdzīgs Clearlooks no GNOME
+ Comment[mk]=Вграден стил без тема сличен на „Clearlooks“ од GNOME
+ Comment[ml]=ഗ്നോമിലെ ക്ലിയര്‍ലുക്സുമായി സാദൃശ്യമുള്ള പ്രമേയമില്ലാത്ത ഒപ്പം വരുന്ന ശൈലി
+--- runtime/kstyles/themes/qtwindowsvista.themerc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kstyles/themes/qtwindowsvista.themerc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -28,6 +28,7 @@
+ Name[km]=MS Windows 9x
+ Name[kn]=ಎಮ್ ಎಸ್ ವಿಂಡೋಸ್ ವಿಸ್ತಾ
+ Name[ko]=MS 윈도 비스타
++Name[lt]=MS Windows Vista
+ Name[lv]=MS Windows Vista
+ Name[mai]=MS Windows Vista
+ Name[mk]=MS Windows Vista
+@@ -81,6 +82,7 @@
+ Comment[kk]=Windows Vista стиль тетігін қолданатын стилі
+ Comment[km]=រចនាប័ទ្ម​ដែលប្រើ​ម៉ាស៊ីន​រចនាប័ទ្ម Windows Vista
+ Comment[ko]=윈도 비스타 스타일 엔진을 사용하는 스타일
++Comment[lt]=Stilius, naudojantis Windows Vista stilių variklį
+ Comment[lv]=Stils, kas izmanto Windows Vista stila dzinēju
+ Comment[mk]=Стил што ја користи машината за стилови од Windows Vista
+ Comment[ml]=വിന്‍ഡോസ് വിസ്റ്റാ ശൈലി എഞ്ചിന്‍ ഉപയോഗിയ്ക്കുന്ന ശൈലി
+--- runtime/kstyles/themes/qtwindowsxp.themerc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kstyles/themes/qtwindowsxp.themerc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -28,6 +28,7 @@
+ Name[km]=MS Windows 9x
+ Name[kn]=ಎಮ್ ಎಸ್ ವಿಂಡೋಸ್ ಎಕ್ಸ್‌ಪಿ
+ Name[ko]=MS 윈도 XP
++Name[lt]=MS Windows XP
+ Name[lv]=MS Windows XP
+ Name[mai]=MS Windows XP
+ Name[mk]=MS Windows XP
+@@ -81,6 +82,7 @@
+ Comment[kk]=Windows XP стиль тетігін қолданатын стилі
+ Comment[km]=រចនាប័ទ្ម​ដែលប្រើ​ម៉ាស៊ីន​រចនាប័ទ្ម Windows XP
+ Comment[ko]=윈도 XP 스타일 엔진을 사용하는 스타일
++Comment[lt]=Stilius, naudojantis Windows XP stilių variklį
+ Comment[lv]=Stils, kas izmanto Windows XP stila dzinēju
+ Comment[mk]=Стил што ја користи машината за стилови од Windows XP
+ Comment[ml]=വിന്‍ഡോസ് എക്സ്‌പി ശൈലി എഞ്ചിന്‍ ഉപയോഗിയ്ക്കുന്ന ശൈലി
+--- runtime/kstyles/themes/qtplastique.themerc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kstyles/themes/qtplastique.themerc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -28,6 +28,7 @@
+ Name[km]=ប្ល៉ាស្ទិក
+ Name[kn]=Plastique
+ Name[ko]=Plastique
++Name[lt]=Plastikinis
+ Name[lv]=Plastique
+ Name[mai]=प्लास्टिक
+ Name[mk]=Plastique
+@@ -79,6 +80,7 @@
+ Comment[kk]=Құрамындағы KDE3 Plastik-қа ұқсас нақыштарсыз стилі
+ Comment[km]=រចនាប័ទ្ម unthemed ដែល​ជាប់​ដូច​គ្នា​ទៅ​នឹង​ប្លាស្ទីក​ពី KDE3
+ Comment[ko]=KDE 3의 Plastik과 닮은 내장 스타일
++Comment[lt]=Nesusietas su tema stilius, panašu į KDE3 Plastik stilių
+ Comment[lv]=Iebūvēts netēmots stils, līdzīgs Plastik no KDE3
+ Comment[mk]=Вграден стил без тема сличен на „Пластик“ од KDE3
+ Comment[ml]=കെഡിഇ3യിലെ പ്ലാസ്റ്റിക്കിനോടു് സദൃശ്യമായ പ്രമേയമില്ലാത്ത ഒപ്പം വരുന്ന ശൈലി
+--- runtime/kstyles/oxygen/oxygen.themerc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kstyles/oxygen/oxygen.themerc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -126,7 +126,7 @@
+ Comment[mai]=अगिला पीढ़ीक डेस्कटापक शैली
+ Comment[mk]=Стил за следната генерација десктопи
+ Comment[ml]=ഭാവിതലമുറയിലെ പണിയിടത്തിനുള്ള രീതികള്‍
+-Comment[nb]=Stil for neste skrivebord av neste generasjon
++Comment[nb]=Stil for skrivebord av neste generasjon
+ Comment[nds]=Stil för den kamen Schriefdisch
+ Comment[ne]=पछिल्लो युगको डेस्कटपको शैली
+ Comment[nl]=De stijl voor de volgende generatie desktops
+--- runtime/kstyles/oxygen/helper.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kstyles/oxygen/helper.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -46,6 +46,7 @@
+     m_holeCache.clear();
+     m_holeFlatCache.clear();
+     m_slopeCache.clear();
++    m_grooveCache.clear();
+     m_slitCache.clear();
+     m_dockFrameCache.clear();
+     m_scrollHoleCache.clear();
+--- runtime/kurifilter-plugins/ikws/searchproviders/imdb.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kurifilter-plugins/ikws/searchproviders/imdb.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -89,3 +89,22 @@
+ X-KDE-ServiceTypes=SearchProvider
+ Keys=imdb
+ Query=http://imdb.com/find?s=all&q=\\{@}
++Query[ca]=http://imdb.com/find?s=all&q=\\{@}
++Query[ca@valencia]=http://imdb.com/find?s=all&q=\\{@}
++Query[de]=http://imdb.com/find?s=all&q=\\{@}
++Query[es]=http://imdb.com/find?s=all&q=\\{@}
++Query[et]=http://imdb.com/find?s=all&q=\\{@}
++Query[fr]=http://imdb.com/find?s=all&q=\\{@}
++Query[hr]=http://imdb.com/find?s=all&q=\\{@}
++Query[is]=http://imdb.com/find?s=all&q=\\{@}
++Query[it]=http://italian.imdb.com/find?s=all&q=\\{@}
++Query[lt]=http://imdb.com/find?s=all&q=\\{@}
++Query[nb]=http://imdb.com/find?s=all&q=\\{@}
++Query[nds]=http://imdb.com/find?s=all&q=\\{@}
++Query[nl]=http://imdb.com/find?s=all&q=\\{@}
++Query[pt]=http://imdb.com/find?s=all&q=\\{@}
++Query[pt_BR]=http://imdb.com/find?s=all&q=\\{@}
++Query[sv]=http://imdb.com/find?s=all&q=\\{@}
++Query[uk]=http://imdb.com/find?s=all&q=\\{@}
++Query[x-test]=xxhttp://imdb.com/find?s=all&q=\\{@}xx
++Query[zh_TW]=http://imdb.com/find?s=all&q=\\{@}
+--- runtime/kurifilter-plugins/ikws/searchproviders/wolfram_alpha.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kurifilter-plugins/ikws/searchproviders/wolfram_alpha.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -27,6 +27,7 @@
+ Name[km]=Wolfram Alpha
+ Name[kn]=ವೂಲ್ಫ್ರಾಮ್ ಆಲ್ಫಾ
+ Name[ko]=울프람 알파
++Name[lt]=Wolfram Alpha
+ Name[lv]=Wolfram Alpha
+ Name[mai]=वोल्फॉर्म अल्फा
+ Name[mk]=Волфрам Алфа
+--- runtime/kurifilter-plugins/ikws/searchproviders/ethicle.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kurifilter-plugins/ikws/searchproviders/ethicle.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -32,6 +32,7 @@
+ Name[km]=Ethicle
+ Name[kn]=ಎತಿಕಲ್
+ Name[ko]=Ethicle
++Name[lt]=Ethicle
+ Name[lv]=Ethicle
+ Name[mai]=एथिकल
+ Name[ml]=ഇത്തിക്കിള്‍
+--- runtime/kurifilter-plugins/ikws/searchproviders/php.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kurifilter-plugins/ikws/searchproviders/php.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -89,5 +89,24 @@
+ Name[zh_CN]=PHP 搜索
+ Name[zh_TW]=PHP 搜尋
+ Query=http://www.php.net/manual-lookup.php?pattern=\\{@}
++Query[ca]=http://www.php.net/manual-lookup.php?pattern=\\{@}
++Query[ca@valencia]=http://www.php.net/manual-lookup.php?pattern=\\{@}
++Query[de]=http://www.php.net/manual-lookup.php?pattern=\\{@}
++Query[es]=http://www.php.net/manual-lookup.php?pattern=\\{@}
++Query[et]=http://www.php.net/manual-lookup.php?pattern=\\{@}
++Query[fr]=http://www.php.net/manual-lookup.php?pattern=\\{@}
++Query[hr]=http://www.php.net/manual-lookup.php?pattern=\\{@}
++Query[is]=http://www.php.net/manual-lookup.php?pattern=\\{@}
++Query[it]=http://www.php.net/manual-lookup.php?pattern=\\{@}
++Query[lt]=http://www.php.net/manual-lookup.php?pattern=\\{@}
++Query[nb]=http://www.php.net/manual-lookup.php?pattern=\\{@}
++Query[nds]=http://www.php.net/manual-lookup.php?pattern=\\{@}
++Query[nl]=http://www.php.net/manual-lookup.php?pattern=\\{@}
++Query[pt]=http://www.php.net/manual-lookup.php?pattern=\\{@}
++Query[pt_BR]=http://www.php.net/manual-lookup.php?pattern=\\{@}
++Query[sv]=http://www.php.net/manual-lookup.php?pattern=\\{@}
++Query[uk]=http://www.php.net/manual-lookup.php?pattern=\\{@}
++Query[x-test]=xxhttp://www.php.net/manual-lookup.php?pattern=\\{@}xx
++Query[zh_TW]=http://www.php.net/manual-lookup.php?pattern=\\{@}
+ X-KDE-ServiceTypes=SearchProvider
+ Type=Service
+--- runtime/attica/kcm/kcm_attica.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/attica/kcm/kcm_attica.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -32,6 +32,7 @@
+ Name[kk]=Open Collaboration қызмет етушісі
+ Name[km]=ការ​គ្រប់គ្រង​អ្នក​ផ្ដល់សេវា​សហការណ៍​ចំហ
+ Name[ko]=열린 협업 서비스 공급자 관리
++Name[lt]=Open Collaboration tarnybų tvarkymas
+ Name[lv]=Open Collaboration pakalpojumu piegādātāju pārvaldība
+ Name[ml]=തുറന്ന കൊളാബൊറേഷന്‍ സേവന ധാതാവിന്റെ കൈകാര്യം
+ Name[nb]=Åpne samarbeidstjenester – tilbyderstyring
+@@ -76,6 +77,7 @@
+ Comment[kk]=Open Collaboration қызмет етушілікті басқару
+ Comment[km]=គ្រប់គ្រង​អ្នកផ្ដល់ស​សេវា​សហការណ៍​បើក​ចំហ
+ Comment[ko]=열린 협업 서비스 공급자 관리
++Comment[lt]=Tvarkyti Open Collaboration tarnybas
+ Comment[lv]=Pārvaldīt Open Collaboration piegādātājus
+ Comment[ml]=തുറന്ന കൊളാബൊറേഷന്‍ സേവന ധാതാവിനെ കൈകാര്യം ചെയ്യുക
+ Comment[nb]=Styr leverandører av åpne samarbeidstjenester (OCS)
+--- runtime/drkonqi/crashedapplication.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/drkonqi/crashedapplication.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -89,7 +89,7 @@
+     std::free(savedLocale);
+     return QString::fromLocal8Bit(name != NULL ? name : "Unknown");
+ #else
+-    switch (m_signalnum) {
++    switch (m_signalNumber) {
+     case 4: return QString("SIGILL");
+     case 6: return QString("SIGABRT");
+     case 8: return QString("SIGFPE");
+--- runtime/drkonqi/ui/assistantpage_bugzilla_duplicates.ui	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/drkonqi/ui/assistantpage_bugzilla_duplicates.ui	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -26,7 +26,7 @@
+      <item>
+       <widget class="StatusWidget" name="m_statusWidget" native="true">
+        <property name="sizePolicy">
+-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
++        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+--- runtime/l10n/yt/entry.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/l10n/yt/entry.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -23,6 +23,7 @@
+ Name[km]=Mayotte
+ Name[kn]=ಮೆಯೋಟ್
+ Name[ko]=마요트
++Name[lt]=Majotas
+ Name[lv]=Majota
+ Name[mai]=मयोटे
+ Name[mk]=Мајоте
+--- runtime/l10n/re/entry.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/l10n/re/entry.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -22,6 +22,7 @@
+ Name[km]=Réunion
+ Name[kn]=ರೆಯೂನಿಯನ್
+ Name[ko]=레위니옹
++Name[lt]=Reunonas
+ Name[lv]=Reunjona
+ Name[mai]=रियूनियन
+ Name[mk]=Реунион
+--- runtime/l10n/gf/entry.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/l10n/gf/entry.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -23,6 +23,7 @@
+ Name[km]=ហ្គូអ៊ីយ៉ាណា បារាំង
+ Name[kn]=ಫ್ರೆಂಚ್ ಗಯಾನ
+ Name[ko]=프랑스령 기아나
++Name[lt]=Prancūzijos Gviana
+ Name[lv]=Francijas Gviāna
+ Name[mai]=फ्रेंच गायना
+ Name[mk]=Француска Гвајана
+--- runtime/kdesu/kdesu/kdesu.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/kdesu/kdesu/kdesu.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -408,7 +408,7 @@
+ #ifdef Q_WS_X11
+             KStartupInfo::sendFinish( id );
+ #endif
+-            exit(0);
++            exit(1);
+         }
+         if (ret == KDEsuDialog::AsUser)
+             change_uid = false;
+--- runtime/plasma/scriptengines/javascript/simplebindings/qscriptbookkeeping.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/plasma/scriptengines/javascript/simplebindings/qscriptbookkeeping.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -42,6 +42,7 @@
+ Q_DECLARE_METATYPE(Plasma::Applet*)
+ Q_DECLARE_METATYPE(Plasma::Extender*)
+ Q_DECLARE_METATYPE(Plasma::VideoWidget::Controls)
++Q_DECLARE_METATYPE(Plasma::Svg*)
+ 
+ Q_DECLARE_METATYPE(AppletInterface*)
+ 
+@@ -167,12 +168,24 @@
+     return engine->newQObject(const_cast<QGraphicsWidget *>(anim), QScriptEngine::AutoOwnership, QScriptEngine::PreferExistingWrapperObject);
+ }
+ 
+-void qGraphicsWidgetFromQScriptValue(const QScriptValue &scriptValue, QGraphicsWidgetPtr &anim)
++void graphicsWidgetFromQScriptValue(const QScriptValue &scriptValue, QGraphicsWidgetPtr &anim)
  {
- 
-     // cast option
-     const QStyleOptionSlider* sliderOption( qstyleoption_cast<const QStyleOptionSlider*>( option ) );
-     if( !sliderOption ) return;
- 
-+    // adjust rect to be square, and centered
-+    int dimension(qMin( r.width(), r.height() ));
-+    QRect rect( r.topLeft() + QPoint( (r.width()-dimension)/2, (r.height()-dimension)/2 ), QSize( dimension, dimension ) );
-+
-     // calculate glow color
-     QColor glow = slabShadowColor( color, opts, opacity, mode );
- 
-     // get main slab
--    QPixmap pix( glow.isValid() ? _helper.dialSlabFocused( color, glow, 0.0, rect.width()) : _helper.dialSlab( color, 0.0, rect.width() ));
-+    QPixmap pix( glow.isValid() ? _helper.dialSlabFocused( color, glow, 0.0, dimension ) : _helper.dialSlab( color, 0.0, dimension ));
-     const qreal baseOffset = 3.5;
- 
-     QColor light  = _helper.calcLightColor(color);
-@@ -3889,7 +4019,6 @@
- 
-     // indicator
-     // might use cache here
--
-     // angle calculation from qcommonstyle.cpp (c) Trolltech 1992-2007, ASA.
-     qreal angle(0);
-     if( sliderOption->maximum == sliderOption->minimum ) angle = M_PI / 2;
-@@ -3900,9 +4029,9 @@
-         else  angle = (M_PI*8 - fraction*10*M_PI)/6;
-     }
- 
--    QPointF center = rect.center();
--    const int sliderWidth = qMin( 2*rect.width()/5, 18 );
--    const qreal radius( 0.5*( rect.width() - 2*sliderWidth ) );
-+    QPointF center( pix.rect().center() );
-+    const int sliderWidth = dimension/6;
-+    const qreal radius( 0.5*( dimension - 2*sliderWidth ) );
-     center += QPointF( radius*cos(angle), -radius*sin(angle));
- 
-     QRectF sliderRect( 0, 0, sliderWidth, sliderWidth );
-@@ -3933,6 +4062,7 @@
-     p.end();
- 
-     painter->drawPixmap( rect.topLeft(), pix );
-+
-     return;
- 
+     QObject *obj = scriptValue.toQObject();
+     anim = static_cast<QGraphicsWidget *>(obj);
  }
---- runtime/kstyles/oxygen/transitions/oxygencomboboxdata.cpp	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/kstyles/oxygen/transitions/oxygencomboboxdata.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -73,7 +73,7 @@
-             break;
  
-             case QEvent::Resize:
--            if( !recursiveCheck() )
-+            if( !recursiveCheck() && target_.data()->isVisible() )
-             { timer_.start( 0, this ); }
-             break;
- 
---- runtime/kurifilter-plugins/fixhost/fixhosturifilter.cpp	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/kurifilter-plugins/fixhost/fixhosturifilter.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -65,7 +65,7 @@
++typedef Plasma::Svg * SvgPtr;
++QScriptValue qScriptValueFromSvg(QScriptEngine *engine, const SvgPtr &anim)
++{
++    return engine->newQObject(const_cast<Plasma::Svg *>(anim), QScriptEngine::AutoOwnership, QScriptEngine::PreferExistingWrapperObject);
++}
++
++void svgFromQScriptValue(const QScriptValue &scriptValue, SvgPtr &anim)
++{
++    QObject *obj = scriptValue.toQObject();
++    anim = static_cast<Plasma::Svg *>(obj);
++}
++
+ typedef Plasma::Extender *ExtenderPtr;
+ QScriptValue qScriptValueFromExtender(QScriptEngine *engine, const ExtenderPtr &extender)
  {
-     KResolver resolver( url.host());
-     resolver.setFamily( KResolver::InetFamily );
--    return( resolver.start() && resolver.wait( 5000 ) && resolver.error() == KResolver::NoError );
-+    return( resolver.start() && resolver.wait( 1000 ) && resolver.error() == KResolver::NoError );
- }
+@@ -223,7 +236,8 @@
  
- K_PLUGIN_FACTORY(FixHostUriFilterFactory, registerPlugin<FixHostUriFilter>();)
---- runtime/attica/kcm/kcm_attica.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/attica/kcm/kcm_attica.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -51,7 +51,7 @@
- Name[sv]=Hantering av leverantörer av öppna samarbetstjänster
- Name[uk]=Керування наданням послуг службами Open Collaboration
- Name[x-test]=xxOpen Collaboration Services provider managementxx
--Name[zh_CN]=打开协作服务器的管理服务
-+Name[zh_CN]=开放式协作服务管理
- Name[zh_TW]=開放協同服務提供者管理
- Comment=Manage Open Collaboration Services providers
- Comment[ca]=Gestiona els proveïdors de serveis «Open Collaboration»
-@@ -85,7 +85,7 @@
- Comment[pt]=Faz a gestão de fornecedores dos Serviços Abertos de Colaboração
- Comment[pt_BR]=Gerencia os fornecedores dos Serviços de Colaboração Abertos
- Comment[ro]=Gestionează furnizorii de colaborare deschisă
--Comment[ru]=Настройки работы с операторами услуг Open Collaboration
-+Comment[ru]=Настройка работы с операторами услуг Open Collaboration
- Comment[sk]=Správa poskytovateľov služieb otvorenej spolupráce
- Comment[sl]=Upravljajte s ponudniki storitev Open Collaboration Services
- Comment[sr]=Управљајте добављачима сервиса отворене сарадње
-@@ -95,5 +95,5 @@
- Comment[sv]=Hantera leverantörer av öppna samarbetstjänster
- Comment[uk]=Керування наданням послуг службами Open Collaboration
- Comment[x-test]=xxManage Open Collaboration Services providersxx
--Comment[zh_CN]=管理已打开的协作服务
-+Comment[zh_CN]=管理开放式协作服务的提供方
- Comment[zh_TW]=管理開放協同服務提供者
---- runtime/drkonqi/data/mappings	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/drkonqi/data/mappings	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -55,7 +55,6 @@
- knotificationicontest=plasma|widget-systemtray
- lancelot=plasma|widget-lancelot
- plasma-netbook=plasma|plasma-netbook
--kscreenlocker=krunner|kscreenlocker
- #KDE Plasma Desktop (KWin)
- kwin_killer_helper=kwin|general
- kwin_rules_dialog=kwin|general
-@@ -116,6 +115,10 @@
- krandrtray=krandr|krandrtray
- kmymoney=kmymoney4|general
- kdevdesigner=kdevelop|Qt Designer Integration
-+kdevelop.bin=kdevelop|general
-+kscreenlocker=kscreensaver|locker
-+gwenview_importer=gwenview|general
-+kdmgreet=kdm|general
- 
- #---
- #This section relates a product groupt to a product
-@@ -164,4 +167,4 @@
- imaging=digikam|digikamimageplugins|kipiplugins
- networkmanager=knetworkmanager|Network Management|solid
- scanner=libksane
--filemanagement=konqueror|dolphin
-+filemanagement=konqueror|dolphin|nepomuk
---- runtime/l10n/yt/entry.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/l10n/yt/entry.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -16,6 +16,7 @@
- Name[hi]=मायोटे
- Name[hr]=Mayotte
- Name[id]=Mayotte
-+Name[is]=Mayotte
- Name[it]=Mayotte
- Name[ja]=マヨット
- Name[kk]=Майотта
---- runtime/l10n/re/entry.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/l10n/re/entry.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -15,6 +15,7 @@
- Name[fy]=Réunion
- Name[hr]=Réunion
- Name[id]=Réunion
-+Name[is]=Réunion
- Name[it]=Riunione
- Name[ja]=レユニオン
- Name[kk]=Реюньион
---- runtime/l10n/cf/entry.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/l10n/cf/entry.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -78,7 +78,7 @@
- Name[tg]=Ҷумҳурии Африкаи Марказӣ
- Name[th]=สาธารณรัฐแอฟริกากลาง
- Name[tr]=Orta Afrika Cumhuriyeti
--Name[uk]=Центральна африканська республіка
-+Name[uk]=Центральноафриканська Республіка
- Name[uz]=Markaziy Afrika Respublikasi
- Name[uz@cyrillic]=Марказий Африка Республикаси
- Name[vi]=Cộng hoà Trung Phi
---- runtime/l10n/sg/entry.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/l10n/sg/entry.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -79,7 +79,7 @@
- Name[tg]=Сингапур
- Name[th]=สิงคโปร์
- Name[tr]=Singapur
--Name[uk]=Сингапур
-+Name[uk]=Сінгапур
- Name[uz]=Singapur
- Name[uz@cyrillic]=Сингапур
- Name[vi]=Xin-ga-poa
---- runtime/l10n/sv/entry.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/l10n/sv/entry.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -79,7 +79,7 @@
- Name[tg]=Салвадор
- Name[th]=เอลซัลวาดอร์
- Name[tr]=El Salvador
--Name[uk]=Ель-Сальвадор
-+Name[uk]=Сальвадор
- Name[uz]=Salvador
- Name[uz@cyrillic]=Салвадор
- Name[vi]=En Xan-va-đoa
---- runtime/l10n/sz/entry.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/l10n/sz/entry.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -79,7 +79,7 @@
- Name[tg]=Свазиленд
- Name[th]=สวาซิแลนด์
- Name[tr]=Swaziland
--Name[uk]=Свазиленд
-+Name[uk]=Свазіленд
- Name[uz]=Svazilend
- Name[uz@cyrillic]=Свазиленд
- Name[vi]=Xuoă-xi-lan
---- runtime/l10n/tz/entry.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/l10n/tz/entry.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -78,7 +78,7 @@
- Name[tg]=Танзания, Ҷумҳурии
- Name[th]=สาธารณรัฐแทนซาเนีย
- Name[tr]=Tanzanya
--Name[uk]=Танзанія, об'єднана республіка
-+Name[uk]=Об’єднана Республіка Танзанія
- Name[uz]=Tanzaniya Birlashgan Respublikasi
- Name[uz@cyrillic]=Танзания Бирлашган Республикаси
- Name[vi]=Cộng hoà Thống nhất Thanh-xa-ni-a
---- runtime/l10n/gf/entry.desktop	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/l10n/gf/entry.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -16,6 +16,7 @@
- Name[hr]=Francuska Gvajana
- Name[hu]=Francia Guyana
- Name[id]=Guyana Perancis
-+Name[is]=Franska Gínea
- Name[it]=Guyana Francese
- Name[ja]=仏領ギアナ
- Name[kk]=Францияның Гвианасы
---- runtime/plasma/scriptengines/javascript/simplebindings/qscriptbookkeeping.cpp	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/plasma/scriptengines/javascript/simplebindings/qscriptbookkeeping.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -185,6 +185,42 @@
-     extender = static_cast<Plasma::Extender *>(obj);
- }
- 
-+typedef Plasma::Service *ServicePtr;
-+QScriptValue qScriptValueFromService(QScriptEngine *engine, const ServicePtr &service)
-+{
-+    return engine->newQObject(const_cast<Plasma::Service *>(service), QScriptEngine::AutoOwnership, QScriptEngine::PreferExistingWrapperObject);
-+}
-+
-+void serviceFromQScriptValue(const QScriptValue &scriptValue, ServicePtr &service)
-+{
-+    QObject *obj = scriptValue.toQObject();
-+    service = static_cast<Plasma::Service *>(obj);
-+}
-+
-+typedef Plasma::DataEngine *DataEnginePtr;
-+QScriptValue qScriptValueFromDataEngine(QScriptEngine *engine, const DataEnginePtr &dataEngine)
-+{
-+    return engine->newQObject(const_cast<Plasma::DataEngine *>(dataEngine), QScriptEngine::AutoOwnership, QScriptEngine::PreferExistingWrapperObject);
-+}
-+
-+void dataEngineFromQScriptValue(const QScriptValue &scriptValue, DataEnginePtr &dataEngine)
-+{
-+    QObject *obj = scriptValue.toQObject();
-+    dataEngine = static_cast<Plasma::DataEngine *>(obj);
-+}
-+
-+typedef Plasma::ServiceJob *ServiceJobPtr;
-+QScriptValue qScriptValueFromServiceJob(QScriptEngine *engine, const ServiceJobPtr &serviceJob)
-+{
-+    return engine->newQObject(const_cast<Plasma::ServiceJob *>(serviceJob), QScriptEngine::AutoOwnership, QScriptEngine::PreferExistingWrapperObject);
-+}
-+
-+void serviceJobFromQScriptValue(const QScriptValue &scriptValue, ServiceJobPtr &serviceJob)
-+{
-+    QObject *obj = scriptValue.toQObject();
-+    serviceJob = static_cast<Plasma::ServiceJob *>(obj);
-+}
-+
  void registerSimpleAppletMetaTypes(QScriptEngine *engine)
  {
-     qScriptRegisterMetaType<QGraphicsWidget*>(engine, qScriptValueFromQGraphicsWidget, qGraphicsWidgetFromQScriptValue);
-@@ -194,9 +230,12 @@
-     qScriptRegisterMetaType<KIO::Job *>(engine, qScriptValueFromKIOJob, qKIOJobFromQScriptValue);
+-    qScriptRegisterMetaType<QGraphicsWidget*>(engine, qScriptValueFromQGraphicsWidget, qGraphicsWidgetFromQScriptValue);
++    qScriptRegisterMetaType<QGraphicsWidget*>(engine, qScriptValueFromQGraphicsWidget, graphicsWidgetFromQScriptValue);
++    qScriptRegisterMetaType<Plasma::Svg*>(engine, qScriptValueFromSvg, svgFromQScriptValue);
  
-     qScriptRegisterMetaType<Plasma::Animation *>(engine, qScriptValueFromAnimation, abstractAnimationFromQScriptValue);
-+    qScriptRegisterMetaType<Plasma::Extender *>(engine, qScriptValueFromExtender , extenderFromQScriptValue);
-+    qScriptRegisterMetaType<Plasma::VideoWidget::Controls>(engine, qScriptValueFromControls, controlsFromScriptValue, QScriptValue());
-     qRegisterMetaType<DataEngine::Data>("Plasma::DataEngine::Data");
-     qRegisterMetaType<DataEngine::Data>("DataEngine::Data");
-     qScriptRegisterMapMetaType<DataEngine::Data>(engine);
--    qScriptRegisterMetaType<Plasma::Extender *>(engine, qScriptValueFromExtender , extenderFromQScriptValue);
--    qScriptRegisterMetaType<Plasma::VideoWidget::Controls>(engine, qScriptValueFromControls, controlsFromScriptValue, QScriptValue());
-+    qScriptRegisterMetaType<Plasma::Service *>(engine, qScriptValueFromService, serviceFromQScriptValue);
-+    qScriptRegisterMetaType<Plasma::DataEngine *>(engine, qScriptValueFromDataEngine, dataEngineFromQScriptValue);
-+    qScriptRegisterMetaType<Plasma::ServiceJob *>(engine, qScriptValueFromServiceJob, serviceJobFromQScriptValue);
- }
---- runtime/plasma/scriptengines/javascript/simplebindings/appletinterface.h	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/plasma/scriptengines/javascript/simplebindings/appletinterface.h	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -69,6 +69,8 @@
-     Q_PROPERTY(QGraphicsLayout *layout WRITE setLayout READ layout)
-     Q_PROPERTY(bool immutable READ immutable)
-     Q_PROPERTY(int apiVersion READ apiVersion)
-+    Q_PROPERTY(QRectF rect READ rect)
-+    Q_PROPERTY(QSizeF size READ size)
-     Q_PROPERTY(QObject *sender READ sender)
+     qScriptRegisterMetaType<KConfigGroup>(engine, qScriptValueFromKConfigGroup, kConfigGroupFromScriptValue, QScriptValue());
+     qScriptRegisterMetaType<KJob *>(engine, qScriptValueFromKJob, qKJobFromQScriptValue);
+--- runtime/plasma/scriptengines/javascript/simplebindings/appletinterface.h	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/plasma/scriptengines/javascript/simplebindings/appletinterface.h	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -58,6 +58,7 @@
+     Q_ENUMS(QtAlignment)
+     Q_ENUMS(QtMouseButton)
+     Q_ENUMS(AnimationDirection)
++    Q_ENUMS(IntervalAlignment)
+     Q_PROPERTY(AspectRatioMode aspectRatioMode READ aspectRatioMode WRITE setAspectRatioMode)
+     Q_PROPERTY(FormFactor formFactor READ formFactor)
+     Q_PROPERTY(Location location READ location)
+@@ -190,6 +191,12 @@
+     AnimationForward = QAbstractAnimation::Forward,
+     AnimationBackward = QAbstractAnimation::Backward
+ };
++
++enum IntervalAlignment {
++    NoAlignment = 0,
++    AlignToMinute,
++    AlignToHour
++};
+ //-------------------------------------------------------------------
  
- public:
---- runtime/plasma/scriptengines/javascript/simplebindings/pixmap.cpp	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/plasma/scriptengines/javascript/simplebindings/pixmap.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -69,7 +69,7 @@
-     QScriptValue::PropertyFlags setter = QScriptValue::PropertySetter;
-     proto.setProperty("null", eng->newFunction(null), getter);
-     proto.setProperty("rect", eng->newFunction(rect), getter);
--    proto.setProperty("scaled", eng->newFunction(scaled), getter);
-+    proto.setProperty("scaled", eng->newFunction(scaled));
+     Q_INVOKABLE void gc();
+--- runtime/plasma/scriptengines/javascript/simplebindings/easingcurve.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/plasma/scriptengines/javascript/simplebindings/easingcurve.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -17,6 +17,7 @@
+  */
  
-     eng->setDefaultPrototype(qMetaTypeId<QPixmap>(), proto);
-     eng->setDefaultPrototype(qMetaTypeId<QPixmap*>(), proto);
---- runtime/plasma/scriptengines/javascript/simplebindings/rect.cpp	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/plasma/scriptengines/javascript/simplebindings/rect.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -297,7 +297,7 @@
-     QScriptValue::PropertyFlags setter = QScriptValue::PropertySetter;
+ #include <QEasingCurve>
++#include <QMetaEnum>
+ #include <QScriptValue>
+ #include <QScriptEngine>
+ #include <QScriptContext>
+@@ -55,13 +56,20 @@
  
-     proto.setProperty("adjust", eng->newFunction(adjust));
--    proto.setProperty("adjusted", eng->newFunction(adjusted), getter);
-+    proto.setProperty("adjusted", eng->newFunction(adjusted));
-     proto.setProperty("translate", eng->newFunction(translate));
-     proto.setProperty("setCoords", eng->newFunction(setCoords));
-     proto.setProperty("setRect", eng->newFunction(setRect));
---- runtime/plasma/scriptengines/javascript/simplejavascriptapplet.cpp	(.../tags/KDE/4.4.0/kdebase)	(wersja 1091891)
-+++ runtime/plasma/scriptengines/javascript/simplejavascriptapplet.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1091891)
-@@ -140,6 +140,7 @@
-         kDebug() << failureMsg;
-     }
- 
-+    kDebug() << "Error in " << engine->uncaughtException().property("fileName").toString() << "on line" << engine->uncaughtExceptionLineNumber();
-     kDebug() << engine->uncaughtExceptionBacktrace();
- }
- 
-@@ -215,7 +216,7 @@
-     QScriptValueList args;
-     args << m_engine->toScriptValue(p);
-     args << m_engine->toScriptValue(const_cast<QStyleOptionGraphicsItem*>(option));
--    args << m_engine->toScriptValue(contentsRect);
-+    args << m_engine->toScriptValue(QRectF(contentsRect));
- 
-     QScriptContext *ctx = m_engine->pushContext();
-     ctx->setActivationObject(m_self);
-@@ -534,13 +535,6 @@
-     global.setProperty("AnimationGroup", m_engine->newFunction(SimpleJavaScriptApplet::animationGroup));
-     global.setProperty("ParallelAnimationGroup", m_engine->newFunction(SimpleJavaScriptApplet::parallelAnimationGroup));
- 
--    // Bindings for data engine
--    m_engine->setDefaultPrototype(qMetaTypeId<DataEngine*>(), m_engine->newQObject(new DataEngine(), QScriptEngine::ScriptOwnership));
--    m_engine->setDefaultPrototype(qMetaTypeId<Service*>(), m_engine->newQObject(new DummyService(), QScriptEngine::ScriptOwnership));
--    m_engine->setDefaultPrototype(qMetaTypeId<ServiceJob*>(),
--                                  m_engine->newQObject(new ServiceJob(QString(), QString(), QMap<QString, QVariant>()),
--                                                       QScriptEngine::ScriptOwnership ));
--
-     bindI18N(m_engine);
-     global.setProperty("dataEngine", m_engine->newFunction(SimpleJavaScriptApplet::dataEngine));
-     global.setProperty("service", m_engine->newFunction(SimpleJavaScriptApplet::service));
-@@ -570,7 +564,7 @@
-     fun = m_engine->newFunction(SimpleJavaScriptApplet::print);
-     global.setProperty("print", fun);
-     fun = m_engine->newFunction(SimpleJavaScriptApplet::debug);
--    global.setProperty("print", debug);
-+    global.setProperty("debug", fun);
- 
-     // Work around bug in 4.3.0
-     qMetaTypeId<QVariant>();
-@@ -684,7 +678,9 @@
-                 anim->setTargetWidget(parent);
+     if (ctx->argumentCount()) {
+         QScriptValue arg = ctx->argument(0);
++
++        qint32 type = -1;
+         if (arg.isNumber()) {
+-            qint32 type = arg.toInt32();
++            type = arg.toInt32();
++        } else if (arg.isString()) {
++            QMetaObject meta = QEasingCurve::staticMetaObject;
++            QMetaEnum easingCurveEnum = meta.enumerator(meta.indexOfEnumerator("Type"));
++
++            type = easingCurveEnum.keyToValue(arg.toString().toAscii().data());
++        }
+             if (type > -1 && type < QEasingCurve::Custom) {
+                 self->setType(static_cast<QEasingCurve::Type>(type));
              }
- 
--            return engine->newQObject(anim);
-+            QScriptValue value = engine->newQObject(anim);
-+            registerEnums(engine, value, *anim->metaObject());
-+            return value;
          }
-     }
+-    }
  
+     return QScriptValue(eng, self->type());
+ }
+--- runtime/plasma/scriptengines/javascript/simplebindings/icon.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
++++ runtime/plasma/scriptengines/javascript/simplebindings/icon.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+@@ -34,7 +34,8 @@
+     if (ctx->argumentCount() > 0) {
+         QScriptValue v = ctx->argument(0);
+         if (v.isString()) {
+-            return qScriptValueFromValue(eng, KIcon(v.toString()));
++            QIcon icon = KIcon(v.toString());
++            return qScriptValueFromValue(eng, icon);
+         } else if (v.isVariant()) {
+             QVariant variant = v.toVariant();
+             QPixmap p = variant.value<QPixmap>();
