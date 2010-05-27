@@ -205,6 +205,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_locale.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_nepomuk.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_trash.so
+%attr(755,root,root) %{_libdir}/kde4/kded_activitymanager.so
 %attr(755,root,root) %{_libdir}/kde4/kded_device_automounter.so
 %attr(755,root,root) %{_libdir}/kde4/kded_kpasswdserver.so
 %attr(755,root,root) %{_libdir}/kde4/kded_ktimezoned.so
@@ -248,6 +249,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/localdomainurifilter.so
 %attr(755,root,root) %{_libdir}/kde4/librenaudioplugin.so
 %attr(755,root,root) %{_libdir}/kde4/librenimageplugin.so
+%attr(755,root,root) %{_libdir}/kde4/nepomukactivitiesservice.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukfilewatch.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukmigration1.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukontologyloader.so
@@ -268,6 +270,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdeeject
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdesu
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdesud
+%attr(755,root,root) %{_libdir}/kde4/libexec/kdontchangethehostname
 %attr(755,root,root) %{_libdir}/kde4/libexec/khc_docbookdig.pl
 %attr(755,root,root) %{_libdir}/kde4/libexec/khc_htdig.pl
 %attr(755,root,root) %{_libdir}/kde4/libexec/khc_htsearch.pl
@@ -279,6 +282,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/strigi/strigiindex_nepomukbackend.so
 %{_datadir}/apps/drkonqi
 %dir %{_datadir}/apps/kcm_componentchooser
+%{_datadir}/apps/hardwarenotifications
 %{_datadir}/apps/kcm_componentchooser/kcm_browser.desktop
 %{_datadir}/apps/kcm_componentchooser/kcm_filemanager.desktop
 %{_datadir}/apps/kcm_componentchooser/kcm_kemail.desktop
@@ -313,6 +317,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/config/kshorturifilterrc
 %{_datadir}/config/khotnewstuff_upload.knsrc
 %{_datadir}/dbus-1/services/org.kde.knotify.service
+%{_datadir}/dbus-1/services/org.kde.kuiserver.service
 %{_datadir}/dbus-1/interfaces/*.xml
 %{_datadir}/emoticons/kde4
 %{_datadir}/kde4/services/about.protocol
@@ -345,6 +350,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kcmkded.desktop
 %{_datadir}/kde4/services/kcmnotify.desktop
 %{_datadir}/kde4/services/kcmtrash.desktop
+%{_datadir}/kde4/services/kded/activitymanager.desktop
 %{_datadir}/kde4/services/kded/device_automounter.desktop
 %{_datadir}/kde4/services/kded/kpasswdserver.desktop
 %{_datadir}/kde4/services/kded/ktimezoned.desktop
@@ -364,6 +370,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/lzma.protocol
 %{_datadir}/kde4/services/man.protocol
 %{_datadir}/kde4/services/nepomuk.protocol
+%{_datadir}/kde4/services/nepomukactivitiesservice.desktop
 %{_datadir}/kde4/services/nepomukremovablestorageservice.desktop
 %{_datadir}/kde4/services/nfs.protocol
 %{_datadir}/kde4/services/programs.protocol
@@ -480,6 +487,9 @@ rm -rf $RPM_BUILD_ROOT
 
 # dir owned by kdelibs
 %{_datadir}/apps/desktoptheme/default/*
+%dir %{_datadir}/apps/desktoptheme/oxygen
+%{_datadir}/apps/desktoptheme/oxygen/*
+
 
 %files devel
 %defattr(644,root,root,755)
