@@ -30,6 +30,7 @@ BuildRequires:	QtTest-devel >= %{qtver}
 BuildRequires:	QtUiTools-devel >= %{qtver}
 BuildRequires:	alsa-lib-devel
 BuildRequires:	attica-devel >= 0.1
+BuildRequires:	attica-devel < 0.1.4
 BuildRequires:	automoc4 >= 0.9.88
 BuildRequires:	bzip2-devel
 BuildRequires:	clucene-core-devel >= 0.9.21
