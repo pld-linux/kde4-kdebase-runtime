@@ -1,0 +1,89 @@
+--- trunk/KDE/kdebase/runtime/attica/kdeplugin/kdeplatformdependent.cpp	2009/12/30 14:40:48	1067762
++++ trunk/KDE/kdebase/runtime/attica/kdeplugin/kdeplatformdependent.cpp	2010/04/08 15:11:27	1112575
+@@ -202,7 +202,6 @@
+     return false;
+ }
+ 
+-
+ QList<QUrl> KdePlatformDependent::getDefaultProviderFiles() const
+ {
+     KConfigGroup group(m_config, "General");
+@@ -215,6 +214,23 @@
+     return paths;
+ }
+ 
++void KdePlatformDependent::addDefaultProviderFile(const QUrl& url)
++{
++    KConfigGroup group(m_config, "General");
++    QStringList pathStrings = group.readPathEntry("providerFiles", QStringList("http://download.kde.org/ocs/providers.xml"));
++    pathStrings.append(url.toString());
++    group.writeEntry("providerFiles", pathStrings);
++    group.sync();
++    kDebug() << "wrote providers: " << pathStrings;
++}
++
++void KdePlatformDependent::removeDefaultProviderFile(const QUrl& url)
++{
++    KConfigGroup group(m_config, "General");
++    QStringList pathStrings = group.readPathEntry("providerFiles", QStringList("http://download.kde.org/ocs/providers.xml"));
++    pathStrings.removeAll(url.toString());
++    group.writeEntry("providerFiles", pathStrings);
++}
+ 
+ QNetworkAccessManager* Attica::KdePlatformDependent::nam()
+ {
+--- trunk/KDE/kdebase/runtime/attica/kdeplugin/kdeplatformdependent.cpp	2010/04/08 15:11:27	1112575
++++ trunk/KDE/kdebase/runtime/attica/kdeplugin/kdeplatformdependent.cpp	2010/04/09 14:19:45	1112935
+@@ -232,6 +232,27 @@
+     group.writeEntry("providerFiles", pathStrings);
+ }
+ 
++void KdePlatformDependent::enableProvider(const QUrl& baseUrl, bool enabled) const
++{
++    KConfigGroup group(m_config, "General");
++    QStringList pathStrings = group.readPathEntry("disabledProviders", QStringList());
++    if (enabled) {
++        pathStrings.removeAll(baseUrl.toString());
++    } else {
++        if (!pathStrings.contains(baseUrl.toString())) {
++            pathStrings.append(baseUrl.toString());
++        }
++    }
++    group.writeEntry("disabledProviders", pathStrings);
++    group.sync();
++}
++
++bool KdePlatformDependent::isEnabled(const QUrl& baseUrl) const
++{
++    KConfigGroup group(m_config, "General");
++    return !group.readPathEntry("disabledProviders", QStringList()).contains(baseUrl.toString());
++}
++
+ QNetworkAccessManager* Attica::KdePlatformDependent::nam()
+ {
+     return m_accessManager;
+--- trunk/KDE/kdebase/runtime/attica/kdeplugin/kdeplatformdependent.h	2009/12/30 14:40:48	1067762
++++ trunk/KDE/kdebase/runtime/attica/kdeplugin/kdeplatformdependent.h	2010/04/08 15:11:27	1112575
+@@ -47,6 +47,9 @@
+     KdePlatformDependent();
+     virtual ~KdePlatformDependent();
+     virtual QList<QUrl> getDefaultProviderFiles() const;
++    virtual void addDefaultProviderFile(const QUrl& url);
++    virtual void removeDefaultProviderFile(const QUrl& url);    
++    
+     virtual QNetworkReply* post(const QNetworkRequest& request, const QByteArray& data);
+     virtual QNetworkReply* post(const QNetworkRequest& request, QIODevice* data);
+     virtual QNetworkReply* get(const QNetworkRequest& request);
+--- trunk/KDE/kdebase/runtime/attica/kdeplugin/kdeplatformdependent.h	2010/04/08 15:11:27	1112575
++++ trunk/KDE/kdebase/runtime/attica/kdeplugin/kdeplatformdependent.h	2010/04/09 14:19:45	1112935
+@@ -48,7 +48,9 @@
+     virtual ~KdePlatformDependent();
+     virtual QList<QUrl> getDefaultProviderFiles() const;
+     virtual void addDefaultProviderFile(const QUrl& url);
+-    virtual void removeDefaultProviderFile(const QUrl& url);    
++    virtual void removeDefaultProviderFile(const QUrl& url);
++    virtual void enableProvider(const QUrl& baseUrl, bool enabled) const;
++    virtual bool isEnabled(const QUrl& baseUrl) const;
+     
+     virtual QNetworkReply* post(const QNetworkRequest& request, const QByteArray& data);
+     virtual QNetworkReply* post(const QNetworkRequest& request, QIODevice* data);
