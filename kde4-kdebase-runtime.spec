@@ -41,6 +41,7 @@ BuildRequires:	kde4-kdepimlibs-devel >= %{version}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libsmbclient-devel
 BuildRequires:	libssh-devel >= 1:0.4.0
+BuildRequires:	libxml2-progs
 BuildRequires:	openslp-devel
 BuildRequires:	phonon-devel >= 4.3.80
 BuildRequires:	pkgconfig
