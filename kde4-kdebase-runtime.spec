@@ -10,17 +10,16 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.4.4
-Release:	2
+Version:	4.4.5
+Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	60cc64c36942e3e761493ddfbe2bba7e
+# Source0-md5:	6f2bfc771ff5143b89f5a5709d4cca69
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
 Patch100:	%{name}-branch.diff
-Patch0:		%{name}-attica.patch
 URL:		http://www.kde.org/
 BuildRequires:	OpenEXR-devel
 BuildRequires:	Qt3Support-devel >= %{qtver}
@@ -104,7 +103,6 @@ Styl Oxygen dla KDE.
 %prep
 %setup -q -n %{orgname}-%{version} -a1
 #%patch100 -p1
-%patch0 -p4
 
 %build
 install -d build
