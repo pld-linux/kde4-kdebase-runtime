@@ -3,19 +3,19 @@
 #
 # Conditional build:
 #
-%define		_state		unstable
+%define		_state		stable
 %define		orgname		kdebase-runtime
-%define		qtver		4.6.2
+%define		qtver		4.6.3
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.4.80
+Version:	4.5.0
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	d119f6a743132a60faaeebc017f4edbe
+# Source0-md5:	2e8d058d4fcfc00526376b62436025ad
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
@@ -48,7 +48,7 @@ BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	qt4-qmake >= %{qtver}
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	shared-desktop-ontologies-devel >= 0.5
-BuildRequires:	soprano-devel >= 2.4.63
+BuildRequires:	soprano-devel >= 2.4.64
 BuildRequires:	strigi-devel >= 0.7.0
 BuildRequires:	xine-lib-devel
 BuildRequires:	xz-devel
@@ -280,6 +280,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/libexec/klocaldomainurifilterhelper
 %attr(755,root,root) %{_libdir}/kde4/libexec/knetattach
 %attr(755,root,root) %{_libdir}/strigi/strigiindex_nepomukbackend.so
+%attr(755,root,root) %{_libdir}/kde4/libexec/kcmremotewidgetshelper
+%{_sysconfdir}/dbus-1/system.d/org.kde.kcontrol.kcmremotewidgets.conf
+%{_datadir}/PolicyKit/policy/org.kde.kcontrol.kcmremotewidgets.policy
+%{_datadir}/dbus-1/system-services/org.kde.kcontrol.kcmremotewidgets.service
 %{_datadir}/apps/drkonqi
 %dir %{_datadir}/apps/kcm_componentchooser
 %{_datadir}/apps/hardwarenotifications
