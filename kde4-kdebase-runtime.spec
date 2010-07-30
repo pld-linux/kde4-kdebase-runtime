@@ -10,16 +10,16 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.4.5
+Version:	4.5.0
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	6f2bfc771ff5143b89f5a5709d4cca69
+# Source0-md5:	2e8d058d4fcfc00526376b62436025ad
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
-Patch100:	%{name}-branch.diff
+#Patch100:	%{name}-branch.diff
 URL:		http://www.kde.org/
 BuildRequires:	OpenEXR-devel
 BuildRequires:	Qt3Support-devel >= %{qtver}
@@ -29,7 +29,7 @@ BuildRequires:	QtSvg-devel >= %{qtver}
 BuildRequires:	QtTest-devel >= %{qtver}
 BuildRequires:	QtUiTools-devel >= %{qtver}
 BuildRequires:	alsa-lib-devel
-BuildRequires:	attica-devel
+BuildRequires:	attica-devel >= 0.1.4
 BuildRequires:	automoc4 >= 0.9.88
 BuildRequires:	bzip2-devel
 BuildRequires:	clucene-core-devel >= 0.9.21
@@ -40,16 +40,15 @@ BuildRequires:	kde4-kdepimlibs-devel >= %{version}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libsmbclient-devel
 BuildRequires:	libssh-devel >= 1:0.4.0
-BuildRequires:	libxml2-progs
 BuildRequires:	openslp-devel
-BuildRequires:	phonon-devel >= 4.3.80
+BuildRequires:	phonon-devel >= 4.4.1
 BuildRequires:	pkgconfig
 BuildRequires:	pulseaudio-devel
 BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	qt4-qmake >= %{qtver}
 BuildRequires:	rpmbuild(macros) >= 1.129
-BuildRequires:	shared-desktop-ontologies-devel >= 0.2
-BuildRequires:	soprano-devel >= 2.3.70
+BuildRequires:	shared-desktop-ontologies-devel >= 0.5
+BuildRequires:	soprano-devel >= 2.4.64
 BuildRequires:	strigi-devel >= 0.7.0
 BuildRequires:	xine-lib-devel
 BuildRequires:	xz-devel
@@ -87,18 +86,6 @@ KDE 4 Phonon plugins.
 
 %description -n kde4-phonon -l pl.UTF-8
 Wtyczki KDE 4 dla Phonona.
-
-%package -n kde4-style-oxygen
-Summary:	KDE Oxygen Style
-Summary(pl.UTF-8):	Styl Oxygen dla KDE
-Group:		Themes
-Obsoletes:	kde-style-oxygen
-
-%description -n kde4-style-oxygen
-KDE Oxygen Style.
-
-%description -n kde4-style-oxygen -l pl.UTF-8
-Styl Oxygen dla KDE.
 
 %prep
 %setup -q -n %{orgname}-%{version} -a1
@@ -218,6 +205,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_locale.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_nepomuk.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_trash.so
+%attr(755,root,root) %{_libdir}/kde4/kded_activitymanager.so
 %attr(755,root,root) %{_libdir}/kde4/kded_device_automounter.so
 %attr(755,root,root) %{_libdir}/kde4/kded_kpasswdserver.so
 %attr(755,root,root) %{_libdir}/kde4/kded_ktimezoned.so
@@ -261,6 +249,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/localdomainurifilter.so
 %attr(755,root,root) %{_libdir}/kde4/librenaudioplugin.so
 %attr(755,root,root) %{_libdir}/kde4/librenimageplugin.so
+%attr(755,root,root) %{_libdir}/kde4/nepomukactivitiesservice.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukfilewatch.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukmigration1.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukontologyloader.so
@@ -281,6 +270,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdeeject
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdesu
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdesud
+%attr(755,root,root) %{_libdir}/kde4/libexec/kdontchangethehostname
 %attr(755,root,root) %{_libdir}/kde4/libexec/khc_docbookdig.pl
 %attr(755,root,root) %{_libdir}/kde4/libexec/khc_htdig.pl
 %attr(755,root,root) %{_libdir}/kde4/libexec/khc_htsearch.pl
@@ -290,9 +280,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/libexec/klocaldomainurifilterhelper
 %attr(755,root,root) %{_libdir}/kde4/libexec/knetattach
 %attr(755,root,root) %{_libdir}/strigi/strigiindex_nepomukbackend.so
-%dir %{_libdir}/kde4/plugins/styles
+%attr(755,root,root) %{_libdir}/kde4/libexec/kcmremotewidgetshelper
+%{_sysconfdir}/dbus-1/system.d/org.kde.kcontrol.kcmremotewidgets.conf
+%{_datadir}/PolicyKit/policy/org.kde.kcontrol.kcmremotewidgets.policy
+%{_datadir}/dbus-1/system-services/org.kde.kcontrol.kcmremotewidgets.service
 %{_datadir}/apps/drkonqi
 %dir %{_datadir}/apps/kcm_componentchooser
+%{_datadir}/apps/hardwarenotifications
 %{_datadir}/apps/kcm_componentchooser/kcm_browser.desktop
 %{_datadir}/apps/kcm_componentchooser/kcm_filemanager.desktop
 %{_datadir}/apps/kcm_componentchooser/kcm_kemail.desktop
@@ -327,6 +321,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/config/kshorturifilterrc
 %{_datadir}/config/khotnewstuff_upload.knsrc
 %{_datadir}/dbus-1/services/org.kde.knotify.service
+%{_datadir}/dbus-1/services/org.kde.kuiserver.service
 %{_datadir}/dbus-1/interfaces/*.xml
 %{_datadir}/emoticons/kde4
 %{_datadir}/kde4/services/about.protocol
@@ -359,6 +354,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kcmkded.desktop
 %{_datadir}/kde4/services/kcmnotify.desktop
 %{_datadir}/kde4/services/kcmtrash.desktop
+%{_datadir}/kde4/services/kded/activitymanager.desktop
 %{_datadir}/kde4/services/kded/device_automounter.desktop
 %{_datadir}/kde4/services/kded/kpasswdserver.desktop
 %{_datadir}/kde4/services/kded/ktimezoned.desktop
@@ -378,6 +374,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/lzma.protocol
 %{_datadir}/kde4/services/man.protocol
 %{_datadir}/kde4/services/nepomuk.protocol
+%{_datadir}/kde4/services/nepomukactivitiesservice.desktop
 %{_datadir}/kde4/services/nepomukremovablestorageservice.desktop
 %{_datadir}/kde4/services/nfs.protocol
 %{_datadir}/kde4/services/programs.protocol
@@ -494,14 +491,9 @@ rm -rf $RPM_BUILD_ROOT
 
 # dir owned by kdelibs
 %{_datadir}/apps/desktoptheme/default/*
+%dir %{_datadir}/apps/desktoptheme/oxygen
+%{_datadir}/apps/desktoptheme/oxygen/*
 
-# should this really be here? i mean, did kde mess up?
-%{_datadir}/apps/kstyle/themes/qtcde.themerc
-%{_datadir}/apps/kstyle/themes/qtcleanlooks.themerc
-%{_datadir}/apps/kstyle/themes/qtgtk.themerc
-%{_datadir}/apps/kstyle/themes/qtmotif.themerc
-%{_datadir}/apps/kstyle/themes/qtplastique.themerc
-%{_datadir}/apps/kstyle/themes/qtwindows.themerc
 
 %files devel
 %defattr(644,root,root,755)
@@ -536,11 +528,3 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kio_desktop/directory.desktop
 %{_datadir}/apps/kio_desktop/directory.trash
 %{_datadir}/kde4/services/kded/phononserver.desktop
-
-%files -n kde4-style-oxygen
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/kde4/kstyle_oxygen_config.so
-%attr(755,root,root) %{_libdir}/kde4/plugins/styles/oxygen.so
-%{_datadir}/apps/kstyle/themes/oxygen.themerc
-%dir %{_datadir}/apps/desktoptheme/oxygen
-%{_datadir}/apps/desktoptheme/oxygen/*
