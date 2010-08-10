@@ -11,7 +11,7 @@ Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.5.0
-Release:	3
+Release:	4
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
@@ -282,8 +282,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/strigi/strigiindex_nepomukbackend.so
 %attr(755,root,root) %{_libdir}/kde4/libexec/kcmremotewidgetshelper
 %{_sysconfdir}/dbus-1/system.d/org.kde.kcontrol.kcmremotewidgets.conf
-%{_datadir}/PolicyKit/policy/org.kde.kcontrol.kcmremotewidgets.policy
 %{_datadir}/dbus-1/system-services/org.kde.kcontrol.kcmremotewidgets.service
+%{_datadir}/polkit-1/actions/org.kde.kcontrol.kcmremotewidgets.policy
 %{_datadir}/apps/drkonqi
 %dir %{_datadir}/apps/kcm_componentchooser
 %{_datadir}/apps/hardwarenotifications
