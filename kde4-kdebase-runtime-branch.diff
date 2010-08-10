@@ -1,2732 +1,1150 @@
---- runtime/knotify/Info.plist.template	(.../tags/KDE/4.4.1/kdebase)	(wersja 0)
-+++ runtime/knotify/Info.plist.template	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -0,0 +1,36 @@
-+<?xml version="1.0" encoding="UTF-8"?>
-+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-+<plist version="1.0">
-+<dict>
-+    <key>CFBundleDevelopmentRegion</key>
-+    <string>English</string>
-+    <key>CFBundleExecutable</key>
-+    <string>${MACOSX_BUNDLE_EXECUTABLE_NAME}</string>
-+    <key>CFBundleGetInfoString</key>
-+    <string>${MACOSX_BUNDLE_INFO_STRING}</string>
-+    <key>CFBundleIconFile</key>
-+    <string>${MACOSX_BUNDLE_ICON_FILE}</string>
-+    <key>CFBundleIdentifier</key>
-+    <string>${MACOSX_BUNDLE_GUI_IDENTIFIER}</string>
-+    <key>CFBundleInfoDictionaryVersion</key>
-+    <string>6.0</string>
-+    <key>CFBundleLongVersionString</key>
-+    <string>${MACOSX_BUNDLE_LONG_VERSION_STRING}</string>
-+    <key>CFBundleName</key>
-+    <string>${MACOSX_BUNDLE_BUNDLE_NAME}</string>
-+    <key>CFBundlePackageType</key>
-+    <string>APPL</string>
-+    <key>CFBundleShortVersionString</key>
-+    <string>${MACOSX_BUNDLE_SHORT_VERSION_STRING}</string>
-+    <key>CFBundleVersion</key>
-+    <string>${MACOSX_BUNDLE_BUNDLE_VERSION}</string>
-+    <key>CSResourcesFileMapped</key>
-+    <true/>
-+    <key>LSRequiresCarbon</key>
-+    <true/>
-+    <key>LSUIElement</key>
-+    <string>1</string>
-+    <key>NSHumanReadableCopyright</key>
-+    <string>${MACOSX_BUNDLE_COPYRIGHT}</string>
-+</dict>
-+</plist>
---- runtime/knotify/CMakeLists.txt	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/knotify/CMakeLists.txt	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -22,6 +22,12 @@
- set (knotify_OUTPUT_NAME knotify4)
- kde4_add_executable( knotify ${knotify_SRCS})
- 
-+if (Q_WS_MAC)
-+    set_target_properties(knotify PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist.template)
-+    set_target_properties(knotify PROPERTIES MACOSX_BUNDLE_GUI_IDENTIFIER "org.kde.knotify4")
-+    set_target_properties(knotify PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "KDE Notify")
-+endif (Q_WS_MAC)
-+
- target_link_libraries( knotify ${KDE4_KDEUI_LIBS} ${KDE4_PHONON_LIBS})
- 
- set_target_properties(knotify PROPERTIES OUTPUT_NAME knotify4 )
---- runtime/solid-device-automounter/kded/device_automounter.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/solid-device-automounter/kded/device_automounter.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -29,6 +29,7 @@
- Name[kk]=Ауыстырмалы құрылғының автоттіркегіші
- Name[km]=កម្មវិធី​ម៉ោន​ឧបករណ៍​ចល័ត​ដោយ​ស្វ័យ​ប្រវត្តិ
- Name[ko]=이동식 장치 자동 마운터
-+Name[lt]=Prijungiamų įrenginių automatinis montavimas
- Name[lv]=Noņemamo iekārtu automontētājs
- Name[mk]=Автом. монтирање на подвижните уреди
- Name[ml]=നീക്കം ചെയ്യാവുന്ന ഉപകരണങ്ങളുടെ ഔട്ടോമൌണ്ടര്‍
-@@ -75,6 +76,7 @@
- Comment[kk]=Құрылғыны қосқан кезде не кірген кезде автоматты түрде тіркеу
- Comment[km]=ម៉ោន​ឧបករណ៍​ដោយ​ស្វ័យ​ប្រវត្តិ នៅពេល​ពួកវា​ត្រូវ​បានដោត​ ឬ​ចូល
- Comment[ko]=로그인하거나 연결할 때 자동으로 장치 마운트하기
-+Comment[lt]=Automatiškai primontuoja įrenginius kai jie yra prijungiami, arba – prisiregistravimo metu
- Comment[lv]=Automātiski piemontē pieslēgtās ierīces, piesakoties datorā vai iespraužot
- Comment[mk]=Автоматски ги монтира уредите кога ќе бидат вклучени, или при најава
- Comment[ml]=ഉപകരണള്‍ കുത്തുമ്പോഴോ അകത്തുകയറുമ്പോഴോ അവ മൌണ്ട് ചെയ്യുന്നതാണ്
---- runtime/solid-device-automounter/kcm/device_automounter_kcm.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/solid-device-automounter/kcm/device_automounter_kcm.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -34,6 +34,7 @@
- Name[km]=ឧបករណ៍ចល័ត
- Name[kn]=ತೆಗೆದೆಹಾಕಬಹುದಾದ ಸಾಧನಗಳು
- Name[ko]=이동식 장치
-+Name[lt]=Atjungiami įrenginiai
- Name[lv]=Noņemamās iekārtas
- Name[mk]=Подвижни уреди
- Name[ml]=നീക്കം ചെയ്യാവുന്ന ഉപകരണങ്ങള്‍
-@@ -83,6 +84,7 @@
- Comment[kk]=Ауыстырмалы сақтағыш тасушылармен автоматты түрде айналысуды баптау
- Comment[km]=កំណត់​រចនាសម្ព័ន្ធ​ការ​គ្រប់គ្រង​ដោយ​ស្វ័យ​ប្រវត្តិ​របស់​មេឌៀ​ផ្ទុក​ចល័ត
- Comment[ko]=이동식 저장소 미디어 자동 처리 설정
-+Comment[lt]=Atjungiamų įrenginių automatinio tvarkymo konfigūravimas
- Comment[lv]=Konfifurēt noņemamo datu nesēju automātisku apstrādi
- Comment[mk]=Го конфигурира автоматското ракување со подвижните носачи
- Comment[ml]=നീക്കം ചെയ്യാവുന്ന സംഭരണ മാധ്യമത്തിനെ സ്വയം കൈകാര്യം ചെയ്യുന്നതു് ക്രമീകരിയ്ക്കുക.
---- runtime/localization/currency/all.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/all.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=អាល់បានី ឡិក
- Name[kn]=ಅಲ್ಬೇನಿಯಾದ ಲೇಕ್
- Name[ko]=알바니아 레크
-+Name[lt]=Albanijos lekas
- Name[lv]=Albāņu Lekas
- Name[mai]=अलबानिया लेक
- Name[mk]=Албански лек
---- runtime/localization/currency/etb.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/etb.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -28,6 +28,7 @@
- Name[km]=ប៊ែរ​អេត្យូពី
- Name[kn]=ಇಥಿಯೋಪಿಯಾದ ಬಿರ್
- Name[ko]=에티오피아 비르
-+Name[lt]=Etiopijos bira
- Name[ml]=എത്യോപിയയിലെ ബിര്‍
- Name[nb]=Etiopiske birr
- Name[nds]=Äthioopsch Birr
---- runtime/localization/currency/frf.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/frf.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=French Franc
- Name[kn]=ಫ್ರೆಂಚ್ ಫ್ರಾಂಕ್
- Name[ko]=프랑스 프랑
-+Name[lt]=Prancūzijos frankas
- Name[lv]=Francijas franks
- Name[mai]=फ्रेन्च फ्रान्क
- Name[mk]=Француски франк
---- runtime/localization/currency/idr.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/idr.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=រ៉ូពី​ឥណ្ឌូនេស៊ី
- Name[kn]=ಇಂಡೋನೇಶಿಯಾದ ರುಪೈಯಾ
- Name[ko]=인도네시아 루피아
-+Name[lt]=Indonezijos rupija
- Name[lv]=Indonēzijas rūpija
- Name[ml]=ഇന്‍ഡോനേഷ്യയിലെ റുപയ്യ
- Name[nb]=Indonesiske rupier
---- runtime/localization/currency/brl.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/brl.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=រៀល​ប្រេហ្ស៊ីល
- Name[kn]=ಬ್ರಝಿಲಿಯಾದ ರೀಲ್
- Name[ko]=브라질 레알
-+Name[lt]=Brazilijos realas
- Name[lv]=Brazīlijas reāls
- Name[mai]=ब्राजील रीयाल
- Name[mk]=Бразилски реал
---- runtime/localization/currency/bzd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/bzd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -29,6 +29,7 @@
- Name[km]=ដុល្លារ​បេលីហ្ស
- Name[kn]=ಬೆಲಿಝ್ ಡಾಲರ್
- Name[ko]=벨리즈 달러
-+Name[lt]=Belizo doleris
- Name[lv]=Belizas dolārs
- Name[mai]=बेलाइज डालर
- Name[ml]=ബെലിസിലെ ഡോളര്‍
---- runtime/localization/currency/ghs.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/ghs.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -27,6 +27,7 @@
- Name[km]=សេឌី​ហ្កាណា
- Name[kn]=ಘಾನಾ ಸೆಡಿ
- Name[ko]=가나 세디
-+Name[lt]=Ganos cedis
- Name[ml]=ഘാന സെഡി
- Name[nb]=Ghana Cedi
- Name[nds]=Ghana-Cedi
---- runtime/localization/currency/ils.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/ils.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -27,6 +27,7 @@
- Name[kk]=Израильдің жаңа шекелі
- Name[km]=Israeli New Sheqel
- Name[ko]=이스라엘 신 셰켈
-+Name[lt]=Izraelio naujasis šekelis
- Name[lv]=Izraēlas jaunais šekelis
- Name[mk]=Израелски Нов шекел
- Name[ml]=ഇസ്രായേലിലെ പുതിയ ഷേകേല്‍
---- runtime/localization/currency/ats.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/ats.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=Austrian Schilling
- Name[kn]=ಆಸ್ಟ್ರಿಯಾದ ಶಿಲಿಂಗ್
- Name[ko]=오스트리아 실링
-+Name[lt]=Austrijos šilingas
- Name[lv]=Austrijas šiliņš
- Name[mai]=आस्ट्रियन शिल्लिंग
- Name[mk]=Австриски шилинг
---- runtime/localization/currency/cad.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/cad.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=Canadian Dollar
- Name[kn]=ಕೆನಡಾದ ಡಾಲರ್
- Name[ko]=캐나다 달러
-+Name[lt]=Kanados doleris
- Name[lv]=Kanādas dolārs
- Name[mai]=कनाडा डालर
- Name[mk]=Канадски долар
---- runtime/localization/currency/itl.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/itl.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=Italian Lira
- Name[kn]=ಇಟಿಲಿಯಾದ ಲಿರಾ
- Name[ko]=이탈리아 리라
-+Name[lt]=Italijos lira
- Name[lv]=Itālijas lira
- Name[mai]=इटालियन लीरा
- Name[mk]=Италијанска лира
---- runtime/localization/currency/aed.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/aed.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -29,6 +29,7 @@
- Name[km]=អារ៉ាប់រួម ឌឺហែម
- Name[kn]=ಯುನೈಟೆಡ್ ಅರಬ್ ಎಮಿರೈಟ್ಸಿನ ದಿರ್ಹಾಮ್
- Name[ko]=아랍에미리트 디르함
-+Name[lt]=Jungtinių arabų emyratų dirhamas
- Name[lv]=Apvienoto Arābu Emerātu dinārs
- Name[mai]=संयुक्त अरब अमीरात दिरहम
- Name[mk]=Дирхам од Обединети Арапски Емирати
---- runtime/localization/currency/shp.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/shp.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -23,6 +23,7 @@
- Name[hr]=Funta Svete Helene
- Name[hu]=Szent Heléna-i font
- Name[id]=Pound Saint Helena
-+Name[is]=Sankti Helenu pund
- Name[it]=Sterlina di Sant'Elena
- Name[ja]=セントヘレナ・ポンド
- Name[kk]=Әулие Елена фунты
---- runtime/localization/currency/lvl.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/lvl.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -28,6 +28,7 @@
- Name[km]=ឡាត​ឡាតវីយ៉ា
- Name[kn]=ಲಾಟ್ವಿಯಾದ ಲ್ಯಾಟ್ಸ್
- Name[ko]=라트비아 라트
-+Name[lt]=Latvijos latas
- Name[lv]=Latvijas lats
- Name[ml]=ലാത്വിയയിലെ ലാത്സ്
- Name[nb]=Latviske lats
---- runtime/localization/currency/amd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/amd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=អារមេនី ដ្រាម
- Name[kn]=ಅರ್ಮೇನಿಯಾದ ದ್ರಾಮ್
- Name[ko]=아르메니아 드람
-+Name[lt]=Armėnijos dramas
- Name[lv]=Armēņu Dramas
- Name[mai]=आर्मेनिया ड्रैम
- Name[mk]=Ерменски драм
---- runtime/localization/currency/eek.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/eek.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=គ្រូន​​អេស្តូនី
- Name[kn]=ಎಸ್ಟೋನಿಯಾದ ಕ್ರೂನ್
- Name[ko]=에스토니아 크룬
-+Name[lt]=Estijos krona
- Name[lv]=Igaunijas krona
- Name[ml]=എസ്റ്റോണിയയിലെ ക്രൂണ്‍
- Name[nb]=Estiske kroon
---- runtime/localization/currency/bsd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/bsd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=Bahamian Dollar
- Name[kn]=ಬಹಮಿಯಾದ ಡಾಲರ್
- Name[ko]=바하마 달러
-+Name[lt]=Bahamų doleris
- Name[lv]=Bahamu dolārs
- Name[mai]=बहामा डालर
- Name[mk]=Бахамски долар
---- runtime/localization/currency/aud.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/aud.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=ដុល្លារ​អូស្ត្រាលី
- Name[kn]=ಆಸ್ಟ್ರೇಲಿಯಾದ ಡಾಲರ್
- Name[ko]=오스트레일리아 달러
-+Name[lt]=Australijos doleris
- Name[lv]=Austrālijas dolārs
- Name[mai]=आस्ट्रेलिया डालर
- Name[mk]=Австралиски долар
---- runtime/localization/currency/iep.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/iep.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=ផោ​ន​អៀឡង់
- Name[kn]=ಐರಿಶ್ ಪೌಂಡ್
- Name[ko]=아일랜드 파운드
-+Name[lt]=Airijos svaras
- Name[lv]=Īru mārciņa
- Name[mk]=Ирска фунта
- Name[ml]=ഐറിഷ് പൌണ്ട്
---- runtime/localization/currency/gip.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/gip.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=ផោន ហ្គីប្រាតា
- Name[kn]=ಜಿಬ್ರಾಲ್ಟರ್ ಪೌಂಡ್
- Name[ko]=지브롤터 파운드
-+Name[lt]=Gibraltaro svaras
- Name[lv]=Gibraltāra mārciņa
- Name[mk]=Гибралтарска фунта
- Name[ml]=ജിബ്രാല്‍ട്ടറിലെ പൌണ്ട്
---- runtime/localization/currency/fkp.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/fkp.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -29,6 +29,7 @@
- Name[km]=ផោន​កោះ​ហ្វ៉កឡង់
- Name[kn]=ಫಾಕ್‌ಲ್ಯಾಂಡ್ ಐಲ್ಯಾಂಡುಗಳ ಪೌಂಡ್
- Name[ko]=포클랜드 제도 파운드
-+Name[lt]=Falklando salų svaras
- Name[lv]=Folklendu salu mārciņa
- Name[mk]=Фунта од Фокландски Острови
- Name[ml]=ഫാക്‍ലാന്റ് ദ്വീപുകളിലെ പൌണ്ട്
---- runtime/localization/currency/dop.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/dop.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=ប៉េសូ​ដូមីនីកា
- Name[kn]=ಡೊಮಿನಿಕನ್ ಪೆಸೊ
- Name[ko]=도미니카 페소
-+Name[lt]=Dominikos pesas
- Name[lv]=Dominikas peso
- Name[mk]=Доминикански пезос
- Name[ml]=‌ഡൊമിനിയ്ക്കയിലെ പെസോ
---- runtime/localization/currency/afa.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/afa.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=អាហ្គានីស្ថាន
- Name[kn]=ಅಫ್ಘನ್‌ ಆಫ್ಘಾನಿ
- Name[ko]=아프가니스탄 아프가니
-+Name[lt]=Afganistano afganis
- Name[lv]=Afgāņu afgāni
- Name[mai]=अफगान अफगानी
- Name[ml]=അഫ്ഗാനിലെ അഫ്ഗാനി
---- runtime/localization/currency/rsd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/rsd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=ឌីណា​ស៊ឺប៊ែរ
- Name[kn]=ಸರ್ಬಿಯಾದ ದಿನಾರ್
- Name[ko]=세르비아 디나르
-+Name[lt]=Serbijos dinaras
- Name[lv]=Serbijas dinārs
- Name[mk]=Српски динар
- Name[ml]=സെര്‍ബിയയിലെ ദിനാര്‍
---- runtime/localization/currency/eur.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/eur.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -32,6 +32,7 @@
- Name[km]=អឺរ៉ូ
- Name[kn]=ಯೂರೊ
- Name[ko]=유로
-+Name[lt]=Euras
- Name[lv]=Eiro
- Name[mk]=Евро
- Name[ml]=യൂറോ
---- runtime/localization/currency/xof.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/xof.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -22,7 +22,7 @@
- Name[hr]=Zapadno afrički CFA frank
- Name[id]=CFA Franc Afrika Barat
- Name[is]=Vestur-afrískur CFA franki
--Name[it]=Franco CFA dell'africa occidentale
-+Name[it]=Franco CFA dell'Africa occidentale
- Name[ja]=西部アフリカ CFA フラン
- Name[kk]=Батыс Африка CFA франкі
- Name[km]=West African CFA Franc
---- runtime/localization/currency/afn.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/afn.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=អាហ្គានីស្ថាន
- Name[kn]=ಅಫ್ಘನ್‌ ಆಫ್ಘಾನಿ
- Name[ko]=아프가니스탄 아프가니
-+Name[lt]=Afganistano afganis
- Name[lv]=Afgāņu afgāni
- Name[mai]=अफगान अफगानी
- Name[ml]=അഫ്ഗാനിലെ അഫ്ഗാനി
---- runtime/localization/currency/ang.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/ang.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -29,6 +29,7 @@
- Name[km]=អង់ទីយ៍​ហុល្លង់
- Name[kn]=ನೆದರ್ಲ್ಯಾಂಡ್ಸ್ ಆಂಟಿಲಿಯಾದ ಗಿಲ್ಡರ್
- Name[ko]=네덜란드령 앤틸리스 길더
-+Name[lt]=Nyderlandų Antilų guldenas
- Name[lv]=Nīderlandes Antiļas guldeņi
- Name[mai]=नीदरलैंड्स एंटीलेस गिल्डर
- Name[mk]=Холандски Антилски гилдер
---- runtime/localization/currency/crc.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/crc.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -28,6 +28,7 @@
- Name[km]=កូឡុន​កូស្តារីកា 
- Name[kn]=ಕೋಸ್ಟ ರಿಕಾದ ಕೊಲೊನ್
- Name[ko]=코스타리카 콜론
-+Name[lt]=Kosta Rikos kolonas
- Name[mai]=कोस्टा रिका कोलोन
- Name[ml]=കൊസ്റ്ററിക്കയിലെ കോളന്‍
- Name[nb]=Costa Rica-Colon
---- runtime/localization/currency/gbp.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/gbp.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=British Pound Sterling
- Name[kn]=ಬ್ರಿಟಿಷ್ ಪೌಂಡ್ ಸ್ಟರ್ಲಿಂಗ್
- Name[ko]=영국 파운드
-+Name[lt]=Britų svaras sterlingų
- Name[lv]=Britu mārciņa
- Name[ml]=ബ്രിട്ടീഷ് പൌണ്ട് സ്റ്റര്‍ലിങ്
- Name[nb]=Britiske Pund Sterling
---- runtime/localization/currency/bdt.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/bdt.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=តាកា​បង់ក្លាដេស្ហ
- Name[kn]=ಬಾಂಗ್ಲಾದೇಶದ ಟಾಕಾ
- Name[ko]=방글라데시 타카
-+Name[lt]=Bangladešo taka
- Name[mai]=बांग्लादेश टका
- Name[ml]=ബംഗ്ലാദേശിലെ ടാക്ക
- Name[nb]=Bangladesh Taka
---- runtime/localization/currency/grd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/grd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -28,6 +28,7 @@
- Name[kk]=Грекия драхмасы
- Name[km]=Greek Drachma
- Name[ko]=그리스 드라크마
-+Name[lt]=Graikijos drachma
- Name[lv]=Grieķijas drahma
- Name[mai]=ग्रीक ड्राक्मा
- Name[mk]=Грчка драхма
---- runtime/localization/currency/btn.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/btn.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -22,11 +22,13 @@
- Name[hr]=Bhutanese Ngultrum
- Name[hu]=Bhutáni ngultrum
- Name[id]=Ngultrum Bhutan
-+Name[is]=Bhútanskur Ngultrum
- Name[it]=Ngultrum bhutanese
- Name[ja]=ブータン・ニュルタム
- Name[kk]=Бутан нгултрумы
- Name[km]=Bhutanese Ngultrum
- Name[ko]=부탄 엉굴트럼
-+Name[lt]=Butano ngultrumas
- Name[mai]=भुटानी न्गुलट्रम
- Name[ml]=ഭൂട്ടാനിലെ ഗള്‍ട്ടറം
- Name[nb]=Butanske Ngultrum
---- runtime/localization/currency/czk.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/czk.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=Czech Koruna
- Name[kn]=ಜೆಕ್ ಕೊರುನಾ
- Name[ko]=체코 코루나
-+Name[lt]=Čekų krona
- Name[lv]=Čehu krona
- Name[ml]=ചെക്ക് കൊറുണാ
- Name[nb]=Tsjekkiske koruna
---- runtime/localization/currency/inr.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/inr.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=រ៉ូពី​ឥណ្ឌា
- Name[kn]=ಭಾರತದ ರುಪಾಯಿ
- Name[ko]=인도 루피
-+Name[lt]=Indijos rupija
- Name[lv]=Indijas rūpija
- Name[ml]=ഇന്ത്യയിലെ രൂപ
- Name[nb]=Indiske rupier
---- runtime/localization/currency/xpd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/xpd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -27,6 +27,7 @@
- Name[km]=Palladium
- Name[kn]=ಪೆಲಾಡಿಯಮ್
- Name[ko]=팔라듐
-+Name[lt]=Paladijus
- Name[lv]=Palādijs
- Name[mk]=Паладиум
- Name[ml]=പലാഡിയം
---- runtime/localization/currency/bef.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/bef.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=Belgian Franc
- Name[kn]=ಬೆಲ್ಜಿಯನ್ ಫ್ರಾಂಕ್
- Name[ko]=벨기에 프랑
-+Name[lt]=Belgijos frankas
- Name[lv]=Beļģijas franks
- Name[mai]=बेल्जियन फ्रान्क 
- Name[mk]=Белгиски франк
---- runtime/localization/currency/aoa.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/aoa.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -29,6 +29,7 @@
- Name[km]=អង់ហ្គោឡា ខ្វាន់ហ្សា
- Name[kn]=ಅಂಗೋಲಾದ ಕ್ವಾಂಝಾ
- Name[ko]=앙골라 콴자
-+Name[lt]=Angolos kvanzas
- Name[mai]=अंगोला क्वांजा
- Name[ml]=അംഗോളയിലെ ക്വാന്‍സ
- Name[nb]=Angolanske Kwanza
---- runtime/localization/currency/bmd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/bmd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -24,12 +24,14 @@
- Name[hr]=Bermudski dolar
- Name[hu]=Bermudai dollár
- Name[id]=Dollar Bermuda
-+Name[is]=Bermúdadollari
- Name[it]=Dollaro della Bermuda
- Name[ja]=バミューダ・ドル
- Name[kk]=Бермуд доллары
- Name[km]=ដុល្លារ​ប៊េរមូដា
- Name[kn]=ಬರ್ಮುಡಾ ಡಾಲರ್
- Name[ko]=버뮤다 달러
-+Name[lt]=Bermudų doleris
- Name[lv]=Bermudu dolārs
- Name[mai]=बरमुडा डालर
- Name[mk]=Бермудски долар
---- runtime/localization/currency/jmd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/jmd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=ដុល្លារ​ហ្សាម៉ាអ៊ិកា
- Name[kn]=ಜಮೈಕಾದ ಡಾಲರ್
- Name[ko]=자메이카 달러
-+Name[lt]=Jamaikos doleris
- Name[lv]=Jamaikas dolārs
- Name[mk]=Јамајкански долар
- Name[ml]=ജമൈക്കയിലെ ഡോളര്‍
---- runtime/localization/currency/egp.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/egp.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=Egyptian Pound
- Name[kn]=ಈಜಿಪ್ಟಿಯನ್ ಪೌಂಡ್
- Name[ko]=이집트 파운드
-+Name[lt]=Egipto svaras
- Name[lv]=Ēģiptes mārciņa
- Name[mk]=Египетска фунта
- Name[ml]=ഈജിപ്റ്റിലെ പൌണ്ട്
---- runtime/localization/currency/aon.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/aon.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -28,6 +28,7 @@
- Name[kk]=Анголаның нова кванзасы
- Name[km]=Angolan Novo Kwanza
- Name[ko]=앙골라 노보 콴자
-+Name[lt]=Angolos Novo kvanzas
- Name[mai]=अंगोला नोवा क्वांजा
- Name[ml]=അന്ഗോളിയന്‍ നോവൊ ക്വാന്‍സാ
- Name[nb]=Angolanske Novo Kwanza
---- runtime/localization/currency/xaf.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/xaf.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -23,7 +23,7 @@
- Name[hr]=CFA Franak Centralne Afrike
- Name[id]=Franc CFA Afrika Tengah
- Name[is]=Mið-Afríkulýðveldis CFA franki
--Name[it]=Franco CFA dell'africa centrale
-+Name[it]=Franco CFA dell'Africa centrale
- Name[ja]=中部アフリカ CFA フラン
- Name[kk]=Орталық Африка CFA франкі
- Name[km]=សាធារណរដ្ឋ​អាហ្វ្រិក​កណ្ដាល CFA
---- runtime/localization/currency/awg.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/awg.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -27,6 +27,7 @@
- Name[kk]=Аруби флорині
- Name[km]=Aruban Florin
- Name[ko]=아루바 길더
-+Name[lt]=Arubos florinas
- Name[mai]=अरूबन फ्लोरिन
- Name[ml]=അറുബന്‍ ഫ്ലൊറിന്‍
- Name[nb]=Arubisk gylden
---- runtime/localization/currency/xag.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/xag.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -29,6 +29,7 @@
- Name[km]=ប្រាក់
- Name[kn]=ಬೆಳ್ಳಿ
- Name[ko]=은
-+Name[lt]=Sidabras
- Name[lv]=Sudrabs
- Name[mk]=Сребро
- Name[ml]=വെള്ളി
---- runtime/localization/currency/rub.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/rub.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=រ៉ូប៊ល​រូស្ស៊ី
- Name[kn]=ರಷ್ಯಾದ ರೂಬೆಲ್
- Name[ko]=러시아 루블
-+Name[lt]=Rusijos rublis
- Name[lv]=Krievijas rublis
- Name[mk]=Руска рубља
- Name[ml]=റഷ്യയിലെ റൂബിള്‍
---- runtime/localization/currency/cdf.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/cdf.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+--- runtime/knotify/kde.notifyrc	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/knotify/kde.notifyrc	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -13,6 +13,7 @@
+ Comment[en_GB]=KDE Workspace
+ Comment[es]=Espacio de trabajo KDE
+ Comment[et]=KDE töötsoon
++Comment[eu]=KDE langunea
+ Comment[fi]=KDE-työtila
+ Comment[fr]=Espace de travail de KDE
+ Comment[fy]=KDE wurkromte
+--- runtime/knotify/hardwarenotifications.notifyrc	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/knotify/hardwarenotifications.notifyrc	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -11,6 +11,7 @@
+ Name[en_GB]=Hardware notifications
+ Name[es]=Notificaciones de hardware
+ Name[et]=Riistvara märguanded
++Name[eu]=Hardware jakinarazpenak
+ Name[fi]=Laitteistohuomautukset
+ Name[fr]=Notifications du matériel
+ Name[fy]=Systeem notifikaasjes
+@@ -61,6 +62,7 @@
+ Comment[en_GB]=Notifications triggered by solid
+ Comment[es]=Notificaciones activadas por solid
+ Comment[et]=Solidi käivitatud märguanded
++Comment[eu]=Solid-ek eragindako jakinarazpenak
+ Comment[fi]=Solidin laukaisemat huomautukset
+ Comment[fr]=Notifications déclenchées par Solid
+ Comment[fy]=Meldingen oanstjoerd troch solid
+@@ -111,6 +113,7 @@
+ Name[en_GB]=Mount or unmount error
+ Name[es]=Error al montar o desmontar
+ Name[et]=Ühendamise või lahutamise viga
++Name[eu]=Muntaketa edo desmuntaketa akatsa
+ Name[fi]=Liittämisvirhe
+ Name[fr]=Erreur de montage ou de démontage
+ Name[fy]=Keppel of ûntkeppel flater
+@@ -159,6 +162,7 @@
+ Comment[en_GB]=There has been a problem mounting or unmounting a device
+ Comment[es]=Ha ocurrido un error al montar o desmontar un dispositivo
+ Comment[et]=Seadme ühendamisel või lahutamisel tekkis probleem
++Comment[eu]=Akats bat gertatu da gailu bat muntatu edo desmuntatzen
+ Comment[fi]=Laitteen liittämisessä tai liitoksen poistamisessa oli ongelma.
+ Comment[fr]=Il y a eu un problème lors du montage ou du démontage d'un périphérique
+ Comment[fy]=Der wie swierrigens by it oankeppeljen of ûntkeppeljen fan in apparaat
+--- runtime/solid-device-automounter/kded/device_automounter.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/solid-device-automounter/kded/device_automounter.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -70,6 +70,7 @@
+ Comment[en_GB]=Automatically mounts devices as needed
+ Comment[es]=Monta automáticamente dispositivos cuando se necesitan
+ Comment[et]=Seadmete automaatne ühendamine vajaduse korral
++Comment[eu]=Gailuak automatikoki muntatzen ditu beharrezko denean
+ Comment[fi]=Liittää laitteet automaattisesti tarpeen mukaan
+ Comment[fr]=Monte automatiquement les périphériques à la demande
+ Comment[fy]=Keppelt automatysk apparaten oan as it nedich is
+--- runtime/kcontrol/knotify/kcmnotify.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kcontrol/knotify/kcmnotify.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -24,6 +24,7 @@
+ Name[en_GB]=Manage Notifications
+ Name[es]=Gestionar notificaciones
+ Name[et]=Märguannete haldamine
++Name[eu]=Jakinarazpenak kudeatu
+ Name[fi]=Huomautusten asetukset
+ Name[fr]=Gérer les notifications
+ Name[fy]=Systeemoankundigingen beheare
+--- runtime/phonon/platform_kde/phonon.notifyrc	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/phonon/platform_kde/phonon.notifyrc	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -12,6 +12,7 @@
+ Comment[en_GB]=Multimedia System
+ Comment[es]=Sistema multimedia
+ Comment[et]=Multimeediasüsteem
++Comment[eu]=Multimedia sistema
+ Comment[fi]=Multimediajärjestelmä
+ Comment[fr]=Système multimédia
+ Comment[fy]=Multymedia systeem
+--- runtime/phonon/kcm/kcm_phonon.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/phonon/kcm/kcm_phonon.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -22,6 +22,7 @@
+ Name[en_GB]=Phonon
+ Name[es]=Phonon
+ Name[et]=Phonon
++Name[eu]=Phonon
+ Name[fi]=Phonon
+ Name[fr]=Phonon
+ Name[fy]=Phonon
+--- runtime/phonon/kded-module/phononserver.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/phonon/kded-module/phononserver.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
 @@ -17,6 +17,7 @@
- Name[hi]=कोंगोली फ्रांक
- Name[hr]=Kongoanski franak
- Name[id]=Franc Kongo
-+Name[is]=Kongóskur franki
- Name[it]=Franco congolese
- Name[ja]=コンゴ・フラン
- Name[kk]=Конгоның франкі
---- runtime/localization/currency/xau.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/xau.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -29,6 +29,7 @@
- Name[km]=មាស
- Name[kn]=ಚಿನ್ನ
- Name[ko]=금
-+Name[lt]=Auksas
- Name[lv]=Zelts
- Name[mk]=Злато
- Name[ml]=സ്വര്‍ണ്ണം
---- runtime/localization/currency/ugx.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/ugx.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -22,6 +22,7 @@
- Name[hi]=उगाँडा शिल्लिंग
- Name[hr]=Ugandski šiling
- Name[id]=Shilling Uganda
-+Name[is]=Úgandískur skildingur
- Name[it]=Scellino ugandese
- Name[ja]=ウガンダ・シリング
- Name[kk]=Уганда шиллингі
---- runtime/localization/currency/djf.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/djf.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=ហ្វ្រង់​ហ្ស៊ីបូទី
- Name[kn]=ಜಿಬೌಟಿಯ ಫ್ರಾಂಕ್
- Name[ko]=지부티 프랑
-+Name[lt]=Džibučio frankas
- Name[lv]=Džibutijas franks
- Name[mk]=Џибутиски франк
- Name[ml]=ജിബൂട്ടിയിലെ ഫ്രാങ്ക്
---- runtime/localization/currency/bnd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/bnd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -24,12 +24,14 @@
- Name[hr]=Brunejski dolar
- Name[hu]=Brunei dollár
- Name[id]=Dollar Brunei
-+Name[is]=Brúnei dollari
- Name[it]=Dollaro del Brunei
- Name[ja]=ブルネイ・ドル
- Name[kk]=Бруней доллары
- Name[km]=ដុល្លារ​ប្រ៊ុយណេ
- Name[kn]=ಬ್ರೂನೈ ಡಾಲರ್
- Name[ko]=브루나이 달러
-+Name[lt]=Brunėjaus doleris
- Name[lv]=Brunejas dolārs
- Name[mai]=ब्रुनेई डालर
- Name[mk]=Брунејски долар
---- runtime/localization/currency/rur.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/rur.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=Russian Ruble A/97
- Name[kn]=ರಶಿಯನ್ ರೂಬಲ್ A/97
- Name[ko]=러시아 루블 (1997년)
-+Name[lt]=Rusijos rublis A/97
- Name[lv]=Krievijas rublis A/97
- Name[mk]=Руска рубља A/97
- Name[ml]=റഷ്യയിലെ റൂബിള്‍ എ/97
---- runtime/localization/currency/sdd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/sdd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -23,6 +23,7 @@
- Name[hr]=Sudanski dinar
- Name[hu]=Szudáni dínár
- Name[id]=Dinar Sudan
-+Name[is]=Súdanskur dínar
- Name[it]=Dinaro sudanese
- Name[ja]=スーダン・ディナール
- Name[kk]=Судан динары
---- runtime/localization/currency/sdg.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/sdg.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -24,6 +24,7 @@
- Name[hr]=Sudanska funta
- Name[hu]=Szudáni font
- Name[id]=Pound Sudan
-+Name[is]=Súdanskt pund
- Name[it]=Sterlina sudanese
- Name[ja]=スーダン・ポンド
- Name[kk]=Судан фунты
---- runtime/localization/currency/clp.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/clp.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=Chilean Peso
- Name[kn]=ಚಿಲಿಯ ಪೆಸೊ
- Name[ko]=칠레 페소
-+Name[lt]=Čilės pesas
- Name[lv]=Čīles peso
- Name[mai]=चीलियन पेसो
- Name[mk]=Чилеански пезос
---- runtime/localization/currency/dzd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/dzd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=ឌីណា​អាល់ហ្សេរី
- Name[kn]=ಅಲ್ಜೀರಿಯನ್ ದಿನಾರ್
- Name[ko]=알제리 디나르
-+Name[lt]=Alžyro dinaras
- Name[lv]=Alžīrijas dinārs
- Name[mk]=Алжирски динар
- Name[ml]=അല്‍ജീരിയയിലെ ദിനാര്‍
---- runtime/localization/currency/hrk.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/hrk.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=ឃុណា​ក្រូអាត
- Name[kn]=ಕ್ರೊಯೆಶಿಯಾದ ಕುನಾ
- Name[ko]=크로아티아 쿠나
-+Name[lt]=Kroatijos kuna
- Name[lv]=Horvātijas kuna
- Name[mk]=Хрватска куна
- Name[ml]=ക്രൊയേഷ്യയിലെ ക്യൂന
---- runtime/localization/currency/bob.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/bob.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -22,12 +22,14 @@
- Name[hr]=Bolivijski boliviano
- Name[hu]=Bolíviai boliviano
- Name[id]=Boliviano Bolivia
-+Name[is]=Bólivískur Boliviano
- Name[it]=Boliviano
- Name[ja]=ボリビア・ボリビアーノ
- Name[kk]=Боливия боливианосы
- Name[km]=Bolivian Boliviano
- Name[kn]=ಬೊಲಿವಿಯಾದ ಬೊಲಿವಿಯಾನೊ
- Name[ko]=볼리비아 볼리비아노
-+Name[lt]=Bolivijos bolivijanas
- Name[lv]=Bolīvijas boliviano
- Name[mai]=बोलिबन बोलिबिनो
- Name[ml]=ബൊളീവിയയിലെ ബൊളിവിയാനോ
---- runtime/localization/currency/bgl.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/bgl.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -29,6 +29,7 @@
- Name[km]=ប៊ុលហ្ការី Lev A/99
- Name[kn]=ಬಲ್ಗೇರಿಯಾದ  Lev A/99
- Name[ko]=불가리아 레프 (1999년)
-+Name[lt]=Bulgarijos levas A/99
- Name[lv]=Bulgārijas leva A/99
- Name[mai]=बल्गारिया Lev A/99
- Name[mk]=Бугарски лев A/99
---- runtime/localization/currency/bgn.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/bgn.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=ប៊ុលហ្ការី Lev
- Name[kn]=ಬಲ್ಗೇರಿಯಾದ  Lev
- Name[ko]=불가리아 레프
-+Name[lt]=Bulgarijos levas
- Name[lv]=Bulgārijas leva
- Name[mai]=बल्गारिया लेव
- Name[mk]=Бугарски лев
---- runtime/localization/currency/gel.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/gel.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=ឡារី​ហ្សកហ្ស៊ី
- Name[kn]=ಜಾರ್ಜಿಯಾದ ಲಾರಿ
- Name[ko]=그루지야 라리
-+Name[lt]=Gruzijos laris
- Name[lv]=Gruzijas lars
- Name[ml]=ജോര്‍ജ്ജിയയിലെ ലാരി
- Name[nb]=Georgiske Lari
---- runtime/localization/currency/dkk.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/dkk.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=Danish Krone
- Name[kn]=ಡ್ಯಾನಿಶ್ ಕ್ರೋನ್
- Name[ko]=덴마크 크로네
-+Name[lt]=Danijos krona
- Name[lv]=Dāņu krona
- Name[mk]=Данска круна
- Name[ml]=ഡെന്മാര്‍ക്കിലെ ക്രോണ
---- runtime/localization/currency/cuc.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/cuc.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -27,6 +27,7 @@
- Name[kk]=Кубаның конвертацияланатын песосы
- Name[km]=Cuban Convertible Peso
- Name[ko]=쿠바 유동적 페소
-+Name[lt]=Kubos konvertuojamasis pesas
- Name[lv]=Kubas konverējamais peso
- Name[mai]=कूबान बदलैबला पेसो
- Name[mk]=Кубански конвертибилен пезос
---- runtime/localization/currency/iqd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/iqd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=Iraqi Dinar
- Name[kn]=ಇರಾಕಿ ದಿನಾರ್
- Name[ko]=이라크 디나르
-+Name[lt]=Irako dinaras
- Name[lv]=Irākas dinārs
- Name[mk]=Ирачки динар
- Name[ml]=ഇറാക്കിലെ ദിനാര്‍
---- runtime/localization/currency/tzs.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/tzs.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -22,6 +22,7 @@
- Name[hi]=तनजानी शिल्लिंग
- Name[hr]=Tanzanijski šiling
- Name[id]=Shilling Tanzania
-+Name[is]=Tansanískur skildingur
- Name[it]=Scellino tanzaniano
- Name[ja]=タンザニア・シリング
- Name[kk]=Танзания шиллингі
---- runtime/localization/currency/sek.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/sek.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=Swedish Krona
- Name[kn]=ಸ್ವೀಡಿಶ್ ಕ್ರೋನಾ
- Name[ko]=스웨덴 크로나
-+Name[lt]=Švedijos krona
- Name[lv]=Zviedru krona
- Name[mk]=Шведска круна
- Name[ml]=സ്വീഡനിലെ ക്രോണ
---- runtime/localization/currency/bov.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/bov.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -27,6 +27,7 @@
- Name[kk]=Боливияның Mvdol-ы
- Name[km]=បូលីវី Mvdol
- Name[ko]=볼리비아 MVDOL
-+Name[lt]=Bolivijos midolis
- Name[mai]=बोलिविया म्वडोल
- Name[ml]=ബൊളീവിയയിലെ മവ്ഡോള്‍
- Name[nb]=Bolivianske Mydol
---- runtime/localization/currency/cup.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/cup.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=Cuban Peso
- Name[kn]=ಕ್ಯೂಬನ್ ಪೆಸೊ
- Name[ko]=쿠바 페소
-+Name[lt]=Kubos pesas
- Name[lv]=Kubas peso
- Name[mai]=क्यूबान पेसो
- Name[mk]=Кубански пезос
---- runtime/localization/currency/nok.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/nok.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=Norwegian Krone
- Name[kn]=ನಾರ್ವೆಯ ಕ್ರೋನ್
- Name[ko]=노르웨이 크로네
-+Name[lt]=Norvegijos krona
- Name[lv]=Norvēģu krona
- Name[mk]=Норвешка круна
- Name[ml]=നോര്‍വെയിലെ ക്രോണ
---- runtime/localization/currency/bwp.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/bwp.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -29,6 +29,7 @@
- Name[km]=ពូឡា​បុតស្វាណា
- Name[kn]=ಬೋಟ್ಸ್ವಾನದ ಪುಲಾ
- Name[ko]=보츠와나 풀라
-+Name[lt]=Botsvanos pula
- Name[mai]=बोत्सवाना पुला
- Name[ml]=ബോട്സ്വാനയിലെ പുല
- Name[nb]=Botswana Pula
---- runtime/localization/currency/bhd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/bhd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -24,12 +24,14 @@
- Name[hr]=Bahreinski dinar 
- Name[hu]=Bahreini dínár
- Name[id]=Dinar Bahrain
-+Name[is]=Bareinskur dínar
- Name[it]=Dinaro del Bahrain
- Name[ja]=バーレーン・ディナール
- Name[kk]=Бахрейн динары
- Name[km]=ឌីណា​បារ៉ែន
- Name[kn]=ಬಹರೈನಿ ದಿನಾರ್
- Name[ko]=바레인 디나르
-+Name[lt]=Bahreino dinaras
- Name[lv]=Bahreinas dinārs
- Name[mai]=बहरीन दिनार
- Name[mk]=Бахреински динар
---- runtime/localization/currency/omr.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/omr.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -22,6 +22,7 @@
- Name[hr]=Omanski rial
- Name[hu]=Ománi riál
- Name[id]=Rial Oman
-+Name[is]=Ómanskur ríal
- Name[it]=Riyal dell'Oman
- Name[ja]=オーマン・リヤル
- Name[kk]=Оман риалы
---- runtime/localization/currency/ern.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/ern.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -27,6 +27,7 @@
- Name[kk]=Эритрея накфасы
- Name[km]=ណាកហ្វា​អេរីទ្រា
- Name[ko]=에리트리아 나크파
-+Name[lt]=Eritrėjos nakfa
- Name[ml]=എറിട്രിയയിലെ നകഫ
- Name[nb]=Eritreiske Nakfa
- Name[nds]=Eritreesch Nakfa
---- runtime/localization/currency/ars.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/ars.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=អាហ្សង់ទីន ប៉េស្សូ
- Name[kn]=ಅರ್ಜಂಟೀನಾದ ಪೆಸೊ
- Name[ko]=아르헨티나 페소
-+Name[lt]=Argentinos pesas
- Name[lv]=Argentīnas peso
- Name[mai]=अर्जेन्टिना पेसो
- Name[mk]=Аргентинско пезо
---- runtime/localization/currency/azm.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/azm.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -29,6 +29,7 @@
- Name[km]=អាហ្ស៊ែរបែហ្សង់ ម៉ាណាត
- Name[kn]=ಅಝರ್ಬೈಜಾನಿಯಾದ ಮನಾಟ್
- Name[ko]=아제르바이잔 마나트
-+Name[lt]=Azerbaidžano manatas
- Name[mai]=अजरबैजान मनात
- Name[ml]=അസര്‍ബൈജാനിലെ മാനറ്റ്
- Name[nb]=Aserbajdsjanske Manat
---- runtime/localization/currency/azn.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/azn.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -29,6 +29,7 @@
- Name[km]=អាហ្ស៊ែរបែហ្សង់ ម៉ាណាត
- Name[kn]=ಅಝರ್ಬೈಜಾನಿಯಾದ ಮನಾಟ್
- Name[ko]=아제르바이잔 마나트
-+Name[lt]=Azerbaidžano manatas
- Name[mai]=अजरबैजान मनात
- Name[ml]=അസര്‍ബൈജാനിലെ മാനറ്റ്
- Name[nb]=Aserbajdsjanske Manat
---- runtime/localization/currency/cny.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/cny.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=យ័ន ចិន
- Name[kn]=ಚೈನಾದ ಯುವಾನ್
- Name[ko]=중국 위안
-+Name[lt]=Kinijos juanis
- Name[lv]=Ķīnas juaņa
- Name[mai]=चीनी यूआन
- Name[mk]=Кинески јуан
---- runtime/localization/currency/pln.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/pln.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -29,6 +29,7 @@
- Name[kk]=Польша злотыйы
- Name[km]=Polish Zloty
- Name[ko]=폴란드 즈워티
-+Name[lt]=Lenkijos zlotas
- Name[lv]=Polijas zlots
- Name[mk]=Полска злота
- Name[ml]=പോളണ്ടിലെ സ്ലോട്ടി
---- runtime/localization/currency/ltl.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/ltl.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -28,6 +28,7 @@
- Name[km]=លីតាស​លីទុយអានី
- Name[kn]=ಲಿಥುವೇನಿಯಾದ ಲಿಟಾಸ್
- Name[ko]=리투아니아 리타스
-+Name[lt]=Lietuvos litas
- Name[lv]=Lietuvas lits
- Name[ml]=ലിത്വാനിയയിലെ ലിതാസ്
- Name[nb]=Litauiske litas
---- runtime/localization/currency/bam.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/bam.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -28,6 +28,7 @@
- Name[kk]=Босния және Герцоговинаның конвертацияланатын маркасы
- Name[km]=Bosnia and Herzegovina Convertible Mark
- Name[ko]=보스니아 헤르체고비나 유동적 마르크
-+Name[lt]=Bosnijos ir Hercegovinos konvertuojama markė
- Name[lv]=Bosnijas un Hercogovinas konvertējamā marka
- Name[mai]=बोस्निया आओर हर्जेगोविना बदलेबला मार्क
- Name[mk]=Конвертибилна марка од Босна и Херцеговина
---- runtime/localization/currency/bif.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/bif.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -24,12 +24,14 @@
- Name[hr]=Burundijski franak
- Name[hu]=Burundi frank
- Name[id]=Franc Burundi
-+Name[is]=Búrúndískur franki
- Name[it]=Franco del Burundi
- Name[ja]=ブルンジ・フラン
- Name[kk]=Бурунди франкі
- Name[km]=ហ្វ្រង់​ប៊ូរុនឌី​
- Name[kn]=ಬುರುಂಡಿಯಾದ ಫ್ರಾಂಕ್
- Name[ko]=부룬디 프랑
-+Name[lt]=Burundijos frankas
- Name[lv]=Burundijas franks
- Name[mai]=बुरूंडी फ्रैंक
- Name[mk]=Бурундиски франк
---- runtime/localization/currency/dem.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/dem.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=ម៉ាក​អាល្លឺម៉ង់
- Name[kn]=ಜರ್ಮನಿಯ ಮಾರ್ಕ್
- Name[ko]=독일 마르크
-+Name[lt]=Vokietijos markė
- Name[lv]=Vācijas marka
- Name[mk]=Германска марка
- Name[ml]=ജര്‍മനിയിലെ മാര്‍ക്ക്
---- runtime/localization/currency/fim.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/fim.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -29,6 +29,7 @@
- Name[kk]=Финн маркасы
- Name[km]=Finnish Markka
- Name[ko]=핀란드 마르카
-+Name[lt]=Suomijos markė
- Name[lv]=Somu marka
- Name[ml]=ഫിന്‍ലന്റിലെ മാര്‍ക്ക
- Name[nb]=Finske mark
---- runtime/localization/currency/sgd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/sgd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -24,6 +24,7 @@
- Name[hr]=Singapurški dolar
- Name[hu]=Szingapúri dollár
- Name[id]=Dollar Singapura
-+Name[is]=Singapúrskur dollari
- Name[it]=Dollaro di Singapore
- Name[ja]=シンガポール・ドル
- Name[kk]=Сингапур доллары
---- runtime/localization/currency/cop.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/cop.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=ប៉ូសូ​កូឡុំប៊ី
- Name[kn]=ಕೊಲಂಬಿಯಾದ ಪೆಸೊ
- Name[ko]=콜롬비아 페소
-+Name[lt]=Kolumbijos pesas
- Name[lv]=Kolumbijas peso
- Name[mai]=कोलंबिया पेसो
- Name[mk]=Колумбиски пезос
---- runtime/localization/currency/huf.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/huf.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -29,6 +29,7 @@
- Name[kk]=Венгрия форинті
- Name[km]=Hungarian Forint
- Name[ko]=헝가리 포린트
-+Name[lt]=Vengrijos forintas
- Name[lv]=Ungārijas forints
- Name[mk]=Унгарска форинта
- Name[ml]=ഹംഗറിയിലെ ഫൊറിന്റ്
---- runtime/localization/currency/isk.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/isk.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=ក្រូណា​អ៊ីស្លង់
- Name[kn]=ಐಸ್‌ಲ್ಯಾಂಡಿನ ಕ್ರೋನ
- Name[ko]=아이슬란드 크로나
-+Name[lt]=Islandijos krona
- Name[lv]=Īslandes krona
- Name[mk]=Исландска круна
- Name[ml]=ഐസ്‌ലാന്‍ഡിലെ ക്രോണ
---- runtime/localization/currency/bbd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/bbd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=ដុល្លារ​បារបាដូស
- Name[kn]=ಬಾರ್ಬಡೋಸ್ ಡಾಲರ್
- Name[ko]=바베이도스 달러
-+Name[lt]=Barbadoso doleris
- Name[lv]=Barbadosas dolārs
- Name[mai]=बारबोडस डालर
- Name[mk]=Барбадоски долар
---- runtime/localization/currency/esp.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/esp.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=Spanish Peseta
- Name[kn]=ಸ್ಪಾನಿಶ್ ಪೆಸೆಟಾ
- Name[ko]=스페인 페세타
-+Name[lt]=Ispanijos peseatas
- Name[lv]=Spānijas peseta
- Name[mai]=स्पानिश पेसेटा
- Name[mk]=Шпанска пезета
---- runtime/localization/currency/adf.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/adf.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=Andorran Franc
- Name[kn]=ಅಂಡೋರಾದ ಫ್ರಾಂಕ್
- Name[ko]=안도라 프랑
-+Name[lt]=Andoros frankas
- Name[lv]=Andoras franki
- Name[mai]=अंडोरा फ्रैंक
- Name[mk]=Андорски франк
---- runtime/localization/currency/byr.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/byr.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=រ៉ូប៊ល បេឡារុស្ស
- Name[kn]=ಬೆಲಾರುಸಿಯ ರೂಬಲ್
- Name[ko]=벨라루스 루블
-+Name[lt]=Baltarusijos rublis
- Name[lv]=Baltkrievijas rublis
- Name[mai]=बेलारूस रूबल
- Name[mk]=Белоруска рубља
---- runtime/localization/currency/chf.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/chf.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=Swiss Franc
- Name[kn]=ಸ್ವಿಸ್ ಫ್ರಾಂಕ್
- Name[ko]=스위스 프랑
-+Name[lt]=Šveicarijos frankas
- Name[lv]=Šveices franks
- Name[mai]=स्विस फ्रैंक
- Name[mk]=Швајцарски франк
---- runtime/localization/currency/ghc.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/ghc.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -27,6 +27,7 @@
- Name[kk]=Гананың седиі
- Name[km]=Ghanaian Cedi
- Name[ko]=가나 세디
-+Name[lt]=Ganos cedis
- Name[ml]=ഘാനൈയന്‍ സെഡി
- Name[nb]=Ghanesiske Cedi
- Name[nds]=Ghanaasch Cedi
---- runtime/localization/currency/fjd.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/fjd.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -30,6 +30,7 @@
- Name[km]=Fijian Dollar
- Name[kn]=ಫಿಜಿಯನ್ ಡಾಲರ್
- Name[ko]=피지 달러
-+Name[lt]=Fidži doleris
- Name[lv]=Fidži dolārs
- Name[ml]=ഫിജിയിലെ ഡോളര്‍
- Name[nb]=Fiji-dollar
---- runtime/localization/currency/adp.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/adp.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -31,6 +31,7 @@
- Name[km]=Andorran Peseta
- Name[kn]=ಅಂಡೋರಾದ ಪೆಸೆಟಾ
- Name[ko]=안도라 페소
-+Name[lt]=Andoros pesetas
- Name[lv]=Andoras pesetas
- Name[mai]=अंडोरा पेसेटा
- Name[mk]=Андорска пезета
---- runtime/localization/currency/sos.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/localization/currency/sos.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -23,6 +23,7 @@
- Name[hr]=Somalijski šiling
- Name[hu]=Szomáliai schilling
- Name[id]=Shilling Somalia
-+Name[is]=Sómalskur skildingur
- Name[it]=Scellino somalo
- Name[ja]=ソマリア・シリング
- Name[kk]=Сомали шиллингі
---- runtime/kcontrol/componentchooser/CMakeLists.txt	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kcontrol/componentchooser/CMakeLists.txt	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -19,10 +19,10 @@
-     componentchooserterminal.cpp ktimerdialog.cpp)
+ Name[en_GB]=Sound Policy
+ Name[es]=Política de sonido
+ Name[et]=Helireeglid
++Name[eu]=Soinu politika
+ Name[fi]=Äänikäytäntö
+ Name[fr]=Politique des sons
+ Name[fy]=Lûd belied
+@@ -64,6 +65,7 @@
+ Comment[en_GB]=Provides sound system policy to applications
+ Comment[es]=Proporciona las políticas de sonido del sistema a las aplicaciones
+ Comment[et]=Helisüsteemi reeglite edastamine rakendustele
++Comment[eu]=Aplikazioei soinu sistemaren politika hornitzen die
+ Comment[fi]=Tarjoaa äänijärjestelmäkäytännön sovelluksille
+ Comment[fr]=Fournis une politique de système sonore aux applications
+ Comment[fy]=Jout lûd systeem belied oan applikaasjes
+--- runtime/khelpcenter/plugins/onlinehelp.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/khelpcenter/plugins/onlinehelp.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -11,6 +11,7 @@
+ Name[en_GB]=Online Help
+ Name[es]=Ayuda en línea
+ Name[et]=Abi
++Name[eu]=Lerroko Laguntza
+ Name[fi]=Online-ohje
+ Name[fr]=Aide en ligne
+ Name[fy]=Online help
+--- runtime/doc/kioslave/CMakeLists.txt	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/doc/kioslave/CMakeLists.txt	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -15,3 +15,4 @@
  endif(NOT WIN32)
+ add_subdirectory(tar)
+ add_subdirectory(thumbnail)
++add_subdirectory(xz)
+--- runtime/kwalletd/kwalletd.notifyrc	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kwalletd/kwalletd.notifyrc	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -13,6 +13,7 @@
+ Comment[en_GB]=Wallet
+ Comment[es]=Cartera
+ Comment[et]=Turvalaegas
++Comment[eu]=Zorroa
+ Comment[fi]=Lompakko
+ Comment[fr]=Portefeuille
+ Comment[fy]=Slúf
+--- runtime/ktimezoned/ktimezoned.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/ktimezoned/ktimezoned.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -20,6 +20,7 @@
+ Name[en_GB]=Time Zone
+ Name[es]=Zona horaria
+ Name[et]=Ajavöönd
++Name[eu]=Ordu gunea
+ Name[fi]=Aikavyöhyke
+ Name[fr]=Zone horaire
+ Name[fy]=Tiidsône
+@@ -73,6 +74,7 @@
+ Comment[en_GB]=Provides the system's time zone to applications
+ Comment[es]=Proporciona la zona horaria del sistema a las aplicaciones
+ Comment[et]=Süsteemi ajavööndi edastamine rakendustele
++Comment[eu]=Aplikazioei sistemaren ordu gunea hornitzen die
+ Comment[fi]=Tarjoaa järjestelmän aikavyöhyketiedon ohjelmille
+ Comment[fr]=Fourni la zone horaire du système aux applications
+ Comment[fy]=Jout de tiidsône fan it systeem troch oan applikaasjes
+--- runtime/kioslave/archive/zip.protocol	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kioslave/archive/zip.protocol	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -7,6 +7,6 @@
+ listing=Name,Type,Size,Date,Access,Owner,Group,Link
+ reading=true
+ source=true
+-DocPath=kioslave/zip.html
++#DocPath=kioslave/zip/index.html
+ Icon=package-x-generic
+ Class=:local
+--- runtime/kioslave/thumbnail/imagethumbnail.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kioslave/thumbnail/imagethumbnail.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -12,6 +12,7 @@
+ Name[en_GB]=Images (GIF, PNG, BMP, ...)
+ Name[es]=Imágenes (GIF, PNG, BMP...)
+ Name[et]=Pildid (GIF, PNG, BMP...)
++Name[eu]=Irudiak (GIF, PNG, BMP, ...)
+ Name[fi]=Kuvat (GIF, PNG, BMP, ...)
+ Name[fr]=Images (GIF, PNG, BMP, ...)
+ Name[fy]=Ofbyldings (GIF, PNG, BMP, ...)
+--- runtime/kioslave/filter/xz.protocol	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kioslave/filter/xz.protocol	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -7,5 +7,5 @@
+ output=stream
+ reading=true
+ source=false
+-DocPath=kioslave/xz.html
++DocPath=kioslave/xz/index.html
+ Icon=package-x-generic
+--- runtime/kioslave/filter/lzma.protocol	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kioslave/filter/lzma.protocol	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -7,5 +7,5 @@
+ output=stream
+ reading=true
+ source=false
+-DocPath=kioslave/xz.html
++DocPath=kioslave/xz/index.html
+ Icon=package-x-generic
+--- runtime/kioslave/network/network/builder/upnp/upnpnetworkbuilder.cpp	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kioslave/network/network/builder/upnp/upnpnetworkbuilder.cpp	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -36,6 +36,7 @@
+ #include <QtDBus/QDBusConnection>
+ #include <QtDBus/QDBusInterface>
+ #include <QtDBus/QDBusPendingCallWatcher>
++#include <QtCore/QTimer>
+ #include <QtCore/QStringList>
  
--if(NOT APPLE AND NOT WIN32)
-+if(Q_WS_X11)
-   set(kcm_componentchooser_SRCS ${kcm_componentchooser_SRCS}
-      componentchooserwm.cpp )
--endif(NOT APPLE AND NOT WIN32)
-+endif(Q_WS_X11)
+ #include <KDebug>
+@@ -60,6 +61,11 @@
  
- 
- kde4_add_ui_files(kcm_componentchooser_SRCS 
---- runtime/phonon/platform_kde/phonon.notifyrc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/phonon/platform_kde/phonon.notifyrc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -266,7 +266,7 @@
- Comment[lv]=Paziņojums par automātisku atkāpšanos, ja vēlamā iekārta nav pieejama
- Comment[ml]=ഇഷ്ടപ്പെട്ട ഉപകരണം ലഭ്യമല്ലാതിരിയ്ക്കുമ്പോള്‍ പകരമുള്ള ഉപകരണത്തിലേയ്ക്ക് സ്വയമുള്ള മാറ്റം അറിയിയ്ക്കുക
- Comment[mr]=सूचीत केलेले साधन अनुपलब्ध असल्यास स्वयंरूपी फॉलबॅक करीता सूचना पुरविली जाते
--Comment[nb]=Gi varsel dersom enehenten det skal falles tilbake til ikke er tilgjengelig
-+Comment[nb]=Gi varsel dersom enheten det skal falles tilbake til ikke er tilgjengelig
- Comment[nds]=Bescheed, wenn de vörtrocken Reedschap nich verföögbor is un ansteed de Opbackreedschap bruukt warrt
- Comment[nl]=Melding voor automatische terugval als het gewenste apparaat niet beschikbaar is
- Comment[nn]=Varsling om automatisk reserveeining om den føretrekte eininga ikkje er tilgjengeleg
---- runtime/khelpcenter/plugins/plasma.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/khelpcenter/plugins/plasma.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -1,5 +1,5 @@
- [Desktop Entry]
--X-DocPath=help:/plasma/index.html
-+X-DocPath=help:/plasma-desktop/index.html
- Icon=plasma
- Name=Plasma Manual
- Name[ar]=دليل بلازما
---- runtime/doc/kdebugdialog/index.docbook	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/doc/kdebugdialog/index.docbook	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -1,5 +1,5 @@
- <?xml version="1.0" ?>
--<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN"
-+<!DOCTYPE article PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN"
- "dtd/kdex.dtd" [
-   <!ENTITY kdebugdialog "<application>KDebugDialog</application>">
-   <!ENTITY kappname "&kdebugdialog;">
-@@ -9,57 +9,56 @@
-   
- ]>
- 
--<book lang="&language;">
--<bookinfo>
--<title>The &kdebugdialog; Handbook</title>
--
-+<article lang="&language;">
-+<title>KDebugDialog</title>
-+<articleinfo>
- <authorgroup>
- <author>&David.Faure; &David.Faure.mail;</author>
- <!-- TRANS:ROLES_OF_TRANSLATORS -->
- </authorgroup>
- 
--<date>2001-02-13</date>
--<releaseinfo>0.03.00</releaseinfo>
-+<date>2010-02-11</date>
-+<releaseinfo>1.0 &kde; 4.4</releaseinfo>
- 
--<abstract>
--<para>This document describes &kdebugdialog;.</para>
--</abstract>
--
- <keywordset>
- <keyword>KDE</keyword>
- <keyword>KDebugdialog</keyword>
-+<keyword>Debug</keyword>
- </keywordset>
--</bookinfo>
-+</articleinfo>
- 
--<chapter id="Introduction">
--<title>What is &kdebugdialog;?</title>
- 
--<para>It is a dialog box for managing diagnostic messages at runtime.
--</para>
-+<para>&kdebugdialog; is a dialog box for managing diagnostic messages at runtime.
-+It features a simple and a full mode.</para>
-+<para>In order to be able to make changes  
-+<guilabel>Disable all debug output</guilabel> has to be unchecked.</para>
- 
-+<variablelist>
-+<varlistentry>
-+<term>Simple mode</term>
-+<listitem>
- <para>If you simply start <command>kdebugdialog</command>, you will
- see a list of <quote>areas</quote>, that can be disabled or enabled. A
- <function>kDebug(area)</function> call in the code will show
- something in the debug output only if the area is enabled.</para>
- 
- <note><para>Note that kWarning, kError and kFatal always appear,
--they are NOT controlled by this setting.  </para></note>
-+they are <emphasis>NOT</emphasis> controlled by this setting.  </para></note>
- 
--<variablelist>
--<varlistentry>
--<term><guilabel>Area</guilabel></term>
--<listitem>
--<para>The areas which should only be output. Every message
--that is not mentioned here will simply not be output (unless
--this field remains empty, which is the default, and means that all
--messages should be output). You can enter several areas
--separated by commas here, and you can also use area ranges with
--the syntax start-end. Thus a valid entry could be:
--117,214-289,356-359,221. Do not use whitespaces.</para>
-+<para>Enter a matching string into the <guilabel>Search</guilabel> 
-+box at the top of the list, this allows you to filter the areas 
-+which are displayed in the list view.
-+Use the buttons below the list to select or deselect all items in the view
-+(the other areas are not effected) or change the debug output for a single
-+item using the check box in front of it.
-+</para>
+ void UpnpNetworkBuilder::start()
+ {
++    QTimer::singleShot(0, this, SLOT(startBrowse()));
++}
 +
- </listitem>
- </varlistentry>
--</variablelist>
++void UpnpNetworkBuilder::startBrowse()
++{
+     qDBusRegisterMetaType<DeviceTypeMap>();
+     qDBusRegisterMetaType<Cagibi::Device>();
  
-+<varlistentry>
-+<term>Full mode</term>
-+<listitem>
- <para>If you start <command>kdebugdialog</command>
- <option>--fullmode</option>, then for every severity level you can
- define separately what should be done with the diagnostic messages of
-@@ -89,7 +88,7 @@
- Box</quote>, <quote>Shell</quote> (meaning stderr) and
- <quote>Syslog</quote>. Please do not direct fatal messages to syslog
- unless you are the system administrator yourself. The default is
--<quote>Message Box</quote>.</para> 
-+<quote>Shell</quote>.</para> 
- </listitem>
- </varlistentry>
+--- runtime/kioslave/network/network/builder/upnp/upnpnetworkbuilder.h	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kioslave/network/network/builder/upnp/upnpnetworkbuilder.h	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -63,6 +63,8 @@
+     void removeUPnPDevices( const QList<Cagibi::Device>& devices );
  
-@@ -109,9 +108,13 @@
- output, the application aborts with a SIGABRT after outputting the
- message.</para>
- 
-+</listitem>
-+</varlistentry>
-+</variablelist>
+   private Q_SLOTS:
++    void startBrowse();
 +
- <para>When you close the dialog by pressing <guibutton>OK</guibutton>,
- your entries apply immediately and are saved in
--<filename>kdebugrc</filename>. When you press
-+<filename>$<envar>KDEHOME</envar>/share/config/kdebugrc</filename>. When you press
- <guibutton>Cancel</guibutton>, your entries are discarded and the old
- ones are restored.</para>
- 
-@@ -122,10 +125,7 @@
- 
- &underFDL;
- 
--</chapter>
--
--&documentation.index; 
--</book>
-+</article>
- <!--
- Local Variables:
- mode: sgml
---- runtime/doc/kcontrol/index.docbook	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/doc/kcontrol/index.docbook	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -1,639 +0,0 @@
--<?xml version="1.0" ?>
--<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" 
--"dtd/kdex.dtd" [
--<!ENTITY % addindex "IGNORE">
--<!ENTITY % English "INCLUDE" > <!-- change language only here -->
--]>
--
--<book lang="&language;">
--<bookinfo>
--<title>The &kcontrolcenter;</title>
--
--<authorgroup>
--<author>&Mike.McBride; &Mike.McBride.mail;</author>
--<!-- TRANS:ROLES_OF_TRANSLATORS -->
--</authorgroup>
--
--<legalnotice>&FDLNotice;</legalnotice>
--
--<date>2005-03-05</date>
--<releaseinfo>3.4.0</releaseinfo>
--
--<abstract>
--<para>This documentation describes &kde;'s control center.</para>
--</abstract>
--
--<keywordset>
--<keyword>KDE</keyword>
--<keyword>kcontrol</keyword>
--<keyword>configuration</keyword>
--<keyword>settings</keyword>
--<keyword>module</keyword>
--</keywordset>
--
--</bookinfo>
--
--<chapter id="introduction">
--<title>The &kcontrolcenter;</title>
--
--<para>
--The &kcontrolcenter; (from now on referred to simply as <quote>the
--control center</quote>) provides you with a centralized and convenient
--way to configure all of your &kde; settings.
--</para>
--
--<para>
--The control center is made up of multiple modules.  Each module is a
--separate application, but the control center organizes all of these
--programs into a convenient location.
--</para>
--
--<tip>
--<para>
--Each control center module can be executed individually
--</para>
--
--<para>
--See section entitled <link linkend="control-center-run-indiv">Running
--individual control center modules</link> for more information.
--</para>
--</tip>
--
--<para>
--The control center groups the configuration modules into categories, so
--they are easy to locate.  Within each category, the control center shows
--all the modules in a list, so it is easier to find the right
--configuration module.
--</para>
--</chapter>
--
--<chapter id="control-center">
--<title>Using the &kcontrolcenter;</title>
--
--<para>
--This next section details the use of the control center itself.  For
--information on individual modules, please see <link linkend="module">Control
--Center Modules</link>
--</para>
--
--<sect1 id="control-center-starting">
--<title>Starting the &kcontrol;</title>
--
--<para>The &kcontrolcenter; can be started in 3 ways:
--</para>
--
--<orderedlist> 
--<listitem>
--<para>
--By selecting <menuchoice><guimenu>K Button</guimenu><guimenuitem>Control
--Center</guimenuitem></menuchoice> from the &kde; Panel.
--</para>
--</listitem>
--<listitem>
--<para>
--By pressing <keycombo
--action="simul">&Alt;<keycap>F2</keycap></keycombo>.
--</para>
--
--<para>
--This will bring up a dialog box.  Type
--<userinput><command>kcontrol</command></userinput>, and click
--<guibutton>Run</guibutton>.
--</para>
--</listitem>
--
--<listitem>
--<para>
--You can type <command>kcontrol &amp;</command> at any command prompt.
--</para>
--</listitem> 
--</orderedlist> 
--
--<para>
--All three of these methods are equivalent, and produce the same result.
--</para>
--
--</sect1>
--
--<sect1 id="control-center-screen"> 
--<title>The &kcontrolcenter; Screen</title>
--
--<para>
--When you start the control center, you are presented with a window,
--which can be divided into 3 functional parts.
--</para>
--
--<screenshot>
--<screeninfo>Screenshot</screeninfo>
--<mediaobject>
--<imageobject> <imagedata fileref="screenshot.png" format="PNG"/> 
--</imageobject>
--<textobject> <phrase>Screenshot</phrase> </textobject>
--<caption>
--<para>The &kde; Control Center Screen</para>
--</caption>
--</mediaobject>
--</screenshot> 
--
--<para>
--Across the top is a menubar.  The menubar will provide you with quick
--access to most of &kcontrolcenter;'s features.  The menus are detailed in
--<link linkend="control-center-menus">The &kde; Control Center
--Menus</link>.
--</para>
--
--<para>
--Along the left hand side, is a icon tree.  Here you can choose which
--module to configure.
--</para>
--
--<para>
--The main panel shows you some system information.
--</para>
--
--<para>
--In this example, we are running &kde; 3.4.0, we started &kcontrolcenter;
--as user <systemitem class="username">newkde</systemitem>, the computer is
--named <systemitem class="systemname">turtle</systemitem>, it is a
--&Linux; system running the 2.6 kernel, on a i686 processor.
--</para>
--
--</sect1>
--
--<sect1 id="control-center-menus">
--<title>The &kcontrolcenter; Menus</title>
--
--<para>
--This next section gives you a brief description of what each menu item
--does.
--</para>
--
--<sect2 id="control-center-menu-file">
--<title><guimenu>File</guimenu> Menu</title>
--
--<para>
--The <guimenu>File</guimenu> menu has a single entry.
--</para>
--
--<variablelist>
--
--<varlistentry>
--<term><menuchoice>
--<shortcut>
--<keycombo action="simul">&Ctrl;<keycap>Q</keycap></keycombo>
--</shortcut>
--<guimenu>File</guimenu>
--<guimenuitem>Quit</guimenuitem>
--</menuchoice></term>
--<listitem>
--<para>
--<action>Closes the control center.</action>
--</para>
--</listitem>
--</varlistentry>
--</variablelist>
--
--</sect2>
--
--<sect2 id="control-center-menu-view">
--<title><guimenu>View</guimenu> Menu</title>
--
--<para>
--These options determine how the module selection looks and behaves.
--</para>
--
--<variablelist> 
--<varlistentry> 
--<term><menuchoice><guimenu>View</guimenu> <guimenuitem>Mode</guimenuitem>
--</menuchoice></term>
--
--<listitem>
--<para>
--Determines whether to use <guimenuitem>Tree</guimenuitem> view,
--or <guimenuitem>Icon</guimenuitem> view for your modules.
--</para>
--
--<para>
--With <guimenuitem>Tree</guimenuitem> view, each submenu appears as an
--indented list.
--</para>
--
--<para>
--With <guimenuitem>Icon</guimenuitem> view, when you click on a category,
--the categories disappear and are replaced with the module list.  You
--then use the <guiicon>Back</guiicon> button to return to the categories.
--</para>
--</listitem>
--</varlistentry>
--
--<varlistentry> 
--<term><menuchoice> 
--<guimenu>View</guimenu><guisubmenu>Icon size</guisubmenu> 
--</menuchoice></term> 
--
--<listitem>
--<para>
--Using this option, you can choose
--<guimenuitem>Small</guimenuitem>, <guimenuitem>Medium</guimenuitem>, or
--<guimenuitem>Large</guimenuitem> icons to select your modules.
--</para>
--
--<note><para> 
--This menu item only controls the icon size if you are in
--<guimenuitem>Icon View</guimenuitem>.  If you choose
--<guimenuitem>Tree View</guimenuitem>, the <guimenuitem>Small</guimenuitem>
--icon size will be used, no matter what size was previously selected in
--<guimenuitem>Icon View</guimenuitem>.
--</para>
--</note>
--</listitem>
--
--</varlistentry> 
--</variablelist> 
--</sect2>
--
--<sect2 id="control-center-menu-settings">
--<title><guimenu>Settings</guimenu> Menu</title>
--
--<para>
-- The <guimenu>Settings</guimenu> menu has a single entry,
--<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Shortcuts...</guimenuitem></menuchoice>. From here you can map keyboard shortcuts to the 
--other menu options.
--</para>
--
--</sect2>
--
--<sect2 id="control-center-menu-help">
--<title><guimenu>Help</guimenu> Menu</title>
--
--&help.menu.documentation;
--
--</sect2>
--
--</sect1>
--
--<sect1 id="control-center-exiting">
--<title>Exiting The &kde; Control Center</title>
--
--<para>
--You can exit the control center one of three ways:
--</para>
--
--<itemizedlist>
--<listitem>
--<para>
--Select <menuchoice><guimenu>File</guimenu>
--<guimenuitem>Quit</guimenuitem></menuchoice> from the menu bar.
--</para>
--</listitem>
--
--<listitem>
--<para>Type <keycombo action="simul">&Ctrl;<keycap>Q</keycap></keycombo>
--on the keyboard.
--</para>
--</listitem>
--
--<listitem>
--<para>
--Click on the <guiicon>Close</guiicon> button on the frame surrounding
--the control center.
--</para>
--</listitem>
--</itemizedlist>
--
--</sect1>
--
--<sect1 id="control-center-run-indiv">
--<title>Running Individual Modules</title>
--
--<para>
--You can run individual modules without running kcontrol using the command <command>kcmshell4</command> from &konsole;. Type <userinput> <command>kcmshell4</command><option> --list</option></userinput> to see a list of the available &kcontrolcenter; modules. You can also access individual &kcontrolcenter; modules through adding the <guilabel>Preferences</guilabel> button to either &kicker; or the &kmenu; through their respective configuration dialogs.
--</para>
--
--</sect1>
--
--</chapter>
--
--<!--*****************************************************************-->
--
--<chapter id="module">
--<title>The &kcontrolcenter; Modules</title>
--
--<para>
--In order to make it as easy as possible, the &kcontrolcenter; has organized
--similar options into groups.  Each group is called a module.  When you
--click on the name of a module in the left window, you will be presented
--with the options of the module on the right.
--</para>
--
--<para>
--Each module will have some or all of the following buttons:
--</para>
--
--<variablelist>
--
--<varlistentry>
--<term>Help</term>
--<listitem>
--<para>
--This button will give you help specific to the current module.  The
--button will show you a short summary help page in the left window.  At
--the bottom of that window, you can click on a link to get more detailed
--help.
--</para>
--</listitem>
--</varlistentry>
--
--<varlistentry>
--<term><guilabel>Defaults</guilabel></term> 
--<listitem>
--<para>
--This button will restore this module to its default values.  You must
--click <guibutton>OK</guibutton> to save the options.
--</para>
--</listitem>
--</varlistentry>
--
--<varlistentry>
--<term><guibutton>Apply</guibutton></term>
--<listitem>
--<para>
--Clicking this button will save all changes to &kde;.  If you have
--changed anything, clicking <guibutton>Apply</guibutton> will cause the
--changes to take effect.
--</para>
--</listitem>
--</varlistentry>
--
--<varlistentry>
--<term><guibutton>Reset</guibutton></term>
--<listitem>
--<para>
--This button will <quote>Reset</quote> the module to the previous settings. 
--</para>
--</listitem>
--</varlistentry> 
--
--</variablelist>
--
--<note>
--<para>
--You must save the options of the current module using
--<guibutton>Apply</guibutton> before you can change to a different
--module.
--</para>
--<para>
--If you try to change without saving your options, you will be asked if
--you want to save your changes, or discard them.
--</para>
--</note>
--</chapter>
--<!--  
--      Commented until fixed arrangement is made
--<sect1 id="module-intro">
--<title>Navigating Modules</title>
--
--<para>
--This is a list of the <emphasis>standard</emphasis> configuration
--modules (sorted by category) provided by the <application
--role="package">KDE base</application> package. Please note that there
--may be many more modules on your system if you have installed additional
--software.
--</para>
-- 
--<variablelist>
--<varlistentry>
--<term>File Browsing</term>
--<listitem>
--<para>
--<link linkend="file-assoc">File Associations</link>,
--<link linkend="file-manager">File Manager</link>,
--</para>
--</listitem>
--</varlistentry>
--
--<varlistentry>
--<term>Look and Feel</term>
--<listitem>
--<para>
--<link linkend="background">Background</link>,
--<!- - <link linkend="borders">Borders</link>,- ->
--<link linkend="color">Colors</link>,
--<link linkend="desktop">Desktop</link>,
--<link linkend="fonts">Fonts</link>,
--<link linkend="icons">Icons</link>,
--<!- -  <link linkend="iconstyle">Icon Style</link>, - ->
--<link linkend="key-bindings">Key Bindings</link>,
--<link linkend="launch-feedback">Launch feedback</link>,
--<link linkend="panel">Panel</link>,
--<link linkend="screensaver">Screensaver</link>,
--<link linkend="style">Style</link>,
--<link linkend="sys-notify">System Notifications</link>,
--<link linkend="taskbar">Taskbar</link>,
--<link linkend="theme-manager">Theme Manager</link>,
--<!- - <link linkend="numbername">Virtual Desktops</link>,- ->
--<link linkend="window-behavior">Window Behavior</link>,
--<link linkend="window-deco">Window Decoration</link>.
--</para>
--</listitem>
--</varlistentry>
--
--<varlistentry>
--<term>Network</term>
--<listitem>
--<para>
--<link linkend="e-mail">E-Mail</link>,
--<link linkend="lan-browsing">LAN Browsing</link>,
--<link linkend="timeouts">Preferences</link>, <!- - FIXME - ->
--<link linkend="socks">SOCKS</link>,
--<link linkend="talk">Talk Configuration</link>
--<link linkend="windows-shares">Windows Shares</link>
--</para>
--</listitem>
--</varlistentry>
--
--<varlistentry>
--<term>Peripherals</term>
--<listitem>
--<para>
--<link linkend="kbd">Keyboard</link>,
--<link linkend="mouse">Mouse</link>
--</para>
--</listitem>
--</varlistentry>
--
--<varlistentry>
--<term>Personalization</term>
--<listitem>
--<para>
--<link linkend="accessibility">Accessibility</link>,
--<link linkend="locale">Country &amp; Language</link>,
--<link linkend="crypto">Crypto</link>,
--<!- - <link linkend="kblayout">Keyboard Layout</link>, - ->
--<link linkend="passwords">Passwords</link>
--<link linkend="spell-checking">Spell Checking</link>.
--</para>
--</listitem>
--</varlistentry>
--
--<varlistentry>
--<term>Power Control</term>
--<listitem>
--<para>
--<link linkend="battery-monitor">Battery Monitor</link>,
--<link linkend="energy">Energy</link>,
--<link linkend="powerctrl">Laptop Power Control</link>,
--<link linkend="lowbatcrit">Low Battery Critical</link>,
--<link linkend="lowbatwarn">Low Battery Warning</link>
--</para>
--</listitem>
--</varlistentry>
--
--<varlistentry>
--<term>Sound</term>
--<listitem>
--<para>
--<link linkend="midi">Midi</link>,
--<link linkend="mixer">Mixer</link>,
--<link linkend="sndserver">Sound Server</link>,
--<link linkend="bell">System Bell</link>
--</para>
--</listitem>
--</varlistentry>
--
--<varlistentry>
--<term>System</term>
--<listitem>
--<para>
--<link linkend="datetime">Date and Time</link>,
--<link linkend="konsole">&konsole;</link>,
--<link linkend="login-manager">Login Manager</link>,
--<link linkend="print-manager">Printing Manager</link>,
--<link linkend="sessions">Session Manager</link>,
--</para>
--</listitem>
--</varlistentry>
--
--<varlistentry>
--<term>Web Browsing</term>
--<listitem>
--<para>
--<link linkend="cookie">Cookies</link>,
--<link linkend="ebrowse">Enhanced Browsing</link>,
--<link linkend="konq-browsing">Konqueror Browser</link>,
--<link linkend="nsplugins">Netscape Plugins</link>,
--<link linkend="proxies">Proxies &amp; Cache</link>,
--<link linkend="stylesheets">Stylesheets</link>,
--<link linkend="user-agent">User Agent</link>,
--</para>
--</listitem>
--</varlistentry>
--
--</variablelist>
--</sect1>
--</chapter>
---->
--
--<!-- commenting this section out until I figure out what to do with it :) 
--<chapter id="laptop">
--<title>Laptop Modules Notes</title>
--
--<para>
--In order to use the laptop modules, you must have the kernel
--<acronym>APM</acronym> package installed in your kernel.  Useful information 
--
--on
--how to do this can be found at
--<ulink url="http://www.cs.utexas.edu/users/kharker/linux-laptop/apm.html">
--http://www.cs.utexas.edu/users/kharker/linux-laptop/apm.html</ulink> and
--in the Battery Powered Linux mini-HOWTO at <ulink
--url="http://metalab.unc.edu/LDP/HOWTO/mini/Battery-Powered.html">
--http://metalab.unc.edu/LDP/HOWTO/mini/Battery-Powered.html</ulink>.
--</para>
--
--<para>
--If you want the <guimenuitem>suspend</guimenuitem> and
--<guimenuitem>standby</guimenuitem> menu commands to work then you should
--install the &Linux; <application>apmd</application> package (version 2.4
--or later). If you want to use them from non-root accounts you must mark
--the <application>apm</application> command <quote>set uid root</quote>.
--</para>
--
--<para>
--To do this, log on as <systemitem class="username">root</systemitem> and 
--enter:
--</para>
--
--<screen>
--<prompt>%</prompt><userinput><command>chown</command> <option>root 
--/usr/bin/apm</option>;<command>chmod</command> <option>+s 
--/usr/bin/apm</option></userinput>
--</screen>
--
--<warning>
--<para>
--By doing this you will allow any user of your system to put it into suspend 
--or
--standby states - if you are the only user, this should not be a problem.
--</para>
--
--<para>
--Also note that any program which has <systemitem
--class="username">root</systemitem> access, can be a potential security
--problem.  You should carefully determine if there are any security
--concerns <emphasis>before</emphasis> giving any program <systemitem
--class="username">root</systemitem> permissions.
--</para>
--</warning>
--</chapter>
---->
--
--<chapter id="credits">
--<title>Credits and License</title>
--
--<para>&kcontrol;</para>
--<para>Program copyright 1997-2001 The &kcontrolcenter; Developers</para>
--<para>Contributors:</para>
--
--<itemizedlist>
--<listitem><para>Matthias Hoelzer-Kluepfel 
--&Matthias.Hoelzer-Kluepfel.mail;</para></listitem>
--<listitem><para>&Matthias.Elter;
--&Matthias.Elter.mail;</para></listitem>
--</itemizedlist>
--
--<para>Documentation <trademark class="copyright">copyright 2000 Michael
--McBride</trademark> &Mike.McBride.mail;</para>
--
--<para>Contributors:</para>
--
--<itemizedlist>
--<listitem><para>&Paul.Campbell; &Paul.Campbell.mail;</para></listitem>
--<listitem><para>&Helge.Deller; &Helge.Deller.mail;</para></listitem>
--<listitem><para>&Mark.Donohoe; </para></listitem>
--<listitem><para>&Patrick.Dowler; </para></listitem>
--<listitem><para>&Duncan.Haldane; <email>duncan@kde.org</email></para></listitem>
--<listitem><para>&Steffen.Hansen; <email>stefh@mip.ou.dk</email>.</para></listitem>
--<listitem><para>Matthias Hoelzer-Kluepfel &Matthias.Hoelzer-Kluepfel.mail;</para></listitem>
--<listitem><para>Martin Jones &Martin.R.Jones.mail;</para></listitem>
--<listitem><para>&Jost.Schenck; &Jost.Schenck.mail;</para></listitem>
--<listitem><para>&Jonathan.Singer; &Jonathan.Singer.mail;</para></listitem>
--<listitem><para>&Thomas.Tanghus; &Thomas.Tanghus.mail;</para></listitem>
--<listitem><para>&Krishna.Tateneni; &Krishna.Tateneni.mail;</para></listitem>
--<listitem><para>Ellis Whitehead <email>ewhitehe@uni-freiburg.de</email></para></listitem>
--
--</itemizedlist>
--<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
--
--&underFDL;
--&underGPL;
--</chapter>
--
--</book>
--
--<!--
--Local Variables:
--mode: sgml
--End:
---->
--
---- runtime/doc/kcontrol/language/index.docbook	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/doc/kcontrol/language/index.docbook	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -77,6 +77,10 @@
- <note><para>
- Note that some applications may not be translated to your languages; in 
- this case, they will automatically fall back to US English.</para></note>
-+<note><para>
-+Language and Country/Region are independent settings. Changing a language
-+does <emphasis>not</emphasis> automatically change the settings for numbers,
-+currency &etc; to the corresponding country or region.</para></note>
- </sect2>
- 
- <sect2 id="locale-numbers">
---- runtime/doc/kcontrol/CMakeLists.txt	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/doc/kcontrol/CMakeLists.txt	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -37,9 +37,3 @@
- add_subdirectory(solid-device-automounter)
- add_subdirectory(phonon)
- endif ( Q_WS_X11 )
--
--########### install files ###############
--#
--#
--#
--kde4_create_handbook(index.docbook INSTALL_DESTINATION ${HTML_INSTALL_DIR}/en)
---- runtime/kwalletd/backend/kwalletbackend.cc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kwalletd/backend/kwalletbackend.cc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -325,7 +325,8 @@
-    }
-    
-    // check the password hash for correct size (currently fixed)
--   if (passwordHash.size() != 20) {
-+   if (passwordHash.size() != 20 && passwordHash.size() != passwordHash.size() != 40 &&
-+	   passwordHash.size() != 56) {
-       return -42; // unsupported encryption scheme
-    }
-    
---- runtime/kwalletd/kwalletd.notifyrc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kwalletd/kwalletd.notifyrc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -86,7 +86,7 @@
- Name[gu]=kwalletd
- Name[he]=kwalletd
- Name[hi]=kwalletd
--Name[hr]=kwalletd – KNovčanik daemon
-+Name[hr]=kwalletd
- Name[hu]=kwalletd
- Name[id]=kwalletd
- Name[is]=kwalletd
---- runtime/kioslave/trash/trashimpl.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kioslave/trash/trashimpl.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -1099,8 +1099,6 @@
-             if ( info.deletionDate.daysTo( currentDate ) > maxDays )
-               del( info.trashId, info.fileId );
-         }
--
--        return true;
-     }
- 
-     if ( useSizeLimit ) { // check if size limit exceeded
---- runtime/kioslave/thumbnail/jpegthumbnail.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kioslave/thumbnail/jpegthumbnail.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -28,6 +28,7 @@
- Name[km]=រូបភាព JPEG
- Name[kn]=JPEG ಚಿತ್ರಗಳು
- Name[ko]=JPEG 그림
-+Name[lt]=JPEG paveikslėliai
- Name[lv]=JPEG attēli
- Name[mk]=JPEG-слики
- Name[ml]=ജെപെഗ് ചിത്രങ്ങള്‍
---- runtime/kioslave/thumbnail/svgthumbnail.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kioslave/thumbnail/svgthumbnail.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -28,6 +28,7 @@
- Name[km]=រូបភាព SVG
- Name[kn]=SVG ಚಿತ್ರಗಳು
- Name[ko]=SVG 그림
-+Name[lt]=SVG paveikslėliai
- Name[lv]=SVG attēli
- Name[mk]=SVG-слики
- Name[ml]=എസ്‌വിജി ചിത്രങ്ങള്‍
---- runtime/kioslave/thumbnail/comicbookthumbnail.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kioslave/thumbnail/comicbookthumbnail.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -27,6 +27,7 @@
- Name[km]=សៀវភៅ​កំ​ប្លែង
- Name[kn]=ಕಾಮಿಕ್ ಪುಸ್ತಕಗಳು
- Name[ko]=만화책
-+Name[lt]=Komiksų knygos
- Name[lv]=Komiksu grāmatas
- Name[mai]=कॉमिक पुस्तक
- Name[mk]=Стрипови
---- runtime/kioslave/network/kded/networkwatcher.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kioslave/network/kded/networkwatcher.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -40,7 +40,7 @@
- Name[mai]=नेटवर्क वाचर
- Name[mk]=Анализатор на мрежи
- Name[ml]=ശൃംഖല നിരീക്ഷകന്‍
--Name[nb]=Nettversksovervåker
-+Name[nb]=Nettverksovervåker
- Name[nds]=Nettwark-Kieker
- Name[nl]=Netwerkbewaker
- Name[nn]=Nettverksovervakar
---- runtime/kioslave/sftp/kio_sftp.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kioslave/sftp/kio_sftp.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -449,11 +449,6 @@
- 
-   mUsername = user;
-   mPassword = pass;
--
--  if (user.isEmpty()) {
--    KUser u;
--    mUsername = u.loginName();
--  }
- }
- 
- void sftpProtocol::openConnection() {
---- runtime/nepomuk/kioslaves/search/CMakeLists.txt	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/nepomuk/kioslaves/search/CMakeLists.txt	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -8,6 +8,7 @@
-   ${QT_INCLUDES}
-   ${KDE4_INCLUDES}
-   ${KDE4_KIO_INCLUDES}
-+  ${SOPRANO_INCLUDE_DIR}
-   ${NEPOMUK_INCLUDE_DIR}
-   ${nepomuk_kio_slaves_SOURCE_DIR}/common
- )
---- runtime/nepomuk/kioslaves/search/kdedmodule/nepomuksearchmodule.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/nepomuk/kioslaves/search/kdedmodule/nepomuksearchmodule.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -18,10 +18,12 @@
- Name[hi]=नेपोमक खोज मोड्यूल
- Name[hr]=Nepomukov modul za pretraživanje
- Name[id]=Modul Pencarian Nepomuk
-+Name[is]=Nepomuk leitareining
- Name[it]=Modulo di ricerca di Nepomuk
- Name[ja]=Nepomuk 検索モジュール
- Name[kk]=Nepomuk іздеу модулі
- Name[km]=ម៉ូឌុល​ស្វែងរក​របស់ Nepomuk
-+Name[lt]=Nepomuk paieškos modulis
- Name[mk]=Модул на Непомук за пребарување
- Name[nb]=Nepomuk søkemodul
- Name[nds]=Nepomuk-Söökmoduul
-@@ -58,6 +60,7 @@
- Comment[it]=Modulo ausiliare per KIO per assicurare gli aggiornamenti automatici delle liste di ricerca di Nepomuk.
- Comment[kk]=nepomuksearch тізімдерін автоматты түрде жаңартуға арналған KIO-нің көмекші модулі
- Comment[km]=ម៉ឌុល​កម្មវិធី​ជំនួយ​សម្រាប់ KIO ដើម្បី​ប្រាកដ​ថា​មាន​ភាព​​ធ្វើ​ឲ្យ​ទាន់សម័យ​​របស់ nepomuksearch ។
-+Comment[lt]=Pagalbos modulis, skirtas KIO, užtikrinantis automatinius atnaujinimus nepomuk paieškos sąrašuose.
- Comment[nb]=Hjelpemodul for KIO – for å sikre automatiske oppdateringer av nepomuksearch-resultater.
- Comment[nds]=Hülpmoduul för de KDE-In-/Utgaav för automaatsch Opfrischen vun Nepomuk-Sööklisten
- Comment[nl]=Helper-module voor KIO om automatisch bijwerken van nepomukzoeklijsten.
---- runtime/nepomuk/kioslaves/timeline/kio_timeline.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/nepomuk/kioslaves/timeline/kio_timeline.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -68,7 +68,7 @@
-                                 "  ?de ntao:dataObject ?r . "
-                                 "} "
- #endif
--                                "FILTER(?date > '%3'^^%5 && ?date < '%4'^^%5) . "
-+                                "FILTER(?date > '%1'^^%3 && ?date < '%2'^^%3) . "
-                                 "OPTIONAL { ?r2 a nfo:Folder . FILTER(?r=?r2) . } . FILTER(!BOUND(?r2)) . "
-                                 "}")
-                         .arg(dateFrom)
---- runtime/nepomuk/services/removablestorage/nepomukremovablestorageservice.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/nepomuk/services/removablestorage/nepomukremovablestorageservice.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -27,6 +27,7 @@
- Name[km]=សេវា​ផ្ទុក​ចល័រ​របស់ Nepomuk
- Name[kn]=ನೆಪೋಮುಕ್ ತೆಗೆದು ಹಾಕಬಹುದಾದ ಶೇಖರಣಾ ಸೇವೆ
- Name[ko]=Nepomuk 이동식 저장소 서비스
-+Name[lt]=Nepomuk atjungiamų kaupiklių tarnyba
- Name[lv]=Nepomuk noņemamo glabāšanas ierīču serviss
- Name[mk]=Сервис на Непомук за подвижни медиуми
- Name[ml]=നെപ്പോമുക്ക്  സൂക്ഷിപ്പു് സേവനം
+     void onDevicesAdded( const DeviceTypeMap& deviceTypeMap );
+     void onDevicesRemoved( const DeviceTypeMap& deviceTypeMap );
+     void onAddedDeviceDetails( const Cagibi::Device& device );
+--- runtime/kioslave/remote/kdedmodule/remotedirnotify.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kioslave/remote/kdedmodule/remotedirnotify.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -11,6 +11,7 @@
+ Name[en_GB]=Remote URL Change Notifier
+ Name[es]=Notificador de cambios en URL remoto
+ Name[et]=Mujalasuva URL-i muutumise teadustaja
++Name[eu]=Urruneko URL aldaketa jakinarazlea
+ Name[fi]=Etäverkko-osoitteiden muutosten huomautin
+ Name[fr]=Notifieur de changement d'URL distante
+ Name[fy]=Eksterne URL-adres feroarings melder
+@@ -58,6 +59,7 @@
+ Comment[en_GB]=Provides change notification for network folders
+ Comment[es]=Proporciona notificaciones visuales para carpetas de red
+ Comment[et]=Võrgukataloogide muutuste märguanded
++Comment[eu]=Sareko karpeten aldaketa jakinarazpenak hornitzen ditu
+ Comment[fi]=Tarjoaa huomautuksia verkkokansioiden muutoksista
+ Comment[fr]=Fournis les notifications de modification pour les dossiers réseaux
+ Comment[fy]=Ferskaft feroaringsmelding foar netwurkmappen
+--- runtime/kioslave/desktop/desktopnotifier.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kioslave/desktop/desktopnotifier.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -12,6 +12,7 @@
+ Name[en_GB]=Directory Watcher
+ Name[es]=Observador de carpetas
+ Name[et]=Kataloogijälgija
++Name[eu]=Karpeta begiralea
+ Name[fi]=Kansion tarkkailija
+ Name[fr]=Surveillance des dossiers
+ Name[fy]=Triemtafel sjogger
 @@ -72,6 +73,7 @@
- Comment[kk]=Ауыстырмалы Nepomuk құрылғыда метадеректеріне қатынауды қамтамасыз етіп сақтау қызметі.
- Comment[km]=សេវា​​ឧបករណ៍​ផ្ទុក​ចល័ត​របស់ Nepomuk ដោយ​ផ្ដល់​ការ​ចូលដំណើរការ​ទៅ​កាន់​​ទិន្នន័យ​មេតា​របស់ Nepomuk នៅ​លើ​ឧបករណ៍​ផ្ទុក​ចល័ត ។
- Comment[ko]=Nepomuk 이동식 저장소 서비스는 이동식 저장소에 있는 Nepomuk 메타데이터를 사용합니다.
-+Comment[lt]=Nepomuk atjungiamų kaupiklių tarnba, leidžianti pasiekti Nepomuk metaduomenis atjungiamuose kaupikliuose.
- Comment[lv]=Nepomuk noņemamo ierīču serviss, nodrošina piekļuvi pie Nepomuk medatatiem failiem uz noņemamajām ierīcēm.
- Comment[ml]=നീക്കം ചെയ്യാവുന്ന സംഭരണോപകരണങ്ങള്‍ക്കു് നെപ്പോമുക്ക് മെറ്റാഡാറ്റ ഉപയോഗിയ്ക്കാന്‍ അനുവദിയ്ക്കുന്ന നെപ്പോമുക്കിന്റെ നീക്കം ചെയ്യാവുന്ന സംഭരണ സേവനം.
- Comment[nb]=Nepomuk flyttbar lagringstjeneste som gir tilgang til Nepomuk metadata på flyttbare lagringsenheter.
---- runtime/nepomuk/services/strigi/indexscheduler.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/nepomuk/services/strigi/indexscheduler.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -533,10 +533,27 @@
- 
- 
- namespace {
-+    /**
-+     * Returns true if the specified folder f would already be included or excluded using the list
-+     * folders
-+     */
-+    bool alreadyInList( const QList<QPair<QString, bool> >& folders, const QString& f, bool include )
-+    {
-+        bool included = false;
-+        for ( int i = 0; i < folders.count(); ++i ) {
-+            if ( f != folders[i].first &&
-+                 f.startsWith( folders[i].first ) )
-+                included = folders[i].second;
-+        }
-+        return included == include;
-+    }
-+
-+    /**
-+     * Simple insertion sort
-+     */
-     void insertSortFolders( const QStringList& folders, bool include, QList<QPair<QString, bool> >& result )
-     {
-         foreach( const QString& f, folders ) {
--            // insertion sort
-             int pos = 0;
-             while ( result.count() > pos &&
-                     result[pos].first < f )
-@@ -545,9 +562,28 @@
-         }
-     }
- 
--    QString constructFolderFilter( const QList<QPair<QString, bool> > folders, int& index )
-+    /**
-+     * Remove useless entries which would confuse the algo below.
-+     * This makes sure all top-level items are include folders.
-+     * This runs in O(n^2) and could be optimized but what for.
-+     */
-+    void cleanupList( QList<QPair<QString, bool> >& result )
-     {
--        const QString path = folders[index].first;
-+        int i = 0;
-+        while ( i < result.count() ) {
-+            if ( result[i].first.isEmpty() ||
-+                 alreadyInList( result, result[i].first, result[i].second ) )
-+                result.removeAt( i );
-+            else
-+                ++i;
-+        }
-+    }
-+
-+    QString constructFolderSubFilter( const QList<QPair<QString, bool> > folders, int& index )
-+    {
-+        QString path = folders[index].first;
-+        if ( !path.endsWith( '/' ) )
-+            path += '/';
-         const bool include = folders[index].second;
- 
-         ++index;
-@@ -555,7 +591,7 @@
-         QStringList subFilters;
-         while ( index < folders.count() &&
-                 folders[index].first.startsWith( path ) ) {
--            subFilters << constructFolderFilter( folders, index );
-+            subFilters << constructFolderSubFilter( folders, index );
-         }
- 
-         QString thisFilter = QString::fromLatin1( "REGEX(STR(?url),'^file://%1')" ).arg( path );
-@@ -573,6 +609,20 @@
-             return subFilters.first();
-         }
-     }
-+
-+    QString constructFolderFilter()
-+    {
-+        QList<QPair<QString, bool> > folders;
-+        insertSortFolders( Nepomuk::StrigiServiceConfig::self()->folders(), true, folders );
-+        insertSortFolders( Nepomuk::StrigiServiceConfig::self()->excludeFolders(), false, folders );
-+        cleanupList( folders );
-+        int index = 0;
-+        QStringList subFilters;
-+        while ( index < folders.count() ) {
-+            subFilters << constructFolderSubFilter( folders, index );
-+        }
-+        return subFilters.join(" && ");
-+    }
- }
- 
- void Nepomuk::IndexScheduler::removeOldAndUnwantedEntries()
-@@ -581,11 +631,7 @@
-     // We now query all indexed files that are in folders that should not
-     // be indexed at once.
-     //
--    QList<QPair<QString, bool> > folders;
--    insertSortFolders( StrigiServiceConfig::self()->folders(), true, folders );
--    insertSortFolders( StrigiServiceConfig::self()->excludeFolders(), false, folders );
--    int i = 0;
--    QString folderFilter = constructFolderFilter( folders, i );
-+    QString folderFilter = constructFolderFilter();
- 
-     //
-     // We query all files that should not be in the store
---- runtime/nepomuk/services/strigi/strigiserviceconfig.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/nepomuk/services/strigi/strigiserviceconfig.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -36,6 +36,8 @@
-     connect( dirWatch, SIGNAL( created( const QString& ) ),
-              this, SLOT( slotConfigDirty() ) );
-     dirWatch->addFile( KStandardDirs::locateLocal( "config", m_config.name() ) );
-+
-+    buildExcludeFilterRegExpCache();
- }
- 
- 
-@@ -92,6 +94,7 @@
- void Nepomuk::StrigiServiceConfig::slotConfigDirty()
- {
-     m_config.reparseConfiguration();
-+    buildExcludeFilterRegExpCache();
-     emit configChanged();
- }
- 
-@@ -102,11 +105,47 @@
- }
- 
- 
-+namespace {
-+    /// recursively check if a folder is hidden
-+    bool isDirHidden( QDir& dir ) {
-+        if ( QFileInfo( dir.path() ).isHidden() )
-+            return true;
-+        else if ( dir.cdUp() )
-+            return isDirHidden( dir );
-+        else
-+            return false;
-+    }
-+}
-+
- bool Nepomuk::StrigiServiceConfig::shouldFolderBeIndexed( const QString& path )
- {
--    QStringList inDirs = folders();
--    QStringList exDirs = excludeFolders();
-+    if ( folderInFolderList( path, folders(), excludeFolders() ) ) {
-+        // check for hidden folders
-+        QDir dir( path );
-+        if ( !indexHiddenFolders() && isDirHidden( dir ) )
-+            return false;
- 
-+        // reset dir
-+        dir = path;
-+
-+        // check the filters
-+        const QString dirName = dir.dirName();
-+        foreach( const QRegExp& filter, m_excludeFilterRegExpCache ) {
-+            if ( filter.exactMatch( dirName ) ) {
-+                return false;
-+            }
-+        }
-+
-+        return true;
-+    }
-+    else {
-+        return false;
-+    }
-+}
-+
-+
-+bool Nepomuk::StrigiServiceConfig::folderInFolderList( const QString& path, const QStringList& inDirs, const QStringList& exDirs ) const
-+{
-     if( inDirs.contains( path ) ) {
-         return true;
-     }
-@@ -119,9 +158,21 @@
-             return false;
-         }
-         else {
--            return shouldFolderBeIndexed( parent );
-+            return folderInFolderList( parent, inDirs, exDirs );
-         }
-     }
- }
- 
-+
-+void Nepomuk::StrigiServiceConfig::buildExcludeFilterRegExpCache()
-+{
-+    m_excludeFilterRegExpCache.clear();
-+    foreach( const QString& filter, excludeFilters() ) {
-+        QString filterRxStr = QRegExp::escape( filter );
-+        filterRxStr.replace( "\\*", QLatin1String( ".*" ) );
-+        filterRxStr.replace( "\\?", QLatin1String( "." ) );
-+        m_excludeFilterRegExpCache << QRegExp( filterRxStr );
-+    }
-+}
-+
- #include "strigiserviceconfig.moc"
---- runtime/nepomuk/services/strigi/strigiserviceconfig.h	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/nepomuk/services/strigi/strigiserviceconfig.h	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -20,6 +20,8 @@
- #define _NEPOMUK_STRIGI_SERVICE_CONFIG_H_
- 
- #include <QtCore/QObject>
-+#include <QtCore/QList>
-+#include <QtCore/QRegExp>
- 
- #include <kconfig.h>
- #include <kio/global.h>
-@@ -67,7 +69,7 @@
-         bool isInitialRun() const;
- 
-         /**
--         * Check if the folder should be indexed based on 
-+         * Check if the folder should be indexed based on
-          * folders() and excludeFolders()
-          */
-         bool shouldFolderBeIndexed( const QString& );
-@@ -81,7 +83,14 @@
-     private:
-         StrigiServiceConfig();
- 
-+        bool folderInFolderList( const QString& path, const QStringList& include, const QStringList& exclude ) const;
-+        void buildExcludeFilterRegExpCache();
-+
-         KConfig m_config;
-+
-+        /// cache of regexp objects for all exclude filters
-+        /// to prevent regexp parsing over and over
-+        QList<QRegExp> m_excludeFilterRegExpCache;
-     };
- }
- 
---- runtime/nepomuk/services/storage/nepomukstorage.notifyrc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/nepomuk/services/storage/nepomukstorage.notifyrc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -172,6 +172,7 @@
- Name[km]=បានបរាជ័យ​ក្នុង​ការ​ចាប់ផ្ដើម Nepomuk
- Name[kn]=ನೆಪೋಮುಕ್ ಅನ್ನು ಆರಂಭಿಸುವಲ್ಲಿ ವಿಫಲಗೊಂಡಿದೆ
- Name[ko]=Nepomuk을 시작할 수 없음
-+Name[lt]=Nepavyko paleisti Nepomuk
- Name[lv]=Neizdevās palaist Nepomuk
- Name[mk]=Не успеа стартувањето на Непомук
- Name[ml]=നെപ്പോമുക്ക് ആരംഭിയ്ക്കുന്നതില്‍ പരാജയപ്പെട്ടു
-@@ -216,6 +217,7 @@
- Comment[kk]=Nepomuk семантикалық үстел жүйесі жұмысын бастай алмады
- Comment[km]=ប្រព័ន្ធ​ផ្ទៃតុ​ Nepomuk Semantic មិនអាច​ត្រូវ​បាន​ចាប់ផ្ដើម​បានទេ
- Comment[ko]=Nepomuk 시맨틱 데스크톱을 시작할 수 없음
-+Comment[lt]=Nepomuk semantinio darbastalio sistemos paleisti nepavyko
- Comment[lv]=Nebija iespējams palaist Nepomuk semantisko darbvirsmas sistēmu
- Comment[mk]=Системот „Непомук семантички десктоп“ не можеше да биде стартуван
- Comment[ml]=നെപ്പോമുക്ക് സിമാന്റിക്ക് പണിയിട സിസ്റ്റം തുടങ്ങുവാന്‍ കഴിഞ്ഞില്ല
---- runtime/nepomuk/services/queryservice/CMakeLists.txt	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/nepomuk/services/queryservice/CMakeLists.txt	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -7,6 +7,7 @@
- include_directories(
-   ${QT_INCLUDES}
-   ${KDE4_INCLUDES}
-+  ${SOPRANO_INCLUDE_DIR}
-   ${NEPOMUK_INCLUDES}
- )
- 
---- runtime/kstyles/themes/qtgtk.themerc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kstyles/themes/qtgtk.themerc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -28,6 +28,7 @@
- Name[km]=GTK+ Style
- Name[kn]=GTK+ ವೈಖರಿ
- Name[ko]=GTK+ 스타일
-+Name[lt]=GTK+ stilius
- Name[lv]=GTK+ stils
- Name[mai]=GTK+ शैली
- Name[mk]=Стил GTK+
-@@ -83,6 +84,7 @@
- Comment[kk]=GTK+ нақыштар тетігін қолданатын стилі
- Comment[km]=រចនាប័ទ្ម​ដែលប្រើ​ម៉ាស៊ីន GTK+ theming
- Comment[ko]=GTK+ 테마 엔진을 사용하는 스타일
-+Comment[lt]=Stilius, naudojantis GTK+ temų variklį
- Comment[lv]=Stils, kas izmanto GTK+ tēmošanas dzinēju
- Comment[mk]=Стил што ја користи машината на теми од GTK+
- Comment[ml]=ജിടികെ+ പ്രമേയ എഞ്ചിന്‍ ഉപയോഗിയ്ക്കുന്ന ശൈലി
---- runtime/kstyles/themes/qtmacintosh.themerc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kstyles/themes/qtmacintosh.themerc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -29,6 +29,7 @@
- Name[km]=Mac OS X
- Name[kn]=Max OS X
- Name[ko]=Mac OS X
-+Name[lt]=Mac OS X
- Name[lv]=Mac OS X
- Name[mai]=Mac OS X
- Name[mk]=Mac OS X
-@@ -83,6 +84,7 @@
- Comment[kk]=Apple Appearance Manager-ін қолданатын стилі
- Comment[km]=រចនាប័ទ្ម​ដែលប្រើ​កម្មវិធី​គ្រប់គ្រង​រូបរាង​របស់​ Apple
- Comment[ko]=Apple 모양 관리자를 사용하는 스타일
-+Comment[lt]=Stilius, naudojantis Apple išvaizdos tvarkyklę
- Comment[lv]=Stils, kas izmanto Apple Apperance Manager
- Comment[mk]=Стил што го користи „Apple Appearance Manager“
- Comment[ml]=ആപ്പിള്‍ ചമയം നടത്തിപ്പുകാരനെ ഉപയോഗിയ്ക്കുന്ന രീതി
---- runtime/kstyles/themes/qtcleanlooks.themerc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kstyles/themes/qtcleanlooks.themerc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -26,6 +26,7 @@
- Name[km]=រូបរាង​ច្បាស់
- Name[kn]=Cleanlooks
- Name[ko]=Cleanlooks
-+Name[lt]=Cleanlooks
- Name[lv]=Cleanlooks
- Name[mk]=Чист изглед
- Name[ml]=ക്ലീന്‍ലുക്സ്
-@@ -74,6 +75,7 @@
- Comment[kk]=Құрамындағы GNOME Clearlooks тәрізді нақышы өзгертілмейтін стилі
- Comment[km]=រចនាប័ទ្ម unthemed ជាប់​ដូច​គ្នា​ទៅនឹង​រូបរាង​ច្បាស់​ពី GNOME
- Comment[ko]=그놈의 Clearlooks와 닮은 내장 스타일
-+Comment[lt]=Stilius nesusietas su tema, primenantis GNOME Clearlooks
- Comment[lv]=Iebūvēts netēmots stils, līdzīgs Clearlooks no GNOME
- Comment[mk]=Вграден стил без тема сличен на „Clearlooks“ од GNOME
- Comment[ml]=ഗ്നോമിലെ ക്ലിയര്‍ലുക്സുമായി സാദൃശ്യമുള്ള പ്രമേയമില്ലാത്ത ഒപ്പം വരുന്ന ശൈലി
---- runtime/kstyles/themes/qtwindowsvista.themerc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kstyles/themes/qtwindowsvista.themerc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -28,6 +28,7 @@
- Name[km]=MS Windows 9x
- Name[kn]=ಎಮ್ ಎಸ್ ವಿಂಡೋಸ್ ವಿಸ್ತಾ
- Name[ko]=MS 윈도 비스타
-+Name[lt]=MS Windows Vista
- Name[lv]=MS Windows Vista
- Name[mai]=MS Windows Vista
- Name[mk]=MS Windows Vista
-@@ -81,6 +82,7 @@
- Comment[kk]=Windows Vista стиль тетігін қолданатын стилі
- Comment[km]=រចនាប័ទ្ម​ដែលប្រើ​ម៉ាស៊ីន​រចនាប័ទ្ម Windows Vista
- Comment[ko]=윈도 비스타 스타일 엔진을 사용하는 스타일
-+Comment[lt]=Stilius, naudojantis Windows Vista stilių variklį
- Comment[lv]=Stils, kas izmanto Windows Vista stila dzinēju
- Comment[mk]=Стил што ја користи машината за стилови од Windows Vista
- Comment[ml]=വിന്‍ഡോസ് വിസ്റ്റാ ശൈലി എഞ്ചിന്‍ ഉപയോഗിയ്ക്കുന്ന ശൈലി
---- runtime/kstyles/themes/qtwindowsxp.themerc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kstyles/themes/qtwindowsxp.themerc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -28,6 +28,7 @@
- Name[km]=MS Windows 9x
- Name[kn]=ಎಮ್ ಎಸ್ ವಿಂಡೋಸ್ ಎಕ್ಸ್‌ಪಿ
- Name[ko]=MS 윈도 XP
-+Name[lt]=MS Windows XP
- Name[lv]=MS Windows XP
- Name[mai]=MS Windows XP
- Name[mk]=MS Windows XP
-@@ -81,6 +82,7 @@
- Comment[kk]=Windows XP стиль тетігін қолданатын стилі
- Comment[km]=រចនាប័ទ្ម​ដែលប្រើ​ម៉ាស៊ីន​រចនាប័ទ្ម Windows XP
- Comment[ko]=윈도 XP 스타일 엔진을 사용하는 스타일
-+Comment[lt]=Stilius, naudojantis Windows XP stilių variklį
- Comment[lv]=Stils, kas izmanto Windows XP stila dzinēju
- Comment[mk]=Стил што ја користи машината за стилови од Windows XP
- Comment[ml]=വിന്‍ഡോസ് എക്സ്‌പി ശൈലി എഞ്ചിന്‍ ഉപയോഗിയ്ക്കുന്ന ശൈലി
---- runtime/kstyles/themes/qtplastique.themerc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kstyles/themes/qtplastique.themerc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -28,6 +28,7 @@
- Name[km]=ប្ល៉ាស្ទិក
- Name[kn]=Plastique
- Name[ko]=Plastique
-+Name[lt]=Plastikinis
- Name[lv]=Plastique
- Name[mai]=प्लास्टिक
- Name[mk]=Plastique
-@@ -79,6 +80,7 @@
- Comment[kk]=Құрамындағы KDE3 Plastik-қа ұқсас нақыштарсыз стилі
- Comment[km]=រចនាប័ទ្ម unthemed ដែល​ជាប់​ដូច​គ្នា​ទៅ​នឹង​ប្លាស្ទីក​ពី KDE3
- Comment[ko]=KDE 3의 Plastik과 닮은 내장 스타일
-+Comment[lt]=Nesusietas su tema stilius, panašu į KDE3 Plastik stilių
- Comment[lv]=Iebūvēts netēmots stils, līdzīgs Plastik no KDE3
- Comment[mk]=Вграден стил без тема сличен на „Пластик“ од KDE3
- Comment[ml]=കെഡിഇ3യിലെ പ്ലാസ്റ്റിക്കിനോടു് സദൃശ്യമായ പ്രമേയമില്ലാത്ത ഒപ്പം വരുന്ന ശൈലി
---- runtime/kstyles/oxygen/oxygen.themerc	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kstyles/oxygen/oxygen.themerc	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -126,7 +126,7 @@
- Comment[mai]=अगिला पीढ़ीक डेस्कटापक शैली
- Comment[mk]=Стил за следната генерација десктопи
- Comment[ml]=ഭാവിതലമുറയിലെ പണിയിടത്തിനുള്ള രീതികള്‍
--Comment[nb]=Stil for neste skrivebord av neste generasjon
-+Comment[nb]=Stil for skrivebord av neste generasjon
- Comment[nds]=Stil för den kamen Schriefdisch
- Comment[ne]=पछिल्लो युगको डेस्कटपको शैली
- Comment[nl]=De stijl voor de volgende generatie desktops
---- runtime/kstyles/oxygen/helper.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kstyles/oxygen/helper.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -46,6 +46,7 @@
-     m_holeCache.clear();
-     m_holeFlatCache.clear();
-     m_slopeCache.clear();
-+    m_grooveCache.clear();
-     m_slitCache.clear();
-     m_dockFrameCache.clear();
-     m_scrollHoleCache.clear();
---- runtime/kurifilter-plugins/ikws/searchproviders/imdb.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kurifilter-plugins/ikws/searchproviders/imdb.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -89,3 +89,22 @@
- X-KDE-ServiceTypes=SearchProvider
- Keys=imdb
- Query=http://imdb.com/find?s=all&q=\\{@}
-+Query[ca]=http://imdb.com/find?s=all&q=\\{@}
-+Query[ca@valencia]=http://imdb.com/find?s=all&q=\\{@}
-+Query[de]=http://imdb.com/find?s=all&q=\\{@}
-+Query[es]=http://imdb.com/find?s=all&q=\\{@}
-+Query[et]=http://imdb.com/find?s=all&q=\\{@}
-+Query[fr]=http://imdb.com/find?s=all&q=\\{@}
-+Query[hr]=http://imdb.com/find?s=all&q=\\{@}
-+Query[is]=http://imdb.com/find?s=all&q=\\{@}
-+Query[it]=http://italian.imdb.com/find?s=all&q=\\{@}
-+Query[lt]=http://imdb.com/find?s=all&q=\\{@}
-+Query[nb]=http://imdb.com/find?s=all&q=\\{@}
-+Query[nds]=http://imdb.com/find?s=all&q=\\{@}
-+Query[nl]=http://imdb.com/find?s=all&q=\\{@}
-+Query[pt]=http://imdb.com/find?s=all&q=\\{@}
-+Query[pt_BR]=http://imdb.com/find?s=all&q=\\{@}
-+Query[sv]=http://imdb.com/find?s=all&q=\\{@}
-+Query[uk]=http://imdb.com/find?s=all&q=\\{@}
-+Query[x-test]=xxhttp://imdb.com/find?s=all&q=\\{@}xx
-+Query[zh_TW]=http://imdb.com/find?s=all&q=\\{@}
---- runtime/kurifilter-plugins/ikws/searchproviders/wolfram_alpha.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kurifilter-plugins/ikws/searchproviders/wolfram_alpha.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -27,6 +27,7 @@
- Name[km]=Wolfram Alpha
- Name[kn]=ವೂಲ್ಫ್ರಾಮ್ ಆಲ್ಫಾ
- Name[ko]=울프람 알파
-+Name[lt]=Wolfram Alpha
- Name[lv]=Wolfram Alpha
- Name[mai]=वोल्फॉर्म अल्फा
- Name[mk]=Волфрам Алфа
---- runtime/kurifilter-plugins/ikws/searchproviders/ethicle.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kurifilter-plugins/ikws/searchproviders/ethicle.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -32,6 +32,7 @@
- Name[km]=Ethicle
- Name[kn]=ಎತಿಕಲ್
- Name[ko]=Ethicle
-+Name[lt]=Ethicle
- Name[lv]=Ethicle
- Name[mai]=एथिकल
- Name[ml]=ഇത്തിക്കിള്‍
---- runtime/kurifilter-plugins/ikws/searchproviders/php.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kurifilter-plugins/ikws/searchproviders/php.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -89,5 +89,24 @@
- Name[zh_CN]=PHP 搜索
- Name[zh_TW]=PHP 搜尋
- Query=http://www.php.net/manual-lookup.php?pattern=\\{@}
-+Query[ca]=http://www.php.net/manual-lookup.php?pattern=\\{@}
-+Query[ca@valencia]=http://www.php.net/manual-lookup.php?pattern=\\{@}
-+Query[de]=http://www.php.net/manual-lookup.php?pattern=\\{@}
-+Query[es]=http://www.php.net/manual-lookup.php?pattern=\\{@}
-+Query[et]=http://www.php.net/manual-lookup.php?pattern=\\{@}
-+Query[fr]=http://www.php.net/manual-lookup.php?pattern=\\{@}
-+Query[hr]=http://www.php.net/manual-lookup.php?pattern=\\{@}
-+Query[is]=http://www.php.net/manual-lookup.php?pattern=\\{@}
-+Query[it]=http://www.php.net/manual-lookup.php?pattern=\\{@}
-+Query[lt]=http://www.php.net/manual-lookup.php?pattern=\\{@}
-+Query[nb]=http://www.php.net/manual-lookup.php?pattern=\\{@}
-+Query[nds]=http://www.php.net/manual-lookup.php?pattern=\\{@}
-+Query[nl]=http://www.php.net/manual-lookup.php?pattern=\\{@}
-+Query[pt]=http://www.php.net/manual-lookup.php?pattern=\\{@}
-+Query[pt_BR]=http://www.php.net/manual-lookup.php?pattern=\\{@}
-+Query[sv]=http://www.php.net/manual-lookup.php?pattern=\\{@}
-+Query[uk]=http://www.php.net/manual-lookup.php?pattern=\\{@}
-+Query[x-test]=xxhttp://www.php.net/manual-lookup.php?pattern=\\{@}xx
-+Query[zh_TW]=http://www.php.net/manual-lookup.php?pattern=\\{@}
- X-KDE-ServiceTypes=SearchProvider
- Type=Service
---- runtime/attica/kcm/kcm_attica.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/attica/kcm/kcm_attica.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -32,6 +32,7 @@
- Name[kk]=Open Collaboration қызмет етушісі
- Name[km]=ការ​គ្រប់គ្រង​អ្នក​ផ្ដល់សេវា​សហការណ៍​ចំហ
- Name[ko]=열린 협업 서비스 공급자 관리
-+Name[lt]=Open Collaboration tarnybų tvarkymas
- Name[lv]=Open Collaboration pakalpojumu piegādātāju pārvaldība
- Name[ml]=തുറന്ന കൊളാബൊറേഷന്‍ സേവന ധാതാവിന്റെ കൈകാര്യം
- Name[nb]=Åpne samarbeidstjenester – tilbyderstyring
-@@ -76,6 +77,7 @@
- Comment[kk]=Open Collaboration қызмет етушілікті басқару
- Comment[km]=គ្រប់គ្រង​អ្នកផ្ដល់ស​សេវា​សហការណ៍​បើក​ចំហ
- Comment[ko]=열린 협업 서비스 공급자 관리
-+Comment[lt]=Tvarkyti Open Collaboration tarnybas
- Comment[lv]=Pārvaldīt Open Collaboration piegādātājus
- Comment[ml]=തുറന്ന കൊളാബൊറേഷന്‍ സേവന ധാതാവിനെ കൈകാര്യം ചെയ്യുക
- Comment[nb]=Styr leverandører av åpne samarbeidstjenester (OCS)
---- runtime/drkonqi/crashedapplication.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/drkonqi/crashedapplication.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -89,7 +89,7 @@
-     std::free(savedLocale);
-     return QString::fromLocal8Bit(name != NULL ? name : "Unknown");
- #else
--    switch (m_signalnum) {
-+    switch (m_signalNumber) {
-     case 4: return QString("SIGILL");
-     case 6: return QString("SIGABRT");
-     case 8: return QString("SIGFPE");
---- runtime/drkonqi/ui/assistantpage_bugzilla_duplicates.ui	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/drkonqi/ui/assistantpage_bugzilla_duplicates.ui	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -26,7 +26,7 @@
-      <item>
-       <widget class="StatusWidget" name="m_statusWidget" native="true">
-        <property name="sizePolicy">
--        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
---- runtime/l10n/yt/entry.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/l10n/yt/entry.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -23,6 +23,7 @@
- Name[km]=Mayotte
- Name[kn]=ಮೆಯೋಟ್
- Name[ko]=마요트
-+Name[lt]=Majotas
- Name[lv]=Majota
- Name[mai]=मयोटे
- Name[mk]=Мајоте
---- runtime/l10n/re/entry.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/l10n/re/entry.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -22,6 +22,7 @@
- Name[km]=Réunion
- Name[kn]=ರೆಯೂನಿಯನ್
- Name[ko]=레위니옹
-+Name[lt]=Reunonas
- Name[lv]=Reunjona
- Name[mai]=रियूनियन
- Name[mk]=Реунион
---- runtime/l10n/gf/entry.desktop	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/l10n/gf/entry.desktop	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -23,6 +23,7 @@
- Name[km]=ហ្គូអ៊ីយ៉ាណា បារាំង
- Name[kn]=ಫ್ರೆಂಚ್ ಗಯಾನ
- Name[ko]=프랑스령 기아나
-+Name[lt]=Prancūzijos Gviana
- Name[lv]=Francijas Gviāna
- Name[mai]=फ्रेंच गायना
- Name[mk]=Француска Гвајана
---- runtime/kdesu/kdesu/kdesu.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/kdesu/kdesu/kdesu.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -408,7 +408,7 @@
- #ifdef Q_WS_X11
-             KStartupInfo::sendFinish( id );
- #endif
--            exit(0);
-+            exit(1);
-         }
-         if (ret == KDEsuDialog::AsUser)
-             change_uid = false;
---- runtime/plasma/scriptengines/javascript/simplebindings/qscriptbookkeeping.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/plasma/scriptengines/javascript/simplebindings/qscriptbookkeeping.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -42,6 +42,7 @@
- Q_DECLARE_METATYPE(Plasma::Applet*)
- Q_DECLARE_METATYPE(Plasma::Extender*)
- Q_DECLARE_METATYPE(Plasma::VideoWidget::Controls)
-+Q_DECLARE_METATYPE(Plasma::Svg*)
- 
- Q_DECLARE_METATYPE(AppletInterface*)
- 
-@@ -167,12 +168,24 @@
-     return engine->newQObject(const_cast<QGraphicsWidget *>(anim), QScriptEngine::AutoOwnership, QScriptEngine::PreferExistingWrapperObject);
- }
- 
--void qGraphicsWidgetFromQScriptValue(const QScriptValue &scriptValue, QGraphicsWidgetPtr &anim)
-+void graphicsWidgetFromQScriptValue(const QScriptValue &scriptValue, QGraphicsWidgetPtr &anim)
- {
-     QObject *obj = scriptValue.toQObject();
-     anim = static_cast<QGraphicsWidget *>(obj);
- }
- 
-+typedef Plasma::Svg * SvgPtr;
-+QScriptValue qScriptValueFromSvg(QScriptEngine *engine, const SvgPtr &anim)
-+{
-+    return engine->newQObject(const_cast<Plasma::Svg *>(anim), QScriptEngine::AutoOwnership, QScriptEngine::PreferExistingWrapperObject);
-+}
-+
-+void svgFromQScriptValue(const QScriptValue &scriptValue, SvgPtr &anim)
-+{
-+    QObject *obj = scriptValue.toQObject();
-+    anim = static_cast<Plasma::Svg *>(obj);
-+}
-+
- typedef Plasma::Extender *ExtenderPtr;
- QScriptValue qScriptValueFromExtender(QScriptEngine *engine, const ExtenderPtr &extender)
- {
-@@ -223,7 +236,8 @@
- 
- void registerSimpleAppletMetaTypes(QScriptEngine *engine)
- {
--    qScriptRegisterMetaType<QGraphicsWidget*>(engine, qScriptValueFromQGraphicsWidget, qGraphicsWidgetFromQScriptValue);
-+    qScriptRegisterMetaType<QGraphicsWidget*>(engine, qScriptValueFromQGraphicsWidget, graphicsWidgetFromQScriptValue);
-+    qScriptRegisterMetaType<Plasma::Svg*>(engine, qScriptValueFromSvg, svgFromQScriptValue);
- 
-     qScriptRegisterMetaType<KConfigGroup>(engine, qScriptValueFromKConfigGroup, kConfigGroupFromScriptValue, QScriptValue());
-     qScriptRegisterMetaType<KJob *>(engine, qScriptValueFromKJob, qKJobFromQScriptValue);
---- runtime/plasma/scriptengines/javascript/simplebindings/appletinterface.h	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/plasma/scriptengines/javascript/simplebindings/appletinterface.h	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -58,6 +58,7 @@
-     Q_ENUMS(QtAlignment)
-     Q_ENUMS(QtMouseButton)
-     Q_ENUMS(AnimationDirection)
-+    Q_ENUMS(IntervalAlignment)
-     Q_PROPERTY(AspectRatioMode aspectRatioMode READ aspectRatioMode WRITE setAspectRatioMode)
-     Q_PROPERTY(FormFactor formFactor READ formFactor)
-     Q_PROPERTY(Location location READ location)
-@@ -190,6 +191,12 @@
-     AnimationForward = QAbstractAnimation::Forward,
-     AnimationBackward = QAbstractAnimation::Backward
- };
-+
-+enum IntervalAlignment {
-+    NoAlignment = 0,
-+    AlignToMinute,
-+    AlignToHour
-+};
- //-------------------------------------------------------------------
- 
-     Q_INVOKABLE void gc();
---- runtime/plasma/scriptengines/javascript/simplebindings/easingcurve.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/plasma/scriptengines/javascript/simplebindings/easingcurve.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
+ Comment[en_GB]=Monitors directories for changes
+ Comment[es]=Monitoriza cambios en carpetas
+ Comment[et]=Kataloogide muutuste jälgimine
++Comment[eu]=Direktorioak zelatatzen ditu aldaketa bila
+ Comment[fi]=Tarkkailee muutoksia kansioissa
+ Comment[fr]=Surveilles les modifications des dossiers
+ Comment[fy]=Hâld triemtafel feroarings yn de gaten
+--- runtime/nepomuk/services/strigi/nepomukstrigiservice.notifyrc	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/nepomuk/services/strigi/nepomukstrigiservice.notifyrc	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -12,6 +12,7 @@
+ Comment[en_GB]=Desktop Search
+ Comment[es]=Búsqueda de escritorio
+ Comment[et]=Töölauaotsing
++Comment[eu]=Mahaigaineko bilaketa
+ Comment[fi]=Työpöytähaku
+ Comment[fr]=Recherche sur le bureau
+ Comment[fy]=Buroblêd sykaksje
+--- runtime/nepomuk/services/activities/nepomukactivitiesservice.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/nepomuk/services/activities/nepomukactivitiesservice.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -15,6 +15,7 @@
+ Name[en_GB]=Nepomuk Activities Service
+ Name[es]=Servicio de actividades de Nepomuk
+ Name[et]=Nepomuki tegevuste teenus
++Name[eu]=Nepomuk jarduera zerbitzua
+ Name[fr]=Service d'agencements de Nepomuk
+ Name[fy]=Nepomuk aktiviteits tsjinst
+ Name[ga]=Seirbhís Ghníomhaíochta Nepomuk
+--- runtime/nepomuk/services/storage/nepomukstorage.notifyrc	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/nepomuk/services/storage/nepomukstorage.notifyrc	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -12,6 +12,7 @@
+ Name[en_GB]=Semantic Data Storage
+ Name[es]=Almacenamiento de datos semánticos
+ Name[et]=Semantiline andmesalvesti
++Name[eu]=Datu semantikoen biltegiratzea
+ Name[fi]=Semanttinen tietovarasto
+ Name[fr]=Stockage de données sémantique
+ Name[fy]=Semantic Gegevens opslach
+@@ -61,6 +62,7 @@
+ Comment[en_GB]=Semantic Desktop
+ Comment[es]=Escritorio semántico
+ Comment[et]=Semantiline töölaud
++Comment[eu]=Mahaigain semantikoa
+ Comment[fi]=Semanttinen työpöytä
+ Comment[fr]=Bureau sémantique
+ Comment[fy]=Semantic buroblêd
+--- runtime/solidautoeject/solidautoeject.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/solidautoeject/solidautoeject.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -15,6 +15,7 @@
+ Name[en_GB]=Drive Ejector
+ Name[es]=Eyector de unidad
+ Name[et]=Plaadiväljasti
++Name[eu]=Unitate egozlea
+ Name[fi]=Aseman poistaja
+ Name[fr]=Éjecteur de disque
+ Name[fy]=Stasjons Utsmiter
+@@ -62,6 +63,7 @@
+ Comment[en_GB]=Automatically releases drives when their eject button is pushed
+ Comment[es]=Libera automáticamente las unidades cuando se pulsa el botón de expulsión
+ Comment[et]=Võimaldab plaatidel automaatselt väljuda, kui vajutatakse väljastamisnuppu
++Comment[eu]=Unitateak automatikoki askatzen ditu beraien egozteko botoia sakatzen denean
+ Comment[fi]=Vapauttaa asemat automaattisesti kun niiden poistopainiketta painetaan
+ Comment[fr]=Libère automatiquement les disques quand leur bouton d'éjection est pressé
+ Comment[fy]=Sil automatysk stasjons útsmite as der op de útsmyt knop drukt wurdt
+--- runtime/activitymanager/activitymanager.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/activitymanager/activitymanager.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -21,6 +21,7 @@
+ Name[en_GB]=Activity Manager
+ Name[es]=Gestor de actividades
+ Name[et]=Tegevuste haldur
++Name[eu]=Jarduera kudeatzailea
+ Name[fi]=Aktiviteettienhallinta
+ Name[fr]=Gestionnaire d'agencements
+ Name[fy]=Aktiviteits behearder
+--- runtime/kurifilter-plugins/ikws/searchproviders/facebook.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/facebook.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -15,6 +15,7 @@
+ Name[en_GB]=Facebook
+ Name[es]=Facebook
+ Name[et]=Facebook
++Name[eu]=Facebook
+ Name[fi]=Facebook
+ Name[fr]=Facebook
+ Name[fy]=Facebook
+@@ -68,6 +69,7 @@
+ Query[en_GB]=http://www.facebook.com/search/?q=\\{@}&init=quick
+ Query[es]=http://www.facebook.com/search/?q=\\{@}&init=quick
+ Query[et]=http://www.facebook.com/search/?q=\\{@}&init=quick
++Query[eu]=http://www.facebook.com/search/?q=\\{@}&init=quick
+ Query[fi]=http://www.facebook.com/search/?q=\\{@}&init=quick
+ Query[fr]=http://www.facebook.com/search/?q=\\{@}&init=quick
+ Query[fy]=http://www.facebook.com/search/?q=\\{@}&init=quick
+--- runtime/kurifilter-plugins/ikws/searchproviders/github.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/github.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -15,6 +15,7 @@
+ Name[en_GB]=GitHub
+ Name[es]=GitHub
+ Name[et]=GitHub
++Name[eu]=GitHub
+ Name[fi]=GitHub
+ Name[fr]=GitHub
+ Name[fy]=GitHub
+@@ -68,6 +69,7 @@
+ Query[en_GB]=http://github.com/search?q=\\{@}&x=0&y=0
+ Query[es]=http://github.com/search?q=\\{@}&x=0&y=0
+ Query[et]=http://github.com/search?q=\\{@}&x=0&y=0
++Query[eu]=http://github.com/search?q=\\{@}&x=0&y=0
+ Query[fi]=http://github.com/search?q=\\{@}&x=0&y=0
+ Query[fr]=http://github.com/search?q=\\{@}&x=0&y=0
+ Query[fy]=http://github.com/search?q=\\{@}&x=0&y=0
+--- runtime/kurifilter-plugins/ikws/searchproviders/qt.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/qt.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -101,6 +101,7 @@
+ Query[en_GB]=http://doc.qt.nokia.com/latest/\\{@}.html
+ Query[es]=http://doc.qt.nokia.com/latest/\\{@}.html
+ Query[et]=http://doc.qt.nokia.com/latest/\\{@}.html
++Query[eu]=http://doc.qt.nokia.com/latest/\\{@}.html
+ Query[fi]=http://doc.qt.nokia.com/latest/\\{@}.html
+ Query[fr]=http://doc.qt.nokia.com/latest/\\{@}.html
+ Query[fy]=http://doc.qt.nokia.com/latest/\\{@}.html
+--- runtime/kurifilter-plugins/ikws/searchproviders/identica_people.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/identica_people.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -14,6 +14,7 @@
+ Name[en_GB]=Identi.ca People
+ Name[es]=Gente Identi.ca
+ Name[et]=Identi.ca inimesed
++Name[eu]=Identi.ca Jendea
+ Name[fr]=Personne Identi.ca
+ Name[fy]=Identi.ca minsken
+ Name[ga]=Daoine Identi.ca
+@@ -63,6 +64,7 @@
+ Query[en_GB]=http://identi.ca/search/people?q=\\{@}&search=Search
+ Query[es]=http://identi.ca/search/people?q=\\{@}&search=Search
+ Query[et]=http://identi.ca/search/people?q=\\{@}&search=Search
++Query[eu]=http://identi.ca/search/people?q=\\{@}&search=Search
+ Query[fi]=http://identi.ca/search/people?q=\\{@}&search=Search
+ Query[fr]=http://identi.ca/search/people?q=\\{@}&search=Search
+ Query[fy]=http://identi.ca/search/people?q=\\{@}&search=Search
+--- runtime/kurifilter-plugins/ikws/searchproviders/blip.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/blip.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -15,6 +15,7 @@
+ Name[en_GB]=Blip.tv
+ Name[es]=Blip.tv
+ Name[et]=Blip.tv
++Name[eu]=Blip.tv
+ Name[fi]=Blip.tv
+ Name[fr]=Blip.tv
+ Name[fy]=Blip.tv
+@@ -68,6 +69,7 @@
+ Query[en_GB]=http://blip.tv/search?q=\\{@}
+ Query[es]=http://blip.tv/search?q=\\{@}
+ Query[et]=http://blip.tv/search?q=\\{@}
++Query[eu]=http://blip.tv/search?q=\\{@}
+ Query[fi]=http://blip.tv/search?q=\\{@}
+ Query[fr]=http://blip.tv/search?q=\\{@}
+ Query[fy]=http://blip.tv/search?q=\\{@}
+--- runtime/kurifilter-plugins/ikws/searchproviders/beolingus.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/beolingus.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -13,6 +13,7 @@
+ Name[en_GB]=Beolingus Online Dictionary
+ Name[es]=Diccionario en línea Beolingus
+ Name[et]=Beolinguse võrgusõnastik
++Name[eu]=Beolingus lerroko hiztegia
+ Name[fi]=Beolingus-verkkosanakirja
+ Name[fr]=Dictionnaire en ligne Beolingus
+ Name[fy]=Beolingus Online wurdboek
+@@ -67,6 +68,7 @@
+ Query[en_GB]=http://dict.tu-chemnitz.de/dings.cgi?lang=de&service=deen&opterrors=0&optpro=0&query=\\{@}&iservice=&comment=&email
+ Query[es]=http://dict.tu-chemnitz.de/dings.cgi?lang=de&service=deen&opterrors=0&optpro=0&query=\\{@}&iservice=&comment=&email
+ Query[et]=http://dict.tu-chemnitz.de/dings.cgi?lang=de&service=deen&opterrors=0&optpro=0&query=\\{@}&iservice=&comment=&email
++Query[eu]=http://dict.tu-chemnitz.de/dings.cgi?lang=de&service=deen&opterrors=0&optpro=0&query=\\{@}&iservice=&comment=&email
+ Query[fi]=http://dict.tu-chemnitz.de/dings.cgi?lang=de&service=deen&opterrors=0&optpro=0&query=\\{@}&iservice=&comment=&email
+ Query[fr]=http://dict.tu-chemnitz.de/dings.cgi?lang=de&service=deen&opterrors=0&optpro=0&query=\\{@}&iservice=&comment=&email
+ Query[fy]=http://dict.tu-chemnitz.de/dings.cgi?lang=de&service=deen&opterrors=0&optpro=0&query=\\{@}&iservice=&comment=&email
+--- runtime/kurifilter-plugins/ikws/searchproviders/duckduckgo_shopping.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/duckduckgo_shopping.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -12,6 +12,7 @@
+ Name[en_GB]=Duck Duck Go Shopping
+ Name[es]=Duck Duck Go Compras
+ Name[et]=Duck Duck Go Shopping
++Name[eu]=Duck Duck Go Erosketa
+ Name[fr]=Duck Duck Go Shopping
+ Name[fy]=Duck Duck Go Winkelje
+ Name[ga]=Siopadóireacht Duck Duck Go
+@@ -60,6 +61,7 @@
+ Query[en_GB]=http://duckduckgo.com/?q=\\{@}&v=s
+ Query[es]=http://duckduckgo.com/?q=\\{@}&v=s
+ Query[et]=http://duckduckgo.com/?q=\\{@}&v=s
++Query[eu]=http://duckduckgo.com/?q=\\{@}&v=s
+ Query[fi]=http://duckduckgo.com/?q=\\{@}&v=s
+ Query[fr]=http://duckduckgo.com/?q=\\{@}&v=s
+ Query[fy]=http://duckduckgo.com/?q=\\{@}&v=s
+--- runtime/kurifilter-plugins/ikws/searchproviders/google_maps.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/google_maps.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -13,6 +13,7 @@
+ Name[en_GB]=Google Maps
+ Name[es]=Google Maps
+ Name[et]=Google Maps
++Name[eu]=Google Mapak
+ Name[fi]=Google Maps (kartat)
+ Name[fr]=Google Maps
+ Name[fy]=Google kaart
+@@ -69,6 +70,7 @@
+ Query[en_GB]=http://maps.google.com/maps?q=\\{@}&ie=UTF8&iwloc=addr
+ Query[es]=http://maps.google.com/maps?q=\\{@}&ie=UTF8&iwloc=addr
+ Query[et]=http://maps.google.com/maps?q=\\{@}&ie=UTF8&iwloc=addr
++Query[eu]=http://maps.google.com/maps?q=\\{@}&ie=UTF8&iwloc=addr
+ Query[fi]=http://maps.google.com/maps?q=\\{@}&ie=UTF8&iwloc=addr
+ Query[fr]=http://maps.google.com/maps?q=\\{@}&ie=UTF8&iwloc=addr
+ Query[fy]=http://maps.google.com/maps?q=\\{@}&ie=UTF8&iwloc=addr
+--- runtime/kurifilter-plugins/ikws/searchproviders/kde_forums.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/kde_forums.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -15,6 +15,7 @@
+ Name[en_GB]=KDE Forums
+ Name[es]=Foros de KDE
+ Name[et]=KDE foorumid
++Name[eu]=Mandriva foroak
+ Name[fi]=KDE:n foorumit
+ Name[fr]=Forums de KDE
+ Name[fy]=KDE Foarums
+@@ -67,6 +68,7 @@
+ Query[en_GB]=http://forum.kde.org/search.php?keywords=\\{@}&terms=all&author=&tags=&sv=0&sc=1&sf=all&sr=posts&sk=t&sd=d&st=0&ch=300&feed_type=NONE&feed_style=HTML&countlimit=100&t=0&sid=77c16bc0abb91ff1347597c69835d5bd&submit=Search
+ Query[es]=http://forum.kde.org/search.php?keywords=\\{@}&terms=all&author=&tags=&sv=0&sc=1&sf=all&sr=posts&sk=t&sd=d&st=0&ch=300&feed_type=NONE&feed_style=HTML&countlimit=100&t=0&sid=77c16bc0abb91ff1347597c69835d5bd&submit=Search
+ Query[et]=http://forum.kde.org/search.php?keywords=\\{@}&terms=all&author=&tags=&sv=0&sc=1&sf=all&sr=posts&sk=t&sd=d&st=0&ch=300&feed_type=NONE&feed_style=HTML&countlimit=100&t=0&sid=77c16bc0abb91ff1347597c69835d5bd&submit=Search
++Query[eu]=http://forum.kde.org/search.php?keywords=\\{@}&terms=all&author=&tags=&sv=0&sc=1&sf=all&sr=posts&sk=t&sd=d&st=0&ch=300&feed_type=NONE&feed_style=HTML&countlimit=100&t=0&sid=77c16bc0abb91ff1347597c69835d5bd&submit=Search
+ Query[fi]=http://forum.kde.org/search.php?keywords=\\{@}&terms=all&author=&tags=&sv=0&sc=1&sf=all&sr=posts&sk=t&sd=d&st=0&ch=300&feed_type=NONE&feed_style=HTML&countlimit=100&t=0&sid=77c16bc0abb91ff1347597c69835d5bd&submit=Search
+ Query[fr]=http://forum.kde.org/search.php?keywords=\\{@}&terms=all&author=&tags=&sv=0&sc=1&sf=all&sr=posts&sk=t&sd=d&st=0&ch=300&feed_type=NONE&feed_style=HTML&countlimit=100&t=0&sid=77c16bc0abb91ff1347597c69835d5bd&submit=Search
+ Query[fy]=http://forum.kde.org/search.php?keywords=\\{@}&terms=all&author=&tags=&sv=0&sc=1&sf=all&sr=posts&sk=t&sd=d&st=0&ch=300&feed_type=NONE&feed_style=HTML&countlimit=100&t=0&sid=77c16bc0abb91ff1347597c69835d5bd&submit=Search
+--- runtime/kurifilter-plugins/ikws/searchproviders/kde_techbase.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/kde_techbase.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -13,6 +13,7 @@
+ Name[en_GB]=KDE TechBase
+ Name[es]=KDE TechBase
+ Name[et]=KDE TechBase
++Name[eu]=KDE TechBase
+ Name[fi]=KDE TechBase
+ Name[fr]=Centre technique de KDE
+ Name[fy]=KDE TechBase
+@@ -65,6 +66,7 @@
+ Query[en_GB]=http://techbase.kde.org/Special:Search?search=\\{@}&fulltext=Search
+ Query[es]=http://techbase.kde.org/Special:Search?search=\\{@}&fulltext=Search
+ Query[et]=http://techbase.kde.org/Special:Search?search=\\{@}&fulltext=Search
++Query[eu]=http://techbase.kde.org/Special:Search?search=\\{@}&fulltext=Search
+ Query[fi]=http://techbase.kde.org/Special:Search?search=\\{@}&fulltext=Search
+ Query[fr]=http://techbase.kde.org/Special:Search?search=\\{@}&fulltext=Search
+ Query[fy]=http://techbase.kde.org/Special:Search?search=\\{@}&fulltext=Search
+--- runtime/kurifilter-plugins/ikws/searchproviders/ecosia.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/ecosia.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -12,6 +12,7 @@
+ Name[en_GB]=Ecosia search engine
+ Name[es]=Motor de búsqueda Ecosia
+ Name[et]=Ecosia otsingumootor
++Name[eu]=Ecosia bilaketa motorea
+ Name[fi]=Ecosia-hakukone
+ Name[fr]=Moteur de recherche Ecosia
+ Name[fy]=Ecosia sykmotor
+@@ -68,6 +69,7 @@
+ Query[en_GB]=http://ecosia.org/search.php?q=\\{@}&meta=normal
+ Query[es]=http://ecosia.org/search.php?q=\\{@}&meta=normal
+ Query[et]=http://ecosia.org/search.php?q=\\{@}&meta=normal
++Query[eu]=http://ecosia.org/search.php?q=\\{@}&meta=normal
+ Query[fi]=http://ecosia.org/search.php?q=\\{@}&meta=normal
+ Query[fr]=http://ecosia.org/search.php?q=\\{@}&meta=normal
+ Query[fy]=http://ecosia.org/search.php?q=\\{@}&meta=normal
+--- runtime/kurifilter-plugins/ikws/searchproviders/magnatune.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/magnatune.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -15,6 +15,7 @@
+ Name[en_GB]=Magnatune
+ Name[es]=Magnatune
+ Name[et]=Magnatune
++Name[eu]=Magnatune
+ Name[fi]=Magnatune
+ Name[fr]=Magnatune
+ Name[fy]=Magnatune
+@@ -67,6 +68,7 @@
+ Query[en_GB]=http://my.magnatune.com/search?w=\\{@}&t=m&x=0&y=0
+ Query[es]=http://my.magnatune.com/search?w=\\{@}&t=m&x=0&y=0
+ Query[et]=http://my.magnatune.com/search?w=\\{@}&t=m&x=0&y=0
++Query[eu]=http://my.magnatune.com/search?w=\\{@}&t=m&x=0&y=0
+ Query[fi]=http://my.magnatune.com/search?w=\\{@}&t=m&x=0&y=0
+ Query[fr]=http://my.magnatune.com/search?w=\\{@}&t=m&x=0&y=0
+ Query[fy]=http://my.magnatune.com/search?w=\\{@}&t=m&x=0&y=0
+--- runtime/kurifilter-plugins/ikws/searchproviders/flickrcc.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/flickrcc.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -14,6 +14,7 @@
+ Name[en_GB]=Flickr Creative Commons
+ Name[es]=Flickr Creative Commons
+ Name[et]=Flickr Creative Commons
++Name[eu]=Flickr Creative Commons
+ Name[fi]=Flickr Creative Commons
+ Name[fr]=Flickr Creative Commons
+ Name[fy]=Flickr Creative Commons
+@@ -63,6 +64,7 @@
+ Query[en_GB]=http://www.flickr.com/search/?q=\\{@}&l=cc&ct=0&mt=all&adv=1
+ Query[es]=http://www.flickr.com/search/?q=\\{@}&l=cc&ct=0&mt=all&adv=1
+ Query[et]=http://www.flickr.com/search/?q=\\{@}&l=cc&ct=0&mt=all&adv=1
++Query[eu]=http://www.flickr.com/search/?q=\\{@}&l=cc&ct=0&mt=all&adv=1
+ Query[fi]=http://www.flickr.com/search/?q=\\{@}&l=cc&ct=0&mt=all&adv=1
+ Query[fr]=http://www.flickr.com/search/?q=\\{@}&l=cc&ct=0&mt=all&adv=1
+ Query[fy]=http://www.flickr.com/search/?q=\\{@}&l=cc&ct=0&mt=all&adv=1
+--- runtime/kurifilter-plugins/ikws/searchproviders/yahoo_image.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/yahoo_image.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -15,6 +15,7 @@
+ Name[en_GB]=Yahoo Images
+ Name[es]=Yahoo Imágenes
+ Name[et]=Yahoo pildid
++Name[eu]=Yahoo irudiak
+ Name[fi]=Yahoon kuvahaku
+ Name[fr]=Images Yahoo
+ Name[fy]=Yahoo ôfbyldings
+@@ -66,6 +67,7 @@
+ Query[en_GB]=http://images.search.yahoo.com/search/images;_ylt=A0geuy0K6JZLsVkB4m1XNyoA?ei=UTF-8&p=\\{@}&y=0&fr2=tab-web&fr=yfp-t-701
+ Query[es]=http://images.search.yahoo.com/search/images;_ylt=A0geuy0K6JZLsVkB4m1XNyoA?ei=UTF-8&p=\\{@}&y=0&fr2=tab-web&fr=yfp-t-701
+ Query[et]=http://images.search.yahoo.com/search/images;_ylt=A0geuy0K6JZLsVkB4m1XNyoA?ei=UTF-8&p=\\{@}&y=0&fr2=tab-web&fr=yfp-t-701
++Query[eu]=http://images.search.yahoo.com/search/images;_ylt=A0geuy0K6JZLsVkB4m1XNyoA?ei=UTF-8&p=\\{@}&y=0&fr2=tab-web&fr=yfp-t-701
+ Query[fi]=http://images.search.yahoo.com/search/images;_ylt=A0geuy0K6JZLsVkB4m1XNyoA?ei=UTF-8&p=\\{@}&y=0&fr2=tab-web&fr=yfp-t-701
+ Query[fr]=http://images.search.yahoo.com/search/images;_ylt=A0geuy0K6JZLsVkB4m1XNyoA?ei=UTF-8&p=\\{@}&y=0&fr2=tab-web&fr=yfp-t-701
+ Query[fy]=http://images.search.yahoo.com/search/images;_ylt=A0geuy0K6JZLsVkB4m1XNyoA?ei=UTF-8&p=\\{@}&y=0&fr2=tab-web&fr=yfp-t-701
+--- runtime/kurifilter-plugins/ikws/searchproviders/yahoo_shopping.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/yahoo_shopping.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -15,6 +15,7 @@
+ Name[en_GB]=Yahoo Shopping
+ Name[es]=Yahoo Compras
+ Name[et]=Yahoo Shopping
++Name[eu]=Yahoo Shopping
+ Name[fi]=Yahoo Ostokset
+ Name[fr]=Yahoo Shopping
+ Name[fy]=Yahoo Winkelje
+@@ -66,6 +67,7 @@
+ Query[en_GB]=http://shopping.yahoo.com/search;_ylt=A0SO8ZgG65ZLyX8AsLX7w8QF;_ylu=X3oDMTBpcjIxMDllBHNlYwN0YWJzBHZ0aWQDVjEwOQ--?cop=mss&ei=UTF-8&p=\\{@}&fr2=tab-video&fr=yfp-t-701
+ Query[es]=http://shopping.yahoo.com/search;_ylt=A0SO8ZgG65ZLyX8AsLX7w8QF;_ylu=X3oDMTBpcjIxMDllBHNlYwN0YWJzBHZ0aWQDVjEwOQ--?cop=mss&ei=UTF-8&p=\\{@}&fr2=tab-video&fr=yfp-t-701
+ Query[et]=http://shopping.yahoo.com/search;_ylt=A0SO8ZgG65ZLyX8AsLX7w8QF;_ylu=X3oDMTBpcjIxMDllBHNlYwN0YWJzBHZ0aWQDVjEwOQ--?cop=mss&ei=UTF-8&p=\\{@}&fr2=tab-video&fr=yfp-t-701
++Query[eu]=http://shopping.yahoo.com/search;_ylt=A0SO8ZgG65ZLyX8AsLX7w8QF;_ylu=X3oDMTBpcjIxMDllBHNlYwN0YWJzBHZ0aWQDVjEwOQ--?cop=mss&ei=UTF-8&p=\\{@}&fr2=tab-video&fr=yfp-t-701
+ Query[fi]=http://shopping.yahoo.com/search;_ylt=A0SO8ZgG65ZLyX8AsLX7w8QF;_ylu=X3oDMTBpcjIxMDllBHNlYwN0YWJzBHZ0aWQDVjEwOQ--?cop=mss&ei=UTF-8&p=\\{@}&fr2=tab-video&fr=yfp-t-701
+ Query[fr]=http://shopping.yahoo.com/search;_ylt=A0SO8ZgG65ZLyX8AsLX7w8QF;_ylu=X3oDMTBpcjIxMDllBHNlYwN0YWJzBHZ0aWQDVjEwOQ--?cop=mss&ei=UTF-8&p=\\{@}&fr2=tab-video&fr=yfp-t-701
+ Query[fy]=http://shopping.yahoo.com/search;_ylt=A0SO8ZgG65ZLyX8AsLX7w8QF;_ylu=X3oDMTBpcjIxMDllBHNlYwN0YWJzBHZ0aWQDVjEwOQ--?cop=mss&ei=UTF-8&p=\\{@}&fr2=tab-video&fr=yfp-t-701
+--- runtime/kurifilter-plugins/ikws/searchproviders/kde_look.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/kde_look.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -14,6 +14,7 @@
+ Name[en_GB]=KDE Look
+ Name[es]=KDE Look
+ Name[et]=KDE Look
++Name[eu]=KDE Look
+ Name[fi]=KDE Look
+ Name[fr]=KDE Look
+ Name[fy]=KDE Uterlik
+@@ -66,6 +67,7 @@
+ Query[en_GB]=http://www.kde-look.org/content/search.php?search=Search&name=\\{@}
+ Query[es]=http://www.kde-look.org/content/search.php?search=Search&name=\\{@}
+ Query[et]=http://www.kde-look.org/content/search.php?search=Search&name=\\{@}
++Query[eu]=http://www.kde-look.org/content/search.php?search=Search&name=\\{@}
+ Query[fi]=http://www.kde-look.org/content/search.php?search=Search&name=\\{@}
+ Query[fr]=http://www.kde-look.org/content/search.php?search=Search&name=\\{@}
+ Query[fy]=http://www.kde-look.org/content/search.php?search=Search&name=\\{@}
+--- runtime/kurifilter-plugins/ikws/searchproviders/yahoo_local.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/yahoo_local.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -13,6 +13,7 @@
+ Name[en_GB]=Yahoo Local
+ Name[es]=Yahoo Local
+ Name[et]=Yahoo Local
++Name[eu]=Yahoo Local
+ Name[fi]=Yahoon paikallishaku
+ Name[fr]=Yahoo Local
+ Name[fy]=Yahoo lokaal
+@@ -64,6 +65,7 @@
+ Query[en_GB]=http://local.yahoo.com/results?stx=\\{@}&ei=UTF-8&fr=yfp-t-701&fr2=tab-img
+ Query[es]=http://local.yahoo.com/results?stx=\\{@}&ei=UTF-8&fr=yfp-t-701&fr2=tab-img
+ Query[et]=http://local.yahoo.com/results?stx=\\{@}&ei=UTF-8&fr=yfp-t-701&fr2=tab-img
++Query[eu]=http://local.yahoo.com/results?stx=\\{@}&ei=UTF-8&fr=yfp-t-701&fr2=tab-img
+ Query[fi]=http://local.yahoo.com/results?stx=\\{@}&ei=UTF-8&fr=yfp-t-701&fr2=tab-img
+ Query[fr]=http://local.yahoo.com/results?stx=\\{@}&ei=UTF-8&fr=yfp-t-701&fr2=tab-img
+ Query[fy]=http://local.yahoo.com/results?stx=\\{@}&ei=UTF-8&fr=yfp-t-701&fr2=tab-img
+--- runtime/kurifilter-plugins/ikws/searchproviders/youtube.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/youtube.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -13,6 +13,7 @@
+ Name[en_GB]=YouTube
+ Name[es]=YouTube
+ Name[et]=YouTube
++Name[eu]=YouTube
+ Name[fi]=YouTube
+ Name[fr]=YouTube
+ Name[fy]=YouTube
+@@ -66,6 +67,7 @@
+ Query[en_GB]=http://www.youtube.com/results?search_query=\\{@}&search_type=&aq=f
+ Query[es]=http://www.youtube.com/results?search_query=\\{@}&search_type=&aq=f
+ Query[et]=http://www.youtube.com/results?search_query=\\{@}&search_type=&aq=f
++Query[eu]=http://www.youtube.com/results?search_query=\\{@}&search_type=&aq=f
+ Query[fi]=http://www.youtube.com/results?search_query=\\{@}&search_type=&aq=f
+ Query[fr]=http://www.youtube.com/results?search_query=\\{@}&search_type=&aq=f
+ Query[fy]=http://www.youtube.com/results?search_query=\\{@}&search_type=&aq=f
+--- runtime/kurifilter-plugins/ikws/searchproviders/urbandictionary.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/urbandictionary.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -14,6 +14,7 @@
+ Name[en_GB]=Urban Dictionary
+ Name[es]=Urban Dictionary
+ Name[et]=Urban Dictionary
++Name[eu]=Urban hiztegia
+ Name[fi]=Urban Dictionary
+ Name[fr]=Dictionnaire Urban
+ Name[fy]=Urban Wurdboek
+@@ -65,6 +66,7 @@
+ Query[en_GB]=http://www.urbandictionary.com/define.php?term=\\{@}
+ Query[es]=http://www.urbandictionary.com/define.php?term=\\{@}
+ Query[et]=http://www.urbandictionary.com/define.php?term=\\{@}
++Query[eu]=http://www.urbandictionary.com/define.php?term=\\{@}
+ Query[fi]=http://www.urbandictionary.com/define.php?term=\\{@}
+ Query[fr]=http://www.urbandictionary.com/define.php?term=\\{@}
+ Query[fy]=http://www.urbandictionary.com/define.php?term=\\{@}
+--- runtime/kurifilter-plugins/ikws/searchproviders/amazon_mp3.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/amazon_mp3.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -15,6 +15,7 @@
+ Name[en_GB]=Amazon MP3
+ Name[es]=Amazon MP3
+ Name[et]=Amazon MP3
++Name[eu]=Amazon MP3
+ Name[fi]=Amazon MP3
+ Name[fr]=Amazon MP3
+ Name[fy]=Amazon MP3
+@@ -68,6 +69,7 @@
+ Query[en_GB]=http://www.amazon.co.uk/s/ref=nb_sb_noss?url=search-alias=digital-music&field-keywords=\\{@}&x=0&y=0
+ Query[es]=http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias=digital-music&field-keywords=\\{@}&x=0&y=0
+ Query[et]=http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias=digital-music&field-keywords=\\{@}&x=0&y=0
++Query[eu]=http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias=digital-music&field-keywords=\\{@}&x=0&y=0
+ Query[fi]=http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias=digital-music&field-keywords=\\{@}&x=0&y=0
+ Query[fr]=http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias=digital-music&field-keywords=\\{@}&x=0&y=0
+ Query[fy]=http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias=digital-music&field-keywords=\\{@}&x=0&y=0
+--- runtime/kurifilter-plugins/ikws/searchproviders/yahoo_video.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/yahoo_video.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -15,6 +15,7 @@
+ Name[en_GB]=Yahoo Video
+ Name[es]=Yahoo Vídeo
+ Name[et]=Yahoo Video
++Name[eu]=Yahoo Video
+ Name[fi]=Yahoo Video
+ Name[fr]=Vidéo Yahoo
+ Name[fy]=Yahoo fideo
+@@ -65,6 +66,7 @@
+ Query[en_GB]=http://video.search.yahoo.com/search/video;_ylt=A0WTb_3a6JZLSHwAK7.JzbkF?ei=UTF-8&p=\\{@}&y=0&fr2=tab-img&fr=yfp-t-701
+ Query[es]=http://video.search.yahoo.com/search/video;_ylt=A0WTb_3a6JZLSHwAK7.JzbkF?ei=UTF-8&p=\\{@}&y=0&fr2=tab-img&fr=yfp-t-701
+ Query[et]=http://video.search.yahoo.com/search/video;_ylt=A0WTb_3a6JZLSHwAK7.JzbkF?ei=UTF-8&p=\\{@}&y=0&fr2=tab-img&fr=yfp-t-701
++Query[eu]=http://video.search.yahoo.com/search/video;_ylt=A0WTb_3a6JZLSHwAK7.JzbkF?ei=UTF-8&p=\\{@}&y=0&fr2=tab-img&fr=yfp-t-701
+ Query[fi]=http://video.search.yahoo.com/search/video;_ylt=A0WTb_3a6JZLSHwAK7.JzbkF?ei=UTF-8&p=\\{@}&y=0&fr2=tab-img&fr=yfp-t-701
+ Query[fr]=http://video.search.yahoo.com/search/video;_ylt=A0WTb_3a6JZLSHwAK7.JzbkF?ei=UTF-8&p=\\{@}&y=0&fr2=tab-img&fr=yfp-t-701
+ Query[fy]=http://video.search.yahoo.com/search/video;_ylt=A0WTb_3a6JZLSHwAK7.JzbkF?ei=UTF-8&p=\\{@}&y=0&fr2=tab-img&fr=yfp-t-701
+--- runtime/kurifilter-plugins/ikws/searchproviders/google_code.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/google_code.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -15,6 +15,7 @@
+ Name[en_GB]=Google Code
+ Name[es]=Google Code
+ Name[et]=Google Code
++Name[eu]=Google Code
+ Name[fi]=Google Code
+ Name[fr]=Google Code
+ Name[fy]=Google koade
+@@ -66,6 +67,7 @@
+ Query[en_GB]=http://code.google.com/query/#q=\\{%2520}
+ Query[es]=http://code.google.com/query/#q=\\{%2520}
+ Query[et]=http://code.google.com/query/#q=\\{%2520}
++Query[eu]=http://code.google.com/query/#q=\\{%2520}
+ Query[fi]=http://code.google.com/query/#q=\\{%2520}
+ Query[fr]=http://code.google.com/query/#q=\\{%2520}
+ Query[fy]=http://code.google.com/query/#q=\\{%2520}
+--- runtime/kurifilter-plugins/ikws/searchproviders/flickr.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/flickr.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -15,6 +15,7 @@
+ Name[en_GB]=Flickr
+ Name[es]=Flickr
+ Name[et]=Flickr
++Name[eu]=Flickr
+ Name[fi]=Flickr
+ Name[fr]=Flickr
+ Name[fy]=Flickr
+@@ -67,6 +68,7 @@
+ Query[en_GB]=http://www.flickr.com/search/?q=\\{@}
+ Query[es]=http://www.flickr.com/search/?q=\\{@}
+ Query[et]=http://www.flickr.com/search/?q=\\{@}
++Query[eu]=http://www.flickr.com/search/?q=\\{@}
+ Query[fi]=http://www.flickr.com/search/?q=\\{@}
+ Query[fr]=http://www.flickr.com/search/?q=\\{@}
+ Query[fy]=http://www.flickr.com/search/?q=\\{@}
+--- runtime/kurifilter-plugins/ikws/searchproviders/imdb.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/imdb.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -102,6 +102,7 @@
+ Query[en_GB]=http://imdb.com/find?s=all&q=\\{@}
+ Query[es]=http://imdb.com/find?s=all&q=\\{@}
+ Query[et]=http://imdb.com/find?s=all&q=\\{@}
++Query[eu]=http://imdb.com/find?s=all&q=\\{@}
+ Query[fi]=http://imdb.com/find?s=all&q=\\{@}
+ Query[fr]=http://imdb.com/find?s=all&q=\\{@}
+ Query[fy]=http://imdb.com/find?s=all&q=\\{@}
+--- runtime/kurifilter-plugins/ikws/searchproviders/identica_groups.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/identica_groups.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -15,6 +15,7 @@
+ Name[en_GB]=Identi.ca Groups
+ Name[es]=Grupos Identi.ca
+ Name[et]=Identi.ca grupid
++Name[eu]=Identi.ca Taldeak
+ Name[fi]=Identi.ca Ryhmät
+ Name[fr]=Groupes Icenti.ca
+ Name[fy]=Identi.ca groepen
+@@ -67,6 +68,7 @@
+ Query[en_GB]=http://identi.ca/search/group?q=\\{@}
+ Query[es]=http://identi.ca/search/group?q=\\{@}
+ Query[et]=http://identi.ca/search/group?q=\\{@}
++Query[eu]=http://identi.ca/search/group?q=\\{@}
+ Query[fi]=http://identi.ca/search/group?q=\\{@}
+ Query[fr]=http://identi.ca/search/group?q=\\{@}
+ Query[fy]=http://identi.ca/search/group?q=\\{@}
+--- runtime/kurifilter-plugins/ikws/searchproviders/duckduckgo.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/duckduckgo.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -13,6 +13,7 @@
+ Name[en_GB]=Duck Duck Go
+ Name[es]=Duck Duck Go
+ Name[et]=Duck Duck Go
++Name[eu]=Duck Duck Go
+ Name[fi]=Duck Duck Go
+ Name[fr]=Duck Duck Go
+ Name[fy]=Duck Duck Go
+@@ -62,6 +63,7 @@
+ Query[en_GB]=http://duckduckgo.com/?q=\\{@}&v=
+ Query[es]=http://duckduckgo.com/?q=\\{@}&v=
+ Query[et]=http://duckduckgo.com/?q=\\{@}&v=
++Query[eu]=http://duckduckgo.com/?q=\\{@}&v=
+ Query[fi]=http://duckduckgo.com/?q=\\{@}&v=
+ Query[fr]=http://duckduckgo.com/?q=\\{@}&v=
+ Query[fy]=http://duckduckgo.com/?q=\\{@}&v=
+--- runtime/kurifilter-plugins/ikws/searchproviders/php.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/php.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -102,6 +102,7 @@
+ Query[en_GB]=http://www.php.net/manual-lookup.php?pattern=\\{@}
+ Query[es]=http://www.php.net/manual-lookup.php?pattern=\\{@}
+ Query[et]=http://www.php.net/manual-lookup.php?pattern=\\{@}
++Query[eu]=http://www.php.net/manual-lookup.php?pattern=\\{@}
+ Query[fi]=http://www.php.net/manual-lookup.php?pattern=\\{@}
+ Query[fr]=http://www.php.net/manual-lookup.php?pattern=\\{@}
+ Query[fy]=http://www.php.net/manual-lookup.php?pattern=\\{@}
+--- runtime/kurifilter-plugins/ikws/searchproviders/opendesktop.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/opendesktop.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -10,12 +10,15 @@
+ Name[el]=openDesktop.org
+ Name[en_GB]=openDesktop.org
+ Name[es]=openDesktop.org
++Name[et]=openDesktop.org
++Name[eu]=openDesktop.org
+ Name[fr]=openDesktop.org
+ Name[ga]=openDesktop.org
+ Name[ia]=openDesktop.org
+ Name[id]=openDesktop.org
+ Name[it]=openDesktop.org
+ Name[km]=openDesktop.org
++Name[lt]=openDesktop.org
+ Name[nds]=openDesktop.org
+ Name[nl]=openDesktop.org
+ Name[pa]=openDesktop.org
+@@ -44,6 +47,7 @@
+ Query[en_GB]=http://www.opendesktop.org/content/search.php?search=Search&name=\\{@}
+ Query[es]=http://www.opendesktop.org/content/search.php?search=Search&name=\\{@}
+ Query[et]=http://www.opendesktop.org/content/search.php?search=Search&name=\\{@}
++Query[eu]=http://www.opendesktop.org/content/search.php?search=Search&name=\\{@}
+ Query[fi]=http://www.opendesktop.org/content/search.php?search=Search&name=\\{@}
+ Query[fr]=http://www.opendesktop.org/content/search.php?search=Search&name=\\{@}
+ Query[fy]=http://www.opendesktop.org/content/search.php?search=Search&name=\\{@}
+--- runtime/kurifilter-plugins/ikws/searchproviders/kde_userbase.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/kde_userbase.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -13,6 +13,7 @@
+ Name[en_GB]=KDE UserBase
+ Name[es]=KDE UserBase
+ Name[et]=KDE UserBase
++Name[eu]=KDE UserBase
+ Name[fi]=KDE UserBase
+ Name[fr]=Centre utilisateur de KDE
+ Name[fy]=KDE UserBase
+@@ -65,6 +66,7 @@
+ Query[en_GB]=http://userbase.kde.org/Special:Search?search=\\{@}&fulltext=Search
+ Query[es]=http://userbase.kde.org/Special:Search?search=\\{@}&fulltext=Search
+ Query[et]=http://userbase.kde.org/Special:Search?search=\\{@}&fulltext=Search
++Query[eu]=http://userbase.kde.org/Special:Search?search=\\{@}&fulltext=Search
+ Query[fi]=http://userbase.kde.org/Special:Search?search=\\{@}&fulltext=Search
+ Query[fr]=http://userbase.kde.org/Special:Search?search=\\{@}&fulltext=Search
+ Query[fy]=http://userbase.kde.org/Special:Search?search=\\{@}&fulltext=Search
+--- runtime/kurifilter-plugins/ikws/searchproviders/7digital.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/7digital.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -15,6 +15,7 @@
+ Name[en_GB]=7Digital
+ Name[es]=7Digital
+ Name[et]=7Digital
++Name[eu]=7Digital
+ Name[fi]=7Digital
+ Name[fr]=7 numérique
+ Name[fy]=7Digital
+@@ -67,6 +68,7 @@
+ Query[en_GB]=http://us.7digital.com/Search?search=\\{@}&searchtype=global&submit=Search
+ Query[es]=http://us.7digital.com/Search?search=\\{@}&searchtype=global&submit=Search
+ Query[et]=http://us.7digital.com/Search?search=\\{@}&searchtype=global&submit=Search
++Query[eu]=http://us.7digital.com/Search?search=\\{@}&searchtype=global&submit=Search
+ Query[fi]=http://us.7digital.com/Search?search=\\{@}&searchtype=global&submit=Search
+ Query[fr]=http://us.7digital.com/Search?search=\\{@}&searchtype=global&submit=Search
+ Query[fy]=http://us.7digital.com/Search?search=\\{@}&searchtype=global&submit=Search
+--- runtime/kurifilter-plugins/ikws/searchproviders/wikia.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/wikia.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -15,6 +15,7 @@
+ Name[en_GB]=Wikia
+ Name[es]=Wikia
+ Name[et]=Wikia
++Name[eu]=Wikia
+ Name[fi]=Wikia
+ Name[fr]=Wikia
+ Name[fy]=Wikia
+@@ -68,6 +69,7 @@
+ Query[en_GB]=http://www.wikia.com/Special:Search?search=\\{@}&wikia_search_submit=Search
+ Query[es]=http://www.wikia.com/Special:Search?search=\\{@}&wikia_search_submit=Search
+ Query[et]=http://www.wikia.com/Special:Search?search=\\{@}&wikia_search_submit=Search
++Query[eu]=http://www.wikia.com/Special:Search?search=\\{@}&wikia_search_submit=Search
+ Query[fi]=http://www.wikia.com/Special:Search?search=\\{@}&wikia_search_submit=Search
+ Query[fr]=http://www.wikia.com/Special:Search?search=\\{@}&wikia_search_submit=Search
+ Query[fy]=http://www.wikia.com/Special:Search?search=\\{@}&wikia_search_submit=Search
+--- runtime/kurifilter-plugins/ikws/searchproviders/jamendo.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/jamendo.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -14,6 +14,7 @@
+ Name[en_GB]=Jamendo
+ Name[es]=Jamendo
+ Name[et]=Jamendo
++Name[eu]=Jamendo
+ Name[fi]=Jamendo
+ Name[fr]=Jamendo
+ Name[fy]=Jamendo
+@@ -41,6 +42,7 @@
+ Name[pt_BR]=Jamendo
+ Name[ro]=Jamendo
+ Name[ru]=Jamendo
++Name[se]=Gávppašeaddji
+ Name[sk]=Jamendo
+ Name[sr]=Џамендо
+ Name[sr@ijekavian]=Џамендо
+@@ -66,6 +68,7 @@
+ Query[en_GB]=http://www.jamendo.com/en/search/all/\\{@}
+ Query[es]=http://www.jamendo.com/en/search/all/\\{@}
+ Query[et]=http://www.jamendo.com/en/search/all/\\{@}
++Query[eu]=http://www.jamendo.com/en/search/all/\\{@}
+ Query[fi]=http://www.jamendo.com/en/search/all/\\{@}
+ Query[fr]=http://www.jamendo.com/en/search/all/\\{@}
+ Query[fy]=http://www.jamendo.com/en/search/all/\\{@}
+--- runtime/kurifilter-plugins/ikws/searchproviders/vimeo.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/vimeo.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -14,6 +14,7 @@
+ Name[en_GB]=Vimeo
+ Name[es]=Vimeo
+ Name[et]=Vimeo
++Name[eu]=Vimeo
+ Name[fi]=Vimeo
+ Name[fr]=Vimeo
+ Name[fy]=Vimeo
+@@ -66,6 +67,7 @@
+ Query[en_GB]=http://vimeo.com/videos/search:\\{@}
+ Query[es]=http://vimeo.com/videos/search:\\{@}
+ Query[et]=http://vimeo.com/videos/search:\\{@}
++Query[eu]=http://vimeo.com/videos/search:\\{@}
+ Query[fi]=http://vimeo.com/videos/search:\\{@}
+ Query[fr]=http://vimeo.com/videos/search:\\{@}
+ Query[fy]=http://vimeo.com/videos/search:\\{@}
+--- runtime/kurifilter-plugins/ikws/searchproviders/yahoo.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/yahoo.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -16,6 +16,7 @@
+ Name[eo]=Yahoo
+ Name[es]=Yahoo
+ Name[et]=Yahoo
++Name[eu]=Yahoo
+ Name[fi]=Yahoo
+ Name[fr]=Yahoo
+ Name[fy]=Yahoo
+@@ -42,6 +43,7 @@
+ Name[pt_BR]=Yahoo
+ Name[ro]=Yahoo
+ Name[ru]=Yahoo
++Name[se]=Yahoo
+ Name[sk]=Yahoo
+ Name[sr]=Јаху
+ Name[sr@ijekavian]=Јаху
+@@ -67,6 +69,7 @@
+ Query[en_GB]=http://search.yahoo.com/search?toggle=1&cop=mss&ei=UTF-8&fr=yfp-t-701&p=\\{@}&x=0&y=0&=Web+Search
+ Query[es]=http://search.yahoo.com/search?toggle=1&cop=mss&ei=UTF-8&fr=yfp-t-701&p=\\{@}&x=0&y=0&=Web+Search
+ Query[et]=http://search.yahoo.com/search?toggle=1&cop=mss&ei=UTF-8&fr=yfp-t-701&p=\\{@}&x=0&y=0&=Web+Search
++Query[eu]=http://search.yahoo.com/search?toggle=1&cop=mss&ei=UTF-8&fr=yfp-t-701&p=\\{@}&x=0&y=0&=Web+Search
+ Query[fi]=http://search.yahoo.com/search?toggle=1&cop=mss&ei=UTF-8&fr=yfp-t-701&p=\\{@}&x=0&y=0&=Web+Search
+ Query[fr]=http://search.yahoo.com/search?toggle=1&cop=mss&ei=UTF-8&fr=yfp-t-701&p=\\{@}&x=0&y=0&=Web+Search
+ Query[fy]=http://search.yahoo.com/search?toggle=1&cop=mss&ei=UTF-8&fr=yfp-t-701&p=\\{@}&x=0&y=0&=Web+Search
+--- runtime/kurifilter-plugins/ikws/searchproviders/gitorious.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/gitorious.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -15,6 +15,7 @@
+ Name[en_GB]=Gitorious
+ Name[es]=Gitorious
+ Name[et]=Gitorious
++Name[eu]=Gitorious
+ Name[fi]=Gitorious
+ Name[fr]=Gitorious
+ Name[fy]=Gitorious
+@@ -67,6 +68,7 @@
+ Query[en_GB]=http://gitorious.org/search?q=\\{@}&commit=Search
+ Query[es]=http://gitorious.org/search?q=\\{@}&commit=Search
+ Query[et]=http://gitorious.org/search?q=\\{@}&commit=Search
++Query[eu]=http://gitorious.org/search?q=\\{@}&commit=Search
+ Query[fi]=http://gitorious.org/search?q=\\{@}&commit=Search
+ Query[fr]=http://gitorious.org/search?q=\\{@}&commit=Search
+ Query[fy]=http://gitorious.org/search?q=\\{@}&commit=Search
+--- runtime/kurifilter-plugins/ikws/searchproviders/amazon.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/amazon.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -15,6 +15,7 @@
+ Name[en_GB]=Amazon
+ Name[es]=Amazon
+ Name[et]=Amazon
++Name[eu]=Amazon
+ Name[fi]=Amazon
+ Name[fr]=Amazon
+ Name[fy]=Amazon
+@@ -67,6 +68,7 @@
+ Query[en_GB]=http://www.amazon.co.uk/s/ref=nb_sb_noss?url=search-alias=aps&field-keywords=\\{@}&x=0&y=0
+ Query[es]=http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias=aps&field-keywords=\\{@}&x=0&y=0
+ Query[et]=http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias=aps&field-keywords=\\{@}&x=0&y=0
++Query[eu]=http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias=aps&field-keywords=\\{@}&x=0&y=0
+ Query[fi]=http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias=aps&field-keywords=\\{@}&x=0&y=0
+ Query[fr]=http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias=aps&field-keywords=\\{@}&x=0&y=0
+ Query[fy]=http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias=aps&field-keywords=\\{@}&x=0&y=0
+--- runtime/kurifilter-plugins/ikws/searchproviders/duckduckgo_info.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/duckduckgo_info.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -12,6 +12,7 @@
+ Name[en_GB]=Duck Duck Go Info
+ Name[es]=Duck Duck Go Info
+ Name[et]=Duck Duck Go Info
++Name[eu]=Duck Duck Go Info
+ Name[fr]=Duck Duck Go Info
+ Name[fy]=Duck Duck Go Ynfo
+ Name[ga]=Eolas Duck Duck Go
+@@ -61,6 +62,7 @@
+ Query[en_GB]=http://duckduckgo.com/?q=\\{@}&v=r
+ Query[es]=http://duckduckgo.com/?q=\\{@}&v=r
+ Query[et]=http://duckduckgo.com/?q=\\{@}&v=r
++Query[eu]=http://duckduckgo.com/?q=\\{@}&v=r
+ Query[fi]=http://duckduckgo.com/?q=\\{@}&v=r
+ Query[fr]=http://duckduckgo.com/?q=\\{@}&v=r
+ Query[fy]=http://duckduckgo.com/?q=\\{@}&v=r
+--- runtime/kurifilter-plugins/ikws/searchproviders/identica_notices.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/kurifilter-plugins/ikws/searchproviders/identica_notices.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -14,6 +14,7 @@
+ Name[en_GB]=Identi.ca Notices
+ Name[es]=Avisos Identi.ca
+ Name[et]=Identi.ca teadaanded
++Name[eu]=Identi.ca Berriak
+ Name[fr]=Notices Identi.ca
+ Name[fy]=Identi.ca Notices
+ Name[ga]=Fógraí Identi.ca
+@@ -62,6 +63,7 @@
+ Query[en_GB]=http://identi.ca/search/notice?q=\\{@}
+ Query[es]=http://identi.ca/search/notice?q=\\{@}
+ Query[et]=http://identi.ca/search/notice?q=\\{@}
++Query[eu]=http://identi.ca/search/notice?q=\\{@}
+ Query[fi]=http://identi.ca/search/notice?q=\\{@}
+ Query[fr]=http://identi.ca/search/notice?q=\\{@}
+ Query[fy]=http://identi.ca/search/notice?q=\\{@}
+--- runtime/soliduiserver/soliduiserver.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/soliduiserver/soliduiserver.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
 @@ -17,6 +17,7 @@
-  */
- 
- #include <QEasingCurve>
-+#include <QMetaEnum>
- #include <QScriptValue>
- #include <QScriptEngine>
- #include <QScriptContext>
-@@ -55,13 +56,20 @@
- 
-     if (ctx->argumentCount()) {
-         QScriptValue arg = ctx->argument(0);
+ Name[en_GB]=Hardware Detection
+ Name[es]=Detección del hardware
+ Name[et]=Riistvara tuvastamine
++Name[eu]=Hardware detekzioa
+ Name[fi]=Laitteiston tunnistus
+ Name[fr]=Détection du matériel
+ Name[fy]=Hurdguod deteksje
+@@ -65,6 +66,7 @@
+ Comment[en_GB]=Provides a user interface for hardware events
+ Comment[es]=Proporciona una interfaz de usuario para eventos de hardware
+ Comment[et]=Riistvarasündmuste kasutajaliides
++Comment[eu]=Hardware gertakarientzako erabiltzaile interfaze bat hornitzen du
+ Comment[fi]=Tarjoaa käyttöliittymän laitteistotapahtumille
+ Comment[fr]=Fourni un interface utilisateur pour les évènements matériels
+ Comment[fy]=Ferskaft in brûkersomjouwing foar hurdguod barren
+--- runtime/attica/kcm/kcm_attica.desktop	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/attica/kcm/kcm_attica.desktop	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -22,6 +22,7 @@
+ Name[en_GB]=Social Desktop
+ Name[es]=Escritorio social
+ Name[et]=Sotsiaalne töölaud
++Name[eu]=Gizarte mahaigaina
+ Name[fi]=Sosiaalinen työpöytä
+ Name[fr]=Bureau social
+ Name[fy]=Sosiale buroblêd
+@@ -73,6 +74,7 @@
+ Comment[en_GB]=Manage Social Desktop Providers
+ Comment[es]=Gestionar proveedores del escritorio social
+ Comment[et]=Sotsiaalse töölaua pakkujate haldamine
++Comment[eu]=Kudeatu Gizarte Mahaigain Hornitzaileak
+ Comment[fi]=Hallinnoi sosiaalisen työpöydän tarjoajia
+ Comment[fr]=Gérer les fournisseurs de bureaux sociaux
+ Comment[fy]=Sosjale buroblêd ferskaffers beheare
+--- runtime/plasma/tools/plasmapkg/main.cpp	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/plasma/tools/plasmapkg/main.cpp	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -26,6 +26,7 @@
+ #include <KAboutData>
+ #include <KCmdLineArgs>
+ #include <KLocale>
++#include <KPluginInfo>
+ #include <KService>
+ #include <KServiceTypeTrader>
+ #include <KShell>
+@@ -52,12 +53,14 @@
+ QStringList packages(const QStringList& types)
+ {
+     QStringList result;
 +
-+        qint32 type = -1;
-         if (arg.isNumber()) {
--            qint32 type = arg.toInt32();
-+            type = arg.toInt32();
-+        } else if (arg.isString()) {
-+            QMetaObject meta = QEasingCurve::staticMetaObject;
-+            QMetaEnum easingCurveEnum = meta.enumerator(meta.indexOfEnumerator("Type"));
-+
-+            type = easingCurveEnum.keyToValue(arg.toString().toAscii().data());
-+        }
-             if (type > -1 && type < QEasingCurve::Custom) {
-                 self->setType(static_cast<QEasingCurve::Type>(type));
-             }
+     foreach (const QString& type, types) {
+-        KService::List services = KServiceTypeTrader::self()->query("Plasma/" + type);
+-        foreach(const KService::Ptr &service, services) {
++        const KService::List services = KServiceTypeTrader::self()->query(type);
++        foreach (const KService::Ptr &service, services) {
+             result << service->property("X-KDE-PluginInfo-Name", QVariant::String).toString();
          }
--    }
- 
-     return QScriptValue(eng, self->type());
+     }
++
+     return result;
  }
---- runtime/plasma/scriptengines/javascript/simplebindings/icon.cpp	(.../tags/KDE/4.4.1/kdebase)	(wersja 1104126)
-+++ runtime/plasma/scriptengines/javascript/simplebindings/icon.cpp	(.../branches/KDE/4.4/kdebase)	(wersja 1104126)
-@@ -34,7 +34,8 @@
-     if (ctx->argumentCount() > 0) {
-         QScriptValue v = ctx->argument(0);
-         if (v.isString()) {
--            return qScriptValueFromValue(eng, KIcon(v.toString()));
-+            QIcon icon = KIcon(v.toString());
-+            return qScriptValueFromValue(eng, icon);
-         } else if (v.isVariant()) {
-             QVariant variant = v.toVariant();
-             QPixmap p = variant.value<QPixmap>();
+ 
+@@ -65,7 +68,7 @@
+ {
+     QStringList list = packages(types);
+     list.sort();
+-    foreach(const QString& package, list) {
++    foreach (const QString& package, list) {
+         output(package);
+     }
+ }
+@@ -158,9 +161,9 @@
+     if (type == i18nc("package type", "plasmoid").toLower() || type == "plasmoid") {
+         packageRoot = "plasma/plasmoids/";
+         servicePrefix = "plasma-applet-";
+-        pluginTypes << "Applet";
+-        pluginTypes << "PopupApplet";
+-        pluginTypes << "Containment";
++        pluginTypes << "Plasma/Applet";
++        pluginTypes << "Plasma/PopupApplet";
++        pluginTypes << "Plasma/Containment";
+     } else if (type == i18nc("package type", "theme").toLower() || type == "theme") {
+         packageRoot = "desktoptheme/";
+     } else if (type == i18nc("package type", "wallpaper").toLower() || type == "wallpaper") {
+@@ -168,24 +171,24 @@
+     } else if (type == i18nc("package type", "dataengine").toLower() || type == "dataengine") {
+         packageRoot = "plasma/dataengines/";
+         servicePrefix = "plasma-dataengine-";
+-        pluginTypes << "DataEngine";
++        pluginTypes << "Plasma/DataEngine";
+     } else if (type == i18nc("package type", "runner").toLower() || type == "runner") {
+         packageRoot = "plasma/runners/";
+         servicePrefix = "plasma-runner-";
+-        pluginTypes << "Runner";
++        pluginTypes << "Plasma/Runner";
+     } else if (type == i18nc("package type", "wallpaperplugin").toLower() || type == "wallpaperplugin") {
+         packageRoot = "plasma/wallpapers/";
+         servicePrefix = "plasma-wallpaper-";
+-        pluginTypes << "Wallpaper";
++        pluginTypes << "Plasma/Wallpaper";
+     } else if (type == i18nc("package type", "layout-template").toLower() || type == "layout-template") {
+         packageRoot = "plasma/layout-templates/";
+         servicePrefix = "plasma-layout-";
+-        pluginTypes << "LayoutTemplate";
++        pluginTypes << "Plasma/LayoutTemplate";
+     } else {
+-        QString constraint = QString("'%1' == [X-KDE-PluginInfo-Name]").arg(packageRoot);
++        const QString constraint = QString("[X-KDE-PluginInfo-Name] == '%1'").arg(args->getOption("type"));
+         KService::List offers = KServiceTypeTrader::self()->query("Plasma/PackageStructure", constraint);
+         if (offers.isEmpty()) {
+-            output(i18n("Could not find a suitable installer for package of type %1", type));
++            output(i18n("Could not find a suitable installer for package of type %1", args->getOption("type")));
+             return 1;
+         }
+ 
+@@ -195,9 +198,10 @@
+ 
+         if (!installer) {
+             output(i18n("Could not load installer for package of type %1. Error reported was: %2",
+-                        type, error));
++                        args->getOption("type"), error));
+             return 1;
+         }
++
+         packageRoot = installer->defaultPackageRoot();
+         pluginTypes << installer->type();
+     }
+--- runtime/plasma/remotewidgetshelper/kcm_remotewidgets.actions	(.../tags/KDE/4.5.0/kdebase)	(revision 1161528)
++++ runtime/plasma/remotewidgetshelper/kcm_remotewidgets.actions	(.../branches/KDE/4.5/kdebase)	(revision 1161528)
+@@ -9,6 +9,7 @@
+ Name[en_GB]=Save remote widgets' policies
+ Name[es]=Guardado de políticas de elementos gráficos remotos
+ Name[et]=Välisvidinate reeglite salvestamine
++Name[eu]=Gorde urruneko tramankuluen politikak
+ Name[fr]=Enregistrer la stratégie des gadgets distants
+ Name[fy]=Belied foar eksterne widgets bewarje
+ Name[ga]=Sábháil polasaithe um giuirléidí cianda
+@@ -52,6 +53,7 @@
+ Description[en_GB]=Prevents the system from saving remote plasma widgets' policies
+ Description[es]=Impide que el sistema guarde políticas de componentes Plasma remotos
+ Description[et]=Takistab süsteemil salvestamast Plasma välisvidinate reegleid
++Description[eu]=Sistemak urruneko plasma tramankuluen politikak gorde ditzan galarazten du
+ Description[fr]=Empêche le système d'enregistrer la stratégie des gadgets distant
+ Description[fy]=Foarkomt it bewarjen troch it systeem fan beliedsregels foar wigets op ôfstân
+ Description[ga]=Ná lig don chóras polasaithe um giuirléidí cianda plasma a shábháil
