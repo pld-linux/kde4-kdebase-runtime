@@ -11,7 +11,7 @@ Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.5.1
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
@@ -52,6 +52,7 @@ BuildRequires:	soprano-devel >= 2.4.64
 BuildRequires:	strigi-devel >= 0.7.0
 BuildRequires:	xine-lib-devel
 BuildRequires:	xz-devel
+Requires:   attica >= 0.1.4
 Provides:	dbus(org.freedesktop.Notifications)
 Obsoletes:	kdebase4-runtime
 Conflicts:	kdebase4-runtime
