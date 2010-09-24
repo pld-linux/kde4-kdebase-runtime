@@ -1,5 +1,1691 @@
---- runtime/attica/kdeplugin/kdeplatformdependent.cpp	(.../tags/KDE/4.5.1/kdebase)	(wersja 1170567)
-+++ runtime/attica/kdeplugin/kdeplatformdependent.cpp	(.../branches/KDE/4.5/kdebase)	(wersja 1170567)
+--- runtime/knotify/notifybyktts.cpp	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/knotify/notifybyktts.cpp	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -61,7 +61,7 @@
+                 QString error;
+                 if (KToolInvocation::startServiceByDesktopName("kttsd", QStringList(), &error))
+                 {
+-                    KMessageBox::error(0, i18n( "Starting KTTSD Failed"), error );
++                    KMessageBox::error(0, i18n( "Starting Jovie Text-to-Speech Service Failed"), error );
+                     tryToStartKttsd = true;
+                     return;
+                 }
+--- runtime/knotify/kde.notifyrc	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/knotify/kde.notifyrc	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -89,7 +89,7 @@
+ Name[hne]=घुरवा: खाली होगे
+ Name[hr]=Otpad: Ispražnjeno
+ Name[hsb]=Papjernik: wuprózdnjeny
+-Name[hu]=Szemétkosár: kiürítve
++Name[hu]=Kuka: kiürítve
+ Name[ia]=Corbe: vacuate
+ Name[id]=Tempat Sampah: Dikosongkan
+ Name[is]=Ruslið: tæmt
+@@ -166,7 +166,7 @@
+ Comment[hne]=घुरवा ल खाली करे गे
+ Comment[hr]=Otpad je ispražnjen
+ Comment[hsb]=Papjernik je wuprózdnjeny
+-Comment[hu]=A szemétkosár kiürült
++Comment[hu]=A kuka kiürült
+ Comment[ia]=Le corbe ha essite vacuate
+ Comment[id]=Tempat sampah telah dikosongkan
+ Comment[is]=Ruslatunnan hefur verið tæmd
+--- runtime/knotify/notifybypopup.cpp	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/knotify/notifybypopup.cpp	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -28,6 +28,7 @@
+ #include <kdialog.h>
+ #include <khbox.h>
+ #include <kvbox.h>
++#include <kcharsets.h>
+ 
+ #include <QBuffer>
+ #include <QImage>
+@@ -503,6 +504,8 @@
+ QString NotifyByPopup::stripHtml( const QString &text )
+ {
+ 	QXmlStreamReader r( "<elem>" + text + "</elem>" );
++	HtmlEntityResolver resolver;
++	r.setEntityResolver( &resolver );
+ 	QString result;
+ 	while( !r.atEnd() ) {
+ 		r.readNext();
+@@ -530,4 +533,22 @@
+ 	return result;
+ }
+ 
++QString NotifyByPopup::HtmlEntityResolver::resolveUndeclaredEntity(
++		const QString &name )
++{
++	QString result =
++		QXmlStreamEntityResolver::resolveUndeclaredEntity(name);
++	if( !result.isEmpty() )
++		return result;
++
++	QChar ent = KCharsets::fromEntity( '&' + name );
++	if( ent.isNull() ) {
++		kWarning(300) << "Notification to send to backend which does "
++		                 "not support HTML, contains invalid entity: "
++		              << name;
++		ent = ' ';
++	}
++	return QString(ent);
++}
++
+ #include "notifybypopup.moc"
+--- runtime/knotify/hardwarenotifications.notifyrc	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/knotify/hardwarenotifications.notifyrc	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -101,6 +101,7 @@
+ Comment[sr@latin]=Obaveštenja koja okida Solid
+ Comment[sv]=Underrättelser utlösta av Solid
+ Comment[th]=การแจ้งให้ทราบต่าง ๆ ที่ถูกกระตุ้นจาก Solid
++Comment[tr]=Solid tarafından tetiklenen bildirimler
+ Comment[uk]=Сповіщення, спричинені solid
+ Comment[x-test]=xxNotifications triggered by solidxx
+ Comment[zh_CN]=Solid 触发的通知
+@@ -158,6 +159,7 @@
+ Name[sr@latin]=Greška u montiranju ili demontiranju
+ Name[sv]=Monterings- eller avmonteringsfel
+ Name[th]=เมานท์หรือเลิกเมานท์ผิดพลาด
++Name[tr]=Bağlama veya ayırma hatası
+ Name[uk]=Помилка монтування або демонтування
+ Name[x-test]=xxMount or unmount errorxx
+ Name[zh_CN]=挂载或卸载错误
+@@ -209,6 +211,7 @@
+ Comment[sr@latin]=Problem pri montiranju ili demontiranju uređaja
+ Comment[sv]=Ett problem har uppstått vid montering eller avmontering av en enhet
+ Comment[th]=เกิดปัญหาขึ้นในระหว่างทำการเมานท์หรือเลิกเมานท์อุปกรณ์
++Comment[tr]=Bir aygıtı bağlama veya ayırma sırasında bir sorun oluştu
+ Comment[uk]=Під час спроби монтування або демонтування пристрою сталася помилка
+ Comment[x-test]=xxThere has been a problem mounting or unmounting a devicexx
+ Comment[zh_CN]=挂载或卸载设备时出现问题
+--- runtime/knotify/notifybypopup.h	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/knotify/notifybypopup.h	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -26,6 +26,7 @@
+ #include <QMap>
+ #include <QHash>
+ #include <QStringList>
++#include <QXmlStreamEntityResolver>
+ 
+ class KPassivePopup;
+ 
+@@ -113,6 +114,15 @@
+ 		 * Maps knotify notification IDs to DBus notifications IDs
+ 		 */
+ 		QHash<int,uint> m_idMap;
++
++		/**
++		 * A class for resolving HTML entities in XML documents (used
++		 * during HTML stripping)
++		 */
++		class HtmlEntityResolver : public QXmlStreamEntityResolver
++		{
++			QString resolveUndeclaredEntity( const QString &name );
++		};
+ };
+ 
+ #endif
+--- runtime/solid-device-automounter/kded/device_automounter.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/solid-device-automounter/kded/device_automounter.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -27,6 +27,7 @@
+ Name[hr]=Automatski monter uklonjivih uređaja
+ Name[ia]=Automounter de Dispositivo Removibile
+ Name[id]=Pengait Otomatis Divais Dapat Dilepas
++Name[is]=Sjálfvirk tenging fjarlægjanlegra geymslumiðla
+ Name[it]=Montaggio automatico dei dispositivi rimovibili
+ Name[ja]=リムーバブルデバイスの自動マウント
+ Name[kk]=Ауыстырмалы құрылғының автоттіркегіші
+@@ -78,6 +79,7 @@
+ Comment[hr]=Automatski montira uređaje po potrebi
+ Comment[ia]=Il monta automaticamente le dispositivos como il necessita
+ Comment[id]=Secara otomatis mengaitkan divais ketika diperlukan
++Comment[is]=Tengir tæki sjálfvirkt eftir þörfum inn í skráakerfi
+ Comment[it]=Monta automaticamente i dispositivi secondo necessità
+ Comment[ja]=必要に応じて自動的にデバイスをマウントします
+ Comment[kk]=Құрылғыны керек кезде автоматты түрде тіркеу
+@@ -103,6 +105,7 @@
+ Comment[sv]=Monterar automatiskt enheter efter behov
+ Comment[tg]=Дастгоҳҳоро ба худкор васл мекунад
+ Comment[th]=ต้องการอุปกรณ์ต่าง ๆ ที่จะให้ทำการเมานท์อัตโนมัติ
++Comment[tr]=Aygıtları gerektiğinde otomatik olarak bağlar
+ Comment[uk]=Автоматичне монтування пристроїв за вимогою
+ Comment[x-test]=xxAutomatically mounts devices as neededxx
+ Comment[zh_CN]=按需自动挂载设备
+--- runtime/solid-device-automounter/kcm/device_automounter_kcm.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/solid-device-automounter/kcm/device_automounter_kcm.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -30,6 +30,7 @@
+ Name[he]=התקנים נשלפים
+ Name[hi]=हटाने लायक औज़ार
+ Name[hr]=Uklonjivi uređaji
++Name[hu]=Cserélhető eszközök
+ Name[ia]=Dispositivos removibile
+ Name[id]=Divais Dapat Dilepaskan
+ Name[is]=Útskiptanleg tæki
+@@ -89,6 +90,7 @@
+ Comment[hr]=Podesi automatsko korištenje uklonjivih medija za pohranu
+ Comment[ia]=Il configura le tractamento automatic de media de storage removibile
+ Comment[id]=Mengatur penanganan otomatis dari media penyimpanan dapat dilepas
++Comment[is]=Stilla sjálfvirka meðhöndlun á fjarlægjanlegum geymslumiðlum
+ Comment[it]=Configura la gestione automatica dei supporti rimovibili
+ Comment[ja]=リムーバブルストレージメディアの自動処理を設定
+ Comment[kk]=Ауыстырмалы сақтағыш тасушылармен автоматты түрде айналысуды баптау
+--- runtime/localization/currency/aed.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/aed.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -7,6 +7,7 @@
+ Name[bn]=সংযুক্ত আরব আমিরশাহি ডারহাম
+ Name[ca]=Dírham de la Unió dels Emirats Àrabs
+ Name[ca@valencia]=Dírham de la Unió dels Emirats Àrabs
++Name[cs]=Dirham Spojených arabských emirátů
+ Name[csb]=Dirma ze Zjednónych Abrabsczich Emiratów
+ Name[da]=Forenende Arabiske Emirater dirham
+ Name[de]=VAE-Dirham
+--- runtime/localization/currency/pgk.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/pgk.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -25,6 +25,7 @@
+ Name[hu]=Pápua új-guineai kina
+ Name[ia]=Papua Nove Guinean Kina
+ Name[id]=Kina Papua Nugini
++Name[is]=Papúa Nýju-gíneskt kina
+ Name[it]=Kina papuana
+ Name[ja]=パプアニューギニア・キナ
+ Name[kk]=Папуа - Жаңа Гвинея кинасы
+--- runtime/localization/currency/xof.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/xof.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -23,6 +23,7 @@
+ Name[gu]=પશ્ચિમ આફ્રિકન CFA ફ્રાન્ક
+ Name[he]=West African CFA Franc
+ Name[hr]=Zapadno afrički CFA frank
++Name[hu]=Nyugat-Afrikai CFA frank
+ Name[ia]=CFA Franc de Africa Occidental
+ Name[id]=CFA Franc Afrika Barat
+ Name[is]=Vestur-afrískur CFA franki
+--- runtime/localization/currency/top.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/top.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -22,6 +22,7 @@
+ Name[hu]=Tongai pa'anga
+ Name[ia]=Tongan Pa'anga
+ Name[id]=Pa'anga Tonga
++Name[is]=Tongóskt pa'anga
+ Name[it]=Paʻanga tongano
+ Name[ja]=トンガ・パ・アンガ
+ Name[kk]=Тонго паангасы
+--- runtime/localization/currency/ang.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/ang.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -7,6 +7,7 @@
+ Name[bn]=নেদারল্যাণ্ডস অ্যান্টিলেস গিল্ডার
+ Name[ca]=Florí de les Antilles Holandeses
+ Name[ca@valencia]=Florí de les Antilles Holandeses
++Name[cs]=Holandsko-antilský gulden
+ Name[csb]=Gùlider z Hòlandzczich Antilów
+ Name[da]=Gylden, Hollandske Antiller 
+ Name[de]=Niederländische-Antillen-Gulden
+--- runtime/localization/currency/srd.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/srd.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -8,6 +8,7 @@
+ Name[bn]=সুরিনাম ডলার
+ Name[ca]=Dòlar de Surinam
+ Name[ca@valencia]=Dòlar de Surinam
++Name[cs]=Surinamský dolar
+ Name[csb]=Surinamsczi Dolar
+ Name[da]=Surinamsk dollar
+ Name[de]=Suriname-Dollar
+--- runtime/localization/currency/tpe.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/tpe.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -22,6 +22,7 @@
+ Name[hu]=Portugál-timori escudo
+ Name[ia]=Portugese Timorese Escudo
+ Name[id]=Escudo Timor Portugis
++Name[is]=Portúgalska Tímorskt Eskúdó
+ Name[it]=Escudo del Timor portoghese
+ Name[ja]=ポルトガル領ティモール・エスクード
+ Name[kk]=Португал Тимордың эскудосы
+--- runtime/localization/currency/srg.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/srg.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -7,6 +7,7 @@
+ Name[bn]=সুরিনাম গিল্ডার
+ Name[ca]=Florí de Surinam
+ Name[ca@valencia]=Florí de Surinam
++Name[cs]=Surinamský gulden
+ Name[csb]=Surinamsczi Gùlden
+ Name[da]=Surinamsk gylden
+ Name[de]=Suriname-Gulden
+--- runtime/localization/currency/pab.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/pab.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -26,6 +26,7 @@
+ Name[hu]=Panamai balboa
+ Name[ia]=Panamanian Balboa
+ Name[id]=Balboa Panama
++Name[is]=Panamaskt balboa
+ Name[it]=Balboa panamense
+ Name[ja]=パナマ・ボルボア
+ Name[kk]=Панама балбоасы
+--- runtime/localization/currency/mvr.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/mvr.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -26,6 +26,7 @@
+ Name[hu]=Maldív-szigeteki rúfia
+ Name[ia]=Maldivian Rufiyaa
+ Name[id]=Rufiyaa Maladewa
++Name[is]=Maldivísk rufiyaa
+ Name[it]=Rupia maldiviana
+ Name[ja]=モルディブ・ルフィヤ
+ Name[kk]=Мальдивия руфиясы
+--- runtime/localization/currency/szl.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/szl.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -24,6 +24,7 @@
+ Name[hu]=Szváziföldi lilangeni 
+ Name[ia]=Swazi Lilangeni
+ Name[id]=Lilangeni Swaziland
++Name[is]=Svasílenskt lilagreni
+ Name[it]=Lilangeni dello Swaziland
+ Name[ja]=スワジランド・リランゲニ
+ Name[kk]=Свазиленд лилангениі
+--- runtime/localization/currency/xaf.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/xaf.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -24,6 +24,7 @@
+ Name[he]=Central African CFA Franc
+ Name[hi]=सेंट्रल अफ्रीकन CFA फ्रांक
+ Name[hr]=CFA Franak Centralne Afrike
++Name[hu]=Közép-Afrikai CFA frank
+ Name[ia]=CFA Franc de Africa Central
+ Name[id]=Franc CFA Afrika Tengah
+ Name[is]=Mið-Afríkulýðveldis CFA franki
+--- runtime/localization/currency/mop.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/mop.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -25,6 +25,7 @@
+ Name[hu]=Makaói pataca
+ Name[ia]=Macanese Pataca
+ Name[id]=Pataca Macau
++Name[is]=Makaneskt pataka
+ Name[it]=Pataca di Macao
+ Name[ja]=マカオ・パタカ
+ Name[kk]=Аомынь (Макао) патакасы
+--- runtime/localization/currency/std.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/std.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -25,6 +25,7 @@
+ Name[hu]=Sao Tome és Principe-i dobra
+ Name[ia]=San Tomé and Príncipe Dobra
+ Name[id]=Dobra São Tomé dan Príncipe
++Name[is]=Saó Tóme og Prinsípeskt dobra
+ Name[it]=Dobra di São Tomé e Príncipe
+ Name[ja]=サントメ・プリンシペ・ドブラ
+ Name[kk]=Сан-Томе және Принсипи добрасы
+--- runtime/localization/currency/sll.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/sll.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -25,6 +25,7 @@
+ Name[hu]=Sierra Leone-i leone
+ Name[ia]=Sierra Leonean Leone
+ Name[id]=Leone Sierra Leone
++Name[is]=Síerra Leóneskt león
+ Name[it]=Leone della Sierra Leone
+ Name[ja]=シエラレオネ・レオン
+ Name[kk]=Съера-Леоне леонесі
+--- runtime/localization/currency/tjs.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/tjs.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -25,6 +25,7 @@
+ Name[hu]=Tádzsik szomoni
+ Name[ia]=Tajikistani Somoni
+ Name[id]=Somoni Tajikistan
++Name[is]=Tadsjikiskut somoni
+ Name[it]=Somoni tagico
+ Name[ja]=タジキスタン・ソモニ
+ Name[kk]=Тәжікстан сомониі
+--- runtime/localization/currency/tzs.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/tzs.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -28,6 +28,7 @@
+ Name[hu]=Tanzániai shilling
+ Name[ia]=Tanzanian Shilling
+ Name[id]=Shilling Tanzania
++Name[is]=Tansanískur skildingur
+ Name[it]=Scellino tanzaniano
+ Name[ja]=タンザニア・シリング
+ Name[kk]=Танзания шиллингі
+--- runtime/localization/currency/bov.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/bov.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -7,6 +7,7 @@
+ Name[bn]=বলিভিয়ার Mvdol
+ Name[ca]=Mvdol de Bolívia
+ Name[ca@valencia]=Mvdol de Bolívia
++Name[cs]=Bolívijský mvdol
+ Name[csb]=Bòliwijsczé Mvdole
+ Name[da]=Boliviansk mvdol
+ Name[de]=Bolivianischer Mvdol
+--- runtime/localization/currency/svc.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/svc.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -23,6 +23,7 @@
+ Name[hu]=Salvadori colon
+ Name[ia]=Salvadoran Colon
+ Name[id]=Colon Salvador
++Name[is]=Salvadorskur kólon
+ Name[it]=Colón salvadoregno
+ Name[ja]=エルサルバドル・コロン
+ Name[kk]=Сальвадор колоны
+--- runtime/localization/currency/bif.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/bif.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -8,6 +8,7 @@
+ Name[bn]=বুরুন্ডির ফ্রাঙ্ক
+ Name[ca]=Franc de Burundi
+ Name[ca@valencia]=Franc de Burundi
++Name[cs]=Burundský frank
+ Name[csb]=Burundzczi Frank
+ Name[da]=Burundisk franc
+ Name[de]=Burundi-Franc
+--- runtime/localization/currency/mzm.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/mzm.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -24,6 +24,7 @@
+ Name[hu]=Mozambiki metical
+ Name[ia]=Mozambican Metical
+ Name[id]=Metical Mozambik
++Name[is]=Mósambískt metical
+ Name[it]=Metical mozambicano
+ Name[ja]=モザンビーク・メティカル
+ Name[kk]=Мозамбик метикалы
+--- runtime/localization/currency/mzn.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/mzn.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -24,6 +24,7 @@
+ Name[hu]=Mozambiki metical
+ Name[ia]=Mozambican Metical
+ Name[id]=Metical Mozambik
++Name[is]=Mósambískt metical
+ Name[it]=Metical mozambicano
+ Name[ja]=モザンビーク・メティカル
+ Name[kk]=Мозамбик метикалы
+--- runtime/localization/currency/nio.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/nio.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -24,6 +24,7 @@
+ Name[hu]=Nicaraguai córdoba
+ Name[ia]=Nicaraguan Cordoba Oro
+ Name[id]=Cordoba Oro Nikaragua
++Name[is]=Níkaragvaskt Cordoba Oro
+ Name[it]=Córdoba nicaraguense
+ Name[ja]=コルドバ・オロ
+ Name[kk]=Никарагуа кордоба оросы
+--- runtime/localization/currency/tmm.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/tmm.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -25,6 +25,7 @@
+ Name[hu]=Régi türkmén manat
+ Name[ia]=Turkmenistani vetule Manat
+ Name[id]=Manat Lama Turkmenistan
++Name[is]=Túrkmenískt gamla-manat
+ Name[it]=Vecchio manat turkmeno
+ Name[ja]=旧トルクメニスタン・マナト
+ Name[kk]=Түрікменстан бұрыңғы манаты
+--- runtime/localization/currency/tmt.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/localization/currency/tmt.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -25,7 +25,7 @@
+ Name[hu]=Türkmén manat
+ Name[ia]=Turkmenistani Manat
+ Name[id]=Manat Turkmenistan
+-Name[is]=Túrkmenistanskt manat
++Name[is]=Túrkmenískt manat
+ Name[it]=Manat turkmeno
+ Name[ja]=トルクメニスタン・マナト
+ Name[kk]=Түрікменстан манаты
+--- runtime/kcontrol/componentchooser/componentservices/kcm_wm.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kcontrol/componentchooser/componentservices/kcm_wm.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -74,7 +74,7 @@
+ Comment[bn]=আপনার কে.ডি.ই. সেশন-এ যে উইণ্ডো ম্যানেজার ব্যবহার করা হবে সেটি আপনি এখানে পছন্দ করতে পারেন।
+ Comment[ca]=Aquí podeu seleccionar el gestor de finestres que s'executarà en la sessió del KDE.
+ Comment[ca@valencia]=Ací podeu seleccionar el gestor de finestres que s'executarà en la sessió del KDE.
+-Comment[cs]=Zde si můžete zvolit správce oken pro svou relaci KDE.
++Comment[cs]=Zde si můžete zvolit správce oken pro své sezení KDE.
+ Comment[csb]=Tuwò mòżesz wëbrac menadżerã òknów jakô mô bëc zrëszonô w twòji sesëji KDE.
+ Comment[da]=Her kan du vælge, den vindueshåndtering der skal køre i din KDE-session.
+ Comment[de]=Hier können Sie den Fenstermanager wählen, der für Ihre KDE-Sitzung verwendet werden soll.
+--- runtime/desktoptheme/air/metadata.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/desktoptheme/air/metadata.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -30,7 +30,6 @@
+ Name[id]=Udara
+ Name[is]=Loft
+ Name[it]=Aria
+-Name[ja]=大気
+ Name[kk]=Air
+ Name[km]=ខ្យល់
+ Name[kn]=ಗಾಳಿ
+--- runtime/phonon/platform_kde/phonon.notifyrc	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/phonon/platform_kde/phonon.notifyrc	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -19,6 +19,7 @@
+ Comment[ga]=Córas Ilmheán
+ Comment[hi]=मल्टीमीडिया तंत्र
+ Comment[hr]=Multimedijalni sustav
++Comment[hu]=Multimédiarendszer
+ Comment[ia]=Systema de Multimedia
+ Comment[id]=Sistem Multimedia
+ Comment[is]=Margmiðlunarkerfi
+@@ -49,6 +50,7 @@
+ Comment[sv]=Multimediasystem
+ Comment[tg]=Системаи мултимедиавӣ
+ Comment[th]=ระบบสื่อประสม
++Comment[tr]=Çoklu Ortam Sistemi
+ Comment[uk]=Мультимедійна система
+ Comment[x-test]=xxMultimedia Systemxx
+ Comment[zh_CN]=多媒体系统
+--- runtime/phonon/kcm/kcm_phonon.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/phonon/kcm/kcm_phonon.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -29,6 +29,7 @@
+ Name[ga]=Phonon
+ Name[hi]=फोनोन
+ Name[hr]=Phonon
++Name[hu]=Phonon
+ Name[ia]=Phonon
+ Name[id]=Phonon
+ Name[is]=Phonon
+@@ -58,6 +59,7 @@
+ Name[sr@latin]=Phonon
+ Name[sv]=Phonon
+ Name[th]=โฟนอน
++Name[tr]=Phonon
+ Name[uk]=Phonon
+ Name[x-test]=xxPhononxx
+ Name[zh_CN]=Phonon
+--- runtime/phonon/kded-module/phononserver.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/phonon/kded-module/phononserver.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -53,6 +53,7 @@
+ Name[sv]=Ljudpolicy
+ Name[tg]=Идоракунии овозҳо
+ Name[th]=ข้อกำหนดระบบเสียง
++Name[tr]=Ses Politikası
+ Name[uk]=Правила доступу до звуку
+ Name[x-test]=xxSound Policyxx
+ Name[zh_CN]=声音策略
+--- runtime/doc/kcontrol/language/index.docbook	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/doc/kcontrol/language/index.docbook	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -6,18 +6,16 @@
+ ]>
+ 
+ <article lang="&language;">
++<articleinfo>
+ <title>Country/Region &amp; Language</title>
+-<sect1 id="locale">
+-
+-<sect1info>
+ <authorgroup>
+ <author>&Mike.McBride; &Mike.McBride.mail;</author>
+ <author>&Krishna.Tateneni; &Krishna.Tateneni.mail;</author>
+ <!-- TRANS:ROLES_OF_TRANSLATORS -->
+  </authorgroup>
+ 
+-	  <date>2009-11-23</date>
+-	  <releaseinfo>4.4</releaseinfo>
++	  <date>2010-08-19</date>
++	  <releaseinfo>4.5</releaseinfo>
+ 
+ 	  <keywordset>
+ 		<keyword>KDE</keyword>
+@@ -26,15 +24,14 @@
+ 		<keyword>country</keyword>
+ 		<keyword>language</keyword>
+ 	  </keywordset>
++</articleinfo>
+ 
+-	</sect1info>
+-
+-
++<sect1 id="locale">
+ <title>Country/Region &amp; Language</title>
+ 
+ <para>This module of the &kde; &systemsettings; allows you select
+ customization options that depend on the region of the world that you
+-happen to live in. There are five different pages in this module, each
++happen to live in. There are five different tabs in this module, each
+ of which is described in detail in the following sections.</para>
+ 
+ <para>In most cases, you can simply select the country and the language, and
+@@ -76,7 +73,7 @@
+ </para>
+ 
+ <note><para>
+-Note that some applications and documentations may not be translated to your languages; in 
++Note that some applications and documentations may not be translated to your language; in 
+ this case, they will automatically fall back to US English.</para></note>
+ <note><para>
+ Language and Country/Region are independent settings. Changing a language
+@@ -106,6 +103,10 @@
+ For example, the default for English is not to have any prefix for
+ positive numbers, and a <userinput>-</userinput> for negative numbers.</para>
+ 
++<para>In the spinbox <guilabel>Decimal places</guilabel> 
++you can set the number of decimal places displayed for numeric values, 
++&ie; the number of digits <emphasis>after</emphasis> the decimal separator.</para>
++
+ <para>The <guilabel>Digit set</guilabel> drop down box presents digit sets
+ which may be used instead of basic Arabic when displaying numbers.
+ If you select a digit set other than Arabic, it will be applied only to
+@@ -113,6 +114,9 @@
+ (e.g. Arabic-Indic digits in application translated to Arabic language),
+ while Arabic digits are still going to be used elsewhere.</para>
+ 
++<para>Note that decimal symbol, thousands separator, decimal places and 
++the set of digits used to display monetary values has to be set 
++separately on the <guilabel>Money</guilabel> tab.</para>
+ </sect2>
+ 
+ <sect2 id="locale-money">
+@@ -125,11 +129,8 @@
+ 
+ <para>The character or characters representing the currency symbol
+ are based on the country that is currently selected.
+-The decimal symbol, thousands separator, and digit set work
+-as they do for numbers.
+-The text box labeled <guilabel>Fract digits</guilabel> allows you
+-to specify the number of fractional digits used in displaying
+-currency values.</para>
++The decimal symbol, thousands separator, decimal places, and digit set 
++for money work as they do for numbers.</para>
+ 
+ <para>For both positive and negative currency values, you can
+ control whether the currency symbol appears before or after the
+@@ -171,6 +172,9 @@
+ <para>If you use a different calendar system than Gregorian, you can
+ choose this from the first drop down box.</para>
+ 
++<para>The next option determines if the Common Era (CE/BCE) should be 
++used instead of the Christian Era (AD/BC)</para>
++
+ <para>Likewise, if numbers in date and time strings should use
+ digits other than basic Arabic, another set of digits can be selected
+ from the second drop down box.</para>
+--- runtime/platforms/win/kwinstartmenu/kwinstartmenurc	(.../tags/KDE/4.5.1/kdebase)	(wersja 0)
++++ runtime/platforms/win/kwinstartmenu/kwinstartmenurc	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -0,0 +1,3 @@
++[General]
++Enabled=true
++useCategories=true
+--- runtime/platforms/win/kwinstartmenu/misc.h	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/platforms/win/kwinstartmenu/misc.h	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -27,6 +27,18 @@
+ 
+ #include <KUrl>
+ 
++/** 
++ contains global options 
++*/
++class GlobalOptions {
++public: 
++    GlobalOptions() : useCategories(true) {}
++
++    bool useCategories;
++};
++
++extern GlobalOptions globalOptions;
++
+ bool removeDirectory(const QString& aDir);
+ QString getStartMenuPath(bool bAllUsers=false);
+ QString getKDEStartMenuPath();
+--- runtime/platforms/win/kwinstartmenu/winstartmenu.cpp	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/platforms/win/kwinstartmenu/winstartmenu.cpp	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -58,6 +58,8 @@
+ 
+     if (group.readEntry("Enabled", true))
+       connect(KSycoca::self(), SIGNAL(databaseChanged()), this, SLOT(databaseChanged()));
++
++    globalOptions.useCategories = group.readEntry("useCategories", true);
+     
+     new WinStartMenuAdaptor( this );
+ }
+--- runtime/platforms/win/kwinstartmenu/main.cpp	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/platforms/win/kwinstartmenu/main.cpp	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -47,6 +47,7 @@
+     options.add("remove",     ki18n("Remove installed Start Menu entries"));
+     options.add("install",    ki18n("Install Start Menu entries (this is also the default when this option is not used)"));
+     options.add("query-path", ki18n("query root path of Start Menu entries"));
++    options.add("nocategories", ki18n("don't use categories for start menu entries"));
+     KCmdLineArgs::addCmdLineOptions( options ); // Add my own options.
+ 
+     KComponentData a(&about);
+@@ -56,6 +57,8 @@
+ 
+     KApplication app(false);
+ 
++    globalOptions.useCategories = args->isSet("categories");
++    
+     if (args->isSet("query-path"))
+         fprintf(stdout,"%s",qPrintable(QDir::toNativeSeparators(getKDEStartMenuPath())));
+     else if (args->isSet("remove"))
+--- runtime/platforms/win/kwinstartmenu/misc.cpp	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/platforms/win/kwinstartmenu/misc.cpp	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -42,6 +42,8 @@
+ #include <kdesktopfile.h>
+ #include <kdeversion.h>
+ 
++GlobalOptions globalOptions;
++
+ bool removeDirectory(const QString& aDir)
+ {
+     QDir dir( aDir );
+@@ -225,7 +227,12 @@
+                 continue;
+             }
+             
+-            QString linkPath = getKDEStartMenuPath() + relPathTranslated + '/';
++            QString linkPath = getKDEStartMenuPath();
++
++            if (globalOptions.useCategories)
++                linkPath +=  relPathTranslated;
++            linkPath += '/';
++                            
+             QString linkName = s->name();
+             if (!s->genericName().isEmpty() && s->genericName() != s->name()) 
+                 linkName += " (" + s->genericName().replace('/','-') + ')';
+--- runtime/platforms/win/kwinstartmenu/CMakeLists.txt	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/platforms/win/kwinstartmenu/CMakeLists.txt	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -24,6 +24,7 @@
+ install(TARGETS kded_winstartmenu  DESTINATION ${PLUGIN_INSTALL_DIR} )
+ install( FILES winstartmenu.desktop  DESTINATION  ${SERVICES_INSTALL_DIR}/kded )
+ install( FILES org.kde.WinStartMenu.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR} )
++install( FILES kwinstartmenurc DESTINATION  ${CONFIG_INSTALL_DIR} )
+ 
+ ########### next target ###############
+ 
+--- runtime/kwalletd/kwalletd.notifyrc	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kwalletd/kwalletd.notifyrc	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -53,6 +53,7 @@
+ Comment[sv]=Plånbok
+ Comment[tg]=Wallet
+ Comment[th]=กระเป๋าคุมข้อมูล
++Comment[tr]=Cüzdan
+ Comment[uk]=Торбинка
+ Comment[x-test]=xxWalletxx
+ Comment[zh_CN]=钱包
+--- runtime/kioslave/trash/kcmtrash.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kioslave/trash/kcmtrash.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -28,7 +28,7 @@
+ Name[hne]=घुरुवा
+ Name[hr]=Otpad
+ Name[hsb]=Papjernik
+-Name[hu]=Szemétkosár
++Name[hu]=Kuka
+ Name[ia]=Corbe
+ Name[id]=Tempat Sampah
+ Name[is]=Rusl
+@@ -189,7 +189,7 @@
+ Name[hne]=घुरुवा
+ Name[hr]=Otpad
+ Name[hsb]=Papjernik
+-Name[hu]=Szemétkosár
++Name[hu]=Kuka
+ Name[ia]=Corbe
+ Name[id]=Tempat Sampah
+ Name[is]=Rusl
+--- runtime/kioslave/thumbnail/imagethumbnail.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kioslave/thumbnail/imagethumbnail.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -3,7 +3,7 @@
+ Name=Images (GIF, PNG, BMP, ...)
+ Name[ar]=الصور (GIF, PNG, BMP, ...)
+ Name[bn]=ছবি (GIF, PNG, BMP, ...)
+-Name[ca]=Imatges (GIF, PNG, BMP, ...)
++Name[ca]=Imatges (GIF, PNG, BMP...)
+ Name[ca@valencia]=Imatges (GIF, PNG, BMP, ...)
+ Name[cs]=Obrázky (GIF, PNG, BMP, ...)
+ Name[da]=Billeder (GIF, PNG, BMP, ...)
+--- runtime/kioslave/thumbnail/textthumbnail.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kioslave/thumbnail/textthumbnail.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -63,7 +63,7 @@
+ Name[pa]=ਟੈਕਸਟ ਫਾਇਲਾਂ
+ Name[pl]=Pliki tekstowe
+ Name[pt]=Ficheiros de Texto
+-Name[pt_BR]=Arquivos texto
++Name[pt_BR]=Arquivos de texto
+ Name[ro]=Fișiere textuale
+ Name[ru]=Текстовые файлы
+ Name[se]=Teakstafiilat
+--- runtime/kioslave/remote/kdedmodule/remotedirnotify.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kioslave/remote/kdedmodule/remotedirnotify.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -47,6 +47,7 @@
+ Name[sv]=Underrättelse om ändring av fjärrwebbadresser
+ Name[tg]=Тафтиши файлҳои шабакавӣ
+ Name[th]=ตัวแจ้งการเปลี่ยนแปลงบนที่อยู่ URL ทางไกล
++Name[tr]=Uzak Adres Değişimi Bildirici
+ Name[uk]=Сповіщення про зміну віддаленої адреси (URL)
+ Name[x-test]=xxRemote URL Change Notifierxx
+ Name[zh_CN]=远程 URL 更改通知器
+@@ -98,6 +99,7 @@
+ Comment[sv]=Tillhandahåller ändringsunderrättelser för nätverkskataloger
+ Comment[tg]=Огоҳиҳои тағйиротро дар феҳрастҳои шабака нишон медиҳад
+ Comment[th]=ทำการแจ้งให้ทราบถึงความเปลี่ยนแปลงที่มีบนโฟลเดอร์บนเครือข่าย
++Comment[tr]=Ağ dizinleri için değişim bildirimi sağlar.
+ Comment[uk]=Сповіщення про зміну стану мережевих тек
+ Comment[x-test]=xxProvides change notification for network foldersxx
+ Comment[zh_CN]=为网络文件夹提供更改通知
+--- runtime/kioslave/desktop/directory.trash	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kioslave/desktop/directory.trash	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -30,7 +30,7 @@
+ Name[hne]=घुरुवा
+ Name[hr]=Otpad
+ Name[hsb]=Papjernik
+-Name[hu]=Szemétkosár
++Name[hu]=Kuka
+ Name[ia]=Corbe
+ Name[id]=Tempat Sampah
+ Name[is]=Rusl
+@@ -119,7 +119,7 @@
+ Comment[kn]=ತೆಗೆದು ಹಾಕಲಾದ ಕಡತಗಳನ್ನು ಹೊಂದಿದೆ
+ Comment[ko]=삭제된 파일 및 폴더가 있습니다
+ Comment[ku]=Di de pelên hatine rakirin jî hene
+-Comment[lt]=Čia yra ištrintos bylos
++Comment[lt]=Čia yra ištrinti failai
+ Comment[lv]=Satur izmestos failus
+ Comment[mai]=मेटाएल गेल फ़ाइलसभक राखैत अछि
+ Comment[mk]=Содржи избришани датотеки
+--- runtime/nepomuk/kioslaves/search/kdedmodule/nepomuksearchmodule.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/nepomuk/kioslaves/search/kdedmodule/nepomuksearchmodule.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -25,6 +25,7 @@
+ Name[he]=מודול החיפוש של Nepomuk
+ Name[hi]=नेपोमक खोज मोड्यूल
+ Name[hr]=Nepomukov modul za pretraživanje
++Name[hu]=Nepomuk keresőmodul
+ Name[ia]=Modulo de cerca de Nepomuk
+ Name[id]=Modul Pencarian Nepomuk
+ Name[is]=Nepomuk leitareining
+--- runtime/nepomuk/kioslaves/search/kdedmodule/nepomuksearchmodule.cpp	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/nepomuk/kioslaves/search/kdedmodule/nepomuksearchmodule.cpp	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -60,10 +60,9 @@
+     // connect to serviceOwnerChanged to catch crashed clients that never unregistered
+     // themselves
+     //
+-    m_watcher = new QDBusServiceWatcher( QString(),
+-                                         QDBusConnection::sessionBus(),
+-                                         QDBusServiceWatcher::WatchForUnregistration,
+-                                         this );
++    m_watcher = new QDBusServiceWatcher( this );
++    m_watcher->setConnection( QDBusConnection::sessionBus() );
++    m_watcher->setWatchMode( QDBusServiceWatcher::WatchForUnregistration );
+     connect( m_watcher, SIGNAL( serviceUnregistered( const QString& ) ),
+              this, SLOT( slotServiceUnregistered( const QString& ) ) );
+ 
+--- runtime/nepomuk/services/strigi/priority.cpp	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/nepomuk/services/strigi/priority.cpp	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -1,105 +0,0 @@
+-/* This file is part of the KDE Project
+-   Copyright (c) 2008 Sebastian Trueg <trueg@kde.org>
+-
+-   Parts of this file are based on code from Strigi
+-   Copyright (C) 2006-2007 Jos van den Oever <jos@vandenoever.info>
+-
+-   This library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Library General Public
+-   License version 2 as published by the Free Software Foundation.
+-
+-   This library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Library General Public License for more details.
+-
+-   You should have received a copy of the GNU Library General Public License
+-   along with this library; see the file COPYING.LIB.  If not, write to
+-   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+-   Boston, MA 02110-1301, USA.
+-*/
+-
+-#include "priority.h"
+-
+-#ifndef _GNU_SOURCE
+-#define _GNU_SOURCE
+-#endif
+-
+-#include <QtCore/QDebug>
+-
+-#include <sys/time.h>
+-#include <sys/resource.h>
+-
+-#include <unistd.h>
+-#ifndef _WIN32
+-#include <sys/syscall.h>
+-#include <errno.h>
+-
+-#include <sched.h>
+-#endif
+-
+-#ifdef SYS_ioprio_set
+-namespace {
+-#ifndef IOPRIO_CLASS_IDLE
+-    enum {
+-        IOPRIO_CLASS_NONE,
+-        IOPRIO_CLASS_RT,
+-        IOPRIO_CLASS_BE,
+-        IOPRIO_CLASS_IDLE
+-    };
+-#endif
+-
+-#ifndef IOPRIO_WHO_PROCESS
+-    enum {
+-        IOPRIO_WHO_PROCESS = 1,
+-        IOPRIO_WHO_PGRP,
+-        IOPRIO_WHO_USER
+-    };
+-#endif
+-
+-#ifndef IOPRIO_CLASS_SHIFT
+-    const int IOPRIO_CLASS_SHIFT = 13;
+-#endif
+-}
+-#endif
+-
+-
+-bool lowerIOPriority()
+-{
+-#ifdef SYS_ioprio_set
+-    if ( syscall( SYS_ioprio_set, IOPRIO_WHO_PROCESS, 0, IOPRIO_CLASS_IDLE<<IOPRIO_CLASS_SHIFT ) < 0 ) {
+-        qDebug( "cannot set io scheduling to idle (%s). Trying best effort.\n",  strerror( errno ));
+-        if ( syscall( SYS_ioprio_set, IOPRIO_WHO_PROCESS, 0, 7|IOPRIO_CLASS_BE<<IOPRIO_CLASS_SHIFT ) < 0 ) {
+-            qDebug( "cannot set io scheduling to best effort.\n");
+-            return false;
+-        }
+-    }
+-    return true;
+-#else
+-    return false;
+-#endif
+-}
+-
+-
+-bool lowerPriority()
+-{
+-#ifndef Q_OS_WIN
+-    return !setpriority( PRIO_PROCESS, 0, 19 );
+-#else
+-    return false;
+-#endif
+-}
+-
+-
+-// FIXME: is this really useful? Should we better use SCHED_IDLE?
+-bool lowerSchedulingPriority()
+-{
+-#ifdef SCHED_BATCH
+-    struct sched_param param;
+-    memset( &param, 0, sizeof(param) );
+-    param.sched_priority = 0;
+-    return !sched_setscheduler( 0, SCHED_BATCH, &param );
+-#else
+-    return false;
+-#endif
+-}
+--- runtime/nepomuk/services/strigi/priority.h	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/nepomuk/services/strigi/priority.h	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -1,26 +0,0 @@
+-/* This file is part of the KDE Project
+-   Copyright (c) 2008 Sebastian Trueg <trueg@kde.org>
+-
+-   This library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Library General Public
+-   License version 2 as published by the Free Software Foundation.
+-
+-   This library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Library General Public License for more details.
+-
+-   You should have received a copy of the GNU Library General Public License
+-   along with this library; see the file COPYING.LIB.  If not, write to
+-   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+-   Boston, MA 02110-1301, USA.
+-*/
+-
+-#ifndef _NEPOMUK_LINUX_PRIORITY_H_
+-#define _NEPOMUK_LINUX_PRIORITY_H_
+-
+-bool lowerIOPriority();
+-bool lowerSchedulingPriority();
+-bool lowerPriority();
+-
+-#endif // _NEPOMUK_LINUX_PRIORITY_H_
+--- runtime/nepomuk/services/strigi/strigiservice.cpp	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/nepomuk/services/strigi/strigiservice.cpp	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -18,7 +18,6 @@
+ 
+ #include "strigiservice.h"
+ #include "strigiserviceadaptor.h"
+-#include "priority.h"
+ #include "indexscheduler.h"
+ #include "eventmonitor.h"
+ #include "systray.h"
+@@ -42,16 +41,6 @@
+     : Service( parent, true ),
+       m_indexManager( 0 )
+ {
+-    // lower process priority - we do not want to spoil KDE usage
+-    // ==============================================================
+-    if ( !lowerPriority() )
+-        kDebug() << "Failed to lower priority.";
+-    if ( !lowerSchedulingPriority() )
+-        kDebug() << "Failed to lower scheduling priority.";
+-    if ( !lowerIOPriority() )
+-        kDebug() << "Failed to lower io priority.";
+-
+-
+     // setup the actual index scheduler including strigi stuff
+     // ==============================================================
+     if ( ( m_indexManager = Strigi::IndexPluginLoader::createIndexManager( "nepomukbackend", 0 ) ) ) {
+--- runtime/nepomuk/services/strigi/nepomukstrigiservice.notifyrc	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/nepomuk/services/strigi/nepomukstrigiservice.notifyrc	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -19,6 +19,7 @@
+ Comment[ga]=Cuardach Deisce
+ Comment[hi]=डेस्कटॉप खोज
+ Comment[hr]=Pretraživanje računala
++Comment[hu]=Asztali keresés
+ Comment[ia]=Cerca de Scriptorio
+ Comment[id]=Pencarian Desktop
+ Comment[is]=Skjáborðsleit
+@@ -49,6 +50,7 @@
+ Comment[sv]=Skrivbordssökning
+ Comment[tg]=Ҷустуҷӯи мизи корӣ
+ Comment[th]=ค้นหาผ่านพื้นที่ทำงาน
++Comment[tr]=Masaüstü Araması
+ Comment[uk]=Стільничний пошук
+ Comment[x-test]=xxDesktop Searchxx
+ Comment[zh_CN]=桌面搜索
+--- runtime/nepomuk/services/strigi/CMakeLists.txt	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/nepomuk/services/strigi/CMakeLists.txt	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -28,7 +28,6 @@
+   strigiservice.cpp
+   strigiserviceadaptor.cpp
+   indexscheduler.cpp
+-  priority.cpp
+   strigiserviceconfig.cpp
+   eventmonitor.cpp
+   systray.cpp
+--- runtime/nepomuk/services/activities/nepomukactivitiesservice.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/nepomuk/services/activities/nepomukactivitiesservice.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -48,6 +48,7 @@
+ Name[sr@latin]=Nepomukov servis aktivnosti
+ Name[sv]=Nepomuk aktivitetstjänst
+ Name[th]=บริการ Nepomuk Activities
++Name[tr]=Nepomuk Eylemler Servisi
+ Name[uk]=Служба просторів дій Nepomuk
+ Name[x-test]=xxNepomuk Activities Servicexx
+ Name[zh_CN]=Nepomuk 活动服务
+--- runtime/nepomuk/services/storage/nepomukstorage.notifyrc	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/nepomuk/services/storage/nepomukstorage.notifyrc	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -49,6 +49,7 @@
+ Name[sv]=Semantisk datalagring
+ Name[tg]=Захирагоҳи маъноии маълумот
+ Name[th]=ที่จัดเก็บข้อมูลของระบบค้นหา
++Name[tr]=Anlamsal Veri Depolama
+ Name[uk]=Сховище семантичних даних
+ Name[x-test]=xxSemantic Data Storagexx
+ Name[zh_CN]=语义学数据存储
+@@ -101,6 +102,7 @@
+ Comment[sv]=Semantiskt skrivbord
+ Comment[tg]=Мизи кории маъноӣ
+ Comment[th]=ระบบค้นหาผ่านพื้นที่ทำงาน
++Comment[tr]=Anlamsal Masaüstü
+ Comment[uk]=Семантична стільниця
+ Comment[x-test]=xxSemantic Desktopxx
+ Comment[zh_CN]=语义学桌面
+--- runtime/nepomuk/services/storage/repository.cpp	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/nepomuk/services/storage/repository.cpp	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -336,6 +336,10 @@
+     // Always force the start, ie. kill previously started Virtuoso instances
+     settings << Soprano::BackendSetting( "forcedstart", true );
+ 
++    // 100 server threads is hopefully enough - at some point the problem of maximum server threads == max client
++    // needs to be addressed as well
++    settings << Soprano::BackendSetting( "thread", 100 );
++
+     return settings;
+ }
+ 
+--- runtime/nepomuk/services/filewatch/nepomukfilewatch.cpp	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/nepomuk/services/filewatch/nepomukfilewatch.cpp	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -19,7 +19,6 @@
+ #include "nepomukfilewatch.h"
+ #include "metadatamover.h"
+ #include "strigiserviceinterface.h"
+-#include "../strigi/priority.h"
+ #include "nie.h"
+ 
+ #ifdef BUILD_KINOTIFY
+@@ -120,10 +119,6 @@
+     m_metadataMover->start();
+ 
+ #ifdef BUILD_KINOTIFY
+-    // listing all folders in watchFolder below will be IO-intensive. Do not grab it all
+-    if ( !lowerIOPriority() )
+-        kDebug() << "Failed to lower io priority.";
+-
+     // monitor the file system for changes (restricted by the inotify limit)
+     m_dirWatch = new KInotify( this );
+ 
+--- runtime/nepomuk/services/filewatch/CMakeLists.txt	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/nepomuk/services/filewatch/CMakeLists.txt	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -16,7 +16,6 @@
+   nepomukfilewatch.cpp
+   metadatamover.cpp
+   updaterequest.cpp
+-  ../strigi/priority.cpp
+   )
+ 
+ qt4_add_dbus_interface(SRCS ../../interfaces/org.kde.nepomuk.Strigi.xml strigiserviceinterface)
+--- runtime/nepomuk/services/filewatch/kinotify.cpp	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/nepomuk/services/filewatch/kinotify.cpp	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -299,36 +299,31 @@
+ 
+         QByteArray encodedPath = QByteArray::fromRawData( event->name, event->len );
+ 
+-        kDebug() << encodedPath;
+-
+         if ( encodedPath[0] != '/' ) {
+             encodedPath = d->pathHash.value( event->wd ) + '/' + encodedPath;
+         }
+ 
+         QString path = QFile::decodeName( encodedPath );
+ 
+-        kDebug() << path;
+-
+-
+         // now signal the event
+         if ( event->mask & EventAccess) {
+-            kDebug() << path << "EventAccess";
++//            kDebug() << path << "EventAccess";
+             emit accessed( path );
+         }
+         if ( event->mask & EventAttributeChange ) {
+-            kDebug() << path << "EventAttributeChange";
++//            kDebug() << path << "EventAttributeChange";
+             emit attributeChanged( path );
+         }
+         if ( event->mask & EventCloseWrite ) {
+-            kDebug() << path << "EventCloseWrite";
++//            kDebug() << path << "EventCloseWrite";
+             emit closedWrite( path );
+         }
+         if ( event->mask & EventCloseRead ) {
+-            kDebug() << path << "EventCloseRead";
++//            kDebug() << path << "EventCloseRead";
+             emit closedRead( path );
+         }
+         if ( event->mask & EventCreate ) {
+-            kDebug() << path << "EventCreate";
++//            kDebug() << path << "EventCreate";
+             if ( event->mask & IN_ISDIR ) {
+                 // FIXME: store the mode and flags somewhere
+                 addWatch( encodedPath, d->mode, d->flags );
+@@ -336,28 +331,28 @@
+             emit created( path );
+         }
+         if ( event->mask & EventDelete ) {
+-            kDebug() << path << "EventDelete";
++//            kDebug() << path << "EventDelete";
+             if ( event->mask & IN_ISDIR ) {
+                 d->removeWatch( event->wd );
+             }
+             emit deleted( path );
+         }
+         if ( event->mask & EventDeleteSelf ) {
+-            kDebug() << path << "EventDeleteSelf";
++//            kDebug() << path << "EventDeleteSelf";
+             if ( event->mask & IN_ISDIR ) {
+                 d->removeWatch( event->wd );
+             }
+             emit deleted( path );
+         }
+         if ( event->mask & EventModify ) {
+-            kDebug() << path << "EventModify";
++//            kDebug() << path << "EventModify";
+             emit modified( path );
+         }
+         if ( event->mask & EventMoveSelf ) {
+-            kDebug() << path << "EventMoveSelf";
++//            kDebug() << path << "EventMoveSelf";
+         }
+         if ( event->mask & EventMoveFrom ) {
+-            kDebug() << path << "EventMoveFrom";
++//            kDebug() << path << "EventMoveFrom";
+             d->cookies[event->cookie] = path;
+         }
+         if ( event->mask & EventMoveTo ) {
+@@ -365,7 +360,7 @@
+             if ( d->cookies.contains( event->cookie ) ) {
+                 QString oldPath = d->cookies[event->cookie];
+                 d->cookies.remove( event->cookie );
+-                kDebug() << oldPath << "EventMoveTo" << path;
++//                kDebug() << oldPath << "EventMoveTo" << path;
+                 emit moved( oldPath, path );
+             }
+             else {
+@@ -373,11 +368,11 @@
+             }
+         }
+         if ( event->mask & EventOpen ) {
+-            kDebug() << path << "EventOpen";
++//            kDebug() << path << "EventOpen";
+             emit opened( path );
+         }
+         if ( event->mask & EventUnmount ) {
+-            kDebug() << path << "EventUnmount. removing from path hash";
++//            kDebug() << path << "EventUnmount. removing from path hash";
+             if ( event->mask & IN_ISDIR ) {
+                 d->removeWatch( event->wd );
+             }
+--- runtime/nepomuk/services/queryservice/queryservice.cpp	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/nepomuk/services/queryservice/queryservice.cpp	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -51,9 +51,8 @@
+ 
+     s_instance = this;
+ 
+-    m_serviceWatcher = new QDBusServiceWatcher( QString(),
+-                                                QDBusConnection::sessionBus(),
+-                                                QDBusServiceWatcher::WatchForUnregistration, this);
++    m_serviceWatcher = new QDBusServiceWatcher( this );
++    m_serviceWatcher->setWatchMode( QDBusServiceWatcher::WatchForUnregistration );
+ 
+     connect( m_serviceWatcher, SIGNAL( serviceUnregistered(const QString& ) ),
+              this, SLOT( slotServiceUnregistered( const QString& ) ) );
+@@ -62,6 +61,9 @@
+ 
+ Nepomuk::Query::QueryService::~QueryService()
+ {
++    // cannot use qDeleteAll since deleting a folder changes m_openQueryFolders
++    while ( !m_openConnections.isEmpty() )
++        delete m_openConnections.begin().value();
+ }
+ 
+ 
+--- runtime/nepomuk/services/queryservice/nepomukqueryservice.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/nepomuk/services/queryservice/nepomukqueryservice.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -81,7 +81,7 @@
+ Comment=The Nepomuk Query Service provides an interface for persistent query folders
+ Comment[ar]=تقدم خدمة استعلام نبومك واجهة لمجلدات الاستعلام الموجودة مسبقا.
+ Comment[be@latin]=Słužba zapytaŭ „Nepomuk” absłuhoŭvaje interfejs dla stałych katalohaŭ, jakija biaruć źviestki ad zapytaŭ.
+-Comment[ca]=El servei de consultes del Nepomuk  proporciona una interfície per a carpetes persistents de consultes
++Comment[ca]=El servei de consultes del Nepomuk proporciona una interfície per a carpetes persistents de consultes
+ Comment[ca@valencia]=El servei de consultes del Nepomuk  proporciona una interfície per a carpetes persistents de consultes
+ Comment[cs]=Dotazovací služba Nepomuku poskytuje rozhraní pro složky trvalých dotazů
+ Comment[csb]=Ùsłëżnota Query Nepomuka dôwô interfejs do persistentnegò òdwòłëwaniô kataloga
+--- runtime/nepomuk/servicestub/priority.cpp	(.../tags/KDE/4.5.1/kdebase)	(wersja 0)
++++ runtime/nepomuk/servicestub/priority.cpp	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -0,0 +1,105 @@
++/* This file is part of the KDE Project
++   Copyright (c) 2008 Sebastian Trueg <trueg@kde.org>
++
++   Parts of this file are based on code from Strigi
++   Copyright (C) 2006-2007 Jos van den Oever <jos@vandenoever.info>
++
++   This library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Library General Public
++   License version 2 as published by the Free Software Foundation.
++
++   This library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Library General Public License for more details.
++
++   You should have received a copy of the GNU Library General Public License
++   along with this library; see the file COPYING.LIB.  If not, write to
++   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
++   Boston, MA 02110-1301, USA.
++*/
++
++#include "priority.h"
++
++#ifndef _GNU_SOURCE
++#define _GNU_SOURCE
++#endif
++
++#include <QtCore/QDebug>
++
++#include <sys/time.h>
++#include <sys/resource.h>
++
++#include <unistd.h>
++#ifndef _WIN32
++#include <sys/syscall.h>
++#include <errno.h>
++
++#include <sched.h>
++#endif
++
++#ifdef SYS_ioprio_set
++namespace {
++#ifndef IOPRIO_CLASS_IDLE
++    enum {
++        IOPRIO_CLASS_NONE,
++        IOPRIO_CLASS_RT,
++        IOPRIO_CLASS_BE,
++        IOPRIO_CLASS_IDLE
++    };
++#endif
++
++#ifndef IOPRIO_WHO_PROCESS
++    enum {
++        IOPRIO_WHO_PROCESS = 1,
++        IOPRIO_WHO_PGRP,
++        IOPRIO_WHO_USER
++    };
++#endif
++
++#ifndef IOPRIO_CLASS_SHIFT
++    const int IOPRIO_CLASS_SHIFT = 13;
++#endif
++}
++#endif
++
++
++bool lowerIOPriority()
++{
++#ifdef SYS_ioprio_set
++    if ( syscall( SYS_ioprio_set, IOPRIO_WHO_PROCESS, 0, IOPRIO_CLASS_IDLE<<IOPRIO_CLASS_SHIFT ) < 0 ) {
++        qDebug( "cannot set io scheduling to idle (%s). Trying best effort.\n",  strerror( errno ));
++        if ( syscall( SYS_ioprio_set, IOPRIO_WHO_PROCESS, 0, 7|IOPRIO_CLASS_BE<<IOPRIO_CLASS_SHIFT ) < 0 ) {
++            qDebug( "cannot set io scheduling to best effort.\n");
++            return false;
++        }
++    }
++    return true;
++#else
++    return false;
++#endif
++}
++
++
++bool lowerPriority()
++{
++#ifndef Q_OS_WIN
++    return !setpriority( PRIO_PROCESS, 0, 19 );
++#else
++    return false;
++#endif
++}
++
++
++// FIXME: is this really useful? Should we better use SCHED_IDLE?
++bool lowerSchedulingPriority()
++{
++#ifdef SCHED_BATCH
++    struct sched_param param;
++    memset( &param, 0, sizeof(param) );
++    param.sched_priority = 0;
++    return !sched_setscheduler( 0, SCHED_BATCH, &param );
++#else
++    return false;
++#endif
++}
+--- runtime/nepomuk/servicestub/main.cpp	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/nepomuk/servicestub/main.cpp	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -35,6 +35,7 @@
+ #include <stdio.h>
+ 
+ #include "servicecontrol.h"
++#include "priority.h"
+ 
+ namespace {
+ #ifndef Q_OS_WIN
+@@ -140,6 +141,18 @@
+     }
+ 
+ 
++    // Lower our priority by default which makes sense for most services since Nepomuk
++    // does not want to get in the way of the user
++    // TODO: make it configurable
++    // ====================================
++    if ( !lowerPriority() )
++        kDebug() << "Failed to lower priority.";
++    if ( !lowerSchedulingPriority() )
++        kDebug() << "Failed to lower scheduling priority.";
++    if ( !lowerIOPriority() )
++        kDebug() << "Failed to lower io priority.";
++
++
+     // register the service control
+     // ====================================
+     Nepomuk::ServiceControl* control = new Nepomuk::ServiceControl( serviceName, service, &app );
+--- runtime/nepomuk/servicestub/priority.h	(.../tags/KDE/4.5.1/kdebase)	(wersja 0)
++++ runtime/nepomuk/servicestub/priority.h	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -0,0 +1,26 @@
++/* This file is part of the KDE Project
++   Copyright (c) 2008 Sebastian Trueg <trueg@kde.org>
++
++   This library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Library General Public
++   License version 2 as published by the Free Software Foundation.
++
++   This library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Library General Public License for more details.
++
++   You should have received a copy of the GNU Library General Public License
++   along with this library; see the file COPYING.LIB.  If not, write to
++   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
++   Boston, MA 02110-1301, USA.
++*/
++
++#ifndef _NEPOMUK_LINUX_PRIORITY_H_
++#define _NEPOMUK_LINUX_PRIORITY_H_
++
++bool lowerIOPriority();
++bool lowerSchedulingPriority();
++bool lowerPriority();
++
++#endif // _NEPOMUK_LINUX_PRIORITY_H_
+--- runtime/nepomuk/servicestub/CMakeLists.txt	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/nepomuk/servicestub/CMakeLists.txt	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -12,6 +12,7 @@
+ set(servicestub_SRCS
+   main.cpp
+   servicecontrol.cpp
++  priority.cpp
+ )
+ 
+ qt4_add_dbus_adaptor(servicestub_SRCS
+--- runtime/solidautoeject/solidautoeject.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/solidautoeject/solidautoeject.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -50,6 +50,7 @@
+ Name[sv]=Utmatning av enheter
+ Name[tg]=Ҷудосозии дастгоҳ
+ Name[th]=ตัวดันถาดไดรฟ์
++Name[tr]=Sürücü Çıkarıcı
+ Name[uk]=Вилучення дисків
+ Name[x-test]=xxDrive Ejectorxx
+ Name[zh_CN]=驱动弹出器
+@@ -99,6 +100,7 @@
+ Comment[sr@latin]=Automatsko oslobađanje uređaja kada im se prisne dugme za izbacivanje
+ Comment[sv]=Frisläpper automatiskt enheter vid tryck på deras utmatningsknapp
+ Comment[th]=เปิดถาดไดรฟ์ให้อัตโนมัติเมื่อมีการกดปุ่มเอาแผ่นสื่อออก
++Comment[tr]=Çıkarma düğmesine basıldığında sürücüleri otomatik olarak ayırır
+ Comment[uk]=Автоматичне вилучення файли пристроїв, після натискання на них кнопки виштовхування
+ Comment[x-test]=xxAutomatically releases drives when their eject button is pushedxx
+ Comment[zh_CN]=当按下弹出钮时，可自动释放驱动器资源
+--- runtime/activitymanager/activitymanager.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/activitymanager/activitymanager.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -60,6 +60,7 @@
+ Name[sv]=Aktivitetshanterare
+ Name[tg]=Мудири фаъолият
+ Name[th]=ตัวจัดการกิจกรรม
++Name[tr]=Eylem Yöneticisi
+ Name[uk]=Керування просторами дій
+ Name[x-test]=xxActivity Managerxx
+ Name[zh_CN]=活动管理器
+@@ -69,6 +70,7 @@
+ Comment[ar]=خلفية إدارة النشاط
+ Comment[ca]=Dorsal de gestió d'activitats
+ Comment[ca@valencia]=Dorsal de gestió d'activitats
++Comment[cs]=Backend pro správu aktivit
+ Comment[da]=Motor til aktivitetshåndtering
+ Comment[de]=Backend zur Aktivitätenverwaltung
+ Comment[el]=Σύστημα διαχείρισης δραστηριότητας
+@@ -111,6 +113,7 @@
+ Comment[sr@latin]=Pozadina za upravljanje aktivnostima
+ Comment[sv]=Gränssnittet för aktivitetshanteringen
+ Comment[th]=โปรแกรมเบื้องหลังการจัดการกิจกรรม
++Comment[tr]=Eylem yönetimi arka ucu
+ Comment[uk]=Сервер керування просторами дій
+ Comment[x-test]=xxThe activity management backendxx
+ Comment[zh_CN]=活动管理后端
+--- runtime/kurifilter-plugins/ikws/searchproviders/identica_people.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kurifilter-plugins/ikws/searchproviders/identica_people.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -50,6 +50,7 @@
+ Name[sr@ijekavianlatin]=identi.ca‑ljudi
+ Name[sr@latin]=identi.ca‑ljudi
+ Name[sv]=Identi.ca personer
++Name[tr]=Identi.ca Kişiler
+ Name[uk]=Постаті Identi.ca
+ Name[x-test]=xxIdenti.ca Peoplexx
+ Name[zh_CN]=Identi.ca 人物
+--- runtime/kurifilter-plugins/ikws/searchproviders/beolingus.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kurifilter-plugins/ikws/searchproviders/beolingus.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -20,6 +20,7 @@
+ Name[ga]=Foclóir Ar Líne Beolingus
+ Name[hi]=बिओलिंगस ऑनलाइन शब्दकोश
+ Name[hr]=Beolingus Online Rječnik
++Name[hu]=Beolingus online szótár
+ Name[ia]=Dictionario in linea Beolingus
+ Name[id]=Kamus Daring Beolingus
+ Name[is]=Beolingus netorðabókin
+@@ -77,6 +78,7 @@
+ Query[ga]=http://dict.tu-chemnitz.de/dings.cgi?lang=de&service=deen&opterrors=0&optpro=0&query=\\{@}&iservice=&comment=&email
+ Query[hi]=http://dict.tu-chemnitz.de/dings.cgi?lang=de&service=deen&opterrors=0&optpro=0&query=\\{@}&iservice=&comment=&email
+ Query[hr]=http://dict.tu-chemnitz.de/dings.cgi?lang=de&service=deen&opterrors=0&optpro=0&query=\\{@}&iservice=&comment=&email
++Query[hu]=http://dict.tu-chemnitz.de/dings.cgi?lang=de&service=deen&opterrors=0&optpro=0&query=\\{@}&iservice=&comment=&email
+ Query[ia]=http://dict.tu-chemnitz.de/dings.cgi?lang=de&service=deen&opterrors=0&optpro=0&query=\\{@}&iservice=&comment=&email
+ Query[id]=http://dict.tu-chemnitz.de/dings.cgi?lang=de&service=deen&opterrors=0&optpro=0&query=\\{@}&iservice=&comment=&email
+ Query[is]=http://dict.tu-chemnitz.de/dings.cgi?lang=de&service=deen&opterrors=0&optpro=0&query=\\{@}&iservice=&comment=&email
+--- runtime/kurifilter-plugins/ikws/searchproviders/duckduckgo_shopping.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kurifilter-plugins/ikws/searchproviders/duckduckgo_shopping.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -6,6 +6,7 @@
+ Name[ar]=Duck Duck Go Shopping
+ Name[ca]=Duck Duck Go Shopping
+ Name[ca@valencia]=Duck Duck Go Shopping
++Name[cs]=Duck Duck Go Shopping
+ Name[da]=Duck Duck Go shopping
+ Name[de]=Duck Duck Go Shopping
+ Name[el]=Duck Duck Go Shopping
+@@ -18,6 +19,7 @@
+ Name[ga]=Siopadóireacht Duck Duck Go
+ Name[hi]=बतख़ जा जा खरीदारी
+ Name[hr]=Duck Duck Go Shopping
++Name[hu]=Duck Duck Go Shopping
+ Name[ia]=Duck Duck Go Shopping
+ Name[id]=Belanja Duck Duck Go
+ Name[is]=Duck Duck Go verslun
+@@ -46,6 +48,7 @@
+ Name[sr@latin]=Duck Duck Go (kupovina)
+ Name[sv]=Duck Duck Go shopping
+ Name[th]=ช้อปปิ้งของ Duck Duck Go
++Name[tr]=Duck Duck Go Alışveriş
+ Name[uk]=Duck Duck Go Shopping
+ Name[x-test]=xxDuck Duck Go Shoppingxx
+ Name[zh_CN]=Duck Duck Go 购物
+--- runtime/kurifilter-plugins/ikws/searchproviders/kde_techbase.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kurifilter-plugins/ikws/searchproviders/kde_techbase.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -7,6 +7,7 @@
+ Name[bn]=KDE টেক-বেস
+ Name[ca]=KDE TechBase
+ Name[ca@valencia]=KDE TechBase
++Name[cs]=KDE TechBase
+ Name[da]=KDE TechBase
+ Name[de]=KDE TechBase
+ Name[el]=Τεχνική βάση KDE
+--- runtime/kurifilter-plugins/ikws/searchproviders/flickrcc.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kurifilter-plugins/ikws/searchproviders/flickrcc.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -21,6 +21,7 @@
+ Name[ga]=Flickr Creative Commons
+ Name[hi]=फ़्लिकर क्रियेटिव कोमनस
+ Name[hr]=Flickr Creative Commons
++Name[hu]=Flickr Creative Commons
+ Name[ia]=Flickr Creative Commons
+ Name[id]=Flickr Creative Commons
+ Name[is]=Flickr Creative Commons
+@@ -49,6 +50,7 @@
+ Name[sr@ijekavianlatin]=Flickr (Creative Commons)
+ Name[sr@latin]=Flickr (Creative Commons)
+ Name[sv]=Flickr Creative Commons
++Name[tr]=Flickr Creative Commons
+ Name[uk]=Flickr Creative Commons
+ Name[x-test]=xxFlickr Creative Commonsxx
+ Name[zh_CN]=Flickr 公用创作物
+--- runtime/kurifilter-plugins/ikws/searchproviders/yahoo_image.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kurifilter-plugins/ikws/searchproviders/yahoo_image.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -53,6 +53,7 @@
+ Name[sr@ijekavianlatin]=Yahoo-slike
+ Name[sr@latin]=Yahoo-slike
+ Name[sv]=Yahoo bilder
++Name[tr]=Yahoo Resimleri
+ Name[uk]=Зображення Yahoo
+ Name[x-test]=xxYahoo Imagesxx
+ Name[zh_CN]=Yahoo 图像
+--- runtime/kurifilter-plugins/ikws/searchproviders/yahoo_local.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kurifilter-plugins/ikws/searchproviders/yahoo_local.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -7,6 +7,7 @@
+ Name[bn]=ইয়াহু স্থানীয়
+ Name[ca]=Yahoo Local
+ Name[ca@valencia]=Yahoo Local
++Name[cs]=Yahoo Local
+ Name[da]=Yahoo Local
+ Name[de]=Yahoo Local
+ Name[el]=Yahoo Τοπικό
+--- runtime/kurifilter-plugins/ikws/searchproviders/urbandictionary.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kurifilter-plugins/ikws/searchproviders/urbandictionary.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -8,6 +8,7 @@
+ Name[bn]=Urban Dictionary
+ Name[ca]=Urban Dictionary
+ Name[ca@valencia]=Urban Dictionary
++Name[cs]=Urban Dictionary
+ Name[da]=Urban Dictionary
+ Name[de]=Urban Dictionary
+ Name[el]=Urban Dictionary(Λεξικό)
+@@ -52,6 +53,7 @@
+ Name[sr@latin]=Urbani rečnik
+ Name[sv]=Slangordlista
+ Name[th]=พจนานุกรม Urban
++Name[tr]=Urban Dictionary
+ Name[uk]=Urban Dictionary
+ Name[x-test]=xxUrban Dictionaryxx
+ Name[zh_CN]=都市词典
+--- runtime/kurifilter-plugins/ikws/searchproviders/yahoo_video.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kurifilter-plugins/ikws/searchproviders/yahoo_video.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -52,6 +52,7 @@
+ Name[sr@ijekavianlatin]=Yahoo Video
+ Name[sr@latin]=Yahoo Video
+ Name[sv]=Yahoo video
++Name[tr]=Yahoo Video
+ Name[uk]=Відео Yahoo
+ Name[x-test]=xxYahoo Videoxx
+ Name[zh_CN]=Yahoo 视频
+--- runtime/kurifilter-plugins/ikws/searchproviders/duckduckgo.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kurifilter-plugins/ikws/searchproviders/duckduckgo.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -7,6 +7,7 @@
+ Name[bg]=Duck Duck Go
+ Name[ca]=Duck Duck Go
+ Name[ca@valencia]=Duck Duck Go
++Name[cs]=Duck Duck Go
+ Name[da]=Duck Duck Go
+ Name[de]=Duck Duck Go
+ Name[el]=Duck Duck Go
+@@ -49,6 +50,7 @@
+ Name[sr@latin]=Duck Duck Go
+ Name[sv]=Duck Duck Go
+ Name[th]=Duck Duck Go
++Name[tr]=Duck Duck Go
+ Name[uk]=Duck Duck Go
+ Name[x-test]=xxDuck Duck Goxx
+ Name[zh_CN]=Duck Duck Go
+--- runtime/kurifilter-plugins/ikws/searchproviders/opendesktop.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kurifilter-plugins/ikws/searchproviders/opendesktop.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -5,6 +5,7 @@
+ Name=openDesktop.org
+ Name[ca]=openDesktop.org
+ Name[ca@valencia]=openDesktop.org
++Name[cs]=openDesktop.org
+ Name[da]=openDesktop.org
+ Name[de]=openDesktop.org
+ Name[el]=openDesktop.org
+@@ -18,9 +19,12 @@
+ Name[hu]=openDesktop.org
+ Name[ia]=openDesktop.org
+ Name[id]=openDesktop.org
++Name[is]=openDesktop.org
+ Name[it]=openDesktop.org
+ Name[km]=openDesktop.org
++Name[ko]=openDesktop.org
+ Name[lt]=openDesktop.org
++Name[lv]=openDesktop.org
+ Name[nb]=openDesktop.org
+ Name[nds]=openDesktop.org
+ Name[nl]=openDesktop.org
+@@ -35,6 +39,7 @@
+ Name[sr@ijekavianlatin]=Otvorena površ
+ Name[sr@latin]=Otvorena površ
+ Name[sv]=openDesktop.org
++Name[tr]=openDesktop.org
+ Name[uk]=openDesktop.org
+ Name[x-test]=xxopenDesktop.orgxx
+ Name[zh_CN]=openDesktop.org
+--- runtime/kurifilter-plugins/ikws/searchproviders/kde_userbase.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kurifilter-plugins/ikws/searchproviders/kde_userbase.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -7,6 +7,7 @@
+ Name[bn]=কে.ডি.ই. ইউসার-বেস
+ Name[ca]=KDE UserBase
+ Name[ca@valencia]=KDE UserBase
++Name[cs]=KDE UserBase
+ Name[da]=KDE UserBase
+ Name[de]=KDE UserBase
+ Name[el]=Βάση χρηστών KDE
+--- runtime/kurifilter-plugins/ikws/searchproviders/wikia.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kurifilter-plugins/ikws/searchproviders/wikia.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -111,6 +111,7 @@
+ Query[sr@latin]=http://www.wikia.com/Special:Search?search=\\{@}&wikia_search_submit=Search
+ Query[sv]=http://www.wikia.com/Special:Search?search=\\{@}&wikia_search_submit=Search
+ Query[th]=http://www.wikia.com/Special:Search?search=\\{@}&wikia_search_submit=Search
++Query[tr]=http://www.wikia.com/Special:Search?search=\\{@}&wikia_search_submit=Search
+ Query[uk]=http://www.wikia.com/Special:Search?search=\\{@}&wikia_search_submit=Search
+ Query[x-test]=xxhttp://www.wikia.com/Special:Search?search=\\{@}&wikia_search_submit=Searchxx
+ Query[zh_CN]=http://www.wikia.com/Special:Search?search=\\{@}&wikia_search_submit=Search
+--- runtime/kurifilter-plugins/ikws/searchproviders/uspto.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kurifilter-plugins/ikws/searchproviders/uspto.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -11,7 +11,7 @@
+ Name[bg]=База от данни с патенти на САЩ
+ Name[bn]=মার্কিন পেটেন্ট ডেটাবেস
+ Name[bn_IN]=মার্কিন প্যাটেন্ট ডাটাবেস
+-Name[ca]=Base de dades de patents U.S.
++Name[ca]=Base de dades de patents EUA
+ Name[ca@valencia]=Base de dades de patents U.S.
+ Name[cs]=Patentová databáze USA
+ Name[csb]=Baza patentów USA
+--- runtime/kurifilter-plugins/ikws/searchproviders/vimeo.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kurifilter-plugins/ikws/searchproviders/vimeo.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -109,6 +109,7 @@
+ Query[sr@latin]=http://vimeo.com/videos/search:\\{@}
+ Query[sv]=http://vimeo.com/videos/search:\\{@}
+ Query[th]=http://vimeo.com/videos/search:\\{@}
++Query[tr]=http://vimeo.com/videos/search:\\{@}
+ Query[uk]=http://vimeo.com/videos/search:\\{@}
+ Query[x-test]=xxhttp://vimeo.com/videos/search:\\{@}xx
+ Query[zh_CN]=http://vimeo.com/videos/search:\\{@}
+--- runtime/kurifilter-plugins/ikws/searchproviders/duckduckgo_info.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kurifilter-plugins/ikws/searchproviders/duckduckgo_info.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -6,6 +6,7 @@
+ Name[ar]=Duck Duck Go Info
+ Name[ca]=Duck Duck Go Info
+ Name[ca@valencia]=Duck Duck Go Info
++Name[cs]=Duck Duck Go Info
+ Name[da]=Duck Duck Go info
+ Name[de]=Duck Duck Go Info
+ Name[el]=Duck Duck Go Info
+@@ -18,6 +19,7 @@
+ Name[ga]=Eolas Duck Duck Go
+ Name[hi]=बतख़ जा जा जानकारी
+ Name[hr]=Duck Duck Go Info
++Name[hu]=Duck Duck Go Info
+ Name[ia]=Duck Duck Go Info
+ Name[id]=Info Duck Duck Go
+ Name[is]=Duck Duck Go upplýsingar
+@@ -47,6 +49,7 @@
+ Name[sr@latin]=Duck Duck Go (informacije)
+ Name[sv]=Duck Duck Go information
+ Name[th]=ข้อมูลของ Duck Duck Go
++Name[tr]=Duck Duck Go Bilgileri
+ Name[uk]=Duck Duck Go Info
+ Name[x-test]=xxDuck Duck Go Infoxx
+ Name[zh_CN]=Duck Duck Go 信息
+--- runtime/kurifilter-plugins/ikws/searchproviders/identica_notices.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/kurifilter-plugins/ikws/searchproviders/identica_notices.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -49,6 +49,7 @@
+ Name[sr@ijekavianlatin]=identi.ca‑obaveštenja
+ Name[sr@latin]=identi.ca‑obaveštenja
+ Name[sv]=Identi.ca anslag
++Name[tr]=Identi.ca Bildirimleri
+ Name[uk]=Нотатки Identi.ca
+ Name[x-test]=xxIdenti.ca Noticesxx
+ Name[zh_CN]=Identi.ca 通知
+--- runtime/soliduiserver/soliduiserver.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/soliduiserver/soliduiserver.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -24,6 +24,7 @@
+ Name[ga]=Brath Crua-Earraí
+ Name[hi]=हार्डवेयर जाँच
+ Name[hr]=Detekcija hardvera
++Name[hu]=Hardverdetektálás
+ Name[ia]=Relevamento de Hardware
+ Name[id]=Deteksi Peranti Keras
+ Name[is]=Vélbúnaðarskynjun
+@@ -53,6 +54,7 @@
+ Name[sv]=Hårdvarudetektering
+ Name[tg]=Ҷустуҷӯи сахтафзор
+ Name[th]=ตรวจจับฮาร์ดแวร์
++Name[tr]=Donanım Bulma
+ Name[uk]=Виявлення обладнання
+ Name[x-test]=xxHardware Detectionxx
+ Name[zh_CN]=硬件探测
+--- runtime/attica/kdeplugin/kdeplatformdependent.cpp	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/attica/kdeplugin/kdeplatformdependent.cpp	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
 @@ -26,8 +26,9 @@
  
  #include <QtCore/QDebug>
@@ -23,3 +1709,59 @@
      KLocale* locale = KGlobal::locale();
      if (locale) {
          locale->insertCatalog("attica_kde");
+--- runtime/drkonqi/data/mappings	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/drkonqi/data/mappings	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -91,7 +91,6 @@
+ kalarmautostart=kalarm|general
+ kpilotDaemon=kpilot|kpilotDaemon
+ korgac=korganizer|reminder daemon (korgac)
+-kmail=KMail 2|general
+ 
+ #KDE Konqueror
+ kjs=konqueror|kjs
+--- runtime/plasma/remotewidgetshelper/kcm_remotewidgets.actions	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/plasma/remotewidgetshelper/kcm_remotewidgets.actions	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -41,6 +41,7 @@
+ Name[sr@latin]=Sačuvaj smernice za udaljene vidžete
+ Name[sv]=Spara policy för grafiska fjärrkomponenter
+ Name[th]=บันทึกนโยบายต่าง ๆ ของวิดเจ็ตทางไกล
++Name[tr]=Uzak gereçler politikalarını kaydet
+ Name[uk]=Зберегти правила для віддалених віджетів
+ Name[x-test]=xxSave remote widgets' policiesxx
+ Name[zh_CN]=保存远程部件的策略
+@@ -64,7 +65,7 @@
+ Description[id]=Mencegah sistem dari menyimpan kebijakan widget jarak jauh plasma
+ Description[is]=Kemur í veg fyrir að kerfið geti vistað stefnur varðandi fjartengdar græjur
+ Description[it]=Impedisce al sistema di salvare le linee guida degli oggetti remoti di Plasma
+-Description[ja]=システムがリモート plasma ウィジェットポリシー保存するのを防ぎます
++Description[ja]=システムがリモート Plasma ウィジェットポリシー保存するのを防ぎます
+ Description[kk]=Қашықтағы Plasma виджеттер ережелерін жүйеде сақтауын болдырмау
+ Description[km]=ការពារ​ប្រព័ន្ធ​មិន​ឲ្យ​រក្សាទុក​គោលនយោបាយ​របស់​ធាតុក្រាហ្វិក​ប្លាស្មា​ពី​ចម្ងាយ
+ Description[ko]=Plasma 원격 위젯 정책을 저장하지 못하도록 합니다
+--- runtime/plasma/scriptengines/javascript/simplebindings/dataengine.h	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/plasma/scriptengines/javascript/simplebindings/dataengine.h	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -47,7 +47,13 @@
+     typename M::const_iterator end = map.constEnd();
+     typename M::const_iterator it;
+     for (it = begin; it != end; ++it) {
+-        obj.setProperty(it.key(), qScriptValueFromValue(eng, it.value()));
++        if (it.value().type() == QVariant::Hash) {
++            obj.setProperty(it.key(), qScriptValueFromMap(eng, it.value().toHash()));
++        } else if (it.value().type() == QVariant::Map) {
++            obj.setProperty(it.key(), qScriptValueFromMap(eng, it.value().toMap()));
++        } else {
++            obj.setProperty(it.key(), qScriptValueFromValue(eng, it.value()));
++        }
+     }
+ 
+     return obj;
+--- runtime/plasma/scriptengines/javascript/plasma-scriptengine-dataengine-javascript.desktop	(.../tags/KDE/4.5.1/kdebase)	(wersja 1179156)
++++ runtime/plasma/scriptengines/javascript/plasma-scriptengine-dataengine-javascript.desktop	(.../branches/KDE/4.5/kdebase)	(wersja 1179156)
+@@ -21,6 +21,7 @@
+ Name[gu]=જાવાસ્ક્રિપ્ટ માહિતીએન્જિન
+ Name[he]=מנוע נתונים של JavaScript
+ Name[hr]=JavaScript podatkovni mehanizam
++Name[hu]=JavaScript-adatmodul
+ Name[ia]=JavaScript Motor de Datos (Data Engine)
+ Name[id]=Mesin Data JavaScript
+ Name[is]=JavaScript gagnavél
