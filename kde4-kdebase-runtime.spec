@@ -10,12 +10,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.5.2
-Release:	2
+Version:	4.5.3
+Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	6503a445c52fc1055152d46fca56eb0a
+# Source0-md5:	4b5d4e1a56280490e6f7559cd953ceec
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
@@ -90,7 +90,7 @@ Wtyczki KDE 4 dla Phonona.
 
 %prep
 %setup -q -n %{orgname}-%{version} -a1
-%patch100 -p1
+#%patch100 -p1
 
 %build
 install -d build
