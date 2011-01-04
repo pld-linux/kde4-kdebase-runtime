@@ -5,7 +5,7 @@
 #
 %define		_state		stable
 %define		orgname		kdebase-runtime
-%define		qtver		4.7.0
+%define		qtver		4.7.1
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
@@ -46,7 +46,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	pulseaudio-devel
 BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	qt4-qmake >= %{qtver}
-BuildRequires:	rpmbuild(macros) >= 1.129
+BuildRequires:	rpmbuild(macros) >= 1.600
 BuildRequires:	shared-desktop-ontologies-devel >= 0.5
 BuildRequires:	soprano-devel >= 2.4.64
 BuildRequires:	strigi-devel >= 0.7.0
@@ -96,13 +96,7 @@ Wtyczki KDE 4 dla Phonona.
 install -d build
 cd build
 %cmake \
-	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
-	-DLIB_INSTALL_DIR=%{_libdir} \
 	-DLIBEXEC_INSTALL_DIR=%{_libdir}/kde4/libexec \
-	-DCMAKE_BUILD_TYPE=%{!?debug:Release}%{?debug:Debug} \
-%if "%{_lib}" == "lib64"
-	-DLIB_SUFFIX=64 \
-%endif
 	../
 
 %{__make}
