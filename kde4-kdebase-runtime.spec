@@ -6,6 +6,7 @@
 %define		_state		stable
 %define		orgname		kdebase-runtime
 %define		qtver		4.7.1
+%define		atticaver	0.2.0
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
@@ -29,7 +30,7 @@ BuildRequires:	QtSvg-devel >= %{qtver}
 BuildRequires:	QtTest-devel >= %{qtver}
 BuildRequires:	QtUiTools-devel >= %{qtver}
 BuildRequires:	alsa-lib-devel
-BuildRequires:	attica-devel >= 0.2.0
+BuildRequires:	attica-devel >= %{atticaver}
 BuildRequires:	automoc4 >= 0.9.88
 BuildRequires:	bzip2-devel
 BuildRequires:	clucene-core-devel >= 0.9.21
@@ -53,7 +54,7 @@ BuildRequires:	soprano-devel >= 2.4.64
 BuildRequires:	strigi-devel >= 0.7.0
 BuildRequires:	xine-lib-devel
 BuildRequires:	xz-devel
-Requires:	attica >= 0.2.0
+Requires:	attica >= %{atticaver}
 Provides:	dbus(org.freedesktop.Notifications)
 Obsoletes:	kdebase4-runtime
 Conflicts:	kdebase4-runtime
