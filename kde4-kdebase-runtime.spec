@@ -275,6 +275,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/windowsexethumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/windowsimagethumbnail.so
 
+%attr(755,root,root) %{_libdir}/kde4/imports
+
 %attr(755,root,root) %{_libdir}/kde4/libexec/drkonqi
 #%attr(755,root,root) %{_libdir}/kde4/libexec/installdbgsymbols.sh
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdeeject
