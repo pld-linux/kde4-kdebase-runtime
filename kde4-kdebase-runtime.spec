@@ -23,13 +23,6 @@ Source2:	l10n-iso639-1
 Patch100:	%{name}-branch.diff
 URL:		http://www.kde.org/
 BuildRequires:	OpenEXR-devel
-BuildRequires:	Qt3Support-devel >= %{qtver}
-BuildRequires:	QtDeclarative-devel >= %{qtver}
-BuildRequires:	QtOpenGL-devel >= %{qtver}
-BuildRequires:	QtScript-devel >= %{qtver}
-BuildRequires:	QtSvg-devel >= %{qtver}
-BuildRequires:	QtTest-devel >= %{qtver}
-BuildRequires:	QtUiTools-devel >= %{qtver}
 BuildRequires:	alsa-lib-devel
 BuildRequires:	attica-devel >= %{atticaver}
 BuildRequires:	automoc4 >= 0.9.88
