@@ -11,12 +11,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.6.0
+Version:	4.6.1
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	1f9d6bc64d7b84a74dd3ab06615c71ce
+# Source0-md5:	26ad7899eb589a8bc260749fd22186a8
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
@@ -514,7 +514,6 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/knotify*.h
-%{_includedir}/nepomuk
 %{_libdir}/libkwalletbackend.so
 %{_libdir}/libmolletnetwork.so
 %{_libdir}/libnepomuksync.so
