@@ -438,6 +438,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/mime/packages/network.xml
 %{_datadir}/autostart/nepomukserver.desktop
 
+%dir %{_datadir}/ontology
+%{_datadir}/ontology/kde/*.ontology
+%{_datadir}/ontology/kde/*.trig
+
 #%{_datadir}/locale/en_US/*
 %dir %{_datadir}/locale/l10n
 %{_datadir}/locale/l10n/C
