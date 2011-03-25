@@ -438,7 +438,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/mime/packages/network.xml
 %{_datadir}/autostart/nepomukserver.desktop
 
-%dir %{_datadir}/ontology
+%dir %{_datadir}/ontology/kde
 %{_datadir}/ontology/kde/*.ontology
 %{_datadir}/ontology/kde/*.trig
 
@@ -513,7 +513,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/desktoptheme/default/*
 %dir %{_datadir}/apps/desktoptheme/oxygen
 %{_datadir}/apps/desktoptheme/oxygen/*
-
 
 %files devel
 %defattr(644,root,root,755)
