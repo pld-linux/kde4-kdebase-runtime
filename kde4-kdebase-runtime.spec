@@ -11,12 +11,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.6.2
+Version:	4.6.3
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	541029e6a62a8cecade97fb8106d17a8
+# Source0-md5:	a6f294900d73d92cd68ea93aea297ff0
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
