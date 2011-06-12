@@ -11,16 +11,17 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.6.3
+Version:	4.6.4
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	a6f294900d73d92cd68ea93aea297ff0
+# Source0-md5:	4dac9447211e14480863b7c070fc8f1d
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
 Patch100:	%{name}-branch.diff
+Patch0:		%{name}-rpc.patch
 URL:		http://www.kde.org/
 BuildRequires:	OpenEXR-devel
 BuildRequires:	alsa-lib-devel
@@ -32,9 +33,11 @@ BuildRequires:	cmake >= 2.8.0
 BuildRequires:	exiv2-devel >= 0.18.2
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
+BuildRequires:	libcanberra-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libsmbclient-devel
 BuildRequires:	libssh-devel >= 1:0.4.0
+BuildRequires:	libtirpc-devel
 BuildRequires:	ntrack-devel
 BuildRequires:	openslp-devel
 BuildRequires:	phonon-devel >= 4.4.3
@@ -87,6 +90,7 @@ Wtyczki KDE 4 dla Phonona.
 %prep
 %setup -q -n %{orgname}-%{version} -a1
 #%patch100 -p1
+%patch0 -p1
 
 %build
 install -d build
