@@ -4,19 +4,19 @@
 # Conditional build:
 #
 %define		_state		stable
-%define		orgname		kdebase-runtime
+%define		orgname		kde-runtime
 %define		qtver		4.7.3
 %define		atticaver	0.2.0
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.6.5
+Version:	4.7.0
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	c2d8462eaee975b0109a34dac5640d5a
+# Source0-md5:	c4e0fe5c417d276daf41fb07f816f584
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
@@ -35,6 +35,7 @@ BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
 BuildRequires:	libcanberra-devel
 BuildRequires:	libjpeg-devel
+BuildRequires:	libqzeitgeist-devel
 BuildRequires:	libsmbclient-devel
 BuildRequires:	libssh-devel >= 1:0.4.0
 BuildRequires:	libtirpc-devel
@@ -46,8 +47,8 @@ BuildRequires:	pulseaudio-devel
 BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	qt4-qmake >= %{qtver}
 BuildRequires:	rpmbuild(macros) >= 1.600
-BuildRequires:	shared-desktop-ontologies-devel >= 0.5
-BuildRequires:	soprano-devel >= 2.4.64
+BuildRequires:	shared-desktop-ontologies-devel >= 0.7.1
+BuildRequires:	soprano-devel >= 2.6.51
 BuildRequires:	strigi-devel >= 0.7.0
 BuildRequires:	xine-lib-devel
 BuildRequires:	xz-devel
@@ -167,8 +168,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/kwriteconfig
 %attr(755,root,root) %{_bindir}/solid-hardware
 %attr(755,root,root) %{_bindir}/nepomukbackup
+%attr(755,root,root) %{_bindir}/nepomukcontroller
+%attr(755,root,root) %{_bindir}/nepomukindexer
 %attr(755,root,root) %{_bindir}/nepomukserver
 %attr(755,root,root) %{_bindir}/nepomukservicestub
+%attr(755,root,root) %{_bindir}/plasma-remote-helper
 %attr(755,root,root) %{_bindir}/plasmapkg
 %attr(755,root,root) %{_libdir}/attica_kde.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_kcmshell4.so
@@ -179,6 +183,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libkdeinit4_nepomukserver.so
 %attr(755,root,root) %{_libdir}/libknotifyplugin.so
 %attr(755,root,root) %{_libdir}/libnepomukcommon.so
+%attr(755,root,root) %{_libdir}/libnepomukdatamanagement.so
 %attr(755,root,root) %{_libdir}/libnepomuksync.so.?
 %attr(755,root,root) %{_libdir}/libnepomuksync.so.*.*.*
 # Is it ok to add those files to main package?
@@ -192,7 +197,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/exrthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/htmlthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/imagethumbnail.so
-%attr(755,root,root) %{_libdir}/kde4/jpegrotatedthumbnail.so
+#%attr(755,root,root) %{_libdir}/kde4/jpegrotatedthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/jpegthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_cgi.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_componentchooser.so
@@ -257,7 +262,7 @@ rm -rf $RPM_BUILD_ROOT
 #%attr(755,root,root) %{_libdir}/kde4/nepomukmigration1.so
 #%attr(755,root,root) %{_libdir}/kde4/nepomukontologyloader.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukqueryservice.so
-%attr(755,root,root) %{_libdir}/kde4/nepomukremovablestorageservice.so
+#%attr(755,root,root) %{_libdir}/kde4/nepomukremovablestorageservice.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukstorage.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukstrigiservice.so
 %attr(755,root,root) %{_libdir}/kde4/plasma-kpart.so
@@ -292,6 +297,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/libexec/kcmremotewidgetshelper
 %{_sysconfdir}/dbus-1/system.d/org.kde.kcontrol.kcmremotewidgets.conf
 %{_desktopdir}/kde4/nepomukbackup.desktop
+%{_desktopdir}/kde4/nepomukcontroller.desktop
 %{_datadir}/dbus-1/system-services/org.kde.kcontrol.kcmremotewidgets.service
 %{_datadir}/polkit-1/actions/org.kde.kcontrol.kcmremotewidgets.policy
 %{_datadir}/apps/drkonqi
@@ -320,11 +326,13 @@ rm -rf $RPM_BUILD_ROOT
 #%dir %{_datadir}/apps/nepomuk
 #%dir %{_datadir}/apps/nepomuk/ontologies
 #%{_datadir}/apps/nepomuk/ontologies/*
+%{_datadir}/apps/nepomukfilewatch
 %dir %{_datadir}/apps/nepomukstorage
 %{_datadir}/apps/nepomukstorage/nepomukstorage.notifyrc
 %dir %{_datadir}/apps/nepomukstrigiservice
 %{_datadir}/apps/nepomukstrigiservice/nepomukstrigiservice.notifyrc
 %{_datadir}/config.kcfg/khelpcenter.kcfg
+%{_datadir}/config.kcfg/jpegcreatorsettings.kcfg
 %{_datadir}/config/khotnewstuff.knsrc
 %{_datadir}/config/icons.knsrc
 %{_datadir}/config/emoticons.knsrc
@@ -356,7 +364,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/gzip.protocol
 %{_datadir}/kde4/services/htmlthumbnail.desktop
 %{_datadir}/kde4/services/icons.desktop
-%{_datadir}/kde4/services/jpegrotatedthumbnail.desktop
+#%{_datadir}/kde4/services/jpegrotatedthumbnail.desktop
 %{_datadir}/kde4/services/imagethumbnail.desktop
 %{_datadir}/kde4/services/info.protocol
 %{_datadir}/kde4/services/jpegthumbnail.desktop
@@ -440,6 +448,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/servicetypes/thumbcreator.desktop
 %{_datadir}/desktop-directories
 %{_datadir}/mime/packages/network.xml
+%{_datadir}/autostart/nepomukcontroller.desktop
 %{_datadir}/autostart/nepomukserver.desktop
 
 %dir %{_datadir}/ontology/kde
@@ -515,12 +524,13 @@ rm -rf $RPM_BUILD_ROOT
 
 # dir owned by kdelibs
 %{_datadir}/apps/desktoptheme/default/*
-%dir %{_datadir}/apps/desktoptheme/oxygen
-%{_datadir}/apps/desktoptheme/oxygen/*
+%{_datadir}/apps/desktoptheme/oxygen
+%{_datadir}/apps/desktoptheme/appdashboard
 
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/knotify*.h
+%{_includedir}/nepomuk
 %{_libdir}/libkwalletbackend.so
 %{_libdir}/libmolletnetwork.so
 %{_libdir}/libnepomuksync.so
