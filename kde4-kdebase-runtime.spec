@@ -22,6 +22,7 @@ Source1:	kdebase-searchproviders.tar.bz2
 Source2:	l10n-iso639-1
 Patch100:	%{name}-branch.diff
 Patch0:		%{name}-rpc.patch
+Patch1:		%{name}-qzeitgeist.patch
 URL:		http://www.kde.org/
 BuildRequires:	OpenEXR-devel
 BuildRequires:	alsa-lib-devel
@@ -30,12 +31,14 @@ BuildRequires:	automoc4 >= 0.9.88
 BuildRequires:	bzip2-devel
 BuildRequires:	clucene-core-devel >= 0.9.21
 BuildRequires:	cmake >= 2.8.0
+BuildRequires:	docbook-dtd42-xml
+BuildRequires:	docbook-style-xsl
 BuildRequires:	exiv2-devel >= 0.18.2
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
 BuildRequires:	libcanberra-devel
 BuildRequires:	libjpeg-devel
-BuildRequires:	libqzeitgeist-devel
+BuildRequires:	libqzeitgeist-devel >= 0.8
 BuildRequires:	libsmbclient-devel
 BuildRequires:	libssh-devel >= 1:0.4.0
 BuildRequires:	libtirpc-devel
@@ -48,6 +51,7 @@ BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	qt4-qmake >= %{qtver}
 BuildRequires:	rpmbuild(macros) >= 1.600
 BuildRequires:	shared-desktop-ontologies-devel >= 0.7.1
+BuildRequires:	shared-mime-info
 BuildRequires:	soprano-devel >= 2.6.51
 BuildRequires:	strigi-devel >= 0.7.0
 BuildRequires:	xine-lib-devel
@@ -92,6 +96,7 @@ Wtyczki KDE 4 dla Phonona.
 %setup -q -n %{orgname}-%{version} -a1
 #%patch100 -p1
 %patch0 -p1
+%patch1 -p1
 
 %build
 install -d build
