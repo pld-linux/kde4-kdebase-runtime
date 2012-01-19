@@ -5,24 +5,23 @@
 #
 %define		_state		stable
 %define		orgname		kde-runtime
-%define		qtver		4.7.4
+%define		qtver		4.8.0
 %define		atticaver	0.2.0
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.7.4
-Release:	2
+Version:	4.8.0
+Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	8e6af5f464ae06e3b7cbfd73aa9f7971
+# Source0-md5:	571563f6ab330348d3f917abdf9c69e4
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
 Patch100:	%{name}-branch.diff
 Patch0:		%{name}-rpc.patch
-Patch1:		%{name}-qzeitgeist.patch
 URL:		http://www.kde.org/
 BuildRequires:	OpenEXR-devel
 BuildRequires:	alsa-lib-devel
@@ -96,7 +95,6 @@ Wtyczki KDE 4 dla Phonona.
 %setup -q -n %{orgname}-%{version} -a1
 #%patch100 -p1
 %patch0 -p1
-%patch1 -p1
 
 %build
 install -d build
@@ -144,7 +142,6 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.files
 %defattr(644,root,root,755)
 %{_sysconfdir}/xdg/menus/kde-information.menu
-%attr(755,root,root) %{_bindir}/kactivitymanagerd
 %attr(755,root,root) %{_bindir}/kcmshell4
 %attr(755,root,root) %{_bindir}/kde-cp
 %attr(755,root,root) %{_bindir}/kde-mv
@@ -172,6 +169,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/kuiserver
 %attr(755,root,root) %{_bindir}/kwriteconfig
 %attr(755,root,root) %{_bindir}/solid-hardware
+%attr(755,root,root) %{_bindir}/nepomuk-simpleresource-rcgen
 %attr(755,root,root) %{_bindir}/nepomukbackup
 %attr(755,root,root) %{_bindir}/nepomukcontroller
 %attr(755,root,root) %{_bindir}/nepomukindexer
@@ -264,12 +262,11 @@ rm -rf $RPM_BUILD_ROOT
 #%attr(755,root,root) %{_libdir}/kde4/nepomukactivitiesservice.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukbackupsync.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukfilewatch.so
-#%attr(755,root,root) %{_libdir}/kde4/nepomukmigration1.so
+%attr(755,root,root) %{_libdir}/kde4/nepomukfileindexer.so
 #%attr(755,root,root) %{_libdir}/kde4/nepomukontologyloader.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukqueryservice.so
 #%attr(755,root,root) %{_libdir}/kde4/nepomukremovablestorageservice.so
 %attr(755,root,root) %{_libdir}/kde4/nepomukstorage.so
-%attr(755,root,root) %{_libdir}/kde4/nepomukstrigiservice.so
 %attr(755,root,root) %{_libdir}/kde4/plasma-kpart.so
 %attr(755,root,root) %{_libdir}/kde4/plasma_appletscript_declarative.so
 %attr(755,root,root) %{_libdir}/kde4/plasma_appletscript_simple_javascript.so
@@ -331,11 +328,10 @@ rm -rf $RPM_BUILD_ROOT
 #%dir %{_datadir}/apps/nepomuk
 #%dir %{_datadir}/apps/nepomuk/ontologies
 #%{_datadir}/apps/nepomuk/ontologies/*
+%{_datadir}/apps/fileindexerservice
 %{_datadir}/apps/nepomukfilewatch
 %dir %{_datadir}/apps/nepomukstorage
 %{_datadir}/apps/nepomukstorage/nepomukstorage.notifyrc
-%dir %{_datadir}/apps/nepomukstrigiservice
-%{_datadir}/apps/nepomukstrigiservice/nepomukstrigiservice.notifyrc
 %{_datadir}/config.kcfg/khelpcenter.kcfg
 %{_datadir}/config.kcfg/jpegcreatorsettings.kcfg
 %{_datadir}/config/khotnewstuff.knsrc
@@ -373,13 +369,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/imagethumbnail.desktop
 %{_datadir}/kde4/services/info.protocol
 %{_datadir}/kde4/services/jpegthumbnail.desktop
-%{_datadir}/kde4/services/kactivitymanagerd.desktop
 %{_datadir}/kde4/services/kcm_kdnssd.desktop
 %{_datadir}/kde4/services/kcmcgi.desktop
 %{_datadir}/kde4/services/kcmkded.desktop
 %{_datadir}/kde4/services/kcmnotify.desktop
 %{_datadir}/kde4/services/kcmtrash.desktop
-%{_datadir}/kde4/services/kded/activitymanager.desktop
 %{_datadir}/kde4/services/kded/device_automounter.desktop
 %{_datadir}/kde4/services/kded/kpasswdserver.desktop
 %{_datadir}/kde4/services/kded/ktimezoned.desktop
@@ -400,6 +394,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/lzma.protocol
 %{_datadir}/kde4/services/man.protocol
 %{_datadir}/kde4/services/nepomuk.protocol
+%{_datadir}/kde4/services/nepomukfileindexer.desktop
 %{_datadir}/kde4/services/nepomukactivitiesservice.desktop
 %{_datadir}/kde4/services/nepomukbackupsync.desktop
 %{_datadir}/kde4/services/nepomukremovablestorageservice.desktop
