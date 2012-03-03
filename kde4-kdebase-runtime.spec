@@ -11,12 +11,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.8.0
-Release:	2
+Version:	4.8.1
+Release:	1
 License:	GPL
 Group:		X11/Applications
-Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	571563f6ab330348d3f917abdf9c69e4
+Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/xz/%{orgname}-%{version}.tar.xz
+# Source0-md5:	9fa9c4015f158d1b434a5b8653e65dcf
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
@@ -186,7 +186,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libkdeinit4_nepomukserver.so
 %attr(755,root,root) %{_libdir}/libknotifyplugin.so
 %attr(755,root,root) %{_libdir}/libnepomukcommon.so
-%attr(755,root,root) %{_libdir}/libnepomukdatamanagement.so
+%attr(755,root,root) %{_libdir}/libnepomukdatamanagement.so.?
+%attr(755,root,root) %{_libdir}/libnepomukdatamanagement.so.*.*.*
 %attr(755,root,root) %{_libdir}/libnepomuksync.so.?
 %attr(755,root,root) %{_libdir}/libnepomuksync.so.*.*.*
 # Is it ok to add those files to main package?
@@ -312,6 +313,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kcm_componentchooser/kcm_wm.desktop
 %{_datadir}/apps/kcmlocale
 %{_datadir}/apps/kconf_update/kuriikwsfilter.upd
+%{_datadir}/apps/kconf_update/nepomukstrigiservice-migrate.upd
 %{_datadir}/apps/kde/kde.notifyrc
 %dir %{_datadir}/apps/kglobalaccel
 %{_datadir}/apps/kglobalaccel/kglobalaccel.notifyrc
@@ -531,9 +533,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_includedir}/knotify*.h
 %{_includedir}/nepomuk
-%{_libdir}/libkwalletbackend.so
-%{_libdir}/libmolletnetwork.so
-%{_libdir}/libnepomuksync.so
+%attr(755,root,root) %{_libdir}/libkwalletbackend.so
+%attr(755,root,root) %{_libdir}/libmolletnetwork.so
+%attr(755,root,root) %{_libdir}/libnepomuksync.so
+%attr(755,root,root) %{_libdir}/libnepomukdatamanagement.so
 %{_datadir}/apps/cmake/modules/FindCLucene.cmake
 %{_datadir}/apps/cmake/modules/FindSLP.cmake
 
