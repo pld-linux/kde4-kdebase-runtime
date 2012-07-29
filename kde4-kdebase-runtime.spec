@@ -12,7 +12,7 @@ Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.9.0
-Release:	0.1
+Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.xz
@@ -22,6 +22,7 @@ Source1:	kdebase-searchproviders.tar.bz2
 Source2:	l10n-iso639-1
 Patch100:	%{name}-branch.diff
 Patch0:		%{name}-rpc.patch
+Patch1:		%{name}-locale.patch
 URL:		http://www.kde.org/
 BuildRequires:	OpenEXR-devel
 BuildRequires:	alsa-lib-devel
@@ -96,6 +97,7 @@ Wtyczki KDE 4 dla Phonona.
 %setup -q -n %{orgname}-%{version} -a1
 #%patch100 -p1
 %patch0 -p1
+%patch1 -p1
 
 %build
 install -d build
@@ -170,12 +172,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/kuiserver
 %attr(755,root,root) %{_bindir}/kwriteconfig
 %attr(755,root,root) %{_bindir}/solid-hardware
-%attr(755,root,root) %{_bindir}/nepomuk-simpleresource-rcgen
-%attr(755,root,root) %{_bindir}/nepomukbackup
 %attr(755,root,root) %{_bindir}/nepomukcontroller
-%attr(755,root,root) %{_bindir}/nepomukindexer
-%attr(755,root,root) %{_bindir}/nepomukserver
-%attr(755,root,root) %{_bindir}/nepomukservicestub
 %attr(755,root,root) %{_bindir}/plasma-remote-helper
 %attr(755,root,root) %{_bindir}/plasmapkg
 %attr(755,root,root) %{_libdir}/attica_kde.so
@@ -184,13 +181,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libkdeinit4_kuiserver.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_kwalletd.so
 %attr(755,root,root) %{_libdir}/libkdeinit4_kglobalaccel.so
-%attr(755,root,root) %{_libdir}/libkdeinit4_nepomukserver.so
 %attr(755,root,root) %{_libdir}/libknotifyplugin.so
-%attr(755,root,root) %{_libdir}/libnepomukcommon.so
-%attr(755,root,root) %{_libdir}/libnepomukdatamanagement.so.?
-%attr(755,root,root) %{_libdir}/libnepomukdatamanagement.so.*.*.*
-%attr(755,root,root) %{_libdir}/libnepomuksync.so.?
-%attr(755,root,root) %{_libdir}/libnepomuksync.so.*.*.*
 # Is it ok to add those files to main package?
 %attr(755,root,root) %ghost %{_libdir}/libkwalletbackend.so.?
 %attr(755,root,root) %{_libdir}/libkwalletbackend.so.*.*.*
@@ -226,6 +217,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kded_nepomuksearchmodule.so
 %attr(755,root,root) %{_libdir}/kde4/kded_networkstatus.so
 %attr(755,root,root) %{_libdir}/kde4/kded_networkwatcher.so
+%attr(755,root,root) %{_libdir}/kde4/kded_recentdocumentsnotifier.so
 %attr(755,root,root) %{_libdir}/kde4/kded_solidautoeject.so
 %attr(755,root,root) %{_libdir}/kde4/kio_applications.so
 %attr(755,root,root) %{_libdir}/kde4/kio_bookmarks.so
@@ -242,6 +234,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kio_nepomuksearch.so
 %attr(755,root,root) %{_libdir}/kde4/kio_network.so
 %attr(755,root,root) %{_libdir}/kde4/kio_nfs.so
+%attr(755,root,root) %{_libdir}/kde4/kio_recentdocuments.so
 %attr(755,root,root) %{_libdir}/kde4/kio_remote.so
 %attr(755,root,root) %{_libdir}/kde4/kio_settings.so
 %attr(755,root,root) %{_libdir}/kde4/kio_sftp.so
@@ -261,14 +254,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/localdomainurifilter.so
 %attr(755,root,root) %{_libdir}/kde4/librenaudioplugin.so
 %attr(755,root,root) %{_libdir}/kde4/librenimageplugin.so
-#%attr(755,root,root) %{_libdir}/kde4/nepomukactivitiesservice.so
-%attr(755,root,root) %{_libdir}/kde4/nepomukbackupsync.so
-%attr(755,root,root) %{_libdir}/kde4/nepomukfilewatch.so
-%attr(755,root,root) %{_libdir}/kde4/nepomukfileindexer.so
-#%attr(755,root,root) %{_libdir}/kde4/nepomukontologyloader.so
-%attr(755,root,root) %{_libdir}/kde4/nepomukqueryservice.so
-#%attr(755,root,root) %{_libdir}/kde4/nepomukremovablestorageservice.so
-%attr(755,root,root) %{_libdir}/kde4/nepomukstorage.so
 %attr(755,root,root) %{_libdir}/kde4/plasma-kpart.so
 %attr(755,root,root) %{_libdir}/kde4/plasma_appletscript_declarative.so
 %attr(755,root,root) %{_libdir}/kde4/plasma_appletscript_simple_javascript.so
@@ -297,13 +282,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/libexec/kioexec
 #%attr(755,root,root) %{_libdir}/kde4/libexec/klocaldomainurifilterhelper
 %attr(755,root,root) %{_libdir}/kde4/libexec/knetattach
-#%attr(755,root,root) %{_libdir}/strigi/strigiindex_nepomukbackend.so
 %attr(755,root,root) %{_libdir}/kde4/libexec/kcmremotewidgetshelper
 %{_sysconfdir}/dbus-1/system.d/org.kde.kcontrol.kcmremotewidgets.conf
-%{_desktopdir}/kde4/nepomukbackup.desktop
-%{_desktopdir}/kde4/nepomukcontroller.desktop
 %{_datadir}/dbus-1/system-services/org.kde.kcontrol.kcmremotewidgets.service
 %{_datadir}/polkit-1/actions/org.kde.kcontrol.kcmremotewidgets.policy
+%{_desktopdir}/kde4/nepomukcontroller.desktop
 %{_datadir}/apps/drkonqi
 %dir %{_datadir}/apps/kcm_componentchooser
 %{_datadir}/apps/hardwarenotifications
@@ -314,7 +297,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kcm_componentchooser/kcm_wm.desktop
 %{_datadir}/apps/kcmlocale
 %{_datadir}/apps/kconf_update/kuriikwsfilter.upd
-%{_datadir}/apps/kconf_update/nepomukstrigiservice-migrate.upd
 %{_datadir}/apps/kde/kde.notifyrc
 %dir %{_datadir}/apps/kglobalaccel
 %{_datadir}/apps/kglobalaccel/kglobalaccel.notifyrc
@@ -328,13 +310,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/konqueror/dirtree/remote/smb-network.desktop
 %dir %{_datadir}/apps/remoteview
 %{_datadir}/apps/remoteview/smb-network.desktop
-#%dir %{_datadir}/apps/nepomuk
-#%dir %{_datadir}/apps/nepomuk/ontologies
-#%{_datadir}/apps/nepomuk/ontologies/*
-%{_datadir}/apps/fileindexerservice
-%{_datadir}/apps/nepomukfilewatch
-%dir %{_datadir}/apps/nepomukstorage
-%{_datadir}/apps/nepomukstorage/nepomukstorage.notifyrc
 %{_datadir}/config.kcfg/khelpcenter.kcfg
 %{_datadir}/config.kcfg/jpegcreatorsettings.kcfg
 %{_datadir}/config/khotnewstuff.knsrc
@@ -397,10 +372,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/lzma.protocol
 %{_datadir}/kde4/services/man.protocol
 %{_datadir}/kde4/services/nepomuk.protocol
-%{_datadir}/kde4/services/nepomukfileindexer.desktop
-%{_datadir}/kde4/services/nepomukactivitiesservice.desktop
-%{_datadir}/kde4/services/nepomukbackupsync.desktop
-%{_datadir}/kde4/services/nepomukremovablestorageservice.desktop
 %{_datadir}/kde4/services/nfs.protocol
 %{_datadir}/kde4/services/programs.protocol
 %{_datadir}/kde4/services/remote.protocol
@@ -425,16 +396,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/filetypes.desktop
 %{_datadir}/kde4/services/kded/networkwatcher.desktop
 %{_datadir}/kde4/services/kded/solidautoeject.desktop
+%{_datadir}/kde4/services/kded/recentdocumentsnotifier.desktop
 %{_datadir}/kde4/services/kglobalaccel.desktop
 %{_datadir}/kde4/services/network.protocol
 %{_datadir}/kde4/services/kcm_nepomuk.desktop
-%{_datadir}/kde4/services/nepomukfilewatch.desktop
-#%{_daetadir}/kde4/services/nepomukmigration1.desktop
-%{_datadir}/kde4/services/nepomukontologyloader.desktop
-%{_datadir}/kde4/services/nepomukqueryservice.desktop
 %{_datadir}/kde4/services/nepomuksearch.protocol
-%{_datadir}/kde4/services/nepomukstorage.desktop
-%{_datadir}/kde4/services/nepomukstrigiservice.desktop
 %{_datadir}/kde4/services/plasma-containment-newspaper.desktop
 %{_datadir}/kde4/services/plasma-kpart.desktop
 %{_datadir}/kde4/services/plasma-packagestructure-javascript-addon.desktop
@@ -442,21 +408,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/plasma-scriptengine-applet-simple-javascript.desktop
 %{_datadir}/kde4/services/plasma-scriptengine-dataengine-javascript.desktop
 %{_datadir}/kde4/services/plasma-scriptengine-runner-javascript.desktop
+%{_datadir}/kde4/services/recentdocuments.protocol
 %{_datadir}/kde4/services/windowsexethumbnail.desktop
 %{_datadir}/kde4/services/windowsimagethumbnail.desktop
 %{_datadir}/kde4/servicetypes/knotifynotifymethod.desktop
-%{_datadir}/kde4/servicetypes/nepomukservice.desktop
 %{_datadir}/kde4/servicetypes/plasma-javascriptaddon.desktop
 %{_datadir}/kde4/servicetypes/searchprovider.desktop
 %{_datadir}/kde4/servicetypes/thumbcreator.desktop
 %{_datadir}/desktop-directories
 %{_datadir}/mime/packages/network.xml
 %{_datadir}/autostart/nepomukcontroller.desktop
-%{_datadir}/autostart/nepomukserver.desktop
-
-%dir %{_datadir}/ontology/kde
-%{_datadir}/ontology/kde/*.ontology
-%{_datadir}/ontology/kde/*.trig
 
 #%{_datadir}/locale/en_US/*
 %dir %{_datadir}/locale/l10n
@@ -533,11 +494,8 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/knotify*.h
-%{_includedir}/nepomuk
 %attr(755,root,root) %{_libdir}/libkwalletbackend.so
 %attr(755,root,root) %{_libdir}/libmolletnetwork.so
-%attr(755,root,root) %{_libdir}/libnepomuksync.so
-%attr(755,root,root) %{_libdir}/libnepomukdatamanagement.so
 %{_datadir}/apps/cmake/modules/FindCLucene.cmake
 %{_datadir}/apps/cmake/modules/FindSLP.cmake
 
