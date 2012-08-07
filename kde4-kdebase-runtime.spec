@@ -12,7 +12,7 @@ Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.9.0
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.xz
@@ -42,6 +42,7 @@ BuildRequires:	libqzeitgeist-devel >= 0.8
 BuildRequires:	libsmbclient-devel
 BuildRequires:	libssh-devel >= 1:0.4.0
 BuildRequires:	libtirpc-devel
+BuildRequires:	kde4-nepomuk-core-devel
 BuildRequires:	ntrack-devel
 BuildRequires:	openslp-devel
 BuildRequires:	phonon-devel >= 4.4.3
