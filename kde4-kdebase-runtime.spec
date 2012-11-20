@@ -33,6 +33,7 @@ BuildRequires:	cmake >= 2.8.0
 BuildRequires:	docbook-dtd42-xml
 BuildRequires:	docbook-style-xsl
 BuildRequires:	exiv2-devel >= 0.18.2
+BuildRequires:	kde4-kactivities-devel >= %{version}
 BuildRequires:	kde4-nepomuk-core >= %{version}
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
