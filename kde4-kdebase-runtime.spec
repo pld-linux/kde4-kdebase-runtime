@@ -11,12 +11,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.9.5
+Version:	4.10.0
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.xz
-# Source0-md5:	e7b17cb6f59d8c36a09ac9862936fd44
+# Source0-md5:	91b0641846dc622b05afd79f47dabcf3
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
@@ -239,6 +239,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kio_settings.so
 %attr(755,root,root) %{_libdir}/kde4/kio_sftp.so
 %attr(755,root,root) %{_libdir}/kde4/kio_smb.so
+%attr(755,root,root) %{_libdir}/kde4/kio_tags.so
 %attr(755,root,root) %{_libdir}/kde4/kio_thumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/kio_timeline.so
 %attr(755,root,root) %{_libdir}/kde4/kio_trash.so
@@ -283,6 +284,7 @@ rm -rf $RPM_BUILD_ROOT
 #%attr(755,root,root) %{_libdir}/kde4/libexec/klocaldomainurifilterhelper
 %attr(755,root,root) %{_libdir}/kde4/libexec/knetattach
 %attr(755,root,root) %{_libdir}/kde4/libexec/kcmremotewidgetshelper
+%{_libdir}/kde4/platformimports
 %{_sysconfdir}/dbus-1/system.d/org.kde.kcontrol.kcmremotewidgets.conf
 %{_datadir}/dbus-1/system-services/org.kde.kcontrol.kcmremotewidgets.service
 %{_datadir}/polkit-1/actions/org.kde.kcontrol.kcmremotewidgets.policy
@@ -382,6 +384,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/sftp.protocol
 %{_datadir}/kde4/services/smb.protocol
 %{_datadir}/kde4/services/svgthumbnail.desktop
+%{_datadir}/kde4/services/tags.protocol
 %{_datadir}/kde4/services/tar.protocol
 %{_datadir}/kde4/services/textthumbnail.desktop
 %{_datadir}/kde4/services/thumbnail.protocol
@@ -504,11 +507,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kconf_update_bin/phonon_devicepreference_update
 %attr(755,root,root) %{_libdir}/kconf_update_bin/phonon_deviceuids_update
 %attr(755,root,root) %{_libdir}/kde4/kded_phononserver.so
-%attr(755,root,root) %{_libdir}/kde4/kcm_phononxine.so
 %{_datadir}/kde4/services/kcm_phonon.desktop
 %{_datadir}/kde4/services/spellchecking.desktop
 %{_datadir}/kde4/servicetypes/phononbackend.desktop
-%{_datadir}/kde4/services/kcm_phononxine.desktop
 
 %dir %{_libdir}/kde4/plugins/phonon_platform
 %{_libdir}/kde4/plugins/phonon_platform/kde.so
