@@ -2,7 +2,8 @@
 # - l10n != %lang glibc locales (et = etiopia not estonia!)
 #
 # Conditional build:
-#
+%bcond_with	ntrack	#  disabled due to https://bugs.launchpad.net/bugs/1115449
+
 %define		_state		stable
 %define		orgname		kde-runtime
 %define		qtver		4.8.3
@@ -12,7 +13,7 @@ Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.10.0
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.xz
@@ -44,7 +45,7 @@ BuildRequires:	libsmbclient-devel
 BuildRequires:	libssh-devel >= 1:0.4.0
 BuildRequires:	libtirpc-devel
 BuildRequires:	kde4-nepomuk-core-devel
-BuildRequires:	ntrack-devel
+%{?with_ntrack:BuildRequires:	ntrack-devel}
 BuildRequires:	openslp-devel
 BuildRequires:	phonon-devel >= 4.4.3
 BuildRequires:	pkgconfig
@@ -103,6 +104,7 @@ Wtyczki KDE 4 dla Phonona.
 install -d build
 cd build
 %cmake \
+	%{!?with_ntrack:-DQNTRACK=BOOL:FALSE} \
 	-DLIBEXEC_INSTALL_DIR=%{_libdir}/kde4/libexec \
 	../
 
