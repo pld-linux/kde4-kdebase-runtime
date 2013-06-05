@@ -481,8 +481,8 @@ rm -rf $RPM_BUILD_ROOT
 %lang(en) %{_kdedocdir}/en/knetattach
 %lang(en) %{_kdedocdir}/en/network
 %{_mandir}/man1/kdesu.1*
+%{_mandir}/man1/plasmapkg.1*
 %{_mandir}/man8/nepomuk*.8*
-%{_mandir}/man8/plasmapkg.1*
 
 %{_datadir}/sounds/*
 %{_iconsdir}/hicolor/*/*/*.png
