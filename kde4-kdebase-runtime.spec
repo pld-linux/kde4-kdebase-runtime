@@ -21,6 +21,8 @@ Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
+Source3:	battery.svgz
+# Source3-md5:	5e8154256c2941b74ed17b0bf18c753d
 Patch100:	%{name}-branch.diff
 Patch0:		%{name}-rpc.patch
 URL:		http://www.kde.org/
@@ -119,6 +121,12 @@ rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_datadir}/kde4/services/searchproviders/pld
 cp -a kdebase-searchproviders/*.desktop $RPM_BUILD_ROOT%{_datadir}/kde4/services/searchproviders/pld
+
+%if "%{version}" > "4.11"
+echo "4.11 contains new battery so drop SOURCE3"
+exit 1
+%endif
+install %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/apps/desktoptheme/default/icons/battery.svgz
 
 collect_l10n_files() {
 	while read country language comment; do
