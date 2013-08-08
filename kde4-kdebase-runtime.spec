@@ -12,16 +12,15 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.10.5
+Version:	4.11.0
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.xz
-# Source0-md5:	3ac70b10ad8f4b5b78f3fa3bea2337e2
+# Source0-md5:	232aaae25c8adf2c28a0dfb8e89d04df
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
-Source3:	battery.svgz
 # Source3-md5:	5e8154256c2941b74ed17b0bf18c753d
 Patch100:	%{name}-branch.diff
 Patch0:		%{name}-rpc.patch
@@ -122,12 +121,6 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_datadir}/kde4/services/searchproviders/pld
 cp -a kdebase-searchproviders/*.desktop $RPM_BUILD_ROOT%{_datadir}/kde4/services/searchproviders/pld
 
-%if "%{version}" > "4.11"
-echo "4.11 contains new battery so drop SOURCE3"
-exit 1
-%endif
-install %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/apps/desktoptheme/default/icons/battery.svgz
-
 collect_l10n_files() {
 	while read country language comment; do
 		[ "$country" != "#" ] || continue
@@ -182,7 +175,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/kuiserver
 %attr(755,root,root) %{_bindir}/kwriteconfig
 %attr(755,root,root) %{_bindir}/solid-hardware
-%attr(755,root,root) %{_bindir}/nepomukcontroller
 %attr(755,root,root) %{_bindir}/plasma-remote-helper
 %attr(755,root,root) %{_bindir}/plasmapkg
 %attr(755,root,root) %{_libdir}/attica_kde.so
@@ -279,6 +271,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %attr(755,root,root) %{_libdir}/kde4/imports
 
+%attr(755,root,root) %{_libdir}/kde4/plugins/imageformats/kimg_webp.so
+
 %attr(755,root,root) %{_libdir}/kde4/libexec/drkonqi
 #%attr(755,root,root) %{_libdir}/kde4/libexec/installdbgsymbols.sh
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdeeject
@@ -298,7 +292,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/dbus-1/system.d/org.kde.kcontrol.kcmremotewidgets.conf
 %{_datadir}/dbus-1/system-services/org.kde.kcontrol.kcmremotewidgets.service
 %{_datadir}/polkit-1/actions/org.kde.kcontrol.kcmremotewidgets.policy
-%{_desktopdir}/kde4/nepomukcontroller.desktop
 %{_datadir}/apps/drkonqi
 %dir %{_datadir}/apps/kcm_componentchooser
 %{_datadir}/apps/hardwarenotifications
@@ -309,6 +302,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kcm_componentchooser/kcm_wm.desktop
 %{_datadir}/apps/kcmlocale
 %{_datadir}/apps/kconf_update/kuriikwsfilter.upd
+%{_datadir}/apps/kconf_update/drkonqi-rename-config-section.upd
 %{_datadir}/apps/kde/kde.notifyrc
 %dir %{_datadir}/apps/kglobalaccel
 %{_datadir}/apps/kglobalaccel/kglobalaccel.notifyrc
@@ -333,6 +327,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/services/org.kde.kuiserver.service
 %{_datadir}/dbus-1/interfaces/*.xml
 %{_datadir}/emoticons/kde4
+%{_datadir}/kde4/services/qimageioplugins/webp.desktop
 %{_datadir}/kde4/services/about.protocol
 %{_datadir}/kde4/services/applications.protocol
 %{_datadir}/kde4/services/ar.protocol
@@ -344,6 +339,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/comicbookthumbnail.desktop
 %{_datadir}/kde4/services/componentchooser.desktop
 %{_datadir}/kde4/services/cursorthumbnail.desktop
+%{_datadir}/kde4/services/desktop-search.desktop
 %{_datadir}/kde4/services/device_automounter_kcm.desktop
 %{_datadir}/kde4/services/djvuthumbnail.desktop
 %{_datadir}/kde4/services/emoticons.desktop
@@ -430,7 +426,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/servicetypes/thumbcreator.desktop
 %{_datadir}/desktop-directories
 %{_datadir}/mime/packages/network.xml
-%{_datadir}/autostart/nepomukcontroller.desktop
+%{_datadir}/mime/packages/webp.xml
 
 #%{_datadir}/locale/en_US/*
 %dir %{_datadir}/locale/l10n
