@@ -21,7 +21,7 @@ Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
-# Source3-md5:	5e8154256c2941b74ed17b0bf18c753d
+# Source2-md5:	ba8b302d653ed157d0517a5592469d8a
 Patch100:	%{name}-branch.diff
 Patch0:		%{name}-rpc.patch
 Patch1:		kdebase-runtime-bug-254198.patch
