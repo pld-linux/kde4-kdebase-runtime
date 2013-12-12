@@ -7,17 +7,17 @@
 %define		_state		stable
 %define		orgname		kde-runtime
 %define		qtver		4.8.3
-%define		atticaver	0.2.0
+%define		atticaver	0.4.0
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.11.4
+Version:	4.12.0
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.xz
-# Source0-md5:	6525b42718b9db0477637ce0fa8fbdca
+# Source0-md5:	f27891955e1f0526cf47278bfd88c216
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
