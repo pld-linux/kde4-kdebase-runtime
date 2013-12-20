@@ -45,6 +45,7 @@ BuildRequires:	libqzeitgeist-devel >= 0.8
 BuildRequires:	libsmbclient-devel
 BuildRequires:	libssh-devel >= 1:0.4.0
 BuildRequires:	libtirpc-devel
+BuildRequires:	libwebp-devel
 BuildRequires:	kde4-nepomuk-core-devel
 %{?with_ntrack:BuildRequires:	ntrack-devel}
 BuildRequires:	openslp-devel
