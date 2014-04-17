@@ -12,12 +12,12 @@
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.12.4
+Version:	4.13.0
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.xz
-# Source0-md5:	c8a95efc8b8c822c316d6e6135a06ac8
+# Source0-md5:	05f2e2b14f19fdd4b224cb081970bf8f
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
@@ -36,7 +36,6 @@ BuildRequires:	docbook-dtd42-xml
 BuildRequires:	docbook-style-xsl
 BuildRequires:	exiv2-devel >= 0.18.2
 BuildRequires:	kde4-kactivities-devel >= %{version}
-BuildRequires:	kde4-nepomuk-core >= %{version}
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
 BuildRequires:	libcanberra-devel
@@ -46,7 +45,6 @@ BuildRequires:	libsmbclient-devel
 BuildRequires:	libssh-devel >= 1:0.4.0
 BuildRequires:	libtirpc-devel
 BuildRequires:	libwebp-devel
-BuildRequires:	kde4-nepomuk-core-devel
 %{?with_ntrack:BuildRequires:	ntrack-devel}
 BuildRequires:	openslp-devel
 BuildRequires:	phonon-devel >= 4.4.3
@@ -208,7 +206,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdnssd.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_knotify.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_locale.so
-%attr(755,root,root) %{_libdir}/kde4/kcm_nepomuk.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_trash.so
 #%attr(755,root,root) %{_libdir}/kde4/kded_activitymanager.so
 %attr(755,root,root) %{_libdir}/kde4/kded_device_automounter.so
@@ -217,7 +214,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kded_remotedirnotify.so
 %attr(755,root,root) %{_libdir}/kde4/kded_soliduiserver.so
 %attr(755,root,root) %{_libdir}/kde4/kded_desktopnotifier.so
-%attr(755,root,root) %{_libdir}/kde4/kded_nepomuksearchmodule.so
 %attr(755,root,root) %{_libdir}/kde4/kded_networkstatus.so
 %attr(755,root,root) %{_libdir}/kde4/kded_networkwatcher.so
 %attr(755,root,root) %{_libdir}/kde4/kded_recentdocumentsnotifier.so
@@ -234,7 +230,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kio_floppy.so
 %attr(755,root,root) %{_libdir}/kde4/kio_info.so
 %attr(755,root,root) %{_libdir}/kde4/kio_man.so
-%attr(755,root,root) %{_libdir}/kde4/kio_nepomuksearch.so
 %attr(755,root,root) %{_libdir}/kde4/kio_network.so
 %attr(755,root,root) %{_libdir}/kde4/kio_nfs.so
 %attr(755,root,root) %{_libdir}/kde4/kio_recentdocuments.so
@@ -242,11 +237,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kio_settings.so
 %attr(755,root,root) %{_libdir}/kde4/kio_sftp.so
 %attr(755,root,root) %{_libdir}/kde4/kio_smb.so
-%attr(755,root,root) %{_libdir}/kde4/kio_tags.so
 %attr(755,root,root) %{_libdir}/kde4/kio_thumbnail.so
-%attr(755,root,root) %{_libdir}/kde4/kio_timeline.so
 %attr(755,root,root) %{_libdir}/kde4/kio_trash.so
-%attr(755,root,root) %{_libdir}/kde4/kio_nepomuk.so
 %attr(755,root,root) %{_libdir}/kde4/libkmanpart.so
 %attr(755,root,root) %{_libdir}/kde4/fixhosturifilter.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_attica.so
@@ -303,6 +295,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kcm_componentchooser/kcm_wm.desktop
 %{_datadir}/apps/kcmlocale
 %{_datadir}/apps/kconf_update/kuriikwsfilter.upd
+%{_datadir}/apps/kconf_update/kwallet-4.13.upd
 %{_datadir}/apps/kconf_update/drkonqi-rename-config-section.upd
 %{_datadir}/apps/kde/kde.notifyrc
 %dir %{_datadir}/apps/kglobalaccel
@@ -340,7 +333,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/comicbookthumbnail.desktop
 %{_datadir}/kde4/services/componentchooser.desktop
 %{_datadir}/kde4/services/cursorthumbnail.desktop
-%{_datadir}/kde4/services/desktop-search.desktop
 %{_datadir}/kde4/services/device_automounter_kcm.desktop
 %{_datadir}/kde4/services/djvuthumbnail.desktop
 %{_datadir}/kde4/services/emoticons.desktop
@@ -364,7 +356,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kded/device_automounter.desktop
 %{_datadir}/kde4/services/kded/kpasswdserver.desktop
 %{_datadir}/kde4/services/kded/ktimezoned.desktop
-%{_datadir}/kde4/services/kded/nepomuksearchmodule.desktop
 %{_datadir}/kde4/services/kded/networkstatus.desktop
 %{_datadir}/kde4/services/kded/remotedirnotify.desktop
 %{_datadir}/kde4/services/kded/soliduiserver.desktop
@@ -380,7 +371,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/localdomainurifilter.desktop
 %{_datadir}/kde4/services/lzma.protocol
 %{_datadir}/kde4/services/man.protocol
-%{_datadir}/kde4/services/nepomuk.protocol
 %{_datadir}/kde4/services/nfs.protocol
 %{_datadir}/kde4/services/programs.protocol
 %{_datadir}/kde4/services/remote.protocol
@@ -391,11 +381,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/sftp.protocol
 %{_datadir}/kde4/services/smb.protocol
 %{_datadir}/kde4/services/svgthumbnail.desktop
-%{_datadir}/kde4/services/tags.protocol
 %{_datadir}/kde4/services/tar.protocol
 %{_datadir}/kde4/services/textthumbnail.desktop
 %{_datadir}/kde4/services/thumbnail.protocol
-%{_datadir}/kde4/services/timeline.protocol
 %{_datadir}/kde4/services/trash.protocol
 %{_datadir}/kde4/services/zip.protocol
 %{_datadir}/kde4/services/xz.protocol
@@ -409,8 +397,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kded/recentdocumentsnotifier.desktop
 %{_datadir}/kde4/services/kglobalaccel.desktop
 %{_datadir}/kde4/services/network.protocol
-%{_datadir}/kde4/services/kcm_nepomuk.desktop
-%{_datadir}/kde4/services/nepomuksearch.protocol
 %{_datadir}/kde4/services/plasma-containment-newspaper.desktop
 %{_datadir}/kde4/services/plasma-kpart.desktop
 %{_datadir}/kde4/services/plasma-packagestructure-javascript-addon.desktop
@@ -479,7 +465,6 @@ rm -rf $RPM_BUILD_ROOT
 %lang(en) %{_kdedocdir}/en/network
 %{_mandir}/man1/kdesu.1*
 %{_mandir}/man1/plasmapkg.1*
-%{_mandir}/man8/nepomuk*.8*
 
 %{_datadir}/sounds/*
 %{_iconsdir}/hicolor/*/*/*.png
