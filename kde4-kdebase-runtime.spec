@@ -462,7 +462,6 @@ rm -rf $RPM_BUILD_ROOT
 %lang(en) %{_kdedocdir}/en/kioslave/tar
 %lang(en) %{_kdedocdir}/en/kioslave/thumbnail
 %lang(en) %{_kdedocdir}/en/knetattach
-%lang(en) %{_kdedocdir}/en/network
 %{_mandir}/man1/kdesu.1*
 %{_mandir}/man1/plasmapkg.1*
 
