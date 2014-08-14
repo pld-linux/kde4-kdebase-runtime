@@ -8,16 +8,17 @@
 %define		orgname		kde-runtime
 %define		qtver		4.8.3
 %define		atticaver	0.4.0
+%define		kactivitiesver	4.13.0
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
-Version:	4.13.2
+Version:	4.14.0
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.xz
-# Source0-md5:	9f899feef8dba3a75f9c822360755e29
+# Source0-md5:	33ecc0c53bd62700b0dfefe93474baf5
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
@@ -35,7 +36,7 @@ BuildRequires:	cmake >= 2.8.0
 BuildRequires:	docbook-dtd42-xml
 BuildRequires:	docbook-style-xsl
 BuildRequires:	exiv2-devel >= 0.18.2
-BuildRequires:	kde4-kactivities-devel >= %{version}
+BuildRequires:	kde4-kactivities-devel >= %{kactivitiesver}
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
 BuildRequires:	libcanberra-devel
