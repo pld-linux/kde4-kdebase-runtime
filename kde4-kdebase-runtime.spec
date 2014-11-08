@@ -2,7 +2,7 @@
 # - l10n != %lang glibc locales (et = etiopia not estonia!)
 #
 # Conditional build:
-%bcond_with	ntrack	#  disabled due to https://bugs.launchpad.net/bugs/1115449
+%bcond_without	ntrack
 
 %define		_state		stable
 %define		orgname		kde-runtime
