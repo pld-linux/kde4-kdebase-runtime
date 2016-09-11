@@ -2,20 +2,20 @@
 # - l10n != %lang glibc locales (et = etiopia not estonia!)
 #
 # Conditional build:
-%bcond_without	ntrack
+%bcond_without	ntrack		# network status tracking
 
 %define		_state		stable
 %define		orgname		kde-runtime
-%define		qtver		4.8.3
-%define		atticaver	0.4.0
-%define		kactivitiesver	4.13.0
+%define		qt_ver		4.8.3
+%define		attica_ver	0.4.0
+%define		kactivities_ver	4.13.0
 
 Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.14.3
-Release:	4
-License:	GPL
+Release:	5
+License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://download.kde.org/%{_state}/%{version}/src/%{orgname}-%{version}.tar.xz
 # Source0-md5:	fbba547e4446b51702e5de8bcae078d5
@@ -26,9 +26,10 @@ Source2:	l10n-iso639-1
 Patch100:	%{name}-branch.diff
 Patch0:		%{name}-rpc.patch
 URL:		http://www.kde.org/
+BuildRequires:	NetworkManager-devel >= 0.7.0
 BuildRequires:	OpenEXR-devel
 BuildRequires:	alsa-lib-devel
-BuildRequires:	attica-devel >= %{atticaver}
+BuildRequires:	attica-devel >= %{attica_ver}
 BuildRequires:	automoc4 >= 0.9.88
 BuildRequires:	bzip2-devel
 BuildRequires:	clucene-core-devel >= 0.9.21
@@ -36,31 +37,44 @@ BuildRequires:	cmake >= 2.8.0
 BuildRequires:	docbook-dtd42-xml
 BuildRequires:	docbook-style-xsl
 BuildRequires:	exiv2-devel >= 0.18.2
-BuildRequires:	kde4-kactivities-devel >= %{kactivitiesver}
+BuildRequires:	glib2-devel >= 2.0
+BuildRequires:	gpgme-devel
+BuildRequires:	kde4-kactivities-devel >= %{kactivities_ver}
 BuildRequires:	kde4-kdelibs-devel >= %{version}
 BuildRequires:	kde4-kdepimlibs-devel >= %{version}
+BuildRequires:	kde4-nepomuk-core-devel >= %{version}
 BuildRequires:	libcanberra-devel
+BuildRequires:	libgcrypt-devel >= 1.5.0
 BuildRequires:	libjpeg-devel
-BuildRequires:	libqzeitgeist-devel >= 0.8
 BuildRequires:	libsmbclient-devel
-BuildRequires:	libssh-devel >= 1:0.4.0
+BuildRequires:	libssh-devel >= 1:0.6.0
 BuildRequires:	libtirpc-devel
 BuildRequires:	libwebp-devel
-%{?with_ntrack:BuildRequires:	ntrack-devel}
+%{?with_ntrack:BuildRequires:	ntrack-qt4-devel}
 BuildRequires:	openslp-devel
-BuildRequires:	phonon-devel >= 4.4.3
+BuildRequires:	phonon-devel >= 4.4.57
 BuildRequires:	pkgconfig
-BuildRequires:	pulseaudio-devel
-BuildRequires:	qt4-build >= %{qtver}
-BuildRequires:	qt4-qmake >= %{qtver}
+BuildRequires:	pulseaudio-devel >= 0.9.16
+BuildRequires:	qca-devel >= 2.0.0
+BuildRequires:	qt4-build >= %{qt_ver}
 BuildRequires:	rpmbuild(macros) >= 1.600
 BuildRequires:	shared-desktop-ontologies-devel >= 0.7.1
 BuildRequires:	shared-mime-info
 BuildRequires:	soprano-devel >= 2.6.51
-BuildRequires:	strigi-devel >= 0.7.0
-BuildRequires:	xine-lib-devel
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xorg-lib-libXcursor-devel
+BuildRequires:	xz
 BuildRequires:	xz-devel
-Requires:	attica >= %{atticaver}
+Requires:	attica >= %{attica_ver}
+Requires:	exiv2-libs >= 0.18.2
+Requires:	kde4-kactivities >= %{kactivities_ver}
+Requires:	kde4-kdelibs >= %{version}
+Requires:	kde4-kdepimlibs >= %{version}
+Requires:	kde4-nepomuk-core >= %{version}
+Requires:	libgcrypt >= 1.5.0
+Requires:	libssh >= 1:0.6.0
+Requires:	phonon >= 4.4.57
+Requires:	pulseaudio-libs >= 0.9.16
 Provides:	dbus(org.freedesktop.Notifications)
 Obsoletes:	kdebase4-runtime
 Conflicts:	kdebase4-runtime
@@ -89,6 +103,7 @@ Pliki programistyczne komponentów uruchomieniowych KDE 4.
 Summary:	KDE 4 Phonon plugins
 Summary(pl.UTF-8):	Wtyczki KDE 4 dla Phonona
 Group:		X11/Applications
+Requires:	phonon >= 4.4.57
 
 %description -n kde4-phonon
 KDE 4 Phonon plugins.
@@ -185,9 +200,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libkdeinit4_kglobalaccel.so
 %attr(755,root,root) %{_libdir}/libknotifyplugin.so
 # Is it ok to add those files to main package?
-%attr(755,root,root) %ghost %{_libdir}/libkwalletbackend.so.?
+%attr(755,root,root) %ghost %{_libdir}/libkwalletbackend.so.4
 %attr(755,root,root) %{_libdir}/libkwalletbackend.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libmolletnetwork.so.?
+%attr(755,root,root) %ghost %{_libdir}/libmolletnetwork.so.4
 %attr(755,root,root) %{_libdir}/libmolletnetwork.so.4.*.*
 %attr(755,root,root) %{_libdir}/kde4/comicbookthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/cursorthumbnail.so
@@ -195,7 +210,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/exrthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/htmlthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/imagethumbnail.so
-#%attr(755,root,root) %{_libdir}/kde4/jpegrotatedthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/jpegthumbnail.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_cgi.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_componentchooser.so
@@ -208,7 +222,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_knotify.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_locale.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_trash.so
-#%attr(755,root,root) %{_libdir}/kde4/kded_activitymanager.so
 %attr(755,root,root) %{_libdir}/kde4/kded_device_automounter.so
 %attr(755,root,root) %{_libdir}/kde4/kded_kpasswdserver.so
 %attr(755,root,root) %{_libdir}/kde4/kded_ktimezoned.so
@@ -279,16 +292,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/libexec/khc_indexbuilder
 %attr(755,root,root) %{_libdir}/kde4/libexec/khc_mansearch.pl
 %attr(755,root,root) %{_libdir}/kde4/libexec/kioexec
-#%attr(755,root,root) %{_libdir}/kde4/libexec/klocaldomainurifilterhelper
 %attr(755,root,root) %{_libdir}/kde4/libexec/knetattach
 %attr(755,root,root) %{_libdir}/kde4/libexec/kcmremotewidgetshelper
 %{_libdir}/kde4/platformimports
 %{_sysconfdir}/dbus-1/system.d/org.kde.kcontrol.kcmremotewidgets.conf
-%{_datadir}/dbus-1/system-services/org.kde.kcontrol.kcmremotewidgets.service
 %{_datadir}/polkit-1/actions/org.kde.kcontrol.kcmremotewidgets.policy
 %{_datadir}/apps/drkonqi
-%dir %{_datadir}/apps/kcm_componentchooser
 %{_datadir}/apps/hardwarenotifications
+%dir %{_datadir}/apps/kcm_componentchooser
 %{_datadir}/apps/kcm_componentchooser/kcm_browser.desktop
 %{_datadir}/apps/kcm_componentchooser/kcm_filemanager.desktop
 %{_datadir}/apps/kcm_componentchooser/kcm_kemail.desktop
@@ -320,7 +331,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/config/khotnewstuff_upload.knsrc
 %{_datadir}/dbus-1/services/org.kde.knotify.service
 %{_datadir}/dbus-1/services/org.kde.kuiserver.service
-%{_datadir}/dbus-1/interfaces/*.xml
+# xml files to -devel (or have some runtime users?)
+%{_datadir}/dbus-1/interfaces/org.kde.KTimeZoned.xml
+%{_datadir}/dbus-1/interfaces/org.kde.khelpcenter.kcmhelpcenter.xml
+%{_datadir}/dbus-1/interfaces/org.kde.network.kioslavenotifier.xml
+%{_datadir}/dbus-1/system-services/org.kde.kcontrol.kcmremotewidgets.service
 %{_datadir}/emoticons/kde4
 %{_datadir}/kde4/services/qimageioplugins/webp.desktop
 %{_datadir}/kde4/services/about.protocol
@@ -345,7 +360,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/gzip.protocol
 %{_datadir}/kde4/services/htmlthumbnail.desktop
 %{_datadir}/kde4/services/icons.desktop
-#%{_datadir}/kde4/services/jpegrotatedthumbnail.desktop
 %{_datadir}/kde4/services/imagethumbnail.desktop
 %{_datadir}/kde4/services/info.protocol
 %{_datadir}/kde4/services/jpegthumbnail.desktop
@@ -466,8 +480,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/kdesu.1*
 %{_mandir}/man1/plasmapkg.1*
 
-%{_datadir}/sounds/*
-%{_iconsdir}/hicolor/*/*/*.png
+%{_datadir}/sounds/KDE-*.ogg
+%{_iconsdir}/hicolor/*x*/apps/knetattach.png
 %dir %{_datadir}/apps/ksmserver
 %dir %{_datadir}/apps/ksmserver/windowmanagers
 %{_datadir}/apps/ksmserver/windowmanagers/compiz-custom.desktop
@@ -483,7 +497,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/remoteview/network.desktop
 
 # dir owned by kdelibs
-%{_datadir}/apps/desktoptheme/default/*
+%{_datadir}/apps/desktoptheme/default/dialogs
+%{_datadir}/apps/desktoptheme/default/icons
+%{_datadir}/apps/desktoptheme/default/opaque
+%{_datadir}/apps/desktoptheme/default/toolbar-icons
+%{_datadir}/apps/desktoptheme/default/translucent
+%{_datadir}/apps/desktoptheme/default/widgets
+%{_datadir}/apps/desktoptheme/default/colors
+%{_datadir}/apps/desktoptheme/default/metadata.desktop
 %{_datadir}/apps/desktoptheme/oxygen
 %{_datadir}/apps/desktoptheme/appdashboard
 
@@ -505,7 +526,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/servicetypes/phononbackend.desktop
 
 %dir %{_libdir}/kde4/plugins/phonon_platform
-%{_libdir}/kde4/plugins/phonon_platform/kde.so
+%attr(755,root,root) %{_libdir}/kde4/plugins/phonon_platform/kde.so
 %dir %{_datadir}/apps/kcm_phonon
 %{_datadir}/apps/kcm_phonon/listview-background.png
 %{_datadir}/apps/kconf_update/devicepreference.upd
