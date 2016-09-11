@@ -1,231 +1,241 @@
 # COUNTRY CODE # LANGUAGE CODE # DESCRIPTION
-ad ca Andorra (Catalan language)
-ae ar United Arab Emirates (Arabic language)
-af ps Afghanistan (Dari (Persian) and Pashto languages)
+ad ca,es,fr Andorra (Catalan, Spanish, French)
+ae ar United Arab Emirates (Arabic)
+af ps Afghanistan (Dari (Persian) and Pashto)
 ag en Antigua and Barbuda (English)
 ai en Anguilla (English)
-al - Albania
-am - Armenia
-an - Netherlands Antilles
-ao - Angola
-ar - Argentina
-as - American Samoa
-at - Austria
-au - Australia
-aw - Aruba
-ax - Åland Islands
-az - Azerbaijan
-ba - Bosnia and Herzegovina
-bb - Barbados
-bd - Bangladesh
-be - Belgium
-bf - Burkina Faso
-bg - Bulgaria
-bh - Bahrain
-bi - Burundi
-bj - Benin
-bm - Bermuda
-bn - Brunei Darussalam
-bo - Bolivia
-br - Brazil
-bs - Bahamas
-bt - Bhutan
-bw - Botswana
-by - Belarus
-bz - Belize
-ca - Canada
-cc - Cocos (Keeling) Islands
-cd - Congo, The Democratic Republic of the
-cf - Central African Republic
-cg - Congo
-ch - Switzerland
-ci - Cote d'ivoire
-ck - Cook islands
-cl - Chile
-cm - Cameroon
-cn - China
-co - Colombia
-cr - Costa Rica
-cu - Cuba
-cv - Cape Verde
-cx - Christmas Island
-cy - Cyprus
-cz - Czech Republic
-de - Germany
-dj - Djibouti
-dk - Denmark
-dm - Dominica
-do - Dominican Republic
-dz - Algeria
-ec - Ecuador
-ee et Estonia (Estonian language)
-eg - Egypt
-eh - Western Sahara
-er - Eritrea
-es - Spain
-et am Ethiopia (Amharic language)
-fi fi Finland (Finnish language)
-fj - Fiji
-fk - Falkland Islands (Malvinas)
-fm - Micronesia, Federated States of
-fo - Faroe Islands
-fr - France
-ga - Gabon
-gb en United Kingdom (English language)
-gd - Grenada
-ge - Georgia
-gh - Ghana
-gi - Gibraltar
-gl - Greenland
-gm - Gambia
-gn - Guinea
-gp - Guadeloupe
-gq - Equatorial Guinea
-gr - Greece
-gt - Guatemala
-gu - Guam
-gw - Guinea-Bissau
-gy - Guyana
-hk - Hong Kong SAR(China)
-hn - Honduras
-hr - Croatia
-ht - Haiti
-hu - Hungary
-id - Indonesia
-ie - Ireland
-il - Israel
-in - India
-iq - Iraq
-ir - Iran
-is - Iceland
-it - Italy
-jm - Jamaica
-jo - Jordan
-jp - Japan
-ke - Kenya
-kg - Kyrgyzstan
-kh - Cambodia
-ki - Kiribati
-km - Comoros
-kn - St. Kitts and Nevis
-kp - North Korea
-kr - South Korea
-kw - Kuwait
-ky - Cayman Islands
-kz - Kazakhstan
-la - Laos
-lb - Lebanon
-lc - St. Lucia
-li - Liechtenstein
-lk - Sri Lanka
-lr - Liberia
-ls - Lesotho
-lt - Lithuania
-lu - Luxembourg
-lv - Latvia
-ly - Libya
-ma - Morocco
-mc - Monaco
-md - Moldova
-me - Montenegro
-mg - Madagascar
-mh - Marshall Islands
-mk - Macedonia
-ml - Mali
-mm - Myanmar
-mn - Mongolia
-mo - Macau SAR(China)
-mq - Martinique
-mr - Mauritania
-ms - Montserrat
-mt - Malta
-mu - Mauritius
-mv - Maldives
-mw - Malawi
-mx - Mexico
-my - Malaysia
-mz - Mozambique
-na - Namibia
-nc - New Caledonia
-ne - Niger
-nf - Norfolk Island
-ng - Nigeria
-ni - Nicaragua
-nl - Netherlands
-no - Norway
-np - Nepal
-nr - Nauru
-nu - Niue
-nz - New Zealand
-om - Oman
-pa - Panama
-pe - Peru
-pf - French Polynesia
-pg - Papua New Guinea
-ph - Philippines
-pk - Pakistan
-pl pl Poland (Polish language)
-pm - Saint Pierre and Miquelon
-pn - Pitcairn
-pr - Puerto Rico
-ps - Palestinian Territory
-pt - Portugal
-pw - Palau
-py - Paraguay
-qa - Qatar
-ro - Romania
-rs - Serbia
-ru ru Russia (Russian language)
-rw - Rwanda
-sa - Saudi Arabia
-sb - Solomon Islands
-sc - Seychelles
-sd - Sudan
-se sv Sweden (Swedish language)
-sg - Singapore
-sh - Saint Helena
-si - Slovenia
-sk - Slovakia
-sl - Sierra Leone
-sm - San Marino
-sn - Senegal
-so - Somalia
-sr - Suriname
-st - Sao Tome and Principe
-sv - El Salvador
-sy - Syria
-sz - Swaziland
-tc - Turks and Caicos Islands
-td - Chad
-tg - Togo
-th - Thailand
-tj - Tajikistan
-tk - Tokelau
-tl - Timor-Leste
-tm - Turkmenistan
-tn - Tunisia
-to - Tonga
-tp - East Timor
-tr - Turkey
-tt - Trinidad and Tobago
-tv - Tuvalu
-tw - Taiwan
-tz - Tanzania, United Republic of
-ua - Ukraine
-ug - Uganda
-us - United States of America
-uy - Uruguay
-uz - Uzbekistan
-va - Vatican City
-vc - St. Vincent and the Grenadines
-ve - Venezuela
-vg - Virgin Islands, British
-vi - Virgin Islands, U.S.
-vn - Vietnam
-vu - Vanuatu
-wf - Wallis and Futuna
-ws - Samoa
-ye - Yemen
-za - South Africa
-zm - Zambia
-zw - Zimbabwe
+al sq,el Albania
+am hy Armenia
+an en,es,nl Netherlands Antilles
+ao pt Angola
+ar es Argentina
+as en American Samoa
+at de Austria
+au en Australia
+aw en,nl,sp Aruba
+ax se,sv Åland Islands (Sami, Swedish)
+az az Azerbaijan
+ba bs,hr,sr Bosnia and Herzegovina
+bb en Barbados
+bd bn,en Bangladesh
+be de,fr,nl,wa Belgium
+bf fr Burkina Faso
+bg bg Bulgaria
+bh ar Bahrain
+bi fr Burundi
+bj fr Benin
+bl fr Saint-Barthélemy
+bm en Bermuda
+bn ms,zh_CN Brunei Darussalam
+bo es Bolivia
+br pt_BR Brazil
+bs en,es Bahamas
+bt dz,en Bhutan
+bw en,ts Botswana
+by be,ru Belarus
+bz en,es Belize
+ca en,fr Canada
+cc en,ms Cocos (Keeling) Islands
+cd fr Congo, The Democratic Republic of the
+cf fr,sg Central African Republic
+cg fr Congo
+ch de,fr,it Switzerland
+ci fr Cote d'ivoire
+ck en,ms Cook islands
+cl es Chile
+cm en,fr Cameroon
+cn zn_CN China
+co es Colombia
+cr es Costa Rica
+cu es Cuba
+cv pt Cape Verde
+cx en,ms,zh_CN Christmas Island
+cy el,en,tr Cyprus
+cz cs Czech Republic
+de de,nds Germany
+dj ar Djibouti
+dk da Denmark
+dm en,fr Dominica
+do es Dominican Republic
+dz ar Algeria
+ec es Ecuador
+ee et Estonia (Estonian)
+eg ar Egypt
+eh ar Western Sahara
+er ar,ti Eritrea
+es ca,es,eu,gl Spain
+et am,en,om,so,ti Ethiopia (Amharic, English, Oromo, Somali, Tigrinya)
+fi fi,se,sv Finland (Finnish, Sami, Swedish)
+fj en Fiji
+fk en Falkland Islands (Malvinas)
+fm en Micronesia, Federated States of
+fo da,fa Faroe Islands
+fr br,ca,de,eu,fr,oc France
+ga fr Gabon
+gb cy,en United Kingdom (Welsh, English)
+gd en Grenada
+ge ka,ru Georgia
+gf fr French Guiana
+gg en,fr Guernsey
+gh en Ghana
+gi en Gibraltar
+gl da,kl Greenland
+gm en Gambia
+gn fr Guinea
+gp fr Guadeloupe
+gq en,es,fr Equatorial Guinea
+gr el Greece
+gt es Guatemala
+gu ch,en Guam
+gw es Guinea-Bissau
+gy en Guyana
+hk en,zh_TW Hong Kong SAR(China)
+hn es Honduras
+hr hr Croatia
+ht fr Haiti
+hu hu Hungary
+id id Indonesia
+ie en,ga Ireland
+il ar,he Israel
+im en,gv Isle of Man
+in bn,en,hi,ta India
+iq ar Iraq
+ir fa Iran
+is is Iceland
+it de,it Italy
+je en,fr
+jm en Jamaica
+jo ar Jordan
+jp ja Japan
+ke en,om,so,sw Kenya
+kg ky,ru Kyrgyzstan
+kh km Cambodia
+ki en Kiribati
+km ar,fr Comoros
+kn en St. Kitts and Nevis
+kp ko North Korea
+kr ko South Korea
+kw ar Kuwait
+ky en Cayman Islands
+kz kk,ru Kazakhstan
+la en,fr Laos
+lb ar Lebanon
+lc en St. Lucia
+li de Liechtenstein
+lk en,ta Sri Lanka
+lr en Liberia
+ls en,st,xh,zu Lesotho
+lt lt Lithuania
+lu de,fr Luxembourg
+lv lv Latvia
+ly ar Libya
+ma ar Morocco
+mc en,fr,it Monaco
+md ro,ru Moldova
+me sr Montenegro
+mf fr,nl Saint Martin
+mg fr Madagascar
+mh en Marshall Islands
+mk mk Macedonia
+ml fr Mali
+mm my Myanmar
+mn mn Mongolia
+mo pt,zh_CN Macau SAR(China)
+mp en Northern Mariana Islands
+mq fr Martinique
+mr ar,en Mauritania
+ms en Montserrat
+mt en,mt Malta
+mu en,fr,hi Mauritius
+mv ar,en,hi Maldives
+mw en Malawi
+mx es Mexico
+my en,my,ta,zn_CN Malaysia
+mz pt Mozambique
+na af,de,en Namibia
+nc fr New Caledonia
+ne ar,fr Niger
+nf en Norfolk Island
+ng en Nigeria
+ni es Nicaragua
+nl nl Netherlands
+no nb,nn,se Norway
+np en Nepal
+nr en Nauru
+nu es Niue
+nz en,mi New Zealand
+om ar Oman
+pa es Panama
+pe es Peru
+pf fr French Polynesia
+pg en Papua New Guinea
+ph en,fil Philippines
+pk en,ur Pakistan
+pl pl Poland (Polish)
+pm es,en Saint Pierre and Miquelon
+pn en Pitcairn
+pr es,en Puerto Rico
+ps ar Palestinian Territory
+pt pt Portugal
+pw en Palau
+py es Paraguay
+qa ar Qatar
+re fr Réunion
+ro ro Romania
+rs sr Serbia
+ru ru Russia (Russian)
+rw en,fr Rwanda
+sa ar Saudi Arabia
+sb en Solomon Islands
+sc en,fr Seychelles
+sd ar,en Sudan
+se se,sv Sweden (Sami, Swedish)
+sg en,ms,ta,zh_SG,zh_CN Singapore
+sh en Saint Helena
+si sl Slovenia
+sk sk Slovakia
+sl en Sierra Leone
+sm it San Marino
+sn fr Senegal
+so ar Somalia
+sr en,nl Suriname
+ss en South Sudan
+st pt Sao Tome and Principe
+sv es El Salvador
+sy ar Syria
+sz en,ss Swaziland
+tc ar,en,hi Turks and Caicos Islands
+td ar,fr Chad
+tg fr Togo
+th th Thailand
+tj tg Tajikistan
+tk en Tokelau
+tl en,id,pt Timor-Leste
+tm tk,ru Turkmenistan
+tn ar Tunisia
+to en Tonga
+tp en,pt East Timor
+tr tr Turkey
+tt en Trinidad and Tobago
+tv en Tuvalu
+tw zh_TW Taiwan
+tz en,sw Tanzania, United Republic of
+ua uk Ukraine
+ug en Uganda
+us en,es United States of America
+uy es Uruguay
+uz uz Uzbekistan
+va it Vatican City
+vc en St. Vincent and the Grenadines
+ve es Venezuela
+vg en Virgin Islands, British
+vi en Virgin Islands, U.S.
+vn vi Vietnam
+vu en,fr Vanuatu
+wf fr Wallis and Futuna
+ws en Samoa
+ye ar Yemen
+yt fr Mayotte
+za af,en,nr,nso,ss,st,tn,ts,ven,xh,zu South Africa
+zm en Zambia
+zw en Zimbabwe

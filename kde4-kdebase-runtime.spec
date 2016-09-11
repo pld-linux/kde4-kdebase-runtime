@@ -1,5 +1,3 @@
-# TODO
-# - l10n != %lang glibc locales (et = etiopia not estonia!)
 #
 # Conditional build:
 %bcond_without	ntrack		# network status tracking
@@ -22,7 +20,6 @@ Source0:	http://download.kde.org/%{_state}/%{version}/src/%{orgname}-%{version}.
 Source1:	kdebase-searchproviders.tar.bz2
 # Source1-md5:	126c3524b5367f5096a628acbf9dc86f
 Source2:	l10n-iso639-1
-# Source2-md5:	ba8b302d653ed157d0517a5592469d8a
 Patch100:	%{name}-branch.diff
 Patch0:		%{name}-rpc.patch
 URL:		http://www.kde.org/
@@ -136,6 +133,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_datadir}/kde4/services/searchproviders/pld
 cp -a kdebase-searchproviders/*.desktop $RPM_BUILD_ROOT%{_datadir}/kde4/services/searchproviders/pld
 
+# l10n dir contains per-country (ISO-3166 alpha2 indexed) localization; rpm uses per-language (ISO-639 alpha2 or alpha3) tags
 collect_l10n_files() {
 	while read country language comment; do
 		[ "$country" != "#" ] || continue
