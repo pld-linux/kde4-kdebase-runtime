@@ -1,0 +1,43 @@
+diff -ur kde-runtime-4.14.3/kwalletd/backend/kwalletbackend.h kde-runtime-4.14.3-moc/kwalletd/backend/kwalletbackend.h
+--- kde-runtime-4.14.3/kwalletd/backend/kwalletbackend.h	2014-10-30 23:50:20.000000000 +0000
++++ kde-runtime-4.14.3-moc/kwalletd/backend/kwalletbackend.h	2017-04-25 10:42:34.751952357 +0000
+@@ -30,9 +30,11 @@
+ #include "kwalletentry.h"
+ #include "backendpersisthandler.h"
+ 
++#ifndef Q_MOC_RUN
+ #ifdef HAVE_QGPGME
+ #include <gpgme++/key.h>
+ #endif // HAVE_QGPGME
++#endif
+ 
+ #define PBKDF2_SHA512_KEYSIZE 56
+ #define PBKDF2_SHA512_SALTSIZE 56
+diff -ur kde-runtime-4.14.3/kwalletd/knewwalletdialog.h kde-runtime-4.14.3-moc/kwalletd/knewwalletdialog.h
+--- kde-runtime-4.14.3/kwalletd/knewwalletdialog.h	2014-10-30 23:50:20.000000000 +0000
++++ kde-runtime-4.14.3-moc/kwalletd/knewwalletdialog.h	2017-04-25 10:40:54.701953082 +0000
+@@ -23,7 +23,9 @@
+ 
+ #include "ui_knewwalletdialogintro.h"
+ #include "ui_knewwalletdialoggpg.h"
++#ifndef Q_MOC_RUN
+ #include <boost/shared_ptr.hpp>
++#endif
+ 
+ namespace GpgME {
+ class Key;
+diff -ur kde-runtime-4.14.3/kwalletd/kwalletwizard.h kde-runtime-4.14.3-moc/kwalletd/kwalletwizard.h
+--- kde-runtime-4.14.3/kwalletd/kwalletwizard.h	2014-10-30 23:50:20.000000000 +0000
++++ kde-runtime-4.14.3-moc/kwalletd/kwalletwizard.h	2017-04-25 10:40:33.235286570 +0000
+@@ -20,9 +20,11 @@
+ #define KWALLETWIZARD_H
+ 
+ #include <QWizard>
++#ifndef Q_MOC_RUN
+ #ifdef HAVE_QGPGME
+ #include <gpgme++/key.h>
+ #endif
++#endif
+ 
+ class PageGpgKey;
+ class PagePassword;
