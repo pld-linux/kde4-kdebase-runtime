@@ -1,0 +1,14 @@
+diff -ruNp kde-runtime-4.14.3.orig/kioslave/thumbnail/CMakeLists.txt kde-runtime-4.14.3/kioslave/thumbnail/CMakeLists.txt
+--- kde-runtime-4.14.3.orig/kioslave/thumbnail/CMakeLists.txt	2014-10-31 00:50:20.000000000 +0100
++++ kde-runtime-4.14.3/kioslave/thumbnail/CMakeLists.txt	2019-02-27 12:24:04.108561192 +0100
+@@ -11,8 +11,8 @@ set_package_properties(JPEG PROPERTIES D
+                        TYPE REQUIRED
+                       )
+ 
+-macro_optional_find_package(Exiv2)
+-set_package_properties(Exiv2 PROPERTIES DESCRIPTION "A library to access image metadata"
++macro_optional_find_package(exiv2)
++set_package_properties(exiv2 PROPERTIES DESCRIPTION "A library to access image metadata"
+                        URL "http://www.exiv2.org"
+                        TYPE OPTIONAL
+                        PURPOSE "Provides support for automatic rotation of JPEGs in the thumbnail kioslave"
