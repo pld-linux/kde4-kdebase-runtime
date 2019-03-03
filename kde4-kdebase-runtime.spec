@@ -12,7 +12,7 @@ Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.14.3
-Release:	10
+Release:	11
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://download.kde.org/%{_state}/%{version}/src/%{orgname}-%{version}.tar.xz
@@ -24,6 +24,7 @@ Patch100:	%{name}-branch.diff
 Patch0:		%{name}-rpc.patch
 Patch1:		moc.patch
 Patch2:		%{name}-exiv2.patch
+Patch3:		smbclient-detection.patch
 URL:		http://www.kde.org/
 BuildRequires:	NetworkManager-devel >= 0.7.0
 BuildRequires:	OpenEXR-devel
@@ -116,6 +117,7 @@ Wtyczki KDE 4 dla Phonona.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 install -d build
