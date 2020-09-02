@@ -12,7 +12,7 @@ Summary:	KDE 4 base runtime components
 Summary(pl.UTF-8):	Komponenty uruchomieniowe podstawowej części KDE 4
 Name:		kde4-kdebase-runtime
 Version:	4.14.3
-Release:	14
+Release:	15
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://download.kde.org/%{_state}/%{version}/src/%{orgname}-%{version}.tar.xz
@@ -67,6 +67,7 @@ BuildRequires:	xz
 BuildRequires:	xz-devel
 Requires:	attica >= %{attica_ver}
 Requires:	exiv2-libs >= 0.18.2
+Requires:	filesystem >= 4.1-15
 Requires:	kde4-kactivities >= %{kactivities_ver}
 Requires:	kde4-kdelibs >= %{version}
 Requires:	kde4-kdepimlibs >= %{version}
@@ -154,9 +155,9 @@ collect_l10n_files() {
 } < %{SOURCE2}
 collect_l10n_files > %{name}.files
 
-rm -f $RPM_BUILD_ROOT%{_datadir}/icons/default.kde4
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/icons/default.kde4
 # provided (conflicts) by hicolor-icon-theme
-rm -f $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/index.theme
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/index.theme
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -301,6 +302,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/kde4/platformimports
 %{_sysconfdir}/dbus-1/system.d/org.kde.kcontrol.kcmremotewidgets.conf
 %{_datadir}/polkit-1/actions/org.kde.kcontrol.kcmremotewidgets.policy
+# top desktoptheme dirs owned by kdelibs
+%{_datadir}/apps/desktoptheme/default/dialogs
+%{_datadir}/apps/desktoptheme/default/icons
+%{_datadir}/apps/desktoptheme/default/opaque
+%{_datadir}/apps/desktoptheme/default/toolbar-icons
+%{_datadir}/apps/desktoptheme/default/translucent
+%{_datadir}/apps/desktoptheme/default/widgets
+%{_datadir}/apps/desktoptheme/default/colors
+%{_datadir}/apps/desktoptheme/default/metadata.desktop
+%{_datadir}/apps/desktoptheme/oxygen
+%{_datadir}/apps/desktoptheme/appdashboard
 %{_datadir}/apps/drkonqi
 %{_datadir}/apps/hardwarenotifications
 %dir %{_datadir}/apps/kcm_componentchooser
@@ -318,13 +330,25 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kglobalaccel/kglobalaccel.notifyrc
 %{_datadir}/apps/khelpcenter
 %{_datadir}/apps/kio_bookmarks
+%{_datadir}/apps/kio_docfilter
 %{_datadir}/apps/kio_finger
 %{_datadir}/apps/kio_info
-#%{_datadir}/apps/kio_thumbnail
 %dir %{_datadir}/apps/konqueror/dirtree
 %dir %{_datadir}/apps/konqueror/dirtree/remote
 %{_datadir}/apps/konqueror/dirtree/remote/smb-network.desktop
+%dir %{_datadir}/apps/konqsidebartng
+%dir %{_datadir}/apps/konqsidebartng/virtual_folders
+%dir %{_datadir}/apps/konqsidebartng/virtual_folders/remote
+%{_datadir}/apps/konqsidebartng/virtual_folders/remote/virtualfolder_network.desktop
+%dir %{_datadir}/apps/ksmserver
+%dir %{_datadir}/apps/ksmserver/windowmanagers
+%{_datadir}/apps/ksmserver/windowmanagers/compiz-custom.desktop
+%{_datadir}/apps/ksmserver/windowmanagers/compiz.desktop
+%{_datadir}/apps/ksmserver/windowmanagers/metacity.desktop
+%{_datadir}/apps/ksmserver/windowmanagers/openbox.desktop
+%{_datadir}/apps/kwalletd
 %dir %{_datadir}/apps/remoteview
+%{_datadir}/apps/remoteview/network.desktop
 %{_datadir}/apps/remoteview/smb-network.desktop
 %{_datadir}/config.kcfg/khelpcenter.kcfg
 %{_datadir}/config.kcfg/jpegcreatorsettings.kcfg
@@ -430,7 +454,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/servicetypes/plasma-javascriptaddon.desktop
 %{_datadir}/kde4/servicetypes/searchprovider.desktop
 %{_datadir}/kde4/servicetypes/thumbcreator.desktop
-%{_datadir}/desktop-directories
+%{_datadir}/desktop-directories/kde-*.directory
 %{_datadir}/mime/packages/network.xml
 %{_datadir}/mime/packages/webp.xml
 
@@ -460,8 +484,10 @@ rm -rf $RPM_BUILD_ROOT
 # really?
 %{_datadir}/locale/currency
 
+%{_datadir}/sounds/KDE-*.ogg
 %{_desktopdir}/kde4/Help.desktop
 %{_desktopdir}/kde4/knetattach.desktop
+%{_iconsdir}/hicolor/*x*/apps/knetattach.png
 %lang(en) %{_kdedocdir}/en/kcontrol/*
 %lang(en) %{_kdedocdir}/en/kdebugdialog
 %lang(en) %{_kdedocdir}/en/kdesu
@@ -483,34 +509,6 @@ rm -rf $RPM_BUILD_ROOT
 %lang(en) %{_kdedocdir}/en/knetattach
 %{_mandir}/man1/kdesu.1*
 %{_mandir}/man1/plasmapkg.1*
-
-%{_datadir}/sounds/KDE-*.ogg
-%{_iconsdir}/hicolor/*x*/apps/knetattach.png
-%dir %{_datadir}/apps/ksmserver
-%dir %{_datadir}/apps/ksmserver/windowmanagers
-%{_datadir}/apps/ksmserver/windowmanagers/compiz-custom.desktop
-%{_datadir}/apps/ksmserver/windowmanagers/compiz.desktop
-%{_datadir}/apps/ksmserver/windowmanagers/metacity.desktop
-%{_datadir}/apps/ksmserver/windowmanagers/openbox.desktop
-%{_datadir}/apps/kio_docfilter
-%dir %{_datadir}/apps/konqsidebartng
-%dir %{_datadir}/apps/konqsidebartng/virtual_folders
-%dir %{_datadir}/apps/konqsidebartng/virtual_folders/remote
-%{_datadir}/apps/konqsidebartng/virtual_folders/remote/virtualfolder_network.desktop
-%{_datadir}/apps/kwalletd
-%{_datadir}/apps/remoteview/network.desktop
-
-# dir owned by kdelibs
-%{_datadir}/apps/desktoptheme/default/dialogs
-%{_datadir}/apps/desktoptheme/default/icons
-%{_datadir}/apps/desktoptheme/default/opaque
-%{_datadir}/apps/desktoptheme/default/toolbar-icons
-%{_datadir}/apps/desktoptheme/default/translucent
-%{_datadir}/apps/desktoptheme/default/widgets
-%{_datadir}/apps/desktoptheme/default/colors
-%{_datadir}/apps/desktoptheme/default/metadata.desktop
-%{_datadir}/apps/desktoptheme/oxygen
-%{_datadir}/apps/desktoptheme/appdashboard
 
 %files devel
 %defattr(644,root,root,755)
