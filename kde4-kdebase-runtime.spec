@@ -123,6 +123,8 @@ Wtyczki KDE 4 dla Phonona.
 %build
 install -d build
 cd build
+CFLAGS="%{rpmcflags} $(pkg-config --cflags libtirpc)"
+CXXFLAGS="%{rpmcxxflags} $(pkg-config --cflags libtirpc)"
 %cmake \
 	%{!?with_ntrack:-DQNTRACK=BOOL:FALSE} \
 	-DLIBEXEC_INSTALL_DIR=%{_libdir}/kde4/libexec \
@@ -286,7 +288,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/plugins/imageformats/kimg_webp.so
 
 %attr(755,root,root) %{_libdir}/kde4/libexec/drkonqi
-#%attr(755,root,root) %{_libdir}/kde4/libexec/installdbgsymbols.sh
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdeeject
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdesu
 %attr(755,root,root) %{_libdir}/kde4/libexec/kdesud
@@ -458,7 +459,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/mime/packages/network.xml
 %{_datadir}/mime/packages/webp.xml
 
-#%{_datadir}/locale/en_US/*
 %dir %{_datadir}/locale/l10n
 %{_datadir}/locale/l10n/C
 %{_datadir}/locale/l10n/caribbean.desktop
@@ -488,7 +488,41 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/kde4/Help.desktop
 %{_desktopdir}/kde4/knetattach.desktop
 %{_iconsdir}/hicolor/*x*/apps/knetattach.png
-%lang(en) %{_kdedocdir}/en/kcontrol/*
+%{_iconsdir}/hicolor/scalable/apps/knetattach.svgz
+%lang(en) %{_kdedocdir}/en/fundamentals
+%lang(en) %{_kdedocdir}/en/kcontrol/attica
+%lang(en) %{_kdedocdir}/en/kcontrol/bookmarks
+%lang(en) %{_kdedocdir}/en/kcontrol/cache
+%lang(en) %{_kdedocdir}/en/kcontrol/componentchooser
+%lang(en) %{_kdedocdir}/en/kcontrol/cookies
+%lang(en) %{_kdedocdir}/en/kcontrol/ebrowsing
+%lang(en) %{_kdedocdir}/en/kcontrol/emoticons
+%lang(en) %{_kdedocdir}/en/kcontrol/filemanager
+%lang(en) %{_kdedocdir}/en/kcontrol/filetypes
+%lang(en) %{_kdedocdir}/en/kcontrol/history
+%lang(en) %{_kdedocdir}/en/kcontrol/icons
+%lang(en) %{_kdedocdir}/en/kcontrol/kcm_ssl
+%lang(en) %{_kdedocdir}/en/kcontrol/kcmcgi
+%lang(en) %{_kdedocdir}/en/kcontrol/kcmcss
+%lang(en) %{_kdedocdir}/en/kcontrol/kcmlaunch
+%lang(en) %{_kdedocdir}/en/kcontrol/kcmnotify
+%lang(en) %{_kdedocdir}/en/kcontrol/kded
+%lang(en) %{_kdedocdir}/en/kcontrol/khtml-adblock
+%lang(en) %{_kdedocdir}/en/kcontrol/khtml-behavior
+%lang(en) %{_kdedocdir}/en/kcontrol/khtml-general
+%lang(en) %{_kdedocdir}/en/kcontrol/khtml-java-js
+%lang(en) %{_kdedocdir}/en/kcontrol/khtml-plugins
+%lang(en) %{_kdedocdir}/en/kcontrol/language
+%lang(en) %{_kdedocdir}/en/kcontrol/nepomuk
+%lang(en) %{_kdedocdir}/en/kcontrol/netpref
+%lang(en) %{_kdedocdir}/en/kcontrol/performance
+%lang(en) %{_kdedocdir}/en/kcontrol/phonon
+%lang(en) %{_kdedocdir}/en/kcontrol/proxy
+%lang(en) %{_kdedocdir}/en/kcontrol/smb
+%lang(en) %{_kdedocdir}/en/kcontrol/solid-device-automounter
+%lang(en) %{_kdedocdir}/en/kcontrol/spellchecking
+%lang(en) %{_kdedocdir}/en/kcontrol/trash
+%lang(en) %{_kdedocdir}/en/kcontrol/useragent
 %lang(en) %{_kdedocdir}/en/kdebugdialog
 %lang(en) %{_kdedocdir}/en/kdesu
 %lang(en) %{_kdedocdir}/en/khelpcenter
@@ -501,12 +535,16 @@ rm -rf $RPM_BUILD_ROOT
 %lang(en) %{_kdedocdir}/en/kioslave/gzip
 %lang(en) %{_kdedocdir}/en/kioslave/info
 %lang(en) %{_kdedocdir}/en/kioslave/man
+%lang(en) %{_kdedocdir}/en/kioslave/nepomuksearch
+%lang(en) %{_kdedocdir}/en/kioslave/network
 %lang(en) %{_kdedocdir}/en/kioslave/nfs
 %lang(en) %{_kdedocdir}/en/kioslave/sftp
 %lang(en) %{_kdedocdir}/en/kioslave/smb
 %lang(en) %{_kdedocdir}/en/kioslave/tar
 %lang(en) %{_kdedocdir}/en/kioslave/thumbnail
+%lang(en) %{_kdedocdir}/en/kioslave/xz
 %lang(en) %{_kdedocdir}/en/knetattach
+%lang(en) %{_kdedocdir}/en/onlinehelp
 %{_mandir}/man1/kdesu.1*
 %{_mandir}/man1/plasmapkg.1*
 

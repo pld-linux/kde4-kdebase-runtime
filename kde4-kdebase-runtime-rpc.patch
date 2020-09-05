@@ -9,3 +9,13 @@
  
  install(TARGETS kio_nfs  DESTINATION ${PLUGIN_INSTALL_DIR} )
  
+--- kde-runtime-4.14.3/kioslave/CMakeLists.txt.orig	2020-09-04 17:38:19.378728096 +0200
++++ kde-runtime-4.14.3/kioslave/CMakeLists.txt	2020-09-04 21:16:53.496620249 +0200
+@@ -50,6 +50,7 @@
+    add_subdirectory( floppy )
+    add_subdirectory( finger )
+    add_subdirectory( man )
++   set(CMAKE_REQUIRED_FLAGS "-I/usr/include/tirpc")
+    check_include_files(rpc/rpc.h HAVE_RPC_RPC_H)
+    add_feature_info("NFS kioslave" HAVE_RPC_RPC_H "The RPC library is needed to build the NFS kioslave")
+    if(HAVE_RPC_RPC_H)
