@@ -263,7 +263,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/libkmanpart.so
 %attr(755,root,root) %{_libdir}/kde4/fixhosturifilter.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_attica.so
-%attr(755,root,root) %{_libdir}/kde4/kcm_phonon.so
 %attr(755,root,root) %{_libdir}/kde4/kcmspellchecking.so
 %attr(755,root,root) %{_libdir}/kde4/kshorturifilter.so
 %attr(755,root,root) %{_libdir}/kde4/kuriikwsfilter.so
@@ -323,14 +322,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kcm_componentchooser/kcm_terminal.desktop
 %{_datadir}/apps/kcm_componentchooser/kcm_wm.desktop
 %{_datadir}/apps/kcmlocale
+%{_datadir}/apps/kconf_update/drkonqi-rename-config-section.upd
 %{_datadir}/apps/kconf_update/kuriikwsfilter.upd
 %{_datadir}/apps/kconf_update/kwallet-4.13.upd
-%{_datadir}/apps/kconf_update/drkonqi-rename-config-section.upd
 %{_datadir}/apps/kde/kde.notifyrc
 %dir %{_datadir}/apps/kglobalaccel
 %{_datadir}/apps/kglobalaccel/kglobalaccel.notifyrc
 %{_datadir}/apps/khelpcenter
 %{_datadir}/apps/kio_bookmarks
+%{_datadir}/apps/kio_desktop
 %{_datadir}/apps/kio_docfilter
 %{_datadir}/apps/kio_finger
 %{_datadir}/apps/kio_info
@@ -424,6 +424,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/settings.protocol
 %{_datadir}/kde4/services/sftp.protocol
 %{_datadir}/kde4/services/smb.protocol
+%{_datadir}/kde4/services/spellchecking.desktop
 %{_datadir}/kde4/services/svgthumbnail.desktop
 %{_datadir}/kde4/services/tar.protocol
 %{_datadir}/kde4/services/textthumbnail.desktop
@@ -516,7 +517,6 @@ rm -rf $RPM_BUILD_ROOT
 %lang(en) %{_kdedocdir}/en/kcontrol/nepomuk
 %lang(en) %{_kdedocdir}/en/kcontrol/netpref
 %lang(en) %{_kdedocdir}/en/kcontrol/performance
-%lang(en) %{_kdedocdir}/en/kcontrol/phonon
 %lang(en) %{_kdedocdir}/en/kcontrol/proxy
 %lang(en) %{_kdedocdir}/en/kcontrol/smb
 %lang(en) %{_kdedocdir}/en/kcontrol/solid-device-automounter
@@ -560,23 +560,16 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/kconf_update_bin/phonon_devicepreference_update
 %attr(755,root,root) %{_libdir}/kconf_update_bin/phonon_deviceuids_update
+%attr(755,root,root) %{_libdir}/kde4/kcm_phonon.so
 %attr(755,root,root) %{_libdir}/kde4/kded_phononserver.so
-%{_datadir}/kde4/services/kcm_phonon.desktop
-%{_datadir}/kde4/services/spellchecking.desktop
-%{_datadir}/kde4/servicetypes/phononbackend.desktop
-
 %dir %{_libdir}/kde4/plugins/phonon_platform
 %attr(755,root,root) %{_libdir}/kde4/plugins/phonon_platform/kde.so
-%dir %{_datadir}/apps/kcm_phonon
-%{_datadir}/apps/kcm_phonon/listview-background.png
-%{_datadir}/apps/kconf_update/devicepreference.upd
-%dir %{_datadir}/apps/libphonon
-%{_datadir}/apps/libphonon/hardwaredatabase
-%dir %{_datadir}/apps/phonon
-%{_datadir}/apps/phonon/phonon.notifyrc
-%dir %{_datadir}/apps/kio_desktop
-%dir %{_datadir}/apps/kio_desktop/DesktopLinks
-%{_datadir}/apps/kio_desktop/DesktopLinks/Home.desktop
-%{_datadir}/apps/kio_desktop/directory.desktop
-%{_datadir}/apps/kio_desktop/directory.trash
+%{_datadir}/kde4/services/kcm_phonon.desktop
 %{_datadir}/kde4/services/kded/phononserver.desktop
+%{_datadir}/kde4/servicetypes/phononbackend.desktop
+
+%{_datadir}/apps/kcm_phonon
+%{_datadir}/apps/kconf_update/devicepreference.upd
+%{_datadir}/apps/libphonon
+%{_datadir}/apps/phonon
+%lang(en) %{_kdedocdir}/en/kcontrol/phonon
