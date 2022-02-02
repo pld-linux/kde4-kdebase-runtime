@@ -26,8 +26,9 @@ Patch1:		moc.patch
 Patch2:		%{name}-exiv2.patch
 Patch3:		smbclient-detection.patch
 URL:		http://www.kde.org/
+BuildConflicts:	OpenEXR-devel < 2.3.0 
 BuildRequires:	NetworkManager-devel >= 0.7.0
-BuildRequires:	OpenEXR-devel
+BuildRequires:	OpenEXR-devel >= 2.3.0 
 BuildRequires:	alsa-lib-devel
 BuildRequires:	attica-devel >= %{attica_ver}
 BuildRequires:	automoc4 >= 0.9.88
